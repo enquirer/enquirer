@@ -1,0 +1,9 @@
+{
+  "name": "enquirer-examples",
+  "description": "Examples for Enquirer",
+  "private": true,
+  "devDependencies": {
+    "figures": "^1.7.0",
+    "log-utils": "^0.2.1"
+  }
+}
