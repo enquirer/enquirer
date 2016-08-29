@@ -10,7 +10,7 @@ describe('enquirer.question', function() {
     enquirer = new Enquirer();
   });
 
-  its.skip('should throw an error when invalid args are passed', function(cb) {
+  it.skip('should throw an error when invalid args are passed', function(cb) {
     try {
       enquirer.question(5);
       cb(new Error('expected an error'));
