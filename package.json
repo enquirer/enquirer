@@ -2,11 +2,11 @@
   "name": "enquirer",
   "description": "Intuitive, plugin-based prompt system for node.js. Much faster and lighter alternative to Inquirer, with all the same prompt types and more, but without the bloat.",
   "version": "0.1.1",
-  "homepage": "https://github.com/jonschlinkert/enquirer",
+  "homepage": "https://github.com/enquirer/enquirer",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
-  "repository": "jonschlinkert/enquirer",
+  "repository": "enquirer/enquirer",
   "bugs": {
-    "url": "https://github.com/jonschlinkert/enquirer/issues"
+    "url": "https://github.com/enquirer/enquirer/issues"
   },
   "license": "MIT",
   "files": [
@@ -23,6 +23,7 @@
     "test": "mocha"
   },
   "dependencies": {
+    "choices-separator": "^0.1.0",
     "clone-deep": "^0.2.4",
     "collection-visit": "^0.2.3",
     "component-emitter": "^1.2.1",

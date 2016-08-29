@@ -1,4 +1,4 @@
-# enquirer [![NPM version](https://img.shields.io/npm/v/enquirer.svg?style=flat)](https://www.npmjs.com/package/enquirer) [![NPM downloads](https://img.shields.io/npm/dm/enquirer.svg?style=flat)](https://npmjs.org/package/enquirer) [![Build Status](https://img.shields.io/travis/jonschlinkert/enquirer.svg?style=flat)](https://travis-ci.org/jonschlinkert/enquirer)
+# enquirer [![NPM version](https://img.shields.io/npm/v/enquirer.svg?style=flat)](https://www.npmjs.com/package/enquirer) [![NPM downloads](https://img.shields.io/npm/dm/enquirer.svg?style=flat)](https://npmjs.org/package/enquirer) [![Build Status](https://img.shields.io/travis/enquirer/enquirer.svg?style=flat)](https://travis-ci.org/enquirer/enquirer)
 
 Intuitive, plugin-based prompt system for node.js. Much faster and lighter alternative to Inquirer, with all the same prompt types and more, but without the bloat.
 
@@ -11,6 +11,7 @@ Intuitive, plugin-based prompt system for node.js. Much faster and lighter alter
   * [Publishing prompt types](#publishing-prompt-types)
 - [Plugins](#plugins)
   * [Publishing plugins](#publishing-plugins)
+- [TODO](#todo)
 - [Why another prompt module?](#why-another-prompt-module)
 - [About](#about)
   * [Related projects](#related-projects)
@@ -149,6 +150,10 @@ enquirer.prompt('first')
   });
 ```
 
+### [.separator](index.js#L236)
+
+Create a new `Separator` to use in a choices array.
+
 ## Prompt types
 
 **What is a prompt "type"?**
@@ -184,6 +189,13 @@ TODO
 Plugin modules are named using the convention `enquirer-*`.
 
 TBC
+
+## TODO
+
+* [x] support promises
+* [ ] support callbacks
+* [ ] support es6 generators
+* [ ] support async `filter`, `when` etc
 
 ## Why another prompt module?
 
@@ -258,7 +270,7 @@ $ npm install -d && npm test
 ### License
 
 Copyright © 2016, [Jon Schlinkert](https://github.com/jonschlinkert).
-Released under the [MIT license](https://github.com/jonschlinkert/enquirer/blob/master/LICENSE).
+Released under the [MIT license](https://github.com/enquirer/enquirer/blob/master/LICENSE).
 
 ***
 
