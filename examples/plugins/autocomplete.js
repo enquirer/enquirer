@@ -1,13 +1,15 @@
 /**
  * `autocomplete` type prompt
+ * This is entirely based on https://www.npmjs.com/package/inquirer-autocomplete-prompt
+ * Copyright (c) 2015, Martin Hansen <martin@martinhansen.no>
  */
 
 var util = require('util');
 var log = require('log-utils');
 var figures = require('figures');
-var BasePrompt = require('enquirer-prompt');
-var Choices = require('enquirer-choices');
 var Paginator = require('terminal-paginator');
+var BasePrompt = require('enquirer-prompt');
+var Choices = require('prompt-choices');
 var utils = require('readline-utils');
 
 /**
