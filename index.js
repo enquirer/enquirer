@@ -99,7 +99,25 @@ Enquirer.prototype.use = function(fn) {
  * Uses [enquirer-question][], visit that library for additional details.
  *
  * ```js
- * var question = enquirer.question('name', 'What is your name?');
+ * enquirer.question('color', 'What is your favorite color?');
+ * enquirer.question('color', 'What is your favorite color?', {
+ *   default: 'blue'
+ * });
+ * enquirer.question('color', {
+ *   message: 'What is your favorite color?',
+ *   default: 'blue'
+ * });
+ * enquirer.question({
+ *   name: 'color',
+ *   message: 'What is your favorite color?',
+ *   default: 'blue'
+ * });
+ * enquirer.question({
+ *   name: 'color',
+ *   type: 'input', // "input" is the default prompt type and doesn't need to be specified
+ *   message: 'What is your favorite color?',
+ *   default: 'blue'
+ * });
  * ```
  * @emits `question`
  * @param {String|Object} `name` Name or options object
@@ -153,6 +171,15 @@ Enquirer.prototype.enqueue = function(questions) {
  *   .then(function(answers) {
  *     console.log(answers)
  *   });
+ *
+ * // errors
+ * enquirer.ask('first')
+ *   .then(function(answers) {
+ *     console.log(answers)
+ *   })
+ *   .catch(function(err) {
+ *     console.log(err)
+ *   });
  * ```
  * @emits `ask` With the array of `questions` to be asked
  * @return {Array|Object} `questions` One or more question objects or names of registered questions.
@@ -203,31 +230,37 @@ Enquirer.prototype.prompt = function(name) {
   var answers = this.answers;
   var self = this;
 
-  return new Promise(function(resolve, reject) {
-    try {
-      var question = self.question(name).clone();
-      var PromptType = self.prompts[question.type];
+  try {
+    var question = self.question(name).clone();
+    var PromptType = self.prompts[question.type];
 
-      if (typeof PromptType !== 'function') {
-        throw new Error(`prompt type "${question.type}" is not registered`);
-      }
-
-      var prompt = new PromptType(question, answers, self.ui);
-      self.emit('prompt', question.default, question, answers, prompt);
-
-      var promise = prompt.run(answers)
-        .then(function(val) {
-          question.answer = val[name];
-          self.emit('answer', val[name], name, question, answers);
-          return val;
-        });
-
-      resolve(promise);
-    } catch (err) {
-      self.close();
-      reject(err);
+    if (typeof PromptType !== 'function') {
+      throw new Error(`prompt type "${question.type}" is not registered`);
     }
-  });
+
+    var prompt = new PromptType(question, answers, self.ui);
+    self.emit('prompt', question.default, question, answers, prompt);
+
+    return prompt.run(answers)
+      .then(function(val) {
+        question.answer = val[name];
+        self.emit('answer', val[name], name, question, answers);
+        return val;
+      })
+
+  } catch (err) {
+    self.close();
+    throw err;
+  }
+};
+
+/**
+ * Create a new `Separator` to use in a choices array.
+ * @api public
+ */
+
+Enquirer.prototype.separator = function(options) {
+  return new utils.Separator(options);
 };
 
 /**
@@ -243,6 +276,13 @@ Enquirer.prototype.visit = function(method, val) {
   utils.visit(this, method, val);
   return this;
 };
+
+/**
+ * Create a new `Separator` to use in a choices array.
+ * @api public
+ */
+
+Enquirer.Separator = utils.Separator;
 
 /**
  * Decorate `Emitter` methods onto the Enquirer prototype
