@@ -1,6 +1,6 @@
 # enquirer [![NPM version](https://img.shields.io/npm/v/enquirer.svg?style=flat)](https://www.npmjs.com/package/enquirer) [![NPM downloads](https://img.shields.io/npm/dm/enquirer.svg?style=flat)](https://npmjs.org/package/enquirer) [![Build Status](https://img.shields.io/travis/jonschlinkert/enquirer.svg?style=flat)](https://travis-ci.org/jonschlinkert/enquirer)
 
-Plugin-based prompt system for node.js
+Intuitive, plugin-based prompt system for node.js. Much faster alternative to Inquirer, with all the same prompt types and more.
 
 ## Table of Contents
 
