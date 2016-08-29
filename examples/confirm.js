@@ -2,6 +2,7 @@
 
 var Enquirer = require('..');
 var enquirer = new Enquirer();
+
 enquirer.register('confirm', require('enquirer-prompt-confirm'));
 
 var questions = [

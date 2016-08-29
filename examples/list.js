@@ -1,8 +1,9 @@
 'use strict';
 
-var Separator = require('enquirer-separator');
+var Separator = require('choices-separator');
 var Enquirer = require('..');
 var enquirer = new Enquirer();
+
 enquirer.register('list', require('enquirer-prompt-list'));
 
 var questions = [

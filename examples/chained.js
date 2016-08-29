@@ -2,7 +2,6 @@
 
 var Enquirer = require('..');
 var enquirer = new Enquirer();
-var answers = {};
 
 enquirer.question('first', 'First name?');
 enquirer.question('middle', 'Middle name?');

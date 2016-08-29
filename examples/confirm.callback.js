@@ -2,6 +2,11 @@
 
 var Enquirer = require('..');
 var enquirer = new Enquirer();
+
+/**
+ * TODO
+ */
+
 enquirer.register('confirm', require('enquirer-prompt-confirm'));
 
 var questions = [
@@ -9,7 +14,6 @@ var questions = [
   {type: 'confirm', name: 'bar', message: 'Bar?'}
 ];
 
-// TODO
 enquirer.ask(questions, function(err, answers) {
   console.log(err);
 });

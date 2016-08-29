@@ -1,8 +1,8 @@
 'use strict';
 
-require('time-require')
 var Enquirer = require('..');
 var enquirer = new Enquirer();
+
 enquirer.use(require('enquirer-prompts'));
 
 var questions = [

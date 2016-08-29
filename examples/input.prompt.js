@@ -1,8 +1,6 @@
 'use strict';
 
-const Enquirer = require('..');
-const enquirer = new Enquirer();
-const Prompt = require('../lib/input');
+var Prompt = require('enquirer-prompt');
 
 var question = {
   type: 'input',
