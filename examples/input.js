@@ -7,14 +7,14 @@ var questions = [
   {
     type: 'input',
     name: 'first',
-    default: 'Jon',
-    message: 'First name?'
+    message: 'First name?',
+    default: 'Brian'
   },
   {
     type: 'input',
     name: 'last',
-    default: 'Schlinkert',
-    message: 'Last name?'
+    message: 'Last name?',
+    default: 'Woodward'
   }
 ];
 

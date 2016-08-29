@@ -62,7 +62,7 @@ Enquirer.prototype.lazyInit = function() {
  * Register a new prompt `type` with the given `fn`.
  *
  * ```js
- * enquirer.register('confirm', require('enquirer-confirm'));
+ * enquirer.register('confirm', require('enquirer-prompt-confirm'));
  * ```
  * @param {String} `type` The name of the prompt type
  * @param {Function} `fn` Prompt function that inherits from [enquirer-prompt][].
@@ -82,7 +82,7 @@ Enquirer.prototype.register = function(type, PromptType) {
  * Invoke a plugin `fn`
  *
  * ```js
- * enquirer.use(require('my-enquirer-plugin'));
+ * enquirer.use(require('some-enquirer-plugin'));
  * ```
  * @param {Function} `fn` Function that takes an instance of `Enquirer`
  * @return {Object} Returns the instance for chaining.
@@ -234,7 +234,6 @@ Enquirer.prototype.prompt = function(name) {
  * Visit `method` over the properties in the given object, or map
  * visit over the object-elements in an array.
  *
- * @name .visit
  * @param {String} `method` The name of the `base` method to call.
  * @param {Object|Array} `val` The object or array to iterate over.
  * @return {Object} Returns the instance for chaining.
