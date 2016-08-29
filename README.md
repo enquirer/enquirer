@@ -84,7 +84,7 @@ Invoke a plugin `fn`
 enquirer.use(require('some-enquirer-plugin'));
 ```
 
-### [.question](index.js#L112)
+### [.question](index.js#L130)
 
 Create question `name` with the given `message` and `options`. Uses [enquirer-question](https://github.com/enquirer/enquirer-question), visit that library for additional details.
 
@@ -102,10 +102,28 @@ Create question `name` with the given `message` and `options`. Uses [enquirer-qu
 **Example**
 
 ```js
-var question = enquirer.question('name', 'What is your name?');
+enquirer.question('color', 'What is your favorite color?');
+enquirer.question('color', 'What is your favorite color?', {
+  default: 'blue'
+});
+enquirer.question('color', {
+  message: 'What is your favorite color?',
+  default: 'blue'
+});
+enquirer.question({
+  name: 'color',
+  message: 'What is your favorite color?',
+  default: 'blue'
+});
+enquirer.question({
+  name: 'color',
+  type: 'input', // "input" is the default prompt type and doesn't need to be specified
+  message: 'What is your favorite color?',
+  default: 'blue'
+});
 ```
 
-### [.ask](index.js#L162)
+### [.ask](index.js#L189)
 
 Initialize a prompt session for one or more questions.
 
@@ -125,9 +143,18 @@ enquirer.ask('first')
   .then(function(answers) {
     console.log(answers)
   });
+
+// errors
+enquirer.ask('first')
+  .then(function(answers) {
+    console.log(answers)
+  })
+  .catch(function(err) {
+    console.log(err)
+  });
 ```
 
-### [.prompt](index.js#L196)
+### [.prompt](index.js#L223)
 
 Initialize a prompt session for a single question. Used by the [ask](#ask) method.
 
@@ -150,7 +177,11 @@ enquirer.prompt('first')
   });
 ```
 
-### [.separator](index.js#L236)
+### [.separator](index.js#L262)
+
+Create a new `Separator` to use in a choices array.
+
+### [.Separator](index.js#L285)
 
 Create a new `Separator` to use in a choices array.
 
