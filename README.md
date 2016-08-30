@@ -177,11 +177,11 @@ enquirer.prompt('first')
   });
 ```
 
-### [.separator](index.js#L270)
+### [.separator](index.js#L271)
 
 Create a new `Separator` to use in a choices array.
 
-### [.Separator](index.js#L293)
+### [.Separator](index.js#L294)
 
 Create a new `Separator` to use in a choices array.
 
