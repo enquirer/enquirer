@@ -1,7 +1,7 @@
 {
   "name": "enquirer",
   "description": "Intuitive, plugin-based prompt system for node.js. Much faster and lighter alternative to Inquirer, with all the same prompt types and more, but without the bloat.",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "homepage": "https://github.com/enquirer/enquirer",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "repository": "enquirer/enquirer",
