@@ -241,6 +241,7 @@ Enquirer.prototype.prompt = function(name) {
   try {
     var question = this.question(name).clone();
     var PromptType = this.prompts[question.type];
+    var key = question.name;
 
     if (typeof PromptType !== 'function') {
       throw new Error(`prompt type "${question.type}" is not registered`);
@@ -250,12 +251,12 @@ Enquirer.prototype.prompt = function(name) {
     if (this.session) prompt.session = true;
     this.emit('prompt', question.default, question, answers, prompt);
 
-    return prompt.run(answers)
-      .then(function(val) {
-        question.answer = val[name];
-        self.emit('answer', val[name], name, question, answers);
-        return val;
-      })
+    return prompt.run()
+      .then(function(answer) {
+        answers[key] = question.answer = answer;
+        self.emit('answer', answer, key, question, answers);
+        return answers;
+      });
 
   } catch (err) {
     this.close();
