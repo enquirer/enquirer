@@ -236,6 +236,7 @@ Enquirer.prototype.prompt = function(name) {
   this.lazyInit();
   this.queue = this.queue || [name];
   var answers = this.answers;
+  var self = this;
 
   try {
     var question = this.question(name).clone();
@@ -252,7 +253,7 @@ Enquirer.prototype.prompt = function(name) {
     return prompt.run(answers)
       .then(function(val) {
         question.answer = val[name];
-        this.emit('answer', val[name], name, question, answers);
+        self.emit('answer', val[name], name, question, answers);
         return val;
       })
 
