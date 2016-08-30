@@ -8,6 +8,7 @@ const utils = require('./lib/utils');
  * Create an instance of `Enquirer` with the given `options`.
  *
  * ```js
+ * var Enquirer = require('enquirer');
  * var enquirer = new Enquirer();
  * ```
  * @param {Object} `options`
@@ -16,7 +17,7 @@ const utils = require('./lib/utils');
 
 function Enquirer(options) {
   debug('initializing from <%s>', __filename);
-  this.active = false;
+  this.session = false;
   this.options = options || {};
   this.questions = {};
   this.prompts = {};
@@ -36,7 +37,7 @@ Enquirer.prototype.init = function() {
   this.UI = this.options.UI || utils.UI;
   this.ui = new this.UI(this.options);
   this.ui.once('finish', function() {
-    this.active = false;
+    this.session = false;
     this.close = null;
     this.queue = [];
     this.emit('finish');
@@ -164,6 +165,9 @@ Enquirer.prototype.enqueue = function(questions) {
  * Initialize a prompt session for one or more questions.
  *
  * ```js
+ * var Enquirer = require('enquirer');
+ * var enquirer = new Enquirer();
+ *
  * enquirer.question('first', 'First name?');
  * enquirer.question('last', 'Last name?');
  *
@@ -191,6 +195,7 @@ Enquirer.prototype.ask = function(questions) {
   var queue = this.enqueue(questions);
   var prompt = this.prompt.bind(this);
   var finish = this.finish.bind(this);
+  this.session = true;
 
   // disable `finish` to prevent successive calls
   this.finish = utils.identity;
@@ -208,6 +213,9 @@ Enquirer.prototype.ask = function(questions) {
  * Initialize a prompt session for a single question. Used by the [ask](#ask) method.
  *
  * ```js
+ * var Enquirer = require('enquirer');
+ * var enquirer = new Enquirer();
+ *
  * enquirer.question('first', 'First name?');
  * enquirer.prompt('first')
  *   .then(function(answers) {
@@ -228,28 +236,28 @@ Enquirer.prototype.prompt = function(name) {
   this.lazyInit();
   this.queue = this.queue || [name];
   var answers = this.answers;
-  var self = this;
 
   try {
-    var question = self.question(name).clone();
-    var PromptType = self.prompts[question.type];
+    var question = this.question(name).clone();
+    var PromptType = this.prompts[question.type];
 
     if (typeof PromptType !== 'function') {
       throw new Error(`prompt type "${question.type}" is not registered`);
     }
 
-    var prompt = new PromptType(question, answers, self.ui);
-    self.emit('prompt', question.default, question, answers, prompt);
+    var prompt = new PromptType(question, answers, this.ui);
+    if (this.session) prompt.session = true;
+    this.emit('prompt', question.default, question, answers, prompt);
 
     return prompt.run(answers)
       .then(function(val) {
         question.answer = val[name];
-        self.emit('answer', val[name], name, question, answers);
+        this.emit('answer', val[name], name, question, answers);
         return val;
       })
 
   } catch (err) {
-    self.close();
+    this.close();
     throw err;
   }
 };
