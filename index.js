@@ -35,7 +35,7 @@ Enquirer.prototype.init = function() {
   }
 
   this.UI = this.options.UI || utils.UI;
-  this.ui = new this.UI(this.options);
+  this.ui = this.UI.create(this.options);
   this.ui.once('finish', function() {
     this.session = false;
     this.close = null;
@@ -66,7 +66,7 @@ Enquirer.prototype.lazyInit = function() {
  * enquirer.register('confirm', require('enquirer-prompt-confirm'));
  * ```
  * @param {String} `type` The name of the prompt type
- * @param {Function} `fn` Prompt function that inherits from [enquirer-prompt][].
+ * @param {Function} `fn` Prompt function that inherits from [prompt-base][].
  * @return {Object} Returns the Enquirer instance for chaining.
  * @api public
  */
