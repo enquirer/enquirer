@@ -28,19 +28,19 @@
     "collection-visit": "^0.2.3",
     "component-emitter": "^1.2.1",
     "debug": "^2.2.0",
-    "enquirer-prompt-input": "^0.2.0",
+    "enquirer-prompt-input": "^0.3.0",
     "extend-shallow": "^2.0.1",
     "isobject": "^2.1.0",
     "lazy-cache": "^2.0.1",
     "promise-reduce": "^2.1.0",
     "prompt-question": "^0.3.1",
-    "readline-ui": "^0.1.0"
+    "readline-ui": "^0.1.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-eslint": "^3.0.1",
     "gulp-format-md": "^0.1.10",
-    "gulp-istanbul": "^1.1.0",
+    "gulp-istanbul": "^1.1.1",
     "gulp-mocha": "^3.0.1",
     "gulp-unused": "^0.2.0",
     "mocha": "^3.0.2",
@@ -86,8 +86,8 @@
     },
     "related": {
       "list": [
-        "enquirer-question",
-        "enquirer-prompt",
+        "prompt-question",
+        "prompt-base",
         "prompt-choices",
         "readline-utils"
       ]
@@ -95,12 +95,6 @@
     "reflinks": [
       "assemble",
       "enquirer-prompt",
-      "enquirer-question",
-      "generate",
-      "inquirer",
-      "update",
-      "verb",
-      "verb-generate-readme",
       "enquirer-prompt-checkbox",
       "enquirer-prompt-confirm",
       "enquirer-prompt-editor",
@@ -110,7 +104,15 @@
       "enquirer-prompt-password",
       "enquirer-prompt-radio",
       "enquirer-prompt-rawlist",
-      "enquirer-prompts"
+      "enquirer-prompts",
+      "enquirer-question",
+      "generate",
+      "inquirer",
+      "update",
+      "verb",
+      "verb-generate-readme",
+      "chalk",
+      "prompt-base"
     ]
   }
 }
