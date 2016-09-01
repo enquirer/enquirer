@@ -1,6 +1,6 @@
 'use strict';
 
-var Prompt = require('enquirer-prompt');
+var Prompt = require('prompt-base');
 
 var question = {
   type: 'input',

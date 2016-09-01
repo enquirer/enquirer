@@ -8,7 +8,7 @@ var util = require('util');
 var log = require('log-utils');
 var figures = require('figures');
 var Paginator = require('terminal-paginator');
-var BasePrompt = require('enquirer-prompt');
+var BasePrompt = require('prompt-base');
 var Choices = require('prompt-choices');
 var utils = require('readline-utils');
 

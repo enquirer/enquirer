@@ -3,7 +3,12 @@
   "description": "Examples for Enquirer",
   "private": true,
   "devDependencies": {
+    "choices-separator": "^0.1.0",
     "figures": "^1.7.0",
-    "log-utils": "^0.2.1"
+    "log-utils": "^0.2.1",
+    "prompt-base": "^0.4.0",
+    "prompt-choices": "^0.3.2",
+    "readline-utils": "^0.1.1",
+    "terminal-paginator": "^0.1.0"
   }
 }
