@@ -11,9 +11,7 @@
   "license": "MIT",
   "files": [
     "index.js",
-    "lib",
-    "LICENSE",
-    "README.md"
+    "lib"
   ],
   "main": "index.js",
   "engines": {
@@ -74,7 +72,7 @@
   ],
   "verb": {
     "toc": true,
-    "layout": "default",
+    "layout": "common-minimal",
     "tasks": [
       "readme"
     ],
@@ -86,14 +84,14 @@
     },
     "related": {
       "list": [
-        "prompt-question",
         "prompt-base",
         "prompt-choices",
+        "prompt-question",
         "readline-utils"
       ]
     },
     "reflinks": [
-      "assemble",
+      "chalk",
       "enquirer-prompt",
       "enquirer-prompt-checkbox",
       "enquirer-prompt-confirm",
@@ -106,12 +104,6 @@
       "enquirer-prompt-rawlist",
       "enquirer-prompts",
       "enquirer-question",
-      "generate",
-      "inquirer",
-      "update",
-      "verb",
-      "verb-generate-readme",
-      "chalk",
       "prompt-base"
     ]
   }
