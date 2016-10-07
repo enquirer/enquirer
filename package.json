@@ -21,18 +21,18 @@
     "test": "mocha"
   },
   "dependencies": {
-    "choices-separator": "^0.1.0",
+    "choices-separator": "^0.1.2",
     "clone-deep": "^0.2.4",
     "collection-visit": "^0.2.3",
     "component-emitter": "^1.2.1",
     "debug": "^2.2.0",
-    "enquirer-prompt-input": "^0.3.0",
+    "enquirer-prompt-input": "^0.4.0",
     "extend-shallow": "^2.0.1",
     "isobject": "^2.1.0",
     "lazy-cache": "^2.0.1",
     "promise-reduce": "^2.1.0",
-    "prompt-question": "^0.3.1",
-    "readline-ui": "^0.1.1"
+    "prompt-question": "^0.4.0",
+    "readline-ui": "^0.1.2"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
