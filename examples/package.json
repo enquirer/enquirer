@@ -2,13 +2,16 @@
   "name": "enquirer-examples",
   "description": "Examples for Enquirer",
   "private": true,
-  "devDependencies": {
-    "choices-separator": "^0.1.0",
+  "devDependencies": {},
+  "dependencies": {
+    "choices-separator": "^0.1.2",
     "figures": "^1.7.0",
     "log-utils": "^0.2.1",
-    "prompt-base": "^0.4.0",
-    "prompt-choices": "^0.3.2",
-    "readline-utils": "^0.1.1",
-    "terminal-paginator": "^0.1.0"
+    "prompt-base": "^0.5.0",
+    "prompt-checkbox": "^0.3.2",
+    "prompt-choices": "^0.4.0",
+    "prompt-list": "^0.1.0",
+    "readline-utils": "^0.1.2",
+    "terminal-paginator": "^0.2.0"
   }
 }

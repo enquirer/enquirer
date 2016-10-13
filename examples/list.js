@@ -4,7 +4,7 @@ var Separator = require('choices-separator');
 var Enquirer = require('..');
 var enquirer = new Enquirer();
 
-enquirer.register('list', require('enquirer-prompt-list'));
+enquirer.register('list', require('prompt-list'));
 
 var questions = [
   {
@@ -31,7 +31,7 @@ var questions = [
     when: function(answers) {
       return answers.theme.value === 'Order a pizza';
     },
-    filter: function (val) {
+    filter: function(val) {
       return val.toLowerCase();
     }
   },
@@ -43,13 +43,16 @@ var questions = [
     when: function(answers) {
       return answers.theme.value === 'Make a reservation';
     },
-    filter: function (val) {
+    filter: function(val) {
       return val.toLowerCase();
     },
   }
 ];
 
 enquirer.ask(questions)
-  .then(function (answers) {
+  .then(function(answers) {
     console.log(answers);
+  })
+  .catch(function(err) {
+    console.log(err);
   });

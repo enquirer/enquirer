@@ -3,7 +3,7 @@
 var Enquirer = require('..');
 var enquirer = new Enquirer();
 
-enquirer.register('password', require('enquirer-prompt-password'));
+enquirer.register('password', require('prompt-password'));
 
 var questions = {
   type: 'password',

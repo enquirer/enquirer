@@ -4,6 +4,10 @@
   "version": "0.3.2",
   "homepage": "https://github.com/enquirer/enquirer",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
+  "contributors": [
+    "Brian Woodward <brian.woodward@gmail.com> (https://github.com/doowb)",
+    "Jon Schlinkert <jon.schlinkert@sellside.com> (http://twitter.com/jonschlinkert)"
+  ],
   "repository": "enquirer/enquirer",
   "bugs": {
     "url": "https://github.com/enquirer/enquirer/issues"
@@ -15,7 +19,7 @@
   ],
   "main": "index.js",
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=5.0"
   },
   "scripts": {
     "test": "mocha"
@@ -26,22 +30,22 @@
     "collection-visit": "^0.2.3",
     "component-emitter": "^1.2.1",
     "debug": "^2.2.0",
-    "enquirer-prompt-input": "^0.4.0",
     "extend-shallow": "^2.0.1",
     "isobject": "^2.1.0",
     "lazy-cache": "^2.0.1",
     "promise-reduce": "^2.1.0",
+    "prompt-base": "^0.5.0",
     "prompt-question": "^0.4.0",
     "readline-ui": "^0.1.2"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-eslint": "^3.0.1",
-    "gulp-format-md": "^0.1.10",
+    "gulp-format-md": "^0.1.11",
     "gulp-istanbul": "^1.1.1",
     "gulp-mocha": "^3.0.1",
     "gulp-unused": "^0.2.0",
-    "mocha": "^3.0.2",
+    "mocha": "^3.1.2",
     "strip-color": "^0.1.0"
   },
   "keywords": [

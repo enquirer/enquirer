@@ -7,7 +7,7 @@ var enquirer = new Enquirer();
  * TODO
  */
 
-enquirer.register('confirm', require('enquirer-prompt-confirm'));
+enquirer.register('confirm', require('prompt-confirm'));
 
 var questions = [
   {type: 'confirm', name: 'foo', message: 'Foo?'},

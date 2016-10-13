@@ -4,7 +4,7 @@ var Separator = require('choices-separator');
 var Enquirer = require('..');
 var enquirer = new Enquirer({pointer: '♥'});
 
-enquirer.register('list', require('enquirer-prompt-list'));
+enquirer.register('list', require('prompt-list'));
 
 var questions = [
   {

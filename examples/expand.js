@@ -4,7 +4,7 @@ var Separator = require('choices-separator');
 var Enquirer = require('..');
 var enquirer = new Enquirer();
 
-enquirer.register('expand', require('enquirer-prompt-expand'));
+enquirer.register('expand', require('prompt-expand'));
 
 var questions = [
   {

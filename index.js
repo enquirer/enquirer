@@ -31,7 +31,7 @@ function Enquirer(options) {
 
 Enquirer.prototype.init = function() {
   if (!this.prompts.hasOwnProperty('input')) {
-    this.register('input', require('enquirer-prompt-input'));
+    this.register('input', require('prompt-base'));
   }
 
   this.UI = this.options.UI || utils.UI;
@@ -238,6 +238,7 @@ Enquirer.prototype.prompt = function(name) {
     var question = this.question(name).clone();
     var PromptType = this.prompts[question.type];
     var key = question.name;
+
 
     if (typeof PromptType !== 'function') {
       throw new Error(`prompt type "${question.type}" is not registered`);

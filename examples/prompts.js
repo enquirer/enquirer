@@ -3,7 +3,7 @@
 var Enquirer = require('..');
 var enquirer = new Enquirer();
 
-enquirer.use(require('enquirer-prompts'));
+enquirer.use(require('prompt-confirm'));
 
 var questions = [
   {type: 'confirm', name: 'winter', message: 'Do you like winter?'},

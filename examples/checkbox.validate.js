@@ -3,7 +3,7 @@
 var Enquirer = require('..');
 var enquirer = new Enquirer();
 
-enquirer.register('checkbox', require('enquirer-prompt-checkbox'));
+enquirer.register('checkbox', require('prompt-checkbox'));
 
 var separator = enquirer.separator.bind(enquirer);
 var questions = [
