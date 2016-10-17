@@ -87,28 +87,26 @@
       "reflinks": true
     },
     "related": {
-      "list": [
-        "prompt-base",
-        "prompt-choices",
+      "list": [],
+      "prompts": [
+        "prompt-autocompletion",
+        "prompt-checkbox",
+        "prompt-confirm",
+        "prompt-editor",
+        "prompt-expand",
+        "prompt-input",
+        "prompt-list",
+        "prompt-password",
         "prompt-question",
-        "readline-utils"
+        "prompt-radio",
+        "prompt-rawlist"
       ]
     },
     "reflinks": [
+      "prompt-base",
       "chalk",
-      "enquirer-prompt",
-      "enquirer-prompt-checkbox",
-      "enquirer-prompt-confirm",
-      "enquirer-prompt-editor",
-      "enquirer-prompt-expand",
-      "enquirer-prompt-input",
-      "enquirer-prompt-list",
-      "enquirer-prompt-password",
-      "enquirer-prompt-radio",
-      "enquirer-prompt-rawlist",
       "enquirer-prompts",
-      "enquirer-question",
-      "prompt-base"
+      "enquirer-question"
     ]
   }
 }
