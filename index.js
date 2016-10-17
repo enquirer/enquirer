@@ -194,19 +194,15 @@ Enquirer.prototype.ask = function(questions) {
   this.lazyInit();
   var queue = this.enqueue(questions);
   var prompt = this.prompt.bind(this);
-  var finish = this.finish.bind(this);
   this.session = true;
 
-  // disable `finish` to prevent successive calls
-  this.finish = utils.identity;
   function ask(acc, question) {
     return prompt(question);
   }
 
   this.emit('ask', queue);
   return Promise.resolve(queue)
-    .then(utils.reduce(ask, this.answers))
-    .then(finish());
+    .then(utils.reduce(ask, this.answers));
 };
 
 /**
