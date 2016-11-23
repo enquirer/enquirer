@@ -232,7 +232,7 @@ Our main goals were:
 
 Enquirer takes **~11ms** to load. This is about the same amount of time that it takes [chalk](https://github.com/chalk/chalk) to load.
 
-By comparison, Inquirer takes **~120ms just to load**!!! This is about how long it takes babel, or other massive libraries that you would never include in production code.
+By comparison, Inquirer takes **~120ms** to load. This is about how long it takes babel, or other massive libraries that you would never include in production code.
 
 Regardless of whether or not a prompt is every actually used, your own application will be 120ms slower from having Inquirer in its dependency tree. This is caused by its own massive dependency tree, code redundancy, monolithic and slow [reactive interface](https://github.com/SBoudrias/Inquirer.js#reactive-interface) (which makes little sense for this use case anyway), poor API design (Inquirer actually executes code, even if you never call the library!), and so on.
 
