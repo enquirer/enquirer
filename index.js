@@ -1,5 +1,8 @@
 'use strict';
 
+const get = require('get-value');
+const set = require('set-value');
+const define = require('define-property');
 const debug = require('debug')('enquirer');
 const Emitter = require('component-emitter');
 const utils = require('./lib/utils');
@@ -17,11 +20,16 @@ const utils = require('./lib/utils');
 
 function Enquirer(options) {
   debug('initializing from <%s>', __filename);
+
+  if (!(this instanceof Enquirer)) {
+    return new Enquirer(options);
+  }
+
   this.session = false;
   this.options = options || {};
+  this.answers = this.options.answers || {};
   this.questions = {};
   this.prompts = {};
-  this.answers = {};
   this.queue = [];
 }
 
@@ -140,6 +148,19 @@ Enquirer.prototype.question = function(name, message, options) {
   return question;
 };
 
+Enquirer.prototype.set = function() {
+  this.question.apply(this, arguments);
+  return this;
+};
+
+Enquirer.prototype.get = function(name) {
+  return utils.get(this.questions, name);
+};
+
+Enquirer.prototype.has = function(name) {
+  return this.questions.hasOwnProperty(name);
+};
+
 /**
  * Enqueue one or more questions.
  *
@@ -154,7 +175,7 @@ Enquirer.prototype.enqueue = function(questions) {
   if (utils.isObject(questions)) {
     questions = [questions];
   }
-  if (Array.isArray(questions)) {
+  if (Array.isArray(questions) && questions.length) {
     return (this.queue = questions);
   }
   this.queue = Object.keys(this.questions);
@@ -237,8 +258,7 @@ Enquirer.prototype.prompt = function(name) {
   try {
     var question = this.question(name).clone();
     var PromptType = this.prompts[question.type];
-    var key = question.name;
-
+    var name = question.name;
 
     if (typeof PromptType !== 'function') {
       throw new Error(`prompt type "${question.type}" is not registered`);
@@ -246,16 +266,20 @@ Enquirer.prototype.prompt = function(name) {
 
     var prompt = new PromptType(question, answers, this.ui);
     if (this.session) prompt.session = true;
-    this.emit('prompt', question.default, question, answers, prompt);
+    this.emit('prompt', question, answers, this);
 
     return prompt.run()
       .then(function(answer) {
-        answers[key] = question.answer = answer;
-        self.emit('answer', answer, key, question, answers);
+        if (answer) {
+          question.answer = answer;
+          set(answers, name, answer);
+        }
+        self.emit('answer', answer, name, question, answers, self);
         return answers;
       });
 
   } catch (err) {
+    self.emit('error', err);
     this.close();
     throw err;
   }
