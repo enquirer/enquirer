@@ -2,16 +2,27 @@
   "name": "enquirer-examples",
   "description": "Examples for Enquirer",
   "private": true,
-  "devDependencies": {},
-  "dependencies": {
+  "lintDeps": {
+    "devDependencies": {
+      "files": [
+        "*.js",
+        "plugins/*.js"
+      ]
+    }
+  },
+  "devDependencies": {
     "choices-separator": "^0.1.2",
-    "figures": "^1.7.0",
+    "figures": "^2.0.0",
     "log-utils": "^0.2.1",
-    "prompt-base": "^0.5.0",
-    "prompt-checkbox": "^0.3.2",
-    "prompt-choices": "^0.4.0",
-    "prompt-list": "^0.1.0",
-    "readline-utils": "^0.1.2",
-    "terminal-paginator": "^0.2.0"
+    "prompt-base": "^0.6.1",
+    "prompt-checkbox": "^0.5.0",
+    "prompt-choices": "^1.0.0",
+    "prompt-confirm": "^0.2.1",
+    "prompt-expand": "^0.1.0",
+    "prompt-list": "^0.2.0",
+    "prompt-password": "^0.1.1",
+    "prompt-rawlist": "^1.0.0",
+    "readline-utils": "^0.1.5",
+    "terminal-paginator": "^0.2.1"
   }
 }
