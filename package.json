@@ -115,7 +115,15 @@
         "prompt-question",
         "prompt-radio",
         "prompt-rawlist"
-      ]
-    }
+      ],
+      "list": []
+    },
+    "reflinks": [
+      "chalk",
+      "enquirer",
+      "enquirer-prompts",
+      "enquirer-question",
+      "prompt-base"
+    ]
   }
 }

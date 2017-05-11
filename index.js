@@ -1,11 +1,11 @@
 'use strict';
 
-const get = require('get-value');
-const set = require('set-value');
-const define = require('define-property');
-const debug = require('debug')('enquirer');
-const Emitter = require('component-emitter');
-const utils = require('./lib/utils');
+var get = require('get-value');
+var set = require('set-value');
+var define = require('define-property');
+var debug = require('debug')('enquirer');
+var Emitter = require('component-emitter');
+var utils = require('./lib/utils');
 
 /**
  * Create an instance of `Enquirer` with the given `options`.
@@ -213,15 +213,16 @@ Enquirer.prototype.enqueue = function(questions) {
 
 Enquirer.prototype.ask = function(questions) {
   this.lazyInit();
+  this.session = true;
   var queue = this.enqueue(questions);
   var prompt = this.prompt.bind(this);
-  this.session = true;
+  var self = this;
 
-  function ask(acc, question) {
+  function ask(answers, question) {
+    self.emit('ask', question, answers);
     return prompt(question);
   }
 
-  this.emit('ask', queue);
   return Promise.resolve(queue)
     .then(utils.reduce(ask, this.answers));
 };
@@ -266,23 +267,23 @@ Enquirer.prototype.prompt = function(name) {
 
     var prompt = new PromptType(question, answers, this.ui);
     if (this.session) prompt.session = true;
-    this.emit('prompt', question, answers, this);
-
-    return prompt.run()
-      .then(function(answer) {
-        if (answer) {
-          question.answer = answer;
-          set(answers, name, answer);
-        }
-        self.emit('answer', answer, name, question, answers, self);
-        return answers;
-      });
+    this.emit('prompt', question, answers);
 
   } catch (err) {
     self.emit('error', err);
     this.close();
     throw err;
   }
+
+  return prompt.run(answers)
+    .then(function(answer) {
+      if (answer) {
+        question.answer = answer;
+        set(answers, name, answer);
+      }
+      self.emit('answer', question, answers);
+      return answers;
+    });
 };
 
 /**
