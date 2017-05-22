@@ -1,11 +1,16 @@
 'use strict';
 
-var get = require('get-value');
-var set = require('set-value');
-var define = require('define-property');
 var debug = require('debug')('enquirer');
 var Emitter = require('component-emitter');
-var utils = require('./lib/utils');
+var Separator = require('choices-separator');
+var visit = require('collection-visit');
+var Question = require('prompt-question');
+var extend = require('extend-shallow');
+var reduce = require('promise-reduce');
+var isObject = require('isobject');
+var get = require('get-value');
+var set = require('set-value');
+var UI = require('readline-ui');
 
 /**
  * Create an instance of `Enquirer` with the given `options`.
@@ -42,7 +47,7 @@ Enquirer.prototype.init = function() {
     this.register('input', require('prompt-base'));
   }
 
-  this.UI = this.options.UI || utils.UI;
+  this.UI = this.options.UI || UI;
   this.ui = this.UI.create(this.options);
   this.ui.once('finish', function() {
     this.session = false;
@@ -51,7 +56,6 @@ Enquirer.prototype.init = function() {
     this.emit('finish');
   }.bind(this));
 
-  this.rl = this.ui.rl;
   this.finish = this.ui.finish.bind(this.ui);
   this.close = this.ui.close.bind(this.ui);
   this.emit('init', this);
@@ -80,7 +84,7 @@ Enquirer.prototype.lazyInit = function() {
  */
 
 Enquirer.prototype.register = function(type, PromptType) {
-  if (utils.isObject(type)) {
+  if (isObject(type)) {
     return this.visit('register', type);
   }
   this.prompts[type] = PromptType;
@@ -141,8 +145,8 @@ Enquirer.prototype.question = function(name, message, options) {
     name = this.questions[name] || name;
   }
 
-  var opts = utils.extend({}, this.options, options);
-  var question = new utils.Question(name, message, opts);
+  var opts = extend({}, this.options, options);
+  var question = new Question(name, message, opts);
   this.questions[question.name] = question;
   this.emit('question', question);
   return question;
@@ -154,7 +158,7 @@ Enquirer.prototype.set = function() {
 };
 
 Enquirer.prototype.get = function(name) {
-  return utils.get(this.questions, name);
+  return get(this.questions, name);
 };
 
 Enquirer.prototype.has = function(name) {
@@ -172,7 +176,7 @@ Enquirer.prototype.enqueue = function(questions) {
   if (typeof questions === 'string') {
     questions = this.question(questions);
   }
-  if (utils.isObject(questions)) {
+  if (isObject(questions)) {
     questions = [questions];
   }
   if (Array.isArray(questions) && questions.length) {
@@ -224,7 +228,7 @@ Enquirer.prototype.ask = function(questions) {
   }
 
   return Promise.resolve(queue)
-    .then(utils.reduce(ask, this.answers));
+    .then(reduce(ask, this.answers));
 };
 
 /**
@@ -259,7 +263,7 @@ Enquirer.prototype.prompt = function(name) {
   try {
     var question = this.question(name).clone();
     var PromptType = this.prompts[question.type];
-    var name = question.name;
+    name = question.name;
 
     if (typeof PromptType !== 'function') {
       throw new Error(`prompt type "${question.type}" is not registered`);
@@ -292,7 +296,7 @@ Enquirer.prototype.prompt = function(name) {
  */
 
 Enquirer.prototype.separator = function(options) {
-  return new utils.Separator(options);
+  return new Separator(options);
 };
 
 /**
@@ -305,7 +309,7 @@ Enquirer.prototype.separator = function(options) {
  */
 
 Enquirer.prototype.visit = function(method, val) {
-  utils.visit(this, method, val);
+  visit(this, method, val);
   return this;
 };
 
@@ -314,7 +318,7 @@ Enquirer.prototype.visit = function(method, val) {
  * @api public
  */
 
-Enquirer.Separator = utils.Separator;
+Enquirer.Separator = Separator;
 
 /**
  * Decorate `Emitter` methods onto the Enquirer prototype
