@@ -4,9 +4,7 @@ var Enquirer = require('..');
 var enquirer = new Enquirer();
 
 enquirer.register('checkbox', require('prompt-checkbox'));
-
-var questions = [
-  {
+enquirer.ask({
     type: 'checkbox',
     message: 'What is your favorite color?',
     name: 'color',
@@ -15,10 +13,7 @@ var questions = [
       'blue',
       'yellow'
     ]
-  }
-];
-
-enquirer.ask(questions)
+  })
   .then(function(answers) {
     console.log(answers)
   });

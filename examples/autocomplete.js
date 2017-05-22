@@ -4,7 +4,7 @@ var states = require('./fixtures/states');
 var Enquirer = require('..');
 var enquirer = new Enquirer();
 
-enquirer.register('autocomplete', require('./plugins/autocomplete'));
+enquirer.register('autocomplete', require('prompt-autocompletion'));
 
 var questions = [
   {

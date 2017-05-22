@@ -1,7 +1,37 @@
 {
   "name": "enquirer-examples",
-  "description": "Examples for Enquirer",
   "private": true,
+  "description": "Examples for Enquirer",
+  "version": "0.1.0",
+  "homepage": "https://github.com/enquirer/enquirer-examples",
+  "repository": "enquirer/enquirer-examples",
+  "bugs": {
+    "url": "https://github.com/enquirer/enquirer-examples/issues"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "devDependencies": {
+    "choices-separator": "^2.0.0",
+    "figures": "^2.0.0",
+    "log-utils": "^0.2.1",
+    "prompt-autocompletion": "^0.1.1",
+    "prompt-base": "^1.0.2",
+    "prompt-checkbox": "^1.0.1",
+    "prompt-choices": "^3.0.2",
+    "prompt-confirm": "^1.0.0",
+    "prompt-expand": "^0.1.0",
+    "prompt-list": "^1.0.0",
+    "prompt-password": "^1.0.0",
+    "prompt-rawlist": "^1.0.0",
+    "readline-utils": "^2.2.1",
+    "terminal-paginator": "^1.1.0"
+  },
+  "keywords": [
+    "enquirer",
+    "examples"
+  ],
   "lintDeps": {
     "devDependencies": {
       "files": [
@@ -9,20 +39,5 @@
         "plugins/*.js"
       ]
     }
-  },
-  "devDependencies": {
-    "choices-separator": "^0.1.2",
-    "figures": "^2.0.0",
-    "log-utils": "^0.2.1",
-    "prompt-base": "^0.6.1",
-    "prompt-checkbox": "^0.5.0",
-    "prompt-choices": "^1.0.0",
-    "prompt-confirm": "^0.2.1",
-    "prompt-expand": "^0.1.0",
-    "prompt-list": "^0.2.0",
-    "prompt-password": "^0.1.1",
-    "prompt-rawlist": "^1.0.0",
-    "readline-utils": "^0.1.5",
-    "terminal-paginator": "^0.2.1"
   }
 }

@@ -1,0 +1,13 @@
+<style>
+  .masthead {
+    {{#if options.gradient}}{{gradient options.gradient}}{{else}}
+    background-image: {{geopattern (default geopattern @page.title)}};
+    {{/if}}
+  }
+  .{{@site.content}} h1,
+  .{{@site.content}} h2,
+  .{{@site.content}} h3,
+  .{{@site.content}} h4 {
+    color: {{geoColor (default geopattern @page.title)}};
+  }
+</style>
