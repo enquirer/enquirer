@@ -1,0 +1,77 @@
+/**
+ * Theme overrides
+ */
+
+body {
+  font-size: 1.1rem;
+  font-family: $font-family-sans-serif;
+}
+
+h1, h2, h3, h4 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+}
+
+strong {
+  font-weight: bold;
+  margin-top: 1em;
+}
+
+a {
+  color: $body-link-color;
+}
+
+// when `<p>` is the first element after the masthead, add
+// 30px top margin, to even up the paragraph with the sidenav
+p:first-child {
+  margin-top: 30px;
+}
+
+/**
+ * Navbar
+ */
+
+.navbar-brand {
+  color: rgb(75, 54, 92);
+  font-weight: 600;
+}
+.navbar-brand img {
+  margin-right: 5px;
+  margin-left: -15px;
+}
+.navbar-nav.gh-buttons {
+  padding-top: 10px;
+}
+
+/**
+ * Dropdowns
+ */
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: #614676;
+}
+
+// Special popover styles
+// ---------------------------------------------
+
+.popover-source {
+  max-width: 60%; // prevent inner text from wrapping in source links
+
+  // Specific styling for new-window icon in popovers
+  .glyphicon-new-window {
+    font-size: 12px;
+    padding-left: 6px;
+  }
+
+  &.left {
+    margin-top: 2px; // tweak margin to align vertically
+    margin-left: 60px;
+  }
+  &, .glyphicon-new-window {
+    &, &:hover {
+      color: #849396; // medium gray-blue
+    }
+  }
+}

@@ -5,26 +5,25 @@ var enquirer = new Enquirer();
 
 enquirer.register('checkbox', require('prompt-checkbox'));
 
-var separator = enquirer.separator.bind(enquirer);
 var questions = [
   {
     type: 'checkbox',
     message: 'Select toppings',
     name: 'toppings',
     choices: [
-      separator(' = The Meats = '),
+      enquirer.separator(' = The Meats = '),
       {name: 'Pepperoni'},
       {name: 'Ham'},
       {name: 'Ground Meat'},
       {name: 'Bacon'},
-      separator(' = The Cheeses = '),
+      enquirer.separator(' = The Cheeses = '),
       {name: 'Mozzarella', checked: true },
       {name: 'Cheddar'},
       {name: 'Parmesan'},
-      separator(' = The usual ='),
+      enquirer.separator(' = The usual ='),
       {name: 'Mushroom'},
       {name: 'Tomato'},
-      separator(' = The extras = '),
+      enquirer.separator(' = The extras = '),
       {name: 'Pineapple'},
       {name: 'Olives', disabled: 'out of stock'},
       {name: 'Extra cheese'}

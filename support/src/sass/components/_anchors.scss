@@ -1,0 +1,95 @@
+//
+// Anchors
+// --------------------------------------------------
+// Anchors show upon hovering over a heading
+
+$anchor-width:          200px;
+$anchor-distance:       160px;
+$anchor-distance-small: 100px;
+
+// Base class
+// ----------------------------------------------
+// Our "anchors" are really just icons that sit
+// in the left margin, and are only visible when
+// hovering over headings or the icons themselves.
+
+.anchor {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 0;
+
+  color: transparent;
+  font-size: 18px;
+  padding: 20px 10px 5px 30px;
+  width: $anchor-width;
+}
+
+.anchor-link {
+  color: inherit;
+}
+
+// Offset
+// ----------------------------------------------
+// anchor targets are invisble and sit the specified
+// distance above headings and anchors. This is what
+// ensures that our headings won't overlap the navar.
+// If you done require clickable anchors, you can
+// achieve this with fewer classes and less HTML
+
+.anchor-target {
+  position: absolute;
+  margin-top: -($anchor-distance);
+  padding-top: $anchor-distance;
+}
+
+.anchor-target-small {
+  margin-top: -($anchor-distance-small);
+  padding-top: $anchor-distance-small;
+}
+
+*:hover > .anchor-link {
+  opacity: .75;
+  transition: color .16s linear;
+}
+
+*:hover > .anchor-link:hover,
+.anchor-link:focus {
+  text-decoration: none;
+  opacity: 1;
+}
+
+// Adjust the vertical positioning
+// of anchors next to larger headings.
+// h2 .anchor {
+//   margin-bottom: -9px;
+// }
+
+
+// Headings
+// ----------------------------------------------
+
+h1, h2, h3 {
+  position: relative;
+  padding-left: $page-gutter;
+  margin-left: -($page-gutter);
+}
+
+*:hover > .anchor:hover {
+  color: $gray-darkest;
+  visibility: visible;
+  text-decoration: none;
+}
+
+
+@media (max-width: 480px) {
+  .anchor {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .anchor-link {
+    display: none;
+  }
+}

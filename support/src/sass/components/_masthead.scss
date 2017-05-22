@@ -1,0 +1,34 @@
+// page headers
+.masthead {
+  color: #fff;
+  text-align: center;
+  padding-right: 0;
+  padding-left: 0;
+  margin-bottom: $masthead-padding;
+  background-color: $masthead-bg;
+  box-shadow: inset 0 1px 20px rgba(0, 0, 0, 0.2);
+  @include border-radius(0);
+  @include media-breakpoint-up(sm) {
+    padding: ($masthead-padding * 4) $masthead-padding;
+  }
+
+  h1, h2, {
+    color: white;
+    font-weight: 300;
+  }
+}
+
+/**
+ * Small page header
+ */
+
+.masthead-sm {
+  padding: 1.5rem 0;
+
+  .page-title {
+    text-align: left;
+    font-size: 2rem;
+    font-weight: 200;
+    padding-left: 0;
+  }
+}

@@ -6,14 +6,20 @@
 test/actual
 actual
 coverage
+.nyc*
 
 # npm
 node_modules
 npm-debug.log
 
+# yarn
+yarn.lock
+yarn-error.log
+
 # misc
 _gh_pages
-benchmark
+_draft
+_drafts
 bower_components
 vendor
 temp

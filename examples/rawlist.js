@@ -24,7 +24,7 @@ var questions = [
     name: 'size',
     message: 'What size do you need',
     choices: ['Jumbo', 'Large', 'Standard', 'Medium', 'Small', 'Micro'],
-    filter: function (val) {
+    transform: function (val) {
       return val.toLowerCase();
     }
   }
