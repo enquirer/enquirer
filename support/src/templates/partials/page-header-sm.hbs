@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row">
       <div class="col-12 col-sm-6">
-        <h1 class="page-title"> {{@page.title}} </h1>
+        <h1 class="page-title"> {{default @page.title (titleize @page.stem)}} </h1>
       </div>
     </div>
   </div>

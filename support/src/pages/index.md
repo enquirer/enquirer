@@ -1,7 +1,17 @@
 ---
 layout: default
 slug: index
+geopattern: e
 ---
+
+**TODO**
+
+- migrating from inquirer
+- how prompts work
+- how enquirer works
+- where and how code is organized, and why
+- writing custom prompts
+
 
 ## What is {{site.name}}?
 

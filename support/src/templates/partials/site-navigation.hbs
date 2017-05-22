@@ -9,7 +9,7 @@
     <ul class="navbar-nav mr-auto">
       {{#if @site.nav.main}}
         {{#pages}}
-          {{#each (sort items @site.nav.main) as | item |}}
+          {{#each (sortList items @site.nav.main) as | item |}}
           <li class="nav-item {{#is @root.page.stem item.stem}}active{{/is}}">
             <a class="nav-link" href="{{item.relative}}">{{titleize (default item.data.link item.data.title)}}</a>
           </li>

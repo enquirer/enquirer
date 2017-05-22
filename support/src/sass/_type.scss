@@ -1,0 +1,52 @@
+//
+// Horizontal rules
+//
+
+hr {
+  margin-top: $vertical-spacing;
+  margin-bottom: $vertical-spacing;
+  border: 0;
+  border-top: $hr-border-width solid $hr-border-color;
+}
+
+
+// Blockquotes
+blockquote,
+.blockquote {
+  color: $gray-light;
+  padding: ($vertical-spacing / 2) $vertical-spacing;
+  margin-bottom: $vertical-spacing;
+  font-size: $blockquote-font-size;
+  border-left: $blockquote-border-width solid $blockquote-border-color;
+  font-style: italic;
+}
+
+.blockquote-footer {
+  display: block;
+  font-size: 80%; // back to default font-size
+  color: $blockquote-small-color;
+
+  &::before {
+    content: "\2014 \00A0"; // em dash, nbsp
+  }
+}
+
+//
+// Lists
+//
+
+.list-unstyled {
+  @include list-unstyled;
+}
+
+// Inline turns list items into inline-block
+.list-inline {
+  @include list-unstyled;
+}
+.list-inline-item {
+  display: inline-block;
+
+  &:not(:last-child) {
+    margin-right: $list-inline-padding;
+  }
+}

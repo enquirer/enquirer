@@ -1,7 +1,8 @@
 'use strict';
 
-var del = require('delete');
 var assemble = require('assemble');
+var sass = require('gulp-sass');
+var del = require('delete');
 
 /**
  * Initialize assemble (pass exts for default engine)
@@ -61,7 +62,17 @@ app.task('assets', function() {
 });
 
 /**
- * Render templates and write files
+ * Convert sass and write .css files
+ */
+
+app.task('css', function() {
+  return app.src('src/sass/**/*.scss')
+    .pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
+    .pipe(app.dest(paths.assets('css')));
+});
+
+/**
+ * Render templates and write .html files
  */
 
 app.task('html', ['templates'], function() {
@@ -78,4 +89,4 @@ app.task('html', ['templates'], function() {
  * Build
  */
 
-app.task('default', ['clean', 'html', 'root', 'assets']);
+app.task('default', ['clean', 'css', 'html', 'root', 'assets']);

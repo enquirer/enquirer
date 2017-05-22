@@ -1,0 +1,28 @@
+
+//
+// code highlighting
+//
+
+.highlight {
+  padding: 1rem;
+  margin: 1rem (-$grid-gutter-width-base / 2);
+  background-color: $code-bg;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  @include media-breakpoint-up(sm) {
+    padding: 1.5rem;
+    margin-right: 0;
+    margin-left: 0;
+  }
+}
+.highlight pre {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  background-color: transparent;
+  border: 0;
+}
+.highlight pre code {
+  font-size: inherit;
+  color: $gray-dark; // Effectively the base text color
+}

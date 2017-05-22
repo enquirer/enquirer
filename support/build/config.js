@@ -42,11 +42,6 @@ module.exports = function(app, cwd) {
    */
 
   app.store = new Store({path: paths.data('enquirer.json')});
-  app.store.set('__ATTENTION__', 'Some of this data was generated from prompts. This file may be edited directly, but please only do so if you know how the data is used.');
-  if (app.store.loadedConfig === true) {
-    var fp = app.log.magenta('config loaded from "' + app.store.relative  + '"');
-    console.log(app.log.timestamp, fp);
-  }
 
   /**
    * Build "options" (paths are useful in helpers)
@@ -61,7 +56,8 @@ module.exports = function(app, cwd) {
    */
 
   app.data('site', app.pkg.data);
-  app.data('site.nav.main', ['docs', 'examples']);
+  app.data('site.title', app.data('site.name'));
+  app.data('site.nav.main', ['docs', 'plugins']);
   app.data('site.nav.dropdown', ['examples', 'recipes', 'contributing', 'about']);
   app.data('site.google.analytics_id', '');
   app.data('site.google.tags_id', '');

@@ -14,12 +14,16 @@ module.exports = function(options) {
       next(null, file);
       return;
     }
-
-    var str = file.contents.toString();
-    str = str.replace(/(\{{2,4})([^}]+)(\}{2,4})/g, function(m, open, inner, close) {
-      return open + unescape(inner) + close;
-    });
-    file.contents = new Buffer(str);
+    try {
+      var str = file.contents.toString();
+      str = str.replace(/(\{{2,4})([^}]+)(\}{2,4})/g, function(m, open, inner, close) {
+        return open + unescape(inner) + close;
+      });
+      file.contents = new Buffer(str);
+    } catch (err) {
+      this.emit('error', new PluginError('unescape', err, {fileName: file.path}));
+      return;
+    }
     next(null, file);
   });
 };
