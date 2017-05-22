@@ -2,7 +2,7 @@
   "name": "enquirer",
   "description": "Intuitive, plugin-based prompt system for node.js. All the same prompt types as Inquirer more, but without the bloat.",
   "version": "0.4.1",
-  "homepage": "https://github.com/enquirer/enquirer",
+  "homepage": "https://enquirer.io",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "contributors": [
     "Brian Woodward (https://twitter.com/doowb)",
