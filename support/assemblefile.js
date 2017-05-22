@@ -67,8 +67,11 @@ app.task('assets', function() {
  */
 
 app.task('html', ['templates'], function() {
+  app.data('sitemap', app.store.get('site'));
+
   return app.toStream('pages')
     .pipe(pipeline.markdown(defaults))
+    .pipe(app.sitemap())
     .pipe(app.renderFile())
     .pipe(app.dest(paths.dest()));
 });

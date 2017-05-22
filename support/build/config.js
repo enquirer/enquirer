@@ -1,8 +1,9 @@
 'use strict';
 
 var path = require('path');
-var geopattern = require('helper-geopattern');
+var sitemap = require('assemble-sitemaps');
 var pageData = require('assemble-middleware-page-variable');
+var geopattern = require('helper-geopattern');
 var helpers = require('handlebars-helpers');
 var Store = require('data-store');
 
@@ -41,6 +42,7 @@ module.exports = function(app, cwd) {
    */
 
   app.store = new Store({path: paths.data('enquirer.json')});
+  app.store.set('__ATTENTION__', 'Some of this data was generated from prompts. This file may be edited directly, but please only do so if you know how the data is used.');
   if (app.store.loadedConfig === true) {
     var fp = app.log.magenta('config loaded from "' + app.store.relative  + '"');
     console.log(app.log.timestamp, fp);
@@ -63,6 +65,12 @@ module.exports = function(app, cwd) {
   app.data('site.nav.dropdown', ['examples', 'recipes', 'contributing', 'about']);
   app.data('site.google.analytics_id', '');
   app.data('site.google.tags_id', '');
+
+  /**
+   * Plugins
+   */
+
+  app.use(sitemap());
 
   /**
    * Middleware
