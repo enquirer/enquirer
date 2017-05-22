@@ -4,6 +4,7 @@ var path = require('path');
 var geopattern = require('helper-geopattern');
 var pageData = require('assemble-middleware-page-variable');
 var helpers = require('handlebars-helpers');
+var Store = require('data-store');
 
 /**
  * Configuration for assemblefile.js. Includes:
@@ -24,7 +25,6 @@ module.exports = function(app, cwd) {
     console.log(err);
   });
 
-
   /**
    * Build paths
    */
@@ -33,6 +33,14 @@ module.exports = function(app, cwd) {
   paths.src = path.join.bind(path, cwd, 'src');
   paths.dest = path.join.bind(path, cwd, '../docs');
   paths.assets = path.join.bind(path, paths.dest('assets'));
+  paths.data = path.join.bind(path, paths.src('data'));
+
+  /**
+   * Create a data store on `app`, for storing
+   * dynamically created config variables (usually from prompts)
+   */
+
+  app.store = new Store({name: 'enquirer', cwd: paths.data()});
 
   /**
    * Build "options" (paths are useful in helpers)
@@ -46,7 +54,7 @@ module.exports = function(app, cwd) {
    * `site` data (for rendering templates)
    */
 
-  app.data('site', app.pkg.expand());
+  app.data('site', app.pkg.data);
   app.data('site.nav.main', ['docs', 'examples']);
   app.data('site.nav.dropdown', ['examples', 'recipes', 'contributing', 'about']);
   app.data('site.google.analytics_id', '');
@@ -66,6 +74,12 @@ module.exports = function(app, cwd) {
   app.helper('geopattern', geopattern(app.options));
   app.helper('geoColor', geopattern.color(app.options));
   app.helpers(require('./helpers'));
+
+  /**
+   * Async helpers
+   */
+
+  app.asyncHelpers(require('./helpers/async'));
 
   // return build paths
   return paths;

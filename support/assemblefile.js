@@ -24,7 +24,6 @@ var config = require('./build/config');
  */
 
 var paths = config(app, __dirname);
-console.log(app.cache.data.site)
 
 /**
  * Clean out dest on re-buid

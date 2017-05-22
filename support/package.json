@@ -19,6 +19,7 @@
   "devDependencies": {
     "assemble": "^0.24.1",
     "assemble-middleware-page-variable": "^0.1.0",
+    "data-store": "^0.16.1",
     "delete": "^1.0.1",
     "export-files": "^2.1.1",
     "extend-shallow": "^2.0.1",
@@ -27,6 +28,8 @@
     "helper-geopattern": "^0.2.0",
     "highlight.js": "^9.11.0",
     "plugin-error": "^0.1.2",
+    "prompt-base": "^1.0.2",
+    "prompt-confirm": "^1.0.0",
     "remarkable": "^1.7.1",
     "through2": "^2.0.3",
     "unescape": "^0.2.0"
