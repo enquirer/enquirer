@@ -25,6 +25,12 @@
     <priority>0.5</priority>
   </url>
   <url>
+    <loc>https://enquirer.io/getting-started.html</loc>
+    <lastmod>2017-05-22</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
     <loc>https://enquirer.io/index.html</loc>
     <lastmod>2017-05-22</lastmod>
     <changefreq>weekly</changefreq>

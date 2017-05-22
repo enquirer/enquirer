@@ -1,0 +1,10 @@
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="{{@site.url}}" id="navbarMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    More
+  </a>
+  <div class="dropdown-menu" aria-labelledby="navbarMenu">
+    {{#each @site.nav.dropdown}}
+    <a class="dropdown-item" href="{{link-to .}}">{{titleize .}}</a>
+    {{/each}}
+  </div>
+</li>

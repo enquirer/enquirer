@@ -57,10 +57,11 @@ module.exports = function(app, cwd) {
 
   app.data('site', app.pkg.data);
   app.data('site.title', app.data('site.name'));
-  app.data('site.nav.main', ['docs', 'plugins']);
+  app.data('site.nav.main', ['docs', 'getting-started', 'prompts']);
   app.data('site.nav.dropdown', ['examples', 'recipes', 'contributing', 'about']);
   app.data('site.google.analytics_id', '');
   app.data('site.google.tags_id', '');
+  app.data('assets', paths.assets());
   app.data('dest', paths.dest());
 
   /**
@@ -80,8 +81,8 @@ module.exports = function(app, cwd) {
    */
 
   app.helpers(helpers());
-  app.helper('geopattern', geopattern(app.options));
-  app.helper('geoColor', geopattern.color(app.options));
+  app.helper('geopattern', geopattern({color: '#614676'}));
+  app.helper('geoColor', geopattern.color({color: '#614676'}));
   app.helpers(require('./helpers'));
 
   /**

@@ -3,7 +3,10 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <a class="navbar-brand" href="{{link-to "index"}}">{{titleize @site.title}}</a>
+  <a class="navbar-brand" href="{{link-to "index"}}">
+    <img src="assets/img/icon-dark-flattened.png" width="30" height="30" class="d-inline-block align-top" alt="{{site.name}}">
+    {{@site.name}}
+  </a>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
@@ -17,16 +20,7 @@
         {{/pages}}
       {{/if}}
 
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="{{@site.href}}" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          More
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          {{#each @site.nav.dropdown}}
-          <a class="nav-link" href="{{link-to .}}">{{titleize .}}</a>
-          {{/each}}
-        </div>
-      </li>
+      {{> site-nav-dropdown }}
     </ul>
 
     <ul class="navbar-nav gh-buttons pull-right">

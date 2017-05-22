@@ -80,6 +80,7 @@ app.task('css', function() {
 
 app.task('html', ['templates'], function() {
   app.data('sitemap', app.store.get('site'));
+  app.data('site', app.store.get('site'));
 
   return app.toStream('pages')
     .pipe(extname())

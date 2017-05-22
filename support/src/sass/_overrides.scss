@@ -33,10 +33,24 @@ p:first-child {
  */
 
 .navbar-brand {
+  color: rgb(75, 54, 92);
+  font-weight: 600;
+}
+.navbar-brand img {
+  margin-right: 5px;
   margin-left: -15px;
 }
 .navbar-nav.gh-buttons {
   padding-top: 10px;
+}
+
+/**
+ * Dropdowns
+ */
+
+.dropdown-item.active,
+.dropdown-item:active {
+  background-color: #614676;
 }
 
 // Special popover styles
