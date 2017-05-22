@@ -40,7 +40,11 @@ module.exports = function(app, cwd) {
    * dynamically created config variables (usually from prompts)
    */
 
-  app.store = new Store({name: 'enquirer', cwd: paths.data()});
+  app.store = new Store({path: paths.data('enquirer.json')});
+  if (app.store.loadedConfig === true) {
+    var fp = app.log.magenta('config loaded from "' + app.store.relative  + '"');
+    console.log(app.log.timestamp, fp);
+  }
 
   /**
    * Build "options" (paths are useful in helpers)

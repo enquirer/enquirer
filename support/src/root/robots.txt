@@ -3,4 +3,4 @@
 # Allow crawling of all content
 User-agent: *
 
-Sitemap: https://{{site.name}}.io/sitemap.xml
+Sitemap: {{prompt "site.homepage" "homepage?" default=site.homepage}}/sitemap.xml

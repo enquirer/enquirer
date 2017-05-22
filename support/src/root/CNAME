@@ -1,1 +1,1 @@
-enquirer.io
+{{prompt "site.host" "CNAME host?" default=(host .)}}
