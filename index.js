@@ -49,6 +49,8 @@ Enquirer.prototype.init = function() {
 
   this.UI = this.options.UI || UI;
   this.ui = this.UI.create(this.options);
+  this.rl = this.ui.rl;
+
   this.ui.once('finish', function() {
     this.session = false;
     this.close = null;
@@ -223,7 +225,6 @@ Enquirer.prototype.ask = function(questions) {
   var self = this;
 
   function ask(answers, question) {
-    self.emit('ask', question, answers);
     return prompt(question);
   }
 
@@ -270,8 +271,12 @@ Enquirer.prototype.prompt = function(name) {
     }
 
     var prompt = new PromptType(question, answers, this.ui);
+    prompt.on('ask', function() {
+      self.emit('ask', prompt);
+    });
+
     if (this.session) prompt.session = true;
-    this.emit('prompt', question, answers);
+    this.emit('prompt', prompt);
 
   } catch (err) {
     self.emit('error', err);
@@ -285,7 +290,7 @@ Enquirer.prototype.prompt = function(name) {
         question.answer = answer;
         set(answers, name, answer);
       }
-      self.emit('answer', question, answers);
+      self.emit('answer', answer);
       return answers;
     });
 };
