@@ -89,7 +89,7 @@ app.task('html', ['templates'], function() {
     .pipe(app.sitemap())
     .pipe(app.renderFile())
     .pipe(pipeline.cheerio())
-    .pipe(toc({selectors: 'h2,h3'}))
+    .pipe(toc({id: 'navigation', selectors: 'h2,h3'}))
     .pipe(app.dest(paths.dest()));
 });
 

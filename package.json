@@ -1,6 +1,6 @@
 {
   "name": "enquirer",
-  "description": "Intuitive, plugin-based prompt system for node.js.",
+  "description": "Intuitive plugin-based prompt system for node.js.",
   "version": "0.4.1",
   "homepage": "https://enquirer.io",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",

@@ -34,9 +34,8 @@
     "handlebars-helpers": "^0.8.2",
     "helper-geopattern": "^0.2.0",
     "helper-link-to": "^0.3.0",
-    "highlight.js": "^9.11.0",
+    "helper-prompt": "^1.0.0",
     "plugin-error": "^0.1.2",
-    "prompt-confirm": "^1.0.0",
     "remarkable": "^1.7.1",
     "through2": "^2.0.3",
     "unescape": "^0.2.0"

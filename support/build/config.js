@@ -1,6 +1,7 @@
 'use strict';
 
 var path = require('path');
+var prompt = require('helper-prompt');
 var sitemap = require('assemble-sitemaps');
 var pageData = require('assemble-middleware-page-variable');
 var geopattern = require('helper-geopattern');
@@ -61,6 +62,7 @@ module.exports = function(app, cwd) {
   app.data('site.nav.dropdown', ['examples', 'recipes', 'contributing', 'about']);
   app.data('site.google.analytics_id', '');
   app.data('site.google.tags_id', '');
+  app.data('site.author.username', 'jonschlinkert');
   app.data('assets', paths.assets());
   app.data('dest', paths.dest());
 
@@ -89,7 +91,7 @@ module.exports = function(app, cwd) {
    * Async helpers
    */
 
-  app.asyncHelpers(require('./helpers/async'));
+  app.asyncHelper('prompt', prompt({store: app.store}));
 
   // return build paths
   return paths;
