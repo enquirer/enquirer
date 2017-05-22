@@ -1,6 +1,6 @@
 # enquirer [![NPM version](https://img.shields.io/npm/v/enquirer.svg?style=flat)](https://www.npmjs.com/package/enquirer) [![NPM monthly downloads](https://img.shields.io/npm/dm/enquirer.svg?style=flat)](https://npmjs.org/package/enquirer) [![NPM total downloads](https://img.shields.io/npm/dt/enquirer.svg?style=flat)](https://npmjs.org/package/enquirer) [![Linux Build Status](https://img.shields.io/travis/enquirer/enquirer.svg?style=flat&label=Travis)](https://travis-ci.org/enquirer/enquirer)
 
-> Intuitive, plugin-based prompt system for node.js. All the same prompt types as Inquirer and more, without the bloat.
+> Intuitive plugin-based prompt system for node.js.
 
 ## Table of Contents
 
@@ -36,7 +36,7 @@ var Enquirer = require('enquirer');
 var enquirer = new Enquirer();
 ```
 
-### [.register](index.js#L86)
+### [.register](index.js#L88)
 
 Register a new prompt `type` with the given `fn`.
 
@@ -52,7 +52,7 @@ Register a new prompt `type` with the given `fn`.
 enquirer.register('confirm', require('enquirer-prompt-confirm'));
 ```
 
-### [.use](index.js#L105)
+### [.use](index.js#L107)
 
 Invoke a plugin `fn`
 
@@ -67,7 +67,7 @@ Invoke a plugin `fn`
 enquirer.use(require('some-enquirer-plugin'));
 ```
 
-### [.question](index.js#L143)
+### [.question](index.js#L145)
 
 Create question `name` with the given `message` and `options`. Uses [enquirer-question](https://github.com/enquirer/enquirer-question), visit that library for additional details.
 
@@ -106,7 +106,7 @@ enquirer.question({
 });
 ```
 
-### [.ask](index.js#L218)
+### [.ask](index.js#L220)
 
 Initialize a prompt session for one or more questions.
 
@@ -140,7 +140,7 @@ enquirer.ask('first')
   });
 ```
 
-### [.prompt](index.js#L253)
+### [.prompt](index.js#L254)
 
 Initialize a prompt session for a single question. Used by the [ask](#ask) method.
 
@@ -166,11 +166,11 @@ enquirer.prompt('first')
   });
 ```
 
-### [.separator](index.js#L298)
+### [.separator](index.js#L303)
 
 Create a new `Separator` to use in a choices array.
 
-### [.Separator](index.js#L321)
+### [.Separator](index.js#L326)
 
 Create a new `Separator` to use in a choices array.
 
