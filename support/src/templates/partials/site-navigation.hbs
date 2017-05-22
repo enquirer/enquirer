@@ -3,15 +3,15 @@
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <a class="navbar-brand" href="index.html">{{titleize @site.title}}</a>
+  <a class="navbar-brand" href="{{link-to "index"}}">{{titleize @site.title}}</a>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       {{#if @site.nav.main}}
         {{#pages}}
-          {{#each (sortList items @site.nav.main) as | item |}}
+          {{#each (sort-list items @site.nav.main) as | item |}}
           <li class="nav-item {{#is @root.page.stem item.stem}}active{{/is}}">
-            <a class="nav-link" href="{{item.relative}}">{{titleize (default item.data.link item.data.title)}}</a>
+            <a class="nav-link" href="{{link-to item.relative}}">{{titleize (default item.data.link item.data.title)}}</a>
           </li>
           {{/each}}
         {{/pages}}
@@ -23,7 +23,7 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           {{#each @site.nav.dropdown}}
-          <a class="nav-link" href="{{.}}.html">{{titleize .}}</a>
+          <a class="nav-link" href="{{link-to .}}">{{titleize .}}</a>
           {{/each}}
         </div>
       </li>

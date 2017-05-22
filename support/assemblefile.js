@@ -1,7 +1,10 @@
 'use strict';
 
 var assemble = require('assemble');
+var extname = require('gulp-extname');
+var drafts = require('gulp-drafts');
 var sass = require('gulp-sass');
+var toc = require('gulp-html-toc');
 var del = require('delete');
 
 /**
@@ -79,9 +82,13 @@ app.task('html', ['templates'], function() {
   app.data('sitemap', app.store.get('site'));
 
   return app.toStream('pages')
+    .pipe(extname())
+    .pipe(drafts())
     .pipe(pipeline.markdown(defaults))
     .pipe(app.sitemap())
     .pipe(app.renderFile())
+    .pipe(pipeline.cheerio())
+    .pipe(toc({selectors: 'h2,h3'}))
     .pipe(app.dest(paths.dest()));
 });
 

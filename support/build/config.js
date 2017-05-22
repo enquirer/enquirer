@@ -61,6 +61,7 @@ module.exports = function(app, cwd) {
   app.data('site.nav.dropdown', ['examples', 'recipes', 'contributing', 'about']);
   app.data('site.google.analytics_id', '');
   app.data('site.google.tags_id', '');
+  app.data('dest', paths.dest());
 
   /**
    * Plugins
