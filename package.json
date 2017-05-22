@@ -1,7 +1,7 @@
 {
   "name": "enquirer",
   "description": "Intuitive plugin-based prompt system for node.js.",
-  "version": "0.4.1",
+  "version": "1.0.0-beta1",
   "homepage": "https://enquirer.io",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "contributors": [
@@ -15,8 +15,7 @@
   },
   "license": "MIT",
   "files": [
-    "index.js",
-    "lib"
+    "index.js"
   ],
   "main": "index.js",
   "engines": {
@@ -40,6 +39,7 @@
     "set-value": "^1.0.0"
   },
   "devDependencies": {
+    "capture-stream": "^0.1.2",
     "gulp": "^3.9.1",
     "gulp-eslint": "^3.0.1",
     "gulp-format-md": "^0.1.12",
