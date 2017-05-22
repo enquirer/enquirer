@@ -7,9 +7,7 @@ var assemble = require('assemble');
  * Initialize assemble (pass exts for default engine)
  */
 
-var app = module.exports = assemble({
-  exts: ['md', 'hbs', 'html', 'xml', 'txt']
-});
+var app = module.exports = assemble();
 
 /**
  * Local dependencies
