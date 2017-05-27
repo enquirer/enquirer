@@ -32,13 +32,15 @@ p:first-child {
  * Navbar
  */
 
-.navbar-brand {
-  color: rgb(75, 54, 92);
-  font-weight: 600;
-}
-.navbar-brand img {
-  margin-right: 5px;
-  margin-left: -15px;
+.navbar-light {
+  .navbar-brand {
+    color: rgb(75, 54, 92);
+    font-weight: 600;
+  }
+  .navbar-brand img {
+    margin-right: 5px;
+    margin-left: -15px;
+  }
 }
 .navbar-nav.gh-buttons {
   padding-top: 10px;

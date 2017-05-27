@@ -58,8 +58,9 @@ module.exports = function(app, cwd) {
 
   app.data('site', app.pkg.data);
   app.data('site.title', app.data('site.name'));
-  app.data('site.nav.main', ['docs', 'getting-started', 'prompts']);
-  app.data('site.nav.dropdown', ['examples', 'recipes', 'contributing', 'about']);
+  app.data('site.org.url', 'https://github.com/enquirer');
+  app.data('site.nav.main', ['docs', 'prompts']);
+  app.data('site.nav.dropdown', ['examples', 'contributing', 'about']);
   app.data('site.google.analytics_id', '');
   app.data('site.google.tags_id', '');
   app.data('site.author.username', 'jonschlinkert');

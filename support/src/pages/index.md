@@ -4,29 +4,23 @@ slug: index
 geopattern: e
 ---
 
-**TODO**
+## What is enquirer?
 
-- migrating from inquirer
-- how prompts work
-- how enquirer works
-- where and how code is organized, and why
-- writing custom prompts
+Enquirer is a node.js library for composing and running prompts in the terminal.
 
+**What's different about enquirer?**
 
-## What is {{site.name}}?
+Enquirer itself can be thought of as a "prompt runner" that only ships with one prompt type, [input][prompt-text], and additional [prompt types](#prompt-types) are added as plugins.
 
-{{titleize site.name}} is a node.js library for...
+This makes enquirer lighter, faster, easier to maintain and easier to extend than other prompt libraries, like [inquirer][]. Enquirer also supports the same question formats as [inquirer][], as well as additional formats that make it easier to create.
 
-**What's different about {{site.name}}?**
+### Prompt types
 
-TODO
+The following prompt types are maintained by the Enquirer core team. Each is published as a separate library and can be used completely standalone, or as a plugin to Enquirer.
 
-**Why use {{site.name}}?**
+{{> prompt-types }}
 
-- foo
-- bar
-- baz
-
+Visit the [prompts documentation](prompts.html) to learn more about using, discovering and authoring prompts.
 
 ## Quickstart
 
@@ -35,14 +29,29 @@ TODO
 Install with [npm](https://www.npmjs.com/):
 
 ```sh
-$ npm install --save {{site.name}}
+$ npm install --save enquirer
 ```
 
+**2. Prompt**
 
+Add the following code to `example.js` then run `$ node example`:
+
+```js
+var Enquirer = require('enquirer');
+var enquirer = new Enquirer();
+
+enquirer.question('first', 'First name?');
+enquirer.question('last', 'Last name?');
+
+enquirer.prompt(['first', 'last'])
+  .then(function(answers) {
+    console.log(answers)
+  });
+```
 
 ## Next steps
 
-- Visit the [{{site.name}} documentation]({{!permalink "docs"}})
-- Learn about [{{site.name}} syntax]({{!permalink "syntax"}})
-- See [examples]({{!permalink "docs#examples"}})
-- Visit the {{site.name}} [unit tests]({{site.href}}/test), the best place to find comprehensive and detailed usage examples.
+- Visit the [enquirer documentation](docs.html) for more detailed usage instructions.
+- [Discover prompts](https://www.npmjs.com/browse/keyword/{{@site.name}}) created by the community or the Enquirer core team
+- Learn how to [Author prompts](prompts.html)
+- [See examples](examples.html)
