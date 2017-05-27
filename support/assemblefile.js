@@ -1,6 +1,7 @@
 'use strict';
 
 var assemble = require('assemble');
+var reflinks = require('gulp-reflinks');
 var extname = require('gulp-extname');
 var drafts = require('gulp-drafts');
 var sass = require('gulp-sass');
@@ -85,11 +86,13 @@ app.task('html', ['templates'], function() {
   return app.toStream('pages')
     .pipe(extname())
     .pipe(drafts())
+    .pipe(reflinks())
     .pipe(pipeline.markdown(defaults))
+    .pipe(pipeline.unescape())
     .pipe(app.sitemap())
     .pipe(app.renderFile())
     .pipe(pipeline.cheerio())
-    .pipe(toc({id: 'navigation', selectors: 'h2,h3'}))
+    .pipe(toc({id: 'navigation', selectors: 'h2,h3', parentLink: false}))
     .pipe(app.dest(paths.dest()));
 });
 
