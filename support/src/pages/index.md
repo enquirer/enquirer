@@ -55,3 +55,7 @@ enquirer.prompt(['first', 'last'])
 - [Discover prompts](https://www.npmjs.com/browse/keyword/{{@site.name}}) created by the community or the Enquirer core team
 - Learn how to [Author prompts](prompts.html)
 - [See examples](examples.html)
+
+## Resources
+
+- [Terminal cheatsheet](https://gist.github.com/jonschlinkert/a5284f250e98cfeb76edc8f223eb06ae)

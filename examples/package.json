@@ -14,24 +14,24 @@
   },
   "devDependencies": {
     "choices-separator": "^2.0.0",
-    "figures": "^2.0.0",
-    "log-utils": "^0.2.1",
     "prompt-autocompletion": "^0.1.1",
-    "prompt-base": "^1.0.2",
-    "prompt-checkbox": "^1.0.1",
-    "prompt-choices": "^3.0.2",
+    "prompt-base": "^2.1.2",
+    "prompt-checkbox": "^2.0.1",
     "prompt-confirm": "^1.0.0",
-    "prompt-expand": "^0.1.0",
-    "prompt-list": "^1.0.0",
-    "prompt-password": "^1.0.0",
-    "prompt-rawlist": "^1.0.0",
-    "readline-utils": "^2.2.1",
-    "terminal-paginator": "^1.1.0"
+    "prompt-expand": "^1.0.0",
+    "prompt-list": "^2.0.0",
+    "prompt-password": "^1.0.2",
+    "prompt-rawlist": "^2.0.0"
   },
   "keywords": [
     "enquirer",
     "examples"
   ],
+  "update": {
+    "updaters": [
+      "package"
+    ]
+  },
   "lintDeps": {
     "devDependencies": {
       "files": [

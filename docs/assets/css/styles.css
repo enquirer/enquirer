@@ -72,7 +72,7 @@ blockquote,
 }
 
 .site-logo-lg img {
-  width: 30%;
+  width: 20%;
 }
 
 /**
@@ -1531,12 +1531,12 @@ p:first-child {
 /**
  * Navbar
  */
-.navbar-brand {
+.navbar-light .navbar-brand {
   color: #4b365c;
   font-weight: 600;
 }
 
-.navbar-brand img {
+.navbar-light .navbar-brand img {
   margin-right: 5px;
   margin-left: -15px;
 }

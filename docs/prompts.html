@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Prompts | Intuitive plugin-based prompt system for node.js.">
+    <meta name="description" content="Prompts | Intuitive, plugin-based prompt system for node.js.">
     <meta name="keywords" content="answer, answers, ask, checkbox, choice, cli, command, enquirer, input, inquire, inquirer, interact, list, menu, password, prompt, prompts, question, readline, stdin, stdout, terminal, tty, ui">
     <meta name="author" content="">
     <title>Prompts</title>
@@ -51,20 +51,16 @@
                 <li class="nav-item ">
             <a class="nav-link" href="./docs.html">Documentation</a>
           </li>
-          <li class="nav-item ">
-            <a class="nav-link" href="./getting-started.html">Getting Started</a>
-          </li>
           <li class="nav-item active">
             <a class="nav-link" href="./prompts.html">Prompts</a>
           </li>
 
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="https://enquirer.io" id="navbarMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="http://enquirer.io" id="navbarMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 More
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarMenu">
                 <a class="dropdown-item" href="./examples.html">Examples</a>
-    <a class="dropdown-item" href="./recipes.html">Recipes</a>
     <a class="dropdown-item" href="./contributing.html">Contributing</a>
     <a class="dropdown-item" href="./about.html">About</a>
   </div>
@@ -109,23 +105,22 @@
         <div class="col-12 col-md-9 pull-md-3">
           <div class="main-content">
 
-          <h2 id="finding-prompts">Finding prompts<a href="#finding-prompts" name="finding-prompts" class="anchor">
-  <span class="anchor-target" id="finding-prompts"></span>
+          <p>If you only need to prompt for one specific thing, then Enquirer probably isn&apos;t needed. Instead, you should use one of the individual prompts. Enquirer is useful for when your application needs to expose multiple prompt types, or you need to compose more sophisticated prompts.</p>
+<h2 id="discovering-prompts">Discovering prompts<a href="#discovering-prompts" name="discovering-prompts" class="anchor">
+  <span class="anchor-target" id="discovering-prompts"></span>
   <span class="glyphicon glyphicon-link"></span>
 </a></h2>
-<p>You can find <a href="https://www.npmjs.com/browse/keyword/enquirer">community prompts</a> on npm (<code>https://www.npmjs.com/browse/keyword/enquirer</code>).</p>
-<p>If you author an enquirer prompt, be sure to add <code>enquirer</code> and <code>enquirer-prompt</code> to the <code>keywords</code> array in your project&apos;s package.json.</p>
+<p>You can <a href="https://www.npmjs.com/browse/keyword/enquirer">find prompts</a> created by the Enquirer core team or the community on npm (<code>https://www.npmjs.com/browse/keyword/enquirer</code>).</p>
 <h2 id="authoring-prompts">Authoring prompts<a href="#authoring-prompts" name="authoring-prompts" class="anchor">
   <span class="anchor-target" id="authoring-prompts"></span>
   <span class="glyphicon glyphicon-link"></span>
 </a></h2>
 <p><strong>Why create a prompt for enquirer?</strong></p>
-<p>Prompts are easy to write, and can be used to:</p>
+<p>Custom prompts are easy to write, and can be used to:</p>
 <ul>
-<li>customize the prompt message, rendering, colors, pointer, symbols and any other aspect of the prompt experience</li>
-<li>override existing functionality in [prompt-base][]</li>
-<li>extend the functionality of [prompt-base][]</li>
+<li>override or extend existing functionality or default behavior of <a href="https://github.com/enquirer/prompt-base">prompt-base</a></li>
 <li>change how options are handled</li>
+<li>customize the prompt message, rendering, colors, pointer, symbols, hints, error messages and any other aspect of the prompt experience</li>
 </ul>
 <p><strong>Learn the basics</strong></p>
 <p>Before moving on to authoring prompts, it might help to understand how the prompts work:</p>
@@ -136,20 +131,19 @@
 <li>[ ] Learn about the Enquirer API</li>
 <li>[ ] Learn about debugging</li>
 </ul>
-<h3 id="authoring-prompts-writing-your-first-prompt">Writing your first prompt<a href="#authoring-prompts-writing-your-first-prompt" name="authoring-prompts-writing-your-first-prompt" class="anchor">
-  <span class="anchor-target" id="authoring-prompts-writing-your-first-prompt"></span>
+<h3 id="writing-your-first-prompt">Writing your first prompt<a href="#writing-your-first-prompt" name="writing-your-first-prompt" class="anchor">
+  <span class="anchor-target" id="writing-your-first-prompt"></span>
   <span class="glyphicon glyphicon-link"></span>
 </a></h3>
-<p>A enquirer prompt is a constructor function that must be called with a question string or object.</p>
-<p>At present, all prompts inherit from [prompt-base][].</p>
+<p>All prompts inherit from <a href="https://github.com/enquirer/prompt-base">prompt-base</a>, which is a constructor function that must be called with a question string or object.</p>
 <p><strong>Example</strong></p>
 <pre><code class="language-js"><span class="hljs-keyword">var</span> Prompt = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;prompt-base&apos;</span>);
 
-<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">Awesome</span>(<span class="hljs-params"></span>) </span>{
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">CustomPrompt</span>(<span class="hljs-params"></span>) </span>{
   Prompt.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>);
 }
 
-Prompt.extend(Awesome);
+Prompt.extend(CustomPrompt);
 </code></pre>
 <p><em>(The <code>Prompt.extend()</code> method is similar to <code>util.inherits()</code>, but it ensures that all properties are inherited and will be invoked in the correct context, including getters and setters)</em></p>
 <p><strong>Usage example</strong></p>
@@ -167,12 +161,14 @@ prompt.run()
     <span class="hljs-comment">//=&gt; &apos;of course!&apos;</span>
   })
 </code></pre>
-<h2 id="publishing-your-prompt">Publishing your prompt<a href="#publishing-your-prompt" name="publishing-your-prompt" class="anchor">
+<h3 id="publishing-your-prompt">Publishing your prompt<a href="#publishing-your-prompt" name="publishing-your-prompt" class="anchor">
   <span class="anchor-target" id="publishing-your-prompt"></span>
   <span class="glyphicon glyphicon-link"></span>
-</a></h2>
+</a></h3>
+<p><strong>Make your prompt discoverable</strong></p>
+<p>If you author a custom prompt, be sure to add <code>enquirer</code> and <code>enquirer-prompt</code> to the <code>keywords</code> array in your project&apos;s package.json.</p>
+<p><strong>Publish</strong></p>
 <p>When you&apos;re ready to publish your prompt to <a href="https://www.npmjs.com/">npm</a>, you can do so with the following command from the root of the project:</p>
-<p><em>(Are you sure you&apos;re ready?!)</em></p>
 <pre><code class="language-sh">$ npm publish
 </code></pre>
 <h2 id="next-steps">Next steps<a href="#next-steps" name="next-steps" class="anchor">
@@ -182,10 +178,10 @@ prompt.run()
 <p>Now that you&apos;ve published your custom prompt, let&apos;s tell the world about the great work you&apos;ve done!</p>
 <ul>
 <li>To make your project as discoverable as possible, please add the keywords <code>enquirer</code> and <code>enquirer-prompt</code> to package.json.</li>
-<li>Tweet about it, and be sure to mention <code>@enquirerjs</code> or use the <code>#enquirerjs</code> hashtag (don&apos;t forget the <code>js</code> part on twitter, so the world knows you mean code, not dancing)</li>
+<li>Tweet about it, and be sure to mention <code>@enquirerjs</code> or use the <code>#enquirerjs</code> hashtag (don&apos;t forget the <code>js</code> part on twitter)</li>
 <li>Show your love by starring <a href="https://github.com/enquirer/enquirer">enquirer</a></li>
 <li>Get implementation help on <a href="http://stackoverflow.com/questions/tagged/enquirer">StackOverflow</a> (as with twitter, please use the <code>enquirerjs</code> tag in questions)</li>
-<li><strong>Gitter</strong> Discuss enquirer with us on <a href="https://gitter.im/enquirer/enquirer">Gitter</a></li>
+<li>TODO <strong>Gitter</strong> Discuss enquirer with us on <a href="https://gitter.im/enquirer/enquirer">Gitter</a></li>
 </ul>
 
           </div>

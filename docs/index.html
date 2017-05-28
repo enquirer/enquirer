@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="enquirer | Intuitive plugin-based prompt system for node.js.">
+    <meta name="description" content="enquirer | Intuitive, plugin-based prompt system for node.js.">
     <meta name="keywords" content="answer, answers, ask, checkbox, choice, cli, command, enquirer, input, inquire, inquirer, interact, list, menu, password, prompt, prompts, question, readline, stdin, stdout, terminal, tty, ui">
     <meta name="author" content="">
     <title>enquirer</title>
@@ -52,19 +52,15 @@
             <a class="nav-link" href="./docs.html">Documentation</a>
           </li>
           <li class="nav-item ">
-            <a class="nav-link" href="./getting-started.html">Getting Started</a>
-          </li>
-          <li class="nav-item ">
             <a class="nav-link" href="./prompts.html">Prompts</a>
           </li>
 
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="https://enquirer.io" id="navbarMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <a class="nav-link dropdown-toggle" href="http://enquirer.io" id="navbarMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 More
               </a>
               <div class="dropdown-menu" aria-labelledby="navbarMenu">
                 <a class="dropdown-item" href="./examples.html">Examples</a>
-    <a class="dropdown-item" href="./recipes.html">Recipes</a>
     <a class="dropdown-item" href="./contributing.html">Contributing</a>
     <a class="dropdown-item" href="./about.html">About</a>
   </div>
@@ -93,7 +89,7 @@
           <br>
       
           <div class="lead">
-            <em>Intuitive plugin-based prompt system for node.js.</em>
+            <em>Intuitive, plugin-based prompt system for node.js.</em>
           </div>
         </div>
       </div>
@@ -113,27 +109,24 @@
         <div class="col-12 col-md-9 pull-md-3">
           <div class="main-content">
 
-          <p><strong>TODO</strong></p>
-<ul>
-<li>migrating from inquirer</li>
-<li>how prompts work</li>
-<li>how enquirer works</li>
-<li>where and how code is organized, and why</li>
-<li>writing custom prompts</li>
-</ul>
-<h2 id="what-is-enquirer">What is enquirer?<a href="#what-is-enquirer" name="what-is-enquirer" class="anchor">
+          <h2 id="what-is-enquirer">What is enquirer?<a href="#what-is-enquirer" name="what-is-enquirer" class="anchor">
   <span class="anchor-target" id="what-is-enquirer"></span>
   <span class="glyphicon glyphicon-link"></span>
 </a></h2>
-<p>Enquirer is a node.js library for...</p>
+<p>Enquirer is a node.js library for composing and running prompts in the terminal.</p>
 <p><strong>What&apos;s different about enquirer?</strong></p>
-<p>TODO</p>
-<p><strong>Why use enquirer?</strong></p>
-<ul>
-<li>foo</li>
-<li>bar</li>
-<li>baz</li>
+<p>Enquirer itself can be thought of as a &quot;prompt runner&quot; that only ships with one prompt type, <a href="https://github.com/enquirer/prompt-text">input</a>, and additional <a href="#prompt-types">prompt types</a> are added as plugins.</p>
+<p>This makes enquirer lighter, faster, easier to maintain and easier to extend than other prompt libraries, like <a href="https://github.com/sboudrias/Inquirer.js">inquirer</a>. Enquirer also supports the same question formats as <a href="https://github.com/sboudrias/Inquirer.js">inquirer</a>, as well as additional formats that make it easier to create.</p>
+<h3 id="prompt-types">Prompt types<a href="#prompt-types" name="prompt-types" class="anchor">
+  <span class="anchor-target" id="prompt-types"></span>
+  <span class="glyphicon glyphicon-link"></span>
+</a></h3>
+<p>The following prompt types are maintained by the Enquirer core team. Each is published as a separate library and can be used completely standalone, or as a plugin to Enquirer.</p>
+<p><ul>
+ <li><a href="https://github.com/enquirer/prompt-autocompletion">prompt-autocompletion</a></li>  <li><a href="https://github.com/enquirer/prompt-checkbox">prompt-checkbox</a></li>  <li><a href="https://github.com/enquirer/prompt-confirm">prompt-confirm</a></li>  <li><a href="https://github.com/enquirer/prompt-editor">prompt-editor</a></li>  <li><a href="https://github.com/enquirer/prompt-expand">prompt-expand</a></li>  <li><a href="https://github.com/enquirer/prompt-input">prompt-input</a></li>  <li><a href="https://github.com/enquirer/prompt-list">prompt-list</a></li>  <li><a href="https://github.com/enquirer/prompt-password">prompt-password</a></li>  <li><a href="https://github.com/enquirer/prompt-question">prompt-question</a></li>  <li><a href="https://github.com/enquirer/prompt-radio">prompt-radio</a></li>  <li><a href="https://github.com/enquirer/prompt-rawlist">prompt-rawlist</a></li> 
 </ul>
+</p>
+<p>Visit the <a href="prompts.html">prompts documentation</a> to learn more about using, discovering and authoring prompts.</p>
 <h2 id="quickstart">Quickstart<a href="#quickstart" name="quickstart" class="anchor">
   <span class="anchor-target" id="quickstart"></span>
   <span class="glyphicon glyphicon-link"></span>
@@ -142,15 +135,28 @@
 <p>Install with <a href="https://www.npmjs.com/">npm</a>:</p>
 <pre><code class="language-sh">$ npm install --save enquirer
 </code></pre>
+<p><strong>2. Prompt</strong></p>
+<p>Add the following code to <code>example.js</code> then run <code>$ node example</code>:</p>
+<pre><code class="language-js"><span class="hljs-keyword">var</span> Enquirer = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;enquirer&apos;</span>);
+<span class="hljs-keyword">var</span> enquirer = <span class="hljs-keyword">new</span> Enquirer();
+
+enquirer.question(<span class="hljs-string">&apos;first&apos;</span>, <span class="hljs-string">&apos;First name?&apos;</span>);
+enquirer.question(<span class="hljs-string">&apos;last&apos;</span>, <span class="hljs-string">&apos;Last name?&apos;</span>);
+
+enquirer.prompt([<span class="hljs-string">&apos;first&apos;</span>, <span class="hljs-string">&apos;last&apos;</span>])
+  .then(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">answers</span>) </span>{
+    <span class="hljs-built_in">console</span>.log(answers)
+  });
+</code></pre>
 <h2 id="next-steps">Next steps<a href="#next-steps" name="next-steps" class="anchor">
   <span class="anchor-target" id="next-steps"></span>
   <span class="glyphicon glyphicon-link"></span>
 </a></h2>
 <ul>
-<li>Visit the [enquirer documentation]()</li>
-<li>Learn about [enquirer syntax]()</li>
-<li>See [examples]()</li>
-<li>Visit the enquirer <a href="/test">unit tests</a>, the best place to find comprehensive and detailed usage examples.</li>
+<li>Visit the <a href="docs.html">enquirer documentation</a> for more detailed usage instructions.</li>
+<li><a href="https://www.npmjs.com/browse/keyword/enquirer">Discover prompts</a> created by the community or the Enquirer core team</li>
+<li>Learn how to <a href="prompts.html">Author prompts</a></li>
+<li><a href="examples.html">See examples</a></li>
 </ul>
 
           </div>
