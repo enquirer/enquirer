@@ -1,8 +1,8 @@
 {
   "name": "enquirer",
-  "description": "Intuitive plugin-based prompt system for node.js.",
-  "version": "1.0.0-beta1",
-  "homepage": "https://enquirer.io",
+  "description": "Intuitive, plugin-based prompt system for node.js.",
+  "version": "1.0.1",
+  "homepage": "http://enquirer.io",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "contributors": [
     "Brian Woodward (https://twitter.com/doowb)",
@@ -33,20 +33,19 @@
     "get-value": "^2.0.6",
     "isobject": "^3.0.0",
     "promise-reduce": "^2.1.0",
-    "prompt-base": "^1.0.2",
-    "prompt-question": "^3.0.1",
-    "readline-ui": "^2.2.1",
+    "prompt-base": "^2.1.2",
+    "prompt-question": "^3.0.3",
+    "readline-ui": "^2.2.2",
     "set-value": "^1.0.0"
   },
   "devDependencies": {
-    "capture-stream": "^0.1.2",
     "gulp": "^3.9.1",
     "gulp-eslint": "^3.0.1",
     "gulp-format-md": "^0.1.12",
     "gulp-istanbul": "^1.1.1",
     "gulp-mocha": "^3.0.1",
     "gulp-unused": "^0.2.1",
-    "mocha": "^3.4.1",
+    "mocha": "^3.4.2",
     "strip-color": "^0.1.0"
   },
   "keywords": [
@@ -115,7 +114,6 @@
       ]
     },
     "reflinks": [
-      "chalk",
       "enquirer",
       "enquirer-prompts",
       "enquirer-question",
