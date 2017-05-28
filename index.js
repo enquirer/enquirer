@@ -44,7 +44,7 @@ function Enquirer(options) {
 
 Enquirer.prototype.init = function() {
   if (!this.prompts.hasOwnProperty('input')) {
-    this.register('input', require('prompt-base'));
+    this.register('input', require('prompt-text'));
   }
 
   this.UI = this.options.UI || UI;
