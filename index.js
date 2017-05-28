@@ -8,9 +8,9 @@ var Question = require('prompt-question');
 var extend = require('extend-shallow');
 var reduce = require('promise-reduce');
 var isObject = require('isobject');
+var UI = require('readline-ui');
 var get = require('get-value');
 var set = require('set-value');
-var UI = require('readline-ui');
 
 /**
  * Create an instance of `Enquirer` with the given `options`.
@@ -25,15 +25,15 @@ var UI = require('readline-ui');
 
 function Enquirer(options) {
   debug('initializing from <%s>', __filename);
-
   if (!(this instanceof Enquirer)) {
-    return new Enquirer(options);
+    var proto = Object.create(Enquirer.prototype);
+    Enquirer.apply(proto, arguments);
+    return proto;
   }
-
   this.session = false;
   this.options = options || {};
+  this.questions = this.options.question || {};
   this.answers = this.options.answers || {};
-  this.questions = {};
   this.prompts = {};
   this.queue = [];
 }
@@ -154,14 +154,42 @@ Enquirer.prototype.question = function(name, message, options) {
   return question;
 };
 
+/**
+ * Set a question on `enquirer.questions`. Same as [#question](#question)
+ * but returns the enquirer instance instead of the question object.
+ *
+ * @emits `question`
+ * @param {String|Object} `name` Name or options object
+ * @param {String|Object} `message` Message or options object
+ * @param {Object} `options`
+ * @return {Object} Returns the enquirer instance
+ * @api public
+ */
+
 Enquirer.prototype.set = function() {
   this.question.apply(this, arguments);
   return this;
 };
 
+/**
+ * Get a registered question from `enquirer.questions`.
+ *
+ * @param {String} `name` The name of the question to get.
+ * @return {Object|undefined} Returns the question object or undefined.
+ * @api public
+ */
+
 Enquirer.prototype.get = function(name) {
   return get(this.questions, name);
 };
+
+/**
+ * Returns true if a question is registered on `enquirer.questions`.
+ *
+ * @param {String} `name` The name of the question to check for.
+ * @return {Boolean}
+ * @api public
+ */
 
 Enquirer.prototype.has = function(name) {
   return this.questions.hasOwnProperty(name);
@@ -263,6 +291,8 @@ Enquirer.prototype.prompt = function(name) {
 
   try {
     var question = this.question(name).clone();
+    question.options = extend({}, this.options, question.options);
+
     var PromptType = this.prompts[question.type];
     name = question.name;
 
