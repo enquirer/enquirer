@@ -34,7 +34,7 @@
     "isobject": "^3.0.0",
     "promise-reduce": "^2.1.0",
     "prompt-question": "^3.0.3",
-    "prompt-text": "^1.0.0",
+    "prompt-input": "^3.0.0",
     "readline-ui": "^2.2.2",
     "set-value": "^1.0.0"
   },
