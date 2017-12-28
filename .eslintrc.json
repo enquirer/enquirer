@@ -1,9 +1,4 @@
 {
-  "ecmaFeatures": {
-    "modules": true,
-    "experimentalObjectRestSpread": true
-  },
-
   "env": {
     "browser": false,
     "es6": true,

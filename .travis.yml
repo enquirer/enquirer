@@ -5,6 +5,5 @@ os:
 language: node_js
 node_js:
   - node
-  - '7'
+  - '8'
   - '6'
-  - '5'
