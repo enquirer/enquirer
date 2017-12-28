@@ -250,7 +250,6 @@ Enquirer.prototype.ask = function(questions) {
   this.session = true;
   var queue = this.enqueue(questions);
   var prompt = this.prompt.bind(this);
-  var self = this;
 
   function ask(answers, question) {
     return prompt(question);

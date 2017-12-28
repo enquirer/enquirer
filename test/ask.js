@@ -43,7 +43,7 @@ describe('.ask', function() {
       .then(function(answer) {
         assert.deepEqual(answer, {fixture: 'foo'});
         return answer;
-      })
+      });
   });
 
   it('should emit answer', function(cb) {
