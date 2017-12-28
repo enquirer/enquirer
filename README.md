@@ -1,4 +1,4 @@
-# enquirer [![NPM version](https://img.shields.io/npm/v/enquirer.svg?style=flat)](https://www.npmjs.com/package/enquirer) [![NPM monthly downloads](https://img.shields.io/npm/dm/enquirer.svg?style=flat)](https://npmjs.org/package/enquirer) [![NPM total downloads](https://img.shields.io/npm/dt/enquirer.svg?style=flat)](https://npmjs.org/package/enquirer) [![Linux Build Status](https://img.shields.io/travis/enquirer/enquirer.svg?style=flat&label=Travis)](https://travis-ci.org/enquirer/enquirer)
+# enquirer [![NPM version](https://img.shields.io/npm/v/enquirer.svg?style=flat)](https://www.npmjs.com/package/enquirer) [![NPM monthly downloads](https://img.shields.io/npm/dm/enquirer.svg?style=flat)](https://npmjs.org/package/enquirer)  [![NPM total downloads](https://img.shields.io/npm/dt/enquirer.svg?style=flat)](https://npmjs.org/package/enquirer) [![Linux Build Status](https://img.shields.io/travis/enquirer/enquirer.svg?style=flat&label=Travis)](https://travis-ci.org/enquirer/enquirer) [![Windows Build Status](https://img.shields.io/appveyor/ci/enquirer/enquirer.svg?style=flat&label=AppVeyor)](https://ci.appveyor.com/project/enquirer/enquirer)
 
 > Intuitive, plugin-based prompt system for node.js.
 
@@ -174,7 +174,7 @@ enquirer.ask('first')
   });
 ```
 
-### [.prompt](index.js#L282)
+### [.prompt](index.js#L281)
 
 Initialize a prompt session for a single question. Used by the [ask](#ask) method.
 
@@ -200,11 +200,11 @@ enquirer.prompt('first')
   });
 ```
 
-### [.separator](index.js#L333)
+### [.separator](index.js#L332)
 
 Create a new `Separator` to use in a choices array.
 
-### [.Separator](index.js#L356)
+### [.Separator](index.js#L355)
 
 Create a new `Separator` to use in a choices array.
 
@@ -217,15 +217,15 @@ Prompt types determine the type of question - or prompt - to initiate. Currently
 These following additional prompt types are available as plugins:
 
 * [prompt-autocompletion](https://www.npmjs.com/package/prompt-autocompletion): Prompt that autocompletes as you type. Can be used standalone or with a prompt system… [more](https://github.com/enquirer/prompt-autocompletion) | [homepage](https://github.com/enquirer/prompt-autocompletion "Prompt that autocompletes as you type. Can be used standalone or with a prompt system like [enquirer]")
-* [prompt-checkbox](https://www.npmjs.com/package/prompt-checkbox): Multiple-choice/checkbox prompt. Can be used standalone or with a prompt system like [Enquirer](https://github.com/enquirer/enquirer). | [homepage](https://github.com/enquirer/prompt-checkbox "Multiple-choice/checkbox prompt. Can be used standalone or with a prompt system like [Enquirer].")
-* [prompt-confirm](https://www.npmjs.com/package/prompt-confirm): Confirm (yes/no) prompt. Can be used standalone or with a prompt system like [Enquirer](https://github.com/enquirer/enquirer). | [homepage](https://github.com/enquirer/prompt-confirm "Confirm (yes/no) prompt. Can be used standalone or with a prompt system like [Enquirer].")
+* [prompt-checkbox](https://www.npmjs.com/package/prompt-checkbox): Multiple-choice/checkbox prompt. Can be used standalone or with a prompt system like [Enquirer](http://enquirer.io). | [homepage](https://github.com/enquirer/prompt-checkbox "Multiple-choice/checkbox prompt. Can be used standalone or with a prompt system like [Enquirer].")
+* [prompt-confirm](https://www.npmjs.com/package/prompt-confirm): Confirm (yes/no) prompt. Can be used standalone or with a prompt system like [Enquirer](http://enquirer.io). | [homepage](https://github.com/enquirer/prompt-confirm "Confirm (yes/no) prompt. Can be used standalone or with a prompt system like [Enquirer].")
 * [prompt-editor](https://www.npmjs.com/package/prompt-editor): Editor prompt. Opens your text editor and waits for you to save your input during… [more](https://github.com/enquirer/prompt-editor) | [homepage](https://github.com/enquirer/prompt-editor "Editor prompt. Opens your text editor and waits for you to save your input during a prompt. Can be used standalone or with a prompt system like [Enquirer].")
 * [prompt-expand](https://www.npmjs.com/package/prompt-expand): Expand prompt. Can be used as a standalone prompt, or with a prompt system like… [more](https://github.com/enquirer/prompt-expand) | [homepage](https://github.com/enquirer/prompt-expand "Expand prompt. Can be used as a standalone prompt, or with a prompt system like [Enquirer].")
-* [prompt-input](https://www.npmjs.com/package/prompt-input): This package name is not currently in use, but was formerly occupied by a popular… [more](https://github.com/npm/security-holder#readme) | [homepage](https://github.com/npm/security-holder#readme "This package name is not currently in use, but was formerly occupied by a popular package. To avoid malicious use, npm is hanging on to the package name, but loosely, and we'll probably give it to you if you want it.")
+* [prompt-input](https://www.npmjs.com/package/prompt-input): Basic text input prompt. This can be used standalone, but it's also included in [enquirer… [more](https://github.com/enquirer/prompt-input) | [homepage](https://github.com/enquirer/prompt-input "Basic text input prompt. This can be used standalone, but it's also included in [enquirer] by default.")
 * [prompt-list](https://www.npmjs.com/package/prompt-list): List-style prompt. Can be used as a standalone prompt, or with a prompt system like… [more](https://github.com/enquirer/prompt-list) | [homepage](https://github.com/enquirer/prompt-list "List-style prompt. Can be used as a standalone prompt, or with a prompt system like [enquirer].")
-* [prompt-password](https://www.npmjs.com/package/prompt-password): Password prompt. Can be used as a standalone prompt, or with a prompt system like… [more](https://github.com/enquirer/prompt-password) | [homepage](https://github.com/enquirer/prompt-password "Password prompt. Can be used as a standalone prompt, or with a prompt system like [Enquirer].")
+* [prompt-password](https://www.npmjs.com/package/prompt-password): Password prompt. Can be used as a standalone prompt, or as a plugin for [Enquirer](http://enquirer.io). | [homepage](https://github.com/enquirer/prompt-password "Password prompt. Can be used as a standalone prompt, or as a plugin for [Enquirer].")
 * [prompt-question](https://www.npmjs.com/package/prompt-question): Question object, used by Enquirer and prompt plugins. | [homepage](https://github.com/enquirer/prompt-question "Question object, used by Enquirer and prompt plugins.")
-* [prompt-radio](https://www.npmjs.com/package/prompt-radio): Radio prompt. This prompt behaves like other radio-button interfaces, where only one choice is enabled… [more](https://github.com/enquirer/prompt-radio) | [homepage](https://github.com/enquirer/prompt-radio "Radio prompt. This prompt behaves like other radio-button interfaces, where only one choice is enabled whilst all others are disabled. Can be used as a standalone prompt, or with a prompt system like [Enquirer].")
+* [prompt-radio](https://www.npmjs.com/package/prompt-radio): Radio prompt. Can be used as a standalone prompt, or as a plugin for [Enquirer](http://enquirer.io). | [homepage](https://github.com/enquirer/prompt-radio "Radio prompt. Can be used as a standalone prompt, or as a plugin for [Enquirer].")
 * [prompt-rawlist](https://www.npmjs.com/package/prompt-rawlist): Rawlist prompt. Can be used as a standalone prompt, or with a prompt system like… [more](https://github.com/enquirer/prompt-rawlist) | [homepage](https://github.com/enquirer/prompt-rawlist "Rawlist prompt. Can be used as a standalone prompt, or with a prompt system like [Enquirer].")
 
 Or you can use [enquirer-prompts](https://github.com/enquirer/enquirer-prompts), if you want a bundle with all of the listed prompt types.
@@ -286,4 +286,4 @@ Released under the [MIT License](LICENSE).
 
 ***
 
-_This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.6.0, on May 28, 2017._
+_This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.6.0, on December 28, 2017._
