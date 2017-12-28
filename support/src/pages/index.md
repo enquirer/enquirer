@@ -10,7 +10,7 @@ Enquirer is a node.js library for composing and running prompts in the terminal.
 
 **What's different about enquirer?**
 
-Enquirer itself can be thought of as a "prompt runner" that only ships with one prompt type, [input][prompt-text], and additional [prompt types](#prompt-types) are added as plugins.
+Enquirer itself can be thought of as a "prompt runner" that only ships with one prompt type, [input][prompt-input], and additional [prompt types](#prompt-types) are added as plugins.
 
 This makes enquirer lighter, faster, easier to maintain and easier to extend than other prompt libraries, like [inquirer][]. Enquirer also supports the same question formats as [inquirer][], as well as additional formats that make it easier to create.
 
