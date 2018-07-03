@@ -50,8 +50,6 @@ describe('invisible prompt', function() {
         value: ''
       });
 
-      prompt.once('run', () => prompt.submit());
-
       return prompt.run()
         .then(function(answer) {
           assert.equal(answer, '');

@@ -59,7 +59,6 @@ describe('prompt-list', function() {
         value: 'a.b.c'
       });
 
-      prompt.on('run', () => prompt.submit());
       return prompt.run()
         .then(function(answer) {
           assert.deepEqual(answer, ['a', 'b', 'c']);
