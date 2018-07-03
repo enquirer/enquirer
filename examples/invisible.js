@@ -1,7 +1,7 @@
-const Prompt = require('../prompts/password');
+const Prompt = require('../prompts/invisible');
 const prompt = new Prompt({
-  name: 'password',
-  message: 'What is your password?'
+  name: 'secret',
+  message: 'What is your secret?'
 });
 
 prompt.run()

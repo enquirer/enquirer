@@ -1,9 +1,22 @@
 {
+  "extends": [
+    "eslint:recommended"
+  ],
+
   "env": {
     "browser": false,
     "es6": true,
     "node": true,
     "mocha": true
+  },
+
+  "parserOptions":{
+    "ecmaVersion": 9,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true,
+      "experimentalObjectRestSpread": true
+    }
   },
 
   "globals": {

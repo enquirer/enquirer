@@ -1,16 +1,6 @@
-'use strict';
+const Prompt = require('../prompts/confirm');
+const prompt = new Prompt({ message: 'Want to answer?' });
 
-var Enquirer = require('..');
-var enquirer = new Enquirer();
-
-enquirer.register('confirm', require('prompt-confirm'));
-
-var questions = [
-  {type: 'confirm', name: 'foo', message: 'Foo?'},
-  {type: 'confirm', name: 'bar', message: 'Bar?'}
-];
-
-enquirer.ask(questions)
-  .then(function(answers) {
-    console.log(answers)
-  });
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);

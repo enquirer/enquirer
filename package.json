@@ -1,13 +1,12 @@
 {
-  "name": "enquirer",
-  "description": "Intuitive, plugin-based prompt system for node.js.",
-  "version": "1.0.3",
-  "homepage": "http://enquirer.io",
+  "name": "Enquirer",
+  "description": "Intuitive, plugin-based prompt system for node.js. Much faster alternative to Inquirer, with all the same prompt types and more.",
+  "version": "0.0.0",
+  "homepage": "https://github.com/enquirer/enquirer",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "contributors": [
     "Brian Woodward (https://twitter.com/doowb)",
-    "Jon Schlinkert (http://twitter.com/jonschlinkert)",
-    "Michael Kühnel (http://michael-kuehnel.de)"
+    "Jon Schlinkert (http://twitter.com/jonschlinkert)"
   ],
   "repository": "enquirer/enquirer",
   "bugs": {
@@ -15,55 +14,43 @@
   },
   "license": "MIT",
   "files": [
+    "prompts",
     "index.js"
   ],
   "main": "index.js",
   "engines": {
-    "node": ">=5.0"
+    "node": ">=6"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "cover": "nyc --reporter=text --reporter=html mocha"
   },
   "dependencies": {
-    "choices-separator": "^2.0.0",
-    "collection-visit": "^1.0.0",
-    "component-emitter": "^1.2.1",
-    "debug": "^2.6.8",
-    "extend-shallow": "^2.0.1",
-    "get-value": "^2.0.6",
-    "isobject": "^3.0.0",
-    "promise-reduce": "^2.1.0",
-    "prompt-question": "^3.0.3",
-    "prompt-input": "^3.0.0",
-    "readline-ui": "^2.2.2",
-    "set-value": "^1.0.0"
+    "ansi-colors": "^2.0.1",
+    "data-store": "^3.0.1",
+    "prompt-base": "github:enquirer/prompt-base#dev"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-eslint": "^3.0.1",
-    "gulp-format-md": "^0.1.12",
-    "gulp-istanbul": "^1.1.1",
-    "gulp-mocha": "^3.0.1",
-    "gulp-unused": "^0.2.1",
-    "mocha": "^3.4.2",
-    "strip-color": "^0.1.0"
+    "yosay": "^2.0.2",
+    "mocha": "^5.2.0",
+    "gulp-format-md": "^1.0.0",
+    "nyc": "^12.0.2"
   },
   "keywords": [
+    "base",
     "answer",
     "answers",
     "ask",
-    "checkbox",
-    "choice",
     "cli",
     "command",
+    "command-line",
     "enquirer",
+    "enquirerprompt",
     "input",
     "inquire",
     "inquirer",
-    "interact",
-    "list",
+    "interface",
     "menu",
-    "password",
     "prompt",
     "prompts",
     "question",
@@ -74,50 +61,30 @@
     "tty",
     "ui"
   ],
-  "lintDeps": {
-    "devDependencies": {
-      "files": {
-        "options": {
-          "ignore": [
-            "examples/**",
-            "support/**"
-          ]
-        }
-      }
-    }
-  },
   "verb": {
-    "toc": true,
+    "toc": false,
     "layout": "common-minimal",
+    "data": {
+      "alias": "base"
+    },
     "tasks": [
       "readme"
     ],
     "plugins": [
       "gulp-format-md"
     ],
-    "lint": {
-      "reflinks": true
-    },
     "related": {
-      "prompts": [
-        "prompt-autocompletion",
+      "list": [
+        "enquirer",
         "prompt-checkbox",
-        "prompt-confirm",
-        "prompt-editor",
-        "prompt-expand",
-        "prompt-input",
-        "prompt-list",
-        "prompt-password",
-        "prompt-question",
-        "prompt-radio",
-        "prompt-rawlist"
+        "prompt-radio"
       ]
     },
     "reflinks": [
-      "enquirer",
-      "enquirer-prompts",
-      "enquirer-question",
-      "prompt-base"
-    ]
+      "enquirer"
+    ],
+    "lint": {
+      "reflinks": true
+    }
   }
 }

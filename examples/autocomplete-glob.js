@@ -5,7 +5,9 @@ const prompt = new Prompt({
   initial: 3,
   limit: 7,
   suggest(typed) {
-    return this.choices.filter(item => item.message.includes(typed));
+    const chars = [...typed].map(ch => ({ '*': '.*?' })[ch] || ch);
+    const regex = new RegExp(chars.join(''));
+    return this.choices.filter(item => regex.test(item.name));
   },
   choices: [
     'almond',
