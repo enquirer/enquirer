@@ -1,10 +1,8 @@
 'use strict';
 
-const hint = '(Use arrow keys, press <return> to submit)';
-const colors = require('ansi-colors');
 const Store = require('data-store');
-const history = require('prompt-base/lib/extras/form-history');
-const Prompt = require('./select');
+const colors = require('ansi-colors');
+const Prompt = require('../prompts/select');
 const { extras, trim } = Prompt.utils;
 
 /**
@@ -14,7 +12,7 @@ const { extras, trim } = Prompt.utils;
 class Form extends Prompt {
   constructor(options = {}) {
     super(options);
-    this.hint = this.options.hint || colors.italic.dim(hint);
+    this.hint = this.options.hint || colors.italic.dim('(Use arrow keys, press <return> to submit)');
     this.flash = extras.flash.bind(this, this);
     this.pointer = () => '';
 
@@ -22,7 +20,7 @@ class Form extends Prompt {
       const opts = { ...this.options.history };
       const name = opts.name || `prompt-form-${this.name}`;
       this.store = opts.store || new Store(name, opts, opts.state);
-      this.history = history(this);
+      this.history = extras.history(this);
     }
 
     this.choices.forEach(choice => {
@@ -55,12 +53,12 @@ class Form extends Prompt {
     }
     this.action = 'save';
     const choice = this.choices[this.cursor];
-    choice.alert = colors.green(` ${this.symbols.check} saved ${choice.value}`);
+    choice.help = colors.green(` ${this.symbols.check} saved ${choice.value}`);
     this.render();
     this.flash()
       .then(() => {
         choice.value = '';
-        choice.alert = '';
+        choice.help = '';
         this.render();
       });
   }
@@ -72,12 +70,12 @@ class Form extends Prompt {
     }
     this.action = 'remove';
     const choice = this.choices[this.cursor];
-    choice.alert = colors.yellow(` ${this.symbols.check} removed ${choice.value}`);
+    choice.help = colors.yellow(` ${this.symbols.check} removed ${choice.value}`);
     this.render();
     this.flash()
       .then(() => {
         choice.value = '';
-        choice.alert = '';
+        choice.help = '';
         this.render();
       });
   }
@@ -138,10 +136,7 @@ class Form extends Prompt {
       prefix = colors.cyan(message);
     }
 
-    if (choice.alert) {
-      value += choice.alert;
-    }
-    return prefix + value;
+    return prefix + value + (choice.help || '');
   }
 
   renderChoices() {
@@ -152,15 +147,8 @@ class Form extends Prompt {
 
   render(first) {
     this.clear();
-
-    // ? render the prompt message line
-    let message = this.renderMessage(!this.answered ? this.hint : '');
-
-    // - render the form inputs
-    message += this.renderChoices();
-
-    // > write the prompt
-    this.write(message);
+    const message = !this.answered ? this.hint : '';
+    this.write(this.renderMessage(message) + this.renderChoices());
   }
 
   submit() {

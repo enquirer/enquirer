@@ -73,65 +73,65 @@ module.exports = [
     inactive: 'no',
     active: 'yes'
   },
-  {
-    type: 'editor',
-    name: 'editor',
-    message: 'Fill out your bio'
-  },
-  {
-    type: 'expand',
-    name: 'expand',
-    message: 'bio.md already exists, what would you like to do?',
-    default: 'y',
-    choices: [
-      {
-        key: 'y',
-        name: 'Overwrite',
-        value: 'overwrite'
-      },
-      {
-        key: 'a',
-        name: 'Overwrite this one and all next',
-        value: 'overwrite_all'
-      },
-      {
-        key: 'd',
-        name: 'Show diff',
-        value: 'diff'
-      },
-      {
-        key: 'x',
-        name: 'Abort',
-        value: 'abort'
-      }
-    ]
-  },
-  {
-    type: 'form',
-    name: 'config',
-    message: 'Please fill in the following information:',
-    hint: '',
-    choices:   [
-     {
-        key: 'firstname',
-        message: 'First Name:',
-        hint: 'Jon',
-      },
-      {
-        key: 'lastname',
-        message: 'Last Name:',
-        hint: 'Schlinkert',
-      },
-      {
-        key: 'username',
-        message: 'GitHub username:',
-      },
-      {
-        key: 'email',
-        message: 'Email:'
-      }
-    ]
-  },
+  // {
+  //   type: 'editor',
+  //   name: 'editor',
+  //   message: 'Fill out your bio'
+  // },
+  // {
+  //   type: 'expand',
+  //   name: 'expand',
+  //   message: 'bio.md already exists, what would you like to do?',
+  //   default: 'y',
+  //   choices: [
+  //     {
+  //       key: 'y',
+  //       name: 'Overwrite',
+  //       value: 'overwrite'
+  //     },
+  //     {
+  //       key: 'a',
+  //       name: 'Overwrite this one and all next',
+  //       value: 'overwrite_all'
+  //     },
+  //     {
+  //       key: 'd',
+  //       name: 'Show diff',
+  //       value: 'diff'
+  //     },
+  //     {
+  //       key: 'x',
+  //       name: 'Abort',
+  //       value: 'abort'
+  //     }
+  //   ]
+  // },
+  // {
+  //   type: 'form',
+  //   name: 'config',
+  //   message: 'Please fill in the following information:',
+  //   hint: '',
+  //   choices:   [
+  //    {
+  //       key: 'firstname',
+  //       message: 'First Name:',
+  //       hint: 'Jon',
+  //     },
+  //     {
+  //       key: 'lastname',
+  //       message: 'Last Name:',
+  //       hint: 'Schlinkert',
+  //     },
+  //     {
+  //       key: 'username',
+  //       message: 'GitHub username:',
+  //     },
+  //     {
+  //       key: 'email',
+  //       message: 'Email:'
+  //     }
+  //   ]
+  // },
   // {
   //   type: 'grid',
   //   name: 'grid',
@@ -139,11 +139,13 @@ module.exports = [
   //   choices: [1, 2, 3, 4, 5, 6, 7, 8, 9].map(String)
   // },
   {
-    type: 'input',
+    type: 'text',
     name: 'twitter',
     message: `What's your twitter handle?`,
     initial: 'Brian',
-    format: val => `@${val.toLowerCase()}`,
+    format: (...args) => {
+      console.log(args);
+    },
     validate: answer => true
   },
   {
@@ -191,14 +193,31 @@ module.exports = [
     type: 'snippet',
     name: 'snippet',
     message: 'Fill in package.json',
-    values: (answers) => {
-      if (answers.config) {
-        return { owner: answers.config.username };
-      }
-      return {};
+    values(answers) {
+      return answers.config;
     },
-    template() {
-      return fs.readFileSync(path.join(__dirname, 'fixtures/package.tmpl'), 'utf8');
-    }
+    template: `{
+  "name": "{{name}}",
+  "description": "{{description}}",
+  "version": "{{version}}",
+  "homepage": "https://github.com/{{username}}/{{name}}",
+  "author": "{{author_name}} (https://github.com/{{username}})",
+  "repository": "{{username}}/{{name}}",
+  "bugs": {
+    "url": "https://github.com/{{username}}/{{name}}/issues"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "license": "{{license}}",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": []
+}
+`
+    // template() {
+    //   return fs.readFileSync(path.join(__dirname, 'fixtures/package.tmpl'), 'utf8');
+    // }
   }
 ];

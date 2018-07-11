@@ -1,7 +1,7 @@
 'use strict';
 
 const colors = require('ansi-colors');
-const Prompt = require('./select');
+const Prompt = require('../prompts/select');
 const { symbols } = Prompt.utils;
 
 class Radio extends Prompt {

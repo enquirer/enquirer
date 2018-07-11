@@ -62,7 +62,9 @@ class Enquirer extends Emitter {
       let answer = answers[name] = await prompt.run();
 
       for (const key of ignored) {
-        await question[key].call(prompt, answer, question, { ...answers });
+        if (typeof question[key] === 'function') {
+          await question[key].call(prompt, answer, question, { ...answers });
+        }
       }
 
       prev = answer;
@@ -75,11 +77,4 @@ function isIgnored(key, proto) {
   return (key in proto) || ignores.includes(key) || /^on[A-Z]/.test(key);
 }
 
-const enquirer = new Enquirer();
-const questions = require('./questions');
-
-enquirer.register('snippet', require('./recipes/snippet'));
-
-enquirer.prompt(questions)
-  .then(answers => console.log('ANSWERS:', answers))
-  .catch(console.error);
+module.exports = Enquirer;

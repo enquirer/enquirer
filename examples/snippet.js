@@ -9,11 +9,11 @@ const prompt = new Prompt({
   "name": "{{name}}",
   "description": "{{description}}",
   "version": "{{version}}",
-  "homepage": "{{homepage}}",
-  "author": "{{author_name}} ({{author_url}})",
-  "repository": "{{owner}}/{{name}}",
+  "homepage": "https://github.com/{{username}}/{{name}}",
+  "author": "{{author_name}} (https://github.com/{{username}})",
+  "repository": "{{username}}/{{name}}",
   "bugs": {
-    "url": "https://github.com/{{owner}}/{{name}}/issues"
+    "url": "https://github.com/{{username}}/{{name}}/issues"
   },
   "engines": {
     "node": ">=4"
