@@ -1,6 +1,12 @@
 'use strict';
 
+const { array, boolean, number, string } = require('prompt-base/lib/types');
+
 define(exports, 'prompt', () => require('prompt-base'));
+define(exports, 'array', () => array);
+define(exports, 'boolean', () => boolean);
+define(exports, 'number', () => number);
+define(exports, 'string', () => string);
 
 define(exports, 'autocomplete', () => require('./autocomplete'));
 define(exports, 'confirm', () => require('./confirm'));
