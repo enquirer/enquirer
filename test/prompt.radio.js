@@ -5,7 +5,7 @@ const assert = require('assert');
 const colors = require('ansi-colors');
 const support = require('./support');
 const { nextTick, expect } = support(assert);
-const Radio = require('../prompts/radio');
+const Radio = require('../recipes/radio');
 const down = { sequence: '\u001b[B', name: 'down', code: '[B' };
 const up = { sequence: '\u001b[A', name: 'up', code: '[A' };
 let prompt;
@@ -110,7 +110,7 @@ describe('prompt-radio', function() {
   });
 
   describe('rendering', () => {
-    it('should render a checkbox with the correct styles', () => {
+    it('should render an indicator with the correct styles', () => {
       prompt = new Prompt({
         message: 'prompt-radio',
         choices: [
@@ -121,8 +121,8 @@ describe('prompt-radio', function() {
         ]
       });
 
-      assert.equal(prompt.checkbox(prompt.choices[0]), '◯');
-      assert.equal(prompt.checkbox(prompt.choices[1]), '◯');
+      assert.equal(prompt.indicator(prompt.choices[0]), '◯ ');
+      assert.equal(prompt.indicator(prompt.choices[1]), '◯ ');
     });
 
     it('should render a choice with the correct styles', () => {

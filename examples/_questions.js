@@ -106,32 +106,32 @@ module.exports = [
   //     }
   //   ]
   // },
-  // {
-  //   type: 'form',
-  //   name: 'config',
-  //   message: 'Please fill in the following information:',
-  //   hint: '',
-  //   choices:   [
-  //    {
-  //       key: 'firstname',
-  //       message: 'First Name:',
-  //       hint: 'Jon',
-  //     },
-  //     {
-  //       key: 'lastname',
-  //       message: 'Last Name:',
-  //       hint: 'Schlinkert',
-  //     },
-  //     {
-  //       key: 'username',
-  //       message: 'GitHub username:',
-  //     },
-  //     {
-  //       key: 'email',
-  //       message: 'Email:'
-  //     }
-  //   ]
-  // },
+  {
+    type: 'form',
+    name: 'config',
+    message: 'Please fill in the following information:',
+    hint: '',
+    choices:   [
+     {
+        key: 'firstname',
+        message: 'First Name:',
+        hint: 'Jon',
+      },
+      {
+        key: 'lastname',
+        message: 'Last Name:',
+        hint: 'Schlinkert',
+      },
+      {
+        key: 'username',
+        message: 'GitHub username:',
+      },
+      {
+        key: 'email',
+        message: 'Email:'
+      }
+    ]
+  },
   // {
   //   type: 'grid',
   //   name: 'grid',
@@ -143,9 +143,9 @@ module.exports = [
     name: 'twitter',
     message: `What's your twitter handle?`,
     initial: 'Brian',
-    format: (...args) => {
-      console.log(args);
-    },
+    // format: (...args) => {
+    //   console.log(args);
+    // },
     validate: answer => true
   },
   {
@@ -193,8 +193,8 @@ module.exports = [
     type: 'snippet',
     name: 'snippet',
     message: 'Fill in package.json',
-    values(answers) {
-      return answers.config;
+    initial(answers) {
+      return answers.config || {};
     },
     template: `{
   "name": "{{name}}",

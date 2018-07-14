@@ -31,26 +31,21 @@ class Radio extends Prompt {
     this.render();
   }
 
-  checkbox(choice) {
-    if (choice.disabled) return colors.gray(symbols.radio.disabled);
-    if (choice.enabled) return colors.green(symbols.radio.on);
-    return symbols.radio.off;
+  symbol(name, status) {
+    const symbol = this.symbols[name][status];
+    const color = this.styles[name][status];
+    return color(symbol);
   }
 
-  renderChoice(choice, i) {
-    const radio = this.checkbox(choice);
-    const symbol = this.style.symbols.pointer;
-    const pointer = this.cursor === i ? colors.cyan(symbol) + radio : ` ${radio}`;
-    return `${pointer} ${choice.message}`;
-  }
-
-  submit() {
-    this.value = this.selected.value;
-    return super.submit();
+  indicator(choice) {
+    const symbol = this.symbols.radio[choice.status];
+    const color = this.styles.radio[choice.status];
+    return color(symbol) + ' ';
+    // return this.symbol('radio', choice.status) + ' ';
   }
 
   get selected() {
-    return this.find(choice => choice.enabled) || this.choices[this.initial];
+    return this.find(choice => choice.enabled) || this.find(this.initial);
   }
 }
 

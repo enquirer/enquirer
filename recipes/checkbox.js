@@ -6,7 +6,7 @@ const Prompt = require('../prompts/multiselect');
 class Checkbox extends Prompt {
   constructor(options) {
     super(options);
-    this.style.symbols.check = colors.red(this.style.symbols.heart);
+    this.symbols.check = colors.red(this.symbols.heart);
   }
 }
 

@@ -90,7 +90,6 @@ class Toggle extends Prompt {
       this.value ? this.disabled : colors.cyan.underline(this.disabled),
       this.value ? colors.cyan.underline(this.enabled) : this.enabled
     ];
-
     const message = this.renderMessage(values.join(colors.dim(' / ')));
     this.write(message);
   }

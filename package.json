@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "ansi-colors": "^2.0.1",
-    "data-store": "^3.0.1",
     "prompt-base": "github:enquirer/prompt-base#dev"
   },
   "devDependencies": {
@@ -61,6 +60,15 @@
     "tty",
     "ui"
   ],
+  "lintDeps": {
+    "dependencies": {
+      "files": {
+        "patterns": [
+          "prompts/*.js"
+        ]
+      }
+    }
+  },
   "verb": {
     "toc": false,
     "layout": "common-minimal",

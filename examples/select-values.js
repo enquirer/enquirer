@@ -2,7 +2,11 @@ const Prompt = require('../prompts/select');
 const prompt = new Prompt({
   name: 'color',
   message: 'Pick a color',
-  choices: ['Red', 'Green', 'Blue']
+  choices: [
+    { message: 'Red', value: '#ff0000' },
+    { message: 'Green', value: '#00ff00' },
+    { message: 'Blue', value: '#0000ff' }
+  ]
 });
 
 prompt.run()

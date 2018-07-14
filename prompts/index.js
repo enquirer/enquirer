@@ -1,6 +1,6 @@
 'use strict';
 
-const { array, boolean, number, string } = require('prompt-base/lib/types');
+const types = require('prompt-base/lib/types');
 
 /**
  * Base prompt
@@ -12,10 +12,10 @@ define(exports, 'prompt', () => require('prompt-base'));
  * Low-level types
  */
 
-define(exports, 'array', () => array);
-define(exports, 'boolean', () => boolean);
-define(exports, 'number', () => number);
-define(exports, 'string', () => string);
+define(exports, 'array', () => types.array);
+define(exports, 'boolean', () => types.boolean);
+define(exports, 'number', () => types.number);
+define(exports, 'string', () => types.string);
 
 /**
  * User prompts

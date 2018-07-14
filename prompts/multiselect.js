@@ -1,8 +1,7 @@
 'use strict';
 
 const ArrayPrompt = require('prompt-base/lib/types/array');
-const { green, dim, cyan, gray } = require('ansi-colors');
-const { isValidNumberKey, symbols } = ArrayPrompt.utils;
+const { dim, cyan, gray } = require('ansi-colors');
 
 /**
  * Multiselect prompt.
@@ -17,7 +16,7 @@ const { isValidNumberKey, symbols } = ArrayPrompt.utils;
 class Multiselect extends ArrayPrompt {
   constructor(options = {}) {
     super(options);
-    this.style.set('pointers', { off: '', on: '', default: '' });
+    this.style.default('pointers', { off: '', on: '', default: '' });
     this.isEnabled = this.isEnabled.bind(this);
     this.maxChoices = this.options.maxChoices || Infinity;
     this.expandable = this.options.expandable || false;
@@ -103,8 +102,8 @@ class Multiselect extends ArrayPrompt {
     const prefix = this.style.pointer(choice, status, this.expandable);
     const check = this.style.check(choice, this.cursor === i);
     const msg = this.style.message(choice, this.cursor === i);
-    const hint = this.style.hint(choice.hint, choice.status);
-    return prefix + check + msg;
+    const help = this.style.help(choice);
+    return prefix + check + msg + help;
   }
 
   renderChoices() {

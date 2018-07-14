@@ -15,34 +15,7 @@ class Prompt extends PasswordPrompt {
 
 describe('prompt-password', function() {
   describe('options.initial', () => {
-    it.skip('should use options.value without prompting', () => {
-      prompt = new Prompt({
-        message: 'What is your password?',
-        value: 'woohooo!'
-      });
-
-      return prompt.run()
-        .then(function(answer) {
-          assert.equal(answer, 'woohooo!');
-        });
-    });
-  });
-
-  describe('options.initial', () => {
-    it.skip('should not use options.initial when options.value is defined', () => {
-      prompt = new Prompt({
-        message: 'What is your password?',
-        initial: 'woohooo!',
-        value: 'foo'
-      });
-
-      return prompt.run()
-        .then(answer => {
-          assert.equal(answer, 'foo');
-        });
-    });
-
-    it('should use initial answer when answer is undefined', () => {
+    it('should use options.initial', () => {
       prompt = new Prompt({
         message: 'What is your password?',
         initial: 'woohooo!'

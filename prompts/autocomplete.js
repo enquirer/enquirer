@@ -10,7 +10,7 @@ const getVal = (arr, i) => arr[i] && (arr[i].value || arr[i].title || arr[i]);
  * @param {Object} options Options
  * @param {String} options.message Message
  * @param {Array} options.choices Array of auto-complete choices objects
- * @param {Function} [options.suggest] Filter function. Defaults to sort by title
+ * @param {Function} [options.suggest] Filter function. By default filters by choice.message.
  * @param {Number} [options.limit=10] Max number of results to show
  * @param {Number} [options.cursor=0] Cursor start position
  * @param {String} [options.style='default'] Render style
@@ -21,10 +21,10 @@ const getVal = (arr, i) => arr[i] && (arr[i].value || arr[i].title || arr[i]);
 class AutoComplete extends Prompt {
   constructor(options = {}) {
     super(options);
+    this.style.default('pointers', { off: '', on: '', default: '' });
     this.render = this.render.bind(this);
     this.complete = this.complete.bind(this);
     this.suggest = (this.options.suggest || this.suggest).bind(this);
-    this.style.set('pointers', { off: '', on: '', default: '' });
     this.typed = '';
     this.hint = '';
   }
