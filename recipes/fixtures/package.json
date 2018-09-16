@@ -1,0 +1,26 @@
+{
+  "name": "{{project.name}}",
+  "description": "{{project.description}}",
+  "preferGlobal": true,
+  "private": true,
+  "version": "{{project.version '0.1.0'}}",
+  "homepage": "https://github.com/{{author.username}}/{{project.name}}",
+  "author": "{{author.name}} (https://github.com/{{author.username}})",
+  "repository": "{{author.username}}/{{project.name}}",
+  "bugs": {
+    "url": "https://github.com/{{author.username}}/{{project.name}}/issues"
+  },
+  "license": "{{project.license}}",
+  "files": ["{{project.main}}"],
+  "main": "{{project.main}}",
+  "bin": {
+    "{{bin.name project.name}}": "{{bin.file 'cli.js'}}"
+  },
+  "scripts": {
+    "test": "{{test_script}}"
+  },
+  "engines": {
+    "node": "{{node_version}}"
+  },
+  "keywords": []
+}

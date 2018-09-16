@@ -1,14 +1,13 @@
 'use strict';
 
-var hljs = require('highlight.js');
-
 /**
- * Defaults for the markdown plugin
+ * Default options for highlight.js markdown plugin
  */
 
 module.exports = {
   html: true,
-  highlight: function(code, lang) {
+  highlight(code, lang) {
+    let hljs = require('highlight.js');
     if (lang && hljs.getLanguage(lang)) {
       try {
         return hljs.highlight(lang, code).value;

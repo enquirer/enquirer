@@ -1,49 +1,49 @@
 'use strict';
 
-var assemble = require('assemble');
-var reflinks = require('gulp-reflinks');
-var extname = require('gulp-extname');
-var drafts = require('gulp-drafts');
-var sass = require('gulp-sass');
-var toc = require('gulp-html-toc');
-var del = require('delete');
+const assemble = require('assemble');
+const reflinks = require('gulp-reflinks');
+const extname = require('gulp-extname');
+const drafts = require('gulp-drafts');
+const sass = require('gulp-sass');
+const toc = require('gulp-html-toc');
+const del = require('delete');
 
 /**
- * Initialize assemble (pass exts for default engine)
+ * Initialize assemble (pass file extensions to use for default engine)
  */
 
-var app = module.exports = assemble();
+const app = module.exports = assemble();
 
 /**
  * Local dependencies
  */
 
-var pipeline = require('./build/pipeline');
-var defaults = require('./build/defaults');
-var config = require('./build/config');
+const pipeline = require('./build/pipeline');
+const defaults = require('./build/defaults');
+const config = require('./build/config');
 
 /**
  * Load build config (returns build paths)
  */
 
-var paths = config(app, __dirname);
+const paths = config(app, __dirname);
 
 /**
  * Clean out dest on re-buid
  */
 
-app.task('clean', function() {
-  return del(paths.dest(), {force: true});
+app.task('clean', () => {
+  return del(paths.dest(), { force: true });
 });
 
 /**
  * Load templates
  */
 
-app.task('templates', function(cb) {
+app.task('templates', cb => {
   app.partials(paths.src('templates/partials/*.hbs'));
   app.layouts(paths.src('templates/layouts/*.hbs'));
-  app.pages(paths.src('pages/*.md'));
+  app.pages(paths.src('content/*.md'));
   cb();
 });
 
@@ -51,8 +51,9 @@ app.task('templates', function(cb) {
  * Root site files
  */
 
-app.task('root', function() {
-  return app.src(paths.src('root/*'), {dot: true})
+app.task('root', () => {
+  return app
+    .src(paths.src('root/*'), { dot: true })
     .pipe(app.renderFile('*'))
     .pipe(app.dest(paths.dest()));
 });
@@ -61,17 +62,17 @@ app.task('root', function() {
  * Copy assets
  */
 
-app.task('assets', function() {
-  return app.copy(paths.src('assets/**/*'), paths.dest('assets'), {dot: true});
+app.task('assets', () => {
+  return app.copy(paths.src('assets/**/*'), paths.dest('assets'), { dot: true });
 });
 
 /**
  * Convert sass and write .css files
  */
 
-app.task('css', function() {
+app.task('css', () => {
   return app.src('src/sass/**/*.scss')
-    .pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError))
+    .pipe(sass({ outputStyle: 'expanded' }).on('error', sass.logError))
     .pipe(app.dest(paths.assets('css')));
 });
 
@@ -79,7 +80,7 @@ app.task('css', function() {
  * Render templates and write .html files
  */
 
-app.task('html', ['templates'], function() {
+app.task('html', ['templates'], () => {
   app.data('sitemap', app.store.get('site'));
   app.data('site', app.store.get('site'));
 
@@ -92,7 +93,7 @@ app.task('html', ['templates'], function() {
     .pipe(app.sitemap())
     .pipe(app.renderFile())
     .pipe(pipeline.cheerio())
-    .pipe(toc({id: 'navigation', selectors: 'h2,h3', parentLink: false}))
+    .pipe(toc({ id: 'navigation', selectors: 'h2,h3', parentLink: false }))
     .pipe(app.dest(paths.dest()));
 });
 

@@ -8,20 +8,26 @@ var unescape = require('unescape');
  * Unescape template delimiters that were escaped when markdown was converted
  */
 
-module.exports = function(options) {
+module.exports = options => {
   return through.obj(function(file, enc, next) {
-    if (path.extname(file.history[0]) !== '.md') {
+    if (file.isNull() || file.isDirectory()) {
       next(null, file);
       return;
     }
+
+    if (file.extname !== '.md' && path.extname(file.history[0]) !== '.md') {
+      next(null, file);
+      return;
+    }
+
     try {
-      var str = file.contents.toString();
-      str = str.replace(/(\{{2,4})([^}]+)(\}{2,4})/g, function(m, open, inner, close) {
+      let str = file.contents.toString();
+      str = str.replace(/(\{{2,4})([^}]+)(\}{2,4})/g, (m, open, inner, close) => {
         return open + unescape(inner) + close;
       });
-      file.contents = new Buffer(str);
+      file.contents = Buffer.from(str);
     } catch (err) {
-      this.emit('error', new PluginError('unescape', err, {fileName: file.path}));
+      this.emit('error', new PluginError('unescape', err, { fileName: file.path }));
       return;
     }
     next(null, file);

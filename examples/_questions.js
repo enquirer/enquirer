@@ -101,8 +101,8 @@ module.exports = [
   //     },
   //     {
   //       key: 'x',
-  //       name: 'Abort',
-  //       value: 'abort'
+  //       name: 'Cancel',
+  //       value: 'cancel'
   //     }
   //   ]
   // },

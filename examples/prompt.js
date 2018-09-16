@@ -1,4 +1,8 @@
-const Prompt = require('prompt-base');
+/**
+ * This really cool example is from derhuerst/prompt-skeleton
+ */
+
+const { Prompt } = require('..');
 const prompt = new Prompt({
   value: 0,
   calls: 0,

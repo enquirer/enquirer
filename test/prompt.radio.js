@@ -3,9 +3,10 @@
 require('mocha');
 const assert = require('assert');
 const colors = require('ansi-colors');
+const { cyan, green } = colors;
 const support = require('./support');
-const { nextTick, expect } = support(assert);
-const Radio = require('../recipes/radio');
+const { nextTick } = support(assert);
+const Radio = require('../lib/prompts/radio');
 const down = { sequence: '\u001b[B', name: 'down', code: '[B' };
 const up = { sequence: '\u001b[A', name: 'up', code: '[A' };
 let prompt;
@@ -17,8 +18,8 @@ class Prompt extends Radio {
 }
 
 describe('prompt-radio', function() {
-  describe('options.choices', () => {
-    it('should set a list of choices', () => {
+  describe('.renderChoiceHelp', () => {
+    it('should support custom options.renderChoiceHelp function', cb => {
       prompt = new Prompt({
         message: 'prompt-radio',
         choices: [
@@ -29,68 +30,49 @@ describe('prompt-radio', function() {
         ]
       });
 
-      assert.has(prompt.choices, [
-        { name: 'a', message: 'A', enabled: false },
-        { name: 'b', message: 'BB', enabled: false },
-        { name: 'c', message: 'CCC', enabled: false },
-        { name: 'd', message: 'DDDD', enabled: false }
-      ]);
+      prompt.renderChoiceHelp = choice => choice.enabled ? 'foo' : 'bar';
 
-      assert.equal(prompt.initial, void 0);
+      prompt.once('run', () => {
+        const pointer = cyan(prompt.symbols.pointer.on) + green('◉');
+        const actual = prompt.renderChoices();
+        assert.equal(actual, `\n${pointer} A foo\n ◯ BB bar\n ◯ CCC bar\n ◯ DDDD bar`);
+        cb();
+      });
+
+      prompt.run().catch(cb);;
     });
+  });
 
-    it('should map aliases to prompt.aliases', () => {
+  describe('options.choices', () => {
+    it('should set a list of choices', cb => {
       prompt = new Prompt({
         message: 'prompt-radio',
         choices: [
-          { name: 'a', alias: 'a', message: 'A' },
-          { name: 'b', alias: 'b', message: 'BB' },
-          { name: 'c', alias: 'c', message: 'CCC' },
-          { name: 'd', alias: 'd', message: 'DDDD' }
+          { name: 'a', message: 'A' },
+          { name: 'b', message: 'BB' },
+          { name: 'c', message: 'CCC' },
+          { name: 'd', message: 'DDDD' }
         ]
       });
 
-      assert(Array.isArray(prompt.choices));
-      assert.deepEqual(prompt.aliases, ['a', 'b', 'c', 'd']);
+      prompt.once('run', () => {
+        assert.has(prompt.choices, [
+          { name: 'a', message: 'A', enabled: true },
+          { name: 'b', message: 'BB', enabled: false },
+          { name: 'c', message: 'CCC', enabled: false },
+          { name: 'd', message: 'DDDD', enabled: false }
+        ]);
+
+        assert.equal(prompt.initial, 0);
+        cb();
+      });
+
+      prompt.run().catch(cb);
     });
   });
 
   describe('options.initial', () => {
-    it('should not use initial value when answer is given', () => {
-      prompt = new Prompt({
-        message: 'prompt-radio',
-        initial: 2,
-        value: 'b',
-        choices: [
-          { value: 'a', message: 'A' },
-          { value: 'b', message: 'BB' },
-          { value: 'c', message: 'CCC' },
-          { value: 'd', message: 'DDDD' }
-        ]
-      });
-
-      assert.equal(prompt.initial, 2);
-      return prompt.run().then(answer => assert.equal(answer, 'b'))
-    });
-
-    it('should use initial answer when answer is empty string', () => {
-      prompt = new Prompt({
-        message: 'prompt-radio',
-        initial: 2,
-        value: '',
-        choices: [
-          { value: 'a', message: 'A' },
-          { value: 'b', message: 'BB' },
-          { value: 'c', message: 'CCC' },
-          { value: 'd', message: 'DDDD' }
-        ]
-      });
-
-      assert.equal(prompt.initial, 2);
-      return prompt.run().then(answer => assert.equal(answer, 'c'));
-    });
-
-    it('should use initial answer when answer is undefined', () => {
+    it('should use options.initial', cb => {
       prompt = new Prompt({
         message: 'prompt-radio',
         initial: 2,
@@ -102,15 +84,17 @@ describe('prompt-radio', function() {
         ]
       });
 
-      assert.equal(prompt.initial, 2);
-      process.nextTick(() => prompt.submit());
+      prompt.once('run', () => {
+        assert.equal(prompt.initial, 2);
+        cb();
+      });
 
-      return prompt.run().then(answer => assert.equal(answer, 'c'));
+      prompt.run().then(answer => assert.equal(answer, 'c')).catch(cb);
     });
   });
 
   describe('rendering', () => {
-    it('should render an indicator with the correct styles', () => {
+    it('should render an indicator with the correct styles', cb => {
       prompt = new Prompt({
         message: 'prompt-radio',
         choices: [
@@ -121,11 +105,16 @@ describe('prompt-radio', function() {
         ]
       });
 
-      assert.equal(prompt.indicator(prompt.choices[0]), '◯ ');
-      assert.equal(prompt.indicator(prompt.choices[1]), '◯ ');
+      prompt.once('run', () => {
+        assert.equal(prompt.indicator(prompt.choices[0]), green(prompt.symbols.indicator.on));
+        assert.equal(prompt.indicator(prompt.choices[1]), prompt.symbols.indicator.off);
+        cb();
+      });
+
+      prompt.run().catch(cb);
     });
 
-    it('should render a choice with the correct styles', () => {
+    it('should render a choice with the correct styles', cb => {
       prompt = new Prompt({
         message: 'prompt-radio',
         choices: [
@@ -136,12 +125,17 @@ describe('prompt-radio', function() {
         ]
       });
 
-      const pointer = colors.cyan(prompt.style.symbols.pointer) + colors.green('◉');
-      assert.equal(prompt.renderChoice(prompt.choices[0], 0), `${pointer} A`);
-      assert.equal(prompt.renderChoice(prompt.choices[1], 1), ' ◯ BB');
+      prompt.once('run', () => {
+        const pointer = cyan(prompt.symbols.pointer.on) + green(prompt.symbols.indicator.on);
+        assert.equal(prompt.renderChoice(prompt.choices[0], 0), `${pointer} A`);
+        assert.equal(prompt.renderChoice(prompt.choices[1], 1), ' ◯ BB');
+        cb();
+      });
+
+      prompt.run().catch(cb);;
     });
 
-    it('should render a list of choices with the correct styles', () => {
+    it('should render a list of choices with the correct styles', cb => {
       prompt = new Prompt({
         message: 'prompt-radio',
         choices: [
@@ -152,10 +146,14 @@ describe('prompt-radio', function() {
         ]
       });
 
-      const key = colors.cyan.underline('a');
-      const pointer = colors.cyan(prompt.style.symbols.pointer) + colors.green('◉');
-      const actual = prompt.renderChoices();
-      assert.equal(actual, `\n${pointer} A\n ◯ BB\n ◯ CCC\n ◯ DDDD`);
+      prompt.once('run', () => {
+        const pointer = cyan(prompt.symbols.pointer.on) + green('◉');
+        const actual = prompt.renderChoices();
+        assert.equal(actual, `\n${pointer} A\n ◯ BB\n ◯ CCC\n ◯ DDDD`);
+        cb();
+      });
+
+      prompt.run().catch(cb);;
     });
   });
 
@@ -171,7 +169,7 @@ describe('prompt-radio', function() {
         ]
       });
 
-      prompt.on('run', async() => {
+      prompt.once('run', async() => {
         await nextTick(() => prompt.keypress(null, down));
         await nextTick(() => prompt.keypress(' '));
         await nextTick(() => prompt.submit());
@@ -191,7 +189,7 @@ describe('prompt-radio', function() {
         ]
       });
 
-      prompt.on('run', async() => {
+      prompt.once('run', async() => {
         // down to 'b'
         await nextTick(() => prompt.keypress(null, down));
         // down to 'c'
@@ -216,7 +214,7 @@ describe('prompt-radio', function() {
         ]
       });
 
-      prompt.on('run', async() => {
+      prompt.once('run', async() => {
         await nextTick(() => prompt.keypress(3));
         await nextTick(() => prompt.keypress(4));
         await nextTick(() => prompt.keypress(2));

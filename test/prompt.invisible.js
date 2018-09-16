@@ -3,8 +3,8 @@
 require('mocha');
 const assert = require('assert');
 const support = require('./support');
-const { nextTick, expect } = support(assert);
-const Invisible = require('../prompts/invisible');
+const { nextTick } = support(assert);
+const Invisible = require('../lib/prompts/invisible');
 let prompt;
 
 class Prompt extends Invisible {
@@ -41,19 +41,6 @@ describe('invisible prompt', function() {
         .then(function(answer) {
           assert.equal(answer, 'woohooo!');
         });
-    });
-
-    it('should not use options.initial when options.value is defined', () => {
-      prompt = new Prompt({
-        message: 'prompt-invisible',
-        initial: 'woohooo!',
-        value: ''
-      });
-
-      return prompt.run()
-        .then(function(answer) {
-          assert.equal(answer, '');
-        })
     });
   });
 

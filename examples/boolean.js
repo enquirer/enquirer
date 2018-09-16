@@ -1,4 +1,4 @@
-const Prompt = require('prompt-base/lib/types/boolean');
+const Prompt = require('../lib/types/boolean');
 const prompt = new Prompt({ message: 'Want to answer?', initial: true });
 
 prompt.run()

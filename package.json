@@ -1,5 +1,5 @@
 {
-  "name": "Enquirer",
+  "name": "enquirer",
   "description": "Intuitive, plugin-based prompt system for node.js. Much faster alternative to Inquirer, with all the same prompt types and more.",
   "version": "0.0.0",
   "homepage": "https://github.com/enquirer/enquirer",
@@ -14,8 +14,8 @@
   },
   "license": "MIT",
   "files": [
-    "prompts",
-    "index.js"
+    "index.js",
+    "lib"
   ],
   "main": "index.js",
   "engines": {
@@ -26,24 +26,29 @@
     "cover": "nyc --reporter=text --reporter=html mocha"
   },
   "dependencies": {
-    "ansi-colors": "^2.0.1",
-    "prompt-base": "github:enquirer/prompt-base#dev"
+    "ansi-colors": "^3.0.5",
+    "bash-path": "file:../../path-utils/bash-path",
+    "cross-spawn": "^6.0.5",
+    "get-cursor-position": "^1.0.5"
   },
   "devDependencies": {
-    "yosay": "^2.0.2",
+    "data-store": "^3.1.0",
+    "inquirer": "^6.0.0",
+    "prompts": "^0.1.13",
     "mocha": "^5.2.0",
     "gulp-format-md": "^1.0.0",
     "nyc": "^12.0.2"
   },
   "keywords": [
-    "base",
     "answer",
     "answers",
     "ask",
+    "base",
     "cli",
     "command",
     "command-line",
     "enquirer",
+    "Enquirer",
     "enquirerprompt",
     "input",
     "inquire",
@@ -61,10 +66,10 @@
     "ui"
   ],
   "lintDeps": {
-    "dependencies": {
+    "devDependencies": {
       "files": {
         "patterns": [
-          "prompts/*.js"
+          "perf/*.js"
         ]
       }
     }
@@ -80,16 +85,6 @@
     ],
     "plugins": [
       "gulp-format-md"
-    ],
-    "related": {
-      "list": [
-        "enquirer",
-        "prompt-checkbox",
-        "prompt-radio"
-      ]
-    },
-    "reflinks": [
-      "enquirer"
     ],
     "lint": {
       "reflinks": true

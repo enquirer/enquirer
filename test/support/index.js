@@ -2,7 +2,6 @@
 
 module.exports = function(assert) {
   const utils = {};
-  utils.press = require('./press');
   utils.expect = (expected, msg) => actual => assert.deepEqual(actual, expected, msg);
   utils.nextTick = fn => {
     return new Promise((resolve, reject) => {
@@ -14,6 +13,12 @@ module.exports = function(assert) {
     return new Promise((resolve, reject) => {
       setTimeout(() => fn().then(resolve).catch(reject), ms);
     });
+  };
+
+  utils.press = async(prompt, chars) => {
+    for (const ch of chars) {
+      await utils.timeout(() => prompt.keypress(ch));
+    }
   };
 
   assert.has = function(a, b, msg) {

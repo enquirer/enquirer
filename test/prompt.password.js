@@ -3,8 +3,8 @@
 require('mocha');
 const assert = require('assert');
 const support = require('./support');
-const { nextTick, expect } = support(assert);
-const PasswordPrompt = require('../prompts/password');
+const { nextTick } = support(assert);
+const PasswordPrompt = require('../lib/prompts/password');
 let prompt;
 
 class Prompt extends PasswordPrompt {

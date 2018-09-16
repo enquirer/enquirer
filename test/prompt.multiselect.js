@@ -1,11 +1,12 @@
 'use strict';
 
 require('mocha');
+const fs = require('fs');
 const assert = require('assert');
 const colors = require('ansi-colors');
 const support = require('./support');
-const { nextTick, expect } = support(assert);
-const MultiSelect = require('../prompts/multiselect');
+const { timeout, nextTick, expect } = support(assert);
+const MultiSelect = require('../lib/prompts/multiselect');
 let prompt;
 
 class Prompt extends MultiSelect {
@@ -16,7 +17,7 @@ class Prompt extends MultiSelect {
 
 describe('multiselect prompt', function() {
   describe('options.choices', () => {
-    it('should set a list of choices', () => {
+    it('should set a list of choices', cb => {
       prompt = new Prompt({
         message: 'prompt-multiselect',
         choices: [
@@ -27,17 +28,22 @@ describe('multiselect prompt', function() {
         ]
       });
 
-      assert.has(prompt.choices, [
-        { name: 'a', message: 'A', enabled: false },
-        { name: 'b', message: 'BB', enabled: false },
-        { name: 'c', message: 'CCC', enabled: false },
-        { name: 'd', message: 'DDDD', enabled: false }
-      ]);
+      prompt.on('run', () => {
+        assert.has(prompt.choices, [
+          { name: 'a', message: 'A', enabled: false },
+          { name: 'b', message: 'BB', enabled: false },
+          { name: 'c', message: 'CCC', enabled: false },
+          { name: 'd', message: 'DDDD', enabled: false }
+        ]);
+        cb();
+      });
+
+      prompt.run().catch(cb);
     });
   });
 
   describe('options.initial', () => {
-    it('should support optoins.initial', () => {
+    it('should support optoins.initial', cb => {
       prompt = new Prompt({
         message: 'prompt-multiselect',
         initial: 2,
@@ -49,7 +55,12 @@ describe('multiselect prompt', function() {
         ]
       });
 
-      assert.equal(prompt.initial, 2);
+      prompt.on('run', () => {
+        assert.equal(prompt.initial, 2);
+        cb();
+      });
+
+      prompt.run().catch(cb);
     });
 
     it('should use options.initial by default', () => {
@@ -96,23 +107,27 @@ describe('multiselect prompt', function() {
   });
 
   describe('rendering', () => {
-    it('should render a choice with the correct styles', () => {
+    it('should render a choice with the correct styles', cb => {
       prompt = new Prompt({
         message: 'prompt-multiselect',
         choices: [
-          { value: 'a', message: 'A' },
-          { value: 'b', message: 'BB' },
-          { value: 'c', message: 'CCC' },
-          { value: 'd', message: 'DDDD' }
+          { value: 'a', message: 'foo' },
+          { value: 'b', message: 'bar' },
+          { value: 'c', message: 'baz' },
+          { value: 'd', message: 'qux' }
         ]
       });
 
-      assert(Array.isArray(prompt.choices));
-      const key = colors.cyan.underline('A');
-      const check = prompt.style.symbols.check;
-      const pointer = colors.dim.gray(check);
-      assert.equal(prompt.renderChoice(prompt.choices[0], 0), `${pointer} ${key}`);
-      assert.equal(prompt.renderChoice(prompt.choices[1], 1), `${colors.dim.gray(check)} BB`);
+      prompt.on('run', () => {
+        assert(Array.isArray(prompt.choices));
+        const key = colors.cyan.underline('foo');
+        const pointer = colors.dim.gray(prompt.symbols.check);
+        assert.equal(prompt.renderChoice(prompt.choices[0], 0), `${pointer} ${key}`);
+        assert.equal(prompt.renderChoice(prompt.choices[1], 1), `${pointer} bar`);
+        cb();
+      });
+
+      prompt.run().catch(cb);
     });
   });
 
@@ -243,7 +258,7 @@ describe('multiselect prompt', function() {
         await nextTick(() => prompt.submit());
       });
 
-      return prompt.run().then(expect(['c']))
+      return prompt.run().then(expect(['c']));
     });
   });
 });

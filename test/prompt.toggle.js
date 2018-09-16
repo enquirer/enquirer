@@ -2,9 +2,9 @@
 
 require('mocha');
 const assert = require('assert');
-const Toggle = require('../prompts/toggle');
+const Toggle = require('../lib/prompts/toggle');
 const support = require('./support');
-const { nextTick, expect } = support(assert);
+const { nextTick } = support(assert);
 let prompt;
 
 class Prompt extends Toggle {
@@ -40,7 +40,7 @@ describe('prompt-toggle', function() {
       return prompt.run()
         .then(function(answer) {
           assert.equal(answer, true);
-        })
+        });
     });
   });
 
