@@ -9,6 +9,16 @@ class Prompt extends StringPrompt {
   constructor(options) {
     super({ ...options, show: false });
   }
+  skip() {
+    this.state.value = String(this.options.value);
+    this.submit();
+  }
+  initialize() {
+    super.initialize();
+    if (this.options.value !== void 0) {
+      this.skip();
+    }
+  }
   validate() {
     const isValid = typeof this.value === 'string';
     if (!isValid && this.options.show === false) {

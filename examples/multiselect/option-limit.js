@@ -4,9 +4,7 @@ const prompt = new Prompt({
   name: 'value',
   message: 'Pick colors',
   hint: '(Use <space> to select, <return> to submit)',
-  // initial: 2,
-  // limit: 7,
-  cursor: 2,
+  limit: 5,
   choices: [
     { name: 'aqua', value: '#00ffff', hint: 'Pick me!' },
     { name: 'black', value: '#000000' },

@@ -99,7 +99,7 @@ class Enquirer extends Events {
    */
 
   isDeferred(name, proto) {
-    return defer.includes(name) || /^on[A-Z]/.test(name) || name in proto;
+    return this.defer.includes(name) || /^on[A-Z]/.test(name) || name in proto;
   }
 
   state(prompt, question, answers = this.answers, prev = null) {
@@ -108,8 +108,8 @@ class Enquirer extends Events {
     return state;
   }
 
-  use(fn) {
-    fn.call(this, this);
+  use(plugin) {
+    plugin.call(this, this);
     return this;
   }
 

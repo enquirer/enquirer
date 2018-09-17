@@ -12,6 +12,16 @@ class Prompt extends ArrayPrompt {
     super({ ...options, show: false });
   }
   render() {}
+  skip() {
+    this.state.value = this.find(this.options.value, 'value');
+    this.submit();
+  }
+  initialize() {
+    super.initialize();
+    if (this.options.value !== void 0) {
+      this.skip();
+    }
+  }
 }
 
 describe('array prompt', function() {
@@ -34,10 +44,12 @@ describe('array prompt', function() {
           { name: 'c', message: 'CCC', enabled: false },
           { name: 'd', message: 'DDDD', enabled: false }
         ]);
+
+        prompt.submit();
         cb();
       });
 
-      prompt.run().catch(cb);;
+      prompt.run().catch(cb);
     });
 
     it('should add an array of choice strings', cb => {
@@ -66,7 +78,7 @@ describe('array prompt', function() {
   });
 
   describe('options.initial', () => {
-    it('should take a number as options.initial', cb => {
+    it('should take a number on options.initial', cb => {
       prompt = new Prompt({
         message: 'prompt-array',
         initial: 2,
@@ -81,12 +93,12 @@ describe('array prompt', function() {
       prompt.once('run', () => {
         assert.equal(prompt.initial, 2);
         prompt.submit();
-        cb();
       });
 
       prompt.run()
         .then(answer => {
           assert.equal(answer, 'c');
+          cb();
         })
         .catch(cb);
     });

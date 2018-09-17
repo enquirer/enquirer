@@ -26,10 +26,7 @@
     "cover": "nyc --reporter=text --reporter=html mocha"
   },
   "dependencies": {
-    "ansi-colors": "^3.0.5",
-    "bash-path": "file:../../path-utils/bash-path",
-    "cross-spawn": "^6.0.5",
-    "get-cursor-position": "^1.0.5"
+    "ansi-colors": "^3.0.5"
   },
   "devDependencies": {
     "data-store": "^3.1.0",

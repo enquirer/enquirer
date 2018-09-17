@@ -110,7 +110,7 @@ describe('prompt-text', function() {
         await prompt.keypress('l');
         await prompt.keypress('o');
         await prompt.keypress('w');
-        await prompt.keypress('g', { ctrl: true });
+        await prompt.keypress('g', { ctrl: true }); //<= reset
         prompt.submit();
       });
 
