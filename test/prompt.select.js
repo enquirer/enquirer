@@ -6,6 +6,7 @@ const { cyan } = require('ansi-colors');
 const support = require('./support');
 const { nextTick, expect } = support(assert);
 const PromptSelect = require('../lib/prompts/select');
+const symbols = require('../lib/style/symbols');
 let prompt;
 
 class Prompt extends PromptSelect {
@@ -87,7 +88,7 @@ describe('prompt-select', function() {
   });
 
   describe('rendering', () => {
-    it('should render a choice with the correct styles', () => {
+    it.only('should render a choice with the correct styles', () => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -102,7 +103,7 @@ describe('prompt-select', function() {
 
       return prompt.run()
         .then(answer => {
-          const expected = cyan(prompt.symbols.pointer.on) + ' ' + cyan('A');
+          const expected = cyan(symbols.pointer.on) + ' ' + cyan('A');
           assert.equal(prompt.renderChoice(prompt.choices[0], 0), expected);
           assert.equal(prompt.renderChoice(prompt.choices[1], 1), '  BB');
         });
