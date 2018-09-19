@@ -17,8 +17,8 @@ class Prompt extends Radio {
   }
 }
 
-describe('prompt-radio', function() {
-  describe('.renderChoiceHelp', () => {
+describe.skip('prompt-radio', function() {
+  describe.skip('.renderChoiceHelp', () => {
     it('should support custom options.renderChoiceHelp function', cb => {
       prompt = new Prompt({
         message: 'prompt-radio',
@@ -43,7 +43,7 @@ describe('prompt-radio', function() {
     });
   });
 
-  describe('options.choices', () => {
+  describe.skip('options.choices', () => {
     it('should set a list of choices', cb => {
       prompt = new Prompt({
         message: 'prompt-radio',
@@ -71,7 +71,7 @@ describe('prompt-radio', function() {
     });
   });
 
-  describe('options.initial', () => {
+  describe.skip('options.initial', () => {
     it('should use options.initial', cb => {
       prompt = new Prompt({
         message: 'prompt-radio',
@@ -93,7 +93,7 @@ describe('prompt-radio', function() {
     });
   });
 
-  describe('rendering', () => {
+  describe.skip('rendering', () => {
     it('should render an indicator with the correct styles', cb => {
       prompt = new Prompt({
         message: 'prompt-radio',
@@ -157,7 +157,7 @@ describe('prompt-radio', function() {
     });
   });
 
-  describe('key handling', () => {
+  describe.skip('key handling', () => {
     it('should handle toggling a selection with the `space` key', () => {
       prompt = new Prompt({
         message: 'prompt-radio',

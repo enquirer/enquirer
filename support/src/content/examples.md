@@ -17,17 +17,11 @@ geopattern: c
 
 ## List prompt
 
-**Install prompt-list**
-
-```sh
-$ npm install prompt-list
-```
-
 Add the following to `example.js`, then run `$ node example`:
 
 ```js
-var Prompt = require('prompt-list');
-var prompt = new Prompt({
+const enquirer = require('enquirer');
+const question = {
   name: 'drink',
   message: 'What would you like to drink?',
   choices: [
@@ -37,9 +31,8 @@ var prompt = new Prompt({
     {name: 'Sprite', disabled: 'Temporarily unavailable'},
     'Water'
   ]
-});
+};
 
-prompt.ask(function(answer) {
-  console.log(answer);
-});
+enquirer.list(question)
+  .then()
 ```

@@ -12,23 +12,21 @@ class Prompt extends ArrayPrompt {
     super({ ...options, show: false });
   }
   render() {}
-  skip() {
-    this.state.value = this.find(this.options.value, 'value');
-    this.submit();
-  }
   initialize() {
     super.initialize();
     if (this.options.value !== void 0) {
-      this.skip();
+      this.state.value = this.find(this.options.value, 'value');
+      this.submit();
     }
   }
 }
 
-describe('array prompt', function() {
-  describe('options.choices', () => {
+describe.skip('array prompt', function() {
+  describe.skip('options.choices', () => {
     it('should add an array of choice objects', cb => {
       prompt = new Prompt({
         message: 'prompt-array',
+        multiple: true,
         choices: [
           { name: 'a', message: 'A' },
           { name: 'b', message: 'BB' },
@@ -44,7 +42,6 @@ describe('array prompt', function() {
           { name: 'c', message: 'CCC', enabled: false },
           { name: 'd', message: 'DDDD', enabled: false }
         ]);
-
         prompt.submit();
         cb();
       });
@@ -70,6 +67,8 @@ describe('array prompt', function() {
           { name: 'c', message: 'c', enabled: false },
           { name: 'd', message: 'd', enabled: false }
         ]);
+
+        prompt.submit();
         cb();
       });
 
@@ -77,7 +76,7 @@ describe('array prompt', function() {
     });
   });
 
-  describe('options.initial', () => {
+  describe.skip('options.initial', () => {
     it('should take a number on options.initial', cb => {
       prompt = new Prompt({
         message: 'prompt-array',
@@ -104,7 +103,7 @@ describe('array prompt', function() {
     });
   });
 
-  describe('options.value', () => {
+  describe.skip('options.value', () => {
     it('should use options.value', () => {
       prompt = new Prompt({
         message: 'prompt-array',
@@ -121,28 +120,6 @@ describe('array prompt', function() {
         .then(answer => {
           assert.equal(answer, 'b');
         });
-    });
-
-    it('should not use initial value when answer is given', cb => {
-      prompt = new Prompt({
-        message: 'prompt-array',
-        initial: 2,
-        value: 'a',
-        choices: [
-          { name: 'a', message: 'A' },
-          { name: 'b', message: 'BB' },
-          { name: 'c', message: 'CCC' },
-          { name: 'd', message: 'DDDD' }
-        ]
-      });
-
-      prompt.once('run', () => {
-        assert.equal(prompt.initial, 2);
-        prompt.submit();
-        cb();
-      });
-
-      prompt.run().then(expect('a')).catch(cb);
     });
   });
 });

@@ -11,8 +11,8 @@ class Prompt extends BooleanPrompt {
   }
 }
 
-describe('boolean prompt', function() {
-  describe('options.value', () => {
+describe.skip('boolean prompt', function() {
+  describe.skip('options.value', () => {
     it('should not prompt when options.value is boolean true', () => {
       prompt = new Prompt({ message: 'foo', value: true });
       return prompt.run().then(answer => assert(answer === true));
@@ -24,7 +24,7 @@ describe('boolean prompt', function() {
     });
   });
 
-  describe('options.initial', () => {
+  describe.skip('options.initial', () => {
     it('should use options.initial when submitted without changes', () => {
       prompt = new Prompt({ message: 'foo', initial: true });
       prompt.once('run', () => prompt.submit());

@@ -5,14 +5,14 @@
 
   <a class="navbar-brand" href="{{link-to "index"}}">
     <img src="assets/img/icon-dark-flattened.png" width="30" height="30" class="d-inline-block align-top" alt="{{site.name}}">
-    {{@site.name}}
+    {{@project.name}}
   </a>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      {{#if @site.nav.main}}
+      {{#if @project.nav.main}}
         {{#pages}}
-          {{#each (sort-list items @site.nav.main) as | item |}}
+          {{#each (sort-list items @project.nav.main) as | item |}}
           <li class="nav-item {{#is @root.page.stem item.stem}}active{{/is}}">
             <a class="nav-link" href="{{link-to item.relative}}">{{titleize (default item.data.link item.data.title)}}</a>
           </li>

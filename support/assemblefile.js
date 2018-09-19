@@ -52,8 +52,7 @@ app.task('templates', cb => {
  */
 
 app.task('root', () => {
-  return app
-    .src(paths.src('root/*'), { dot: true })
+  return app.src(paths.src('root/*'), { dot: true })
     .pipe(app.renderFile('*'))
     .pipe(app.dest(paths.dest()));
 });

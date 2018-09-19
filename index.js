@@ -33,7 +33,7 @@ class Enquirer extends Events {
     return this;
   }
 
-  async prompt(questions = [], options) {
+  async prompt(questions = []) {
     let state = this.state();
     let deferred;
 

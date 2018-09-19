@@ -26,44 +26,48 @@ module.exports = (app, cwd) => {
   app.on('error', console.error);
 
   /**
-   * Build paths
+   * Set paths. We also add paths to options, since it's  useful in helpers,
+   * and to data, to ensure paths are exposed on the context.
    */
 
   const paths = {};
+  const setPath = (name, filepath) => {
+    paths[name] = filepath;
+    if (typeof filepath === 'function') filepath = filepath();
+    app.option(name, filepath);
+    app.data(name, filepath);
+  };
+
   paths.src = path.join.bind(path, cwd, 'src');
   paths.dest = path.join.bind(path, cwd, '../docs');
-  paths.assets = path.join.bind(path, paths.dest('assets'));
   paths.data = path.join.bind(path, paths.src('data'));
+  paths.assets = path.join.bind(path, paths.dest('assets'));
 
   /**
    * Create a data store on `app`, for storing
    * dynamically created config variables (usually from prompts)
    */
 
-  app.store = new Store({path: paths.data('enquirer.json')});
+  app.store = new Store({ path: paths.data('enquirer.json') });
 
   /**
-   * Build "options" (paths are useful in helpers)
+   * Set "options" (paths defined on options can be useful in helpers)
    */
 
   app.option('engine', 'hbs');
-  app.option('assets', paths.assets());
-  app.option('dest', paths.dest());
 
   /**
    * `site` data (for rendering templates)
    */
 
-  app.data('site', app.pkg.data);
-  app.data('site.title', app.data('site.name'));
-  app.data('site.org.url', 'https://github.com/enquirer');
-  app.data('site.nav.main', ['docs', 'prompts']);
-  app.data('site.nav.dropdown', ['examples', 'contributing', 'about']);
-  app.data('site.google.analytics_id', '');
-  app.data('site.google.tags_id', '');
-  app.data('site.author.username', 'jonschlinkert');
-  app.data('assets', paths.assets());
-  app.data('dest', paths.dest());
+  app.data('project', app.pkg.data);
+  app.data('project.title', app.data('project.name'));
+  app.data('project.org.url', 'https://github.com/enquirer');
+  app.data('project.nav.main', ['docs', 'prompts']);
+  app.data('project.nav.dropdown', ['examples', 'contributing', 'about']);
+  app.data('project.google.analytics_id', '');
+  app.data('project.google.tags_id', '');
+  app.data('project.author.username', 'jonschlinkert');
 
   /**
    * Plugins
@@ -90,7 +94,7 @@ module.exports = (app, cwd) => {
    * Async helpers
    */
 
-  app.asyncHelper('prompt', prompt({store: app.store}));
+  app.asyncHelper('prompt', prompt({ store: app.store }));
 
   // return build paths
   return paths;

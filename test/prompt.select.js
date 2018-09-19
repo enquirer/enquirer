@@ -15,8 +15,8 @@ class Prompt extends PromptSelect {
   }
 }
 
-describe('prompt-select', function() {
-  describe('options.choices', () => {
+describe.skip('prompt-select', function() {
+  describe.skip('options.choices', () => {
     it('should set a list of choices', cb => {
       prompt = new Prompt({
         message: 'prompt-select',
@@ -65,7 +65,7 @@ describe('prompt-select', function() {
     });
   });
 
-  describe('options.initial', () => {
+  describe.skip('options.initial', () => {
     it('should use options.initial', () => {
       prompt = new Prompt({
         message: 'prompt-select',
@@ -87,8 +87,8 @@ describe('prompt-select', function() {
     });
   });
 
-  describe('rendering', () => {
-    it.only('should render a choice with the correct styles', () => {
+  describe.skip('rendering', () => {
+    it('should render a choice with the correct styles', () => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -132,7 +132,7 @@ describe('prompt-select', function() {
     });
   });
 
-  describe('key handling', () => {
+  describe.skip('key handling', () => {
     it('should handle submitting with the enter key', () => {
       prompt = new Prompt({
         message: 'prompt-select',

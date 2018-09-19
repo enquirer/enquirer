@@ -3,17 +3,31 @@ layout: default
 title: Prompts
 ---
 
-If you only need to prompt for one specific thing, then Enquirer probably isn't needed. Instead, you should use one of the individual prompts. Enquirer is useful for when your application needs to expose multiple prompt types, or you need to compose more sophisticated prompts.
+Enquirer ships with a number of useful prompts, but it's also really easy to [create new prompts](#discovering-prompts) when you [need something different](#discovering-prompts).
 
+# Included Prompts
+
+The following prompts are included with Enquirer.
+
+- [autocomplete](#autocomplete)
+- [confirm](#confirm)
+- [invisible](#invisible)
+- [multiselect](#multiselect)
+- [number](#number)
+- [password](#password)
+- [select](#select)
+- [split](#split)
+- [text](#text)
+- [toggle](#toggle)
 
 ## Discovering prompts
 
-You can [find prompts](https://www.npmjs.com/browse/keyword/{{@site.name}}) created by the Enquirer core team or the community on npm (`https://www.npmjs.com/browse/keyword/{{@site.name}}`).
+You can [find prompts](https://www.npmjs.com/browse/keyword/enquirer) created by the Enquirer core team or the community on npm (`https://www.npmjs.com/browse/keyword/enquirer`).
 
 
 ## Authoring prompts
 
-**Why create a prompt for {{@site.name}}?**
+**Why create a prompt for Enquirer?**
 
 Custom prompts are easy to write, and can be used to:
 
@@ -26,8 +40,8 @@ Custom prompts are easy to write, and can be used to:
 Before moving on to authoring prompts, it might help to understand how the prompts work:
 
 - [ ] Learn about prompts, and how they work (prompt-base, etc)
-- [ ] Learn about {{titleize @site.name}} [core concepts](docs.html#core-concepts)
-- [ ] Learn how the {{titleize @site.name}} code base is organized, and why.
+- [ ] Learn about {{titleize @project.name}} [core concepts](docs.html#core-concepts)
+- [ ] Learn how the {{titleize @project.name}} code base is organized, and why.
 - [ ] Learn about the Enquirer API
 - [ ] Learn about debugging
 
@@ -73,11 +87,11 @@ prompt.run()
 
 **Make your prompt discoverable**
 
-If you author a custom prompt, be sure to add `{{@site.name}}` and `{{@site.name}}-prompt` to the `keywords` array in your project's package.json.
+If you author a custom prompt, be sure to add `enquirer` and `enquirer-prompt` to the `keywords` array in your project's package.json before publishing to NPM.
 
 **Publish**
 
-When you're ready to publish your prompt to [npm](https://www.npmjs.com/), you can do so with the following command from the root of the project:
+When you're ready to publish your prompt to [npm](https://www.npmjs.com/), you can do so with the following command from the root of your project:
 
 ```sh
 $ npm publish
@@ -85,10 +99,9 @@ $ npm publish
 
 ## Next steps
 
-Now that you've published your custom prompt, let's tell the world about the great work you've done!
+Now that you've published your custom prompt, make sure you tell the world about the great work you've done!
 
-* To make your project as discoverable as possible, please add the keywords `{{@site.name}}` and `{{@site.name}}-prompt` to package.json.
-* Tweet about it, and be sure to mention `@{{@site.name}}js` or use the `#{{@site.name}}js` hashtag (don't forget the `js` part on twitter)
-* Show your love by starring [{{@site.name}}](https://github.com/{{@site.name}}/{{@site.name}})
-* Get implementation help on [StackOverflow](http://stackoverflow.com/questions/tagged/{{@site.name}}) (as with twitter, please use the `{{@site.name}}js` tag in questions)
-* TODO **Gitter** Discuss {{@site.name}} with us on [Gitter](https://gitter.im/{{@site.name}}/{{@site.name}})
+* Show your love by starring [Enquirer](https://github.com/enquirer/enquirer)
+* To make your project as discoverable as possible, please add the keywords `enquirer` and `enquirer-prompt` to package.json.
+* Tweet about it, and be sure to mention `@enquirerjs` or use the `#enquirerjs` hashtag (don't forget the `js` part on twitter)
+* Get implementation help on [StackOverflow](http://stackoverflow.com/questions/tagged/enquirer) (as with twitter, please use the `enquirerjs` tag in questions)

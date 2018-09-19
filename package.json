@@ -26,7 +26,8 @@
     "cover": "nyc --reporter=text --reporter=html mocha"
   },
   "dependencies": {
-    "ansi-colors": "^3.0.5"
+    "ansi-colors": "^3.0.5",
+    "is-number": "^7.0.0"
   },
   "devDependencies": {
     "data-store": "^3.1.0",

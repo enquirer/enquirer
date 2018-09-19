@@ -2,6 +2,14 @@
 
 The `ArrayPrompt` class is used for creating prompts that display an array of choices in the terminal, and return one more more value.
 
+/**
+ * - cursor - position of cursor in a typed value
+ * - index - position of currently selected item in an array of items
+ *
+ * Tips:
+ * - cursor and typed value only change from append and delete
+ */
+
 ## Keypresses
 
 Array prompts support the following keypress combinations.
@@ -14,30 +22,17 @@ Array prompts support the following keypress combinations.
 | <kbd>fn</kbd>+<kbd>▼</kbd> (mac) or <kbd>Page Down</kbd> (win) | `pageDown` | `undefined` | todo |
 
 
-## Options
+### Prompt instance properties
 
-Array prompts take the following options.
-
-| **Name** | **Type** |  **Default** | **Description** |
-| --- | --- | --- | --- |
-| `limit` | `Number` | `options.choices.length` | The number of choices to make visible in the terminal. Users can scroll up and down to reveal more choices when the entire list is not shown. |
-| `initial` | `Number|String|Array` | `undefined` | The index or name of the initial choice to enable. |
-| `hint` | `String` | `undefined` | todo |
-| `name` | `String` | `undefined` | todo |
-| `type` | `String` | `undefined` | todo |
-| `messsage` | `String` | `undefined` | todo |
-| `choices` | `Array` | `undefined` | todo |
+- `prompt.choices` - Normalized array of choices created from `options.choices`.
+- `prompt.visible` - Visible list of choices, if `options.limit` is defined, or the entire choices array.
+- `prompt.index` - The index of the choice that currently has focus.
+- `prompt.focused` - The choice that has focus.
 
 
-## Options examples
+## Examples
 
-**Type**: `number`
-
-**Default**: `options.choices.length`
-
-**Description**: The number of choices to make visible in the terminal. Users can scroll up and down to reveal more choices when the entire list is not shown.
-
-### options.limit example
+### options.limit
 
 The following prompt would only render three choices in the terminal at any given time.
 
@@ -50,14 +45,7 @@ const prompt = new Prompt({
 });
 ```
 
-
-### Instance properties
-
-- `prompt.choices` - Normalized array of choices created from `options.choices`.
-- `prompt.list` - Visible list of choices, if `options.limit` is defined, or the entire choices array.
-- `prompt.cursor` - the position of the cursor in the visible `prompt.list` array
-
-### Related
+### Related prompts
 
 - [prompt-autocompletion][]
 - [prompt-select][]

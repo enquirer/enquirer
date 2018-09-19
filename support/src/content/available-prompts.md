@@ -12,4 +12,3 @@ Built-in prompts:
 - [split](#split)
 - [text](#text)
 - [toggle](#toggle)
-

@@ -52,7 +52,7 @@ enquirer.prompt(['first', 'last'])
 ## Next steps
 
 - Visit the [enquirer documentation](docs.html) for more detailed usage instructions.
-- [Discover prompts](https://www.npmjs.com/browse/keyword/{{@site.name}}) created by the community or the Enquirer core team
+- [Discover prompts](https://www.npmjs.com/browse/keyword/{{@project.name}}) created by the community or the Enquirer core team
 - Learn how to [Author prompts](prompts.html)
 - [See examples](examples.html)
 
