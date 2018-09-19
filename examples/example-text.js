@@ -1,6 +1,6 @@
 'use strict';
 
-const Prompt = require('./lib/prompts/text');
+const Prompt = require('../lib/prompts/text');
 const prompt = new Prompt({
   name: 'username',
   message: 'What is your username?',

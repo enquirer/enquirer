@@ -1,6 +1,6 @@
 'use strict';
 
-const Prompt = require('./lib/prompts/multiselect');
+const Prompt = require('../lib/prompts/multiselect');
 const prompt = new Prompt({
   name: 'username',
   message: 'Favorite?',

@@ -1,6 +1,6 @@
 'use strict';
 
-const Prompt = require('./lib/prompts/select');
+const Prompt = require('../lib/prompts/select');
 const prompt = new Prompt({
   name: 'username',
   message: 'Favorite?',
