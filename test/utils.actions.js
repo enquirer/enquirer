@@ -2,11 +2,11 @@
 
 require('mocha');
 const assert = require('assert');
-const actions = require('../lib/action');
+const actions = require('../lib/keymap');
 const keypress = require('../lib/keypress');
 const action = key => actions(keypress(null, key)).action;
 
-describe.skip('utils.actions', function() {
+describe('utils.actions', function() {
   it('should decorate actions on keypress events', () => {
     assert.equal(action({ name: 'cancel' }), 'cancel');
     assert.equal(action({ name: 'backspace' }), 'delete');

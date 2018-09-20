@@ -6,8 +6,8 @@ const Prompt = require('../lib/prompts/text');
 const { press } = require('./support')(assert);
 let prompt;
 
-describe.skip('prompt-text', function() {
-  describe.skip('options.initial', () => {
+describe('prompt-text', function() {
+  describe('options.initial', () => {
     it('should use value defined on options.initial', () => {
       prompt = new Prompt({
         message: 'Favorite color?',
@@ -24,7 +24,7 @@ describe.skip('prompt-text', function() {
     });
   });
 
-  describe.skip('keypresses', () => {
+  describe('keypresses', () => {
     it('should take user input', () => {
       prompt = new Prompt({
         message: 'Favorite color?',

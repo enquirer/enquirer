@@ -10,36 +10,20 @@ let prompt;
 class Prompt extends PromptBase {
   constructor(options = {}) {
     super({ ...options, show: false });
-    this.value = this.options.value || this.options.initial;
-  }
-  render() {}
-  skip() {
-    if (this.options.value !== void 0) {
-      this.value = this.options.value;
-      return true;
-    }
   }
 }
 
 describe('prompt-base', function() {
   describe('.keypress()', () => {
-    it('should alert when an unrecognized keypress is entered', cb => {
-      prompt = new Prompt({ message: 'Example prompt' });
-
-      prompt.on('run', () => prompt.keypress('/'));
-      prompt.on('alert', keypress => {
-        assert.equal(keypress.action, null);
-        cb();
-      });
-
-      prompt.run()
-        .then(answer => {
-          assert.equal(answer, 'CHOCOLATE');
-        });
-    });
-
     it('should emit a keypress for each character', cb => {
       prompt = new Prompt({ message: 'Example prompt' });
+      prompt.keypress =  async(str, key) => {
+        if (str && str.length > 1) {
+          return [...str].forEach(async ch => await prompt.keypress(ch, key));
+        }
+        prompt.constructor.prototype.keypress.call(prompt, str, key);
+      };
+
       const keypresses = [];
 
       prompt.on('keypress', (ch, key) => {
@@ -63,30 +47,21 @@ describe('prompt-base', function() {
     });
   });
 
-  describe('options.value', () => {
-    it('should submit early when options.value is defined', () => {
+  describe('events', () => {
+    it('should submit from listener when options.value is defined', () => {
       prompt = new Prompt({
         message: 'prompt',
         initial: 'woohooo!',
         value: 'foo'
       });
 
+      prompt.on('run', () => {
+        prompt.submit(prompt.options.value);
+      })
+
       return prompt.run()
         .then(answer => {
           assert.equal(answer, 'foo');
-        });
-    });
-
-    it('should use options.value when it is an empty string', () => {
-      prompt = new Prompt({
-        message: 'prompt',
-        initial: 'woohooo!',
-        value: ''
-      });
-
-      return prompt.run()
-        .then(answer => {
-          assert.equal(answer, '');
         });
     });
   });
@@ -128,12 +103,14 @@ describe('prompt-base', function() {
         }
       });
 
+      prompt.on('run', () => prompt.submit());
+
       return prompt.run().then(() => assert.equal(count, 1));
     });
   });
 
   describe('options.symbols', () => {
-    it('should use custom symbols', () => {
+    it.skip('should use custom symbols', () => {
       prompt = new Prompt({
         message: 'prompt',
         symbols: {

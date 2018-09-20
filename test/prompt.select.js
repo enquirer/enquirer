@@ -15,8 +15,8 @@ class Prompt extends PromptSelect {
   }
 }
 
-describe.skip('prompt-select', function() {
-  describe.skip('options.choices', () => {
+describe('prompt-select', function() {
+  describe('options.choices', () => {
     it('should set a list of choices', cb => {
       prompt = new Prompt({
         message: 'prompt-select',
@@ -36,15 +36,16 @@ describe.skip('prompt-select', function() {
           { name: 'd', message: 'DDDD', enabled: false }
         ]);
 
-        assert.equal(prompt.initial, void 0);
+        assert.deepEqual(prompt.initial, []);
         assert.equal(prompt.longest, 4);
+        prompt.submit();
         cb();
       });
 
       prompt.run().catch(cb);
     });
 
-    it('should map choice.alias to prompt.aliases', cb => {
+    it.skip('should map choice.alias to prompt.aliases', cb => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -56,7 +57,7 @@ describe.skip('prompt-select', function() {
       });
 
       prompt.once('run', () => {
-        assert.deepEqual(prompt.aliases, ['x', '', '', 'z']);
+        assert.deepEqual(prompt.state.aliases, ['x', '', '', 'z']);
         prompt.submit();
         cb();
       });
@@ -65,11 +66,11 @@ describe.skip('prompt-select', function() {
     });
   });
 
-  describe.skip('options.initial', () => {
+  describe('options.initial', () => {
     it('should use options.initial', () => {
       prompt = new Prompt({
         message: 'prompt-select',
-        initial: 2,
+        selected: 2,
         choices: [
           { name: 'a', message: 'A' },
           { name: 'b', message: 'BB' },
@@ -87,7 +88,7 @@ describe.skip('prompt-select', function() {
     });
   });
 
-  describe.skip('rendering', () => {
+  describe('rendering', () => {
     it('should render a choice with the correct styles', () => {
       prompt = new Prompt({
         message: 'prompt-select',
@@ -121,7 +122,7 @@ describe.skip('prompt-select', function() {
       });
 
       prompt.once('run', () => {
-        const pointer = cyan(prompt.symbols.pointer.on);
+        const pointer = cyan(symbols.pointer.on);
         const expected = `\n${pointer} ${cyan('A')}\n  BB\n  CCC\n  DDDD`;
         const actual = prompt.renderChoices();
         assert.equal(actual, expected);
@@ -132,7 +133,7 @@ describe.skip('prompt-select', function() {
     });
   });
 
-  describe.skip('key handling', () => {
+  describe('key handling', () => {
     it('should handle submitting with the enter key', () => {
       prompt = new Prompt({
         message: 'prompt-select',
@@ -182,13 +183,13 @@ describe.skip('prompt-select', function() {
     it('should handle selecting using number keys', () => {
       prompt = new Prompt({
         message: 'prompt-select',
+        show: false,
         choices: [
           { name: 'a', message: 'A' },
           { name: 'b', message: 'BB' },
           { name: 'c', message: 'CCC' },
           { name: 'd', message: 'DDDD' }
-        ],
-        show: false
+        ]
       });
 
       prompt.on('run', async() => {

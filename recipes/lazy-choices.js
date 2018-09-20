@@ -2,7 +2,7 @@
 
 const { cyan, dim, red } = require('ansi-colors');
 const Prompt = require('..');
-const spinner = require('../lib/style/spinner');
+const spinner = require('@sellside/spinner');
 
 const spin = (output, msg) => {
   const end = spinner(msg, { output, interval: 60, frame: ele => cyan(ele) });
@@ -95,13 +95,14 @@ class LazyChoices extends Prompt {
   }
 
   offline() {
+    let { up, down, submit } = this;
     this.up = () => this.alert();
     this.down = () => this.alert();
     this.submit = () => this.alert();
     return () => {
-      this.submit = this.constructor.prototype.submit.bind(this);
-      this.down = this.constructor.prototype.down.bind(this);
-      this.up = this.constructor.prototype.up.bind(this);
+      this.submit = submit.bind(this);
+      this.down = down.bind(this);
+      this.up = up.bind(this);
     };
   }
 

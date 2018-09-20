@@ -1,7 +1,9 @@
+const colors = require('ansi-colors');
 const enquirer = require('../..');
 
 const prefix = function() {
-  return this.symbols.heart;
+  let color = this.state.answered ? 'green' : this.state.cancelled ? 'red' : 'blue';
+  return colors[color](this.symbols.heart) + ' ';
 };
 
 enquirer.text({ message: 'Name?', prefix })

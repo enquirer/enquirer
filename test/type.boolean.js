@@ -11,29 +11,21 @@ class Prompt extends BooleanPrompt {
   }
 }
 
-describe.skip('boolean prompt', function() {
-  describe.skip('options.value', () => {
-    it('should not prompt when options.value is boolean true', () => {
-      prompt = new Prompt({ message: 'foo', value: true });
-      return prompt.run().then(answer => assert(answer === true));
-    });
-
-    it('should not prompt when options.value is boolean false', () => {
-      prompt = new Prompt({ message: 'foo', value: false });
-      return prompt.run().then(answer => assert(answer === false));
-    });
-  });
-
-  describe.skip('options.initial', () => {
-    it('should use options.initial when submitted without changes', () => {
+describe('boolean prompt', function() {
+  describe('options.initial', () => {
+    it('should use options.initial when true', () => {
       prompt = new Prompt({ message: 'foo', initial: true });
       prompt.once('run', () => prompt.submit());
       return prompt.run().then(answer => assert(answer === true));
     });
 
-    it('should not use options.initial when options.value is defined', () => {
-      prompt = new Prompt({ message: 'foo', initial: true, value: false });
-      return prompt.run().then(answer => assert(answer === false));
+    it('should use options.initial when false', () => {
+      prompt = new Prompt({ message: 'foo', initial: false });
+      prompt.once('run', () => prompt.submit());
+      return prompt.run()
+        .then(answer => {
+          assert(answer === false);
+        });
     });
   });
 });

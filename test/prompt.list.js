@@ -4,18 +4,18 @@ require('mocha');
 const assert = require('assert');
 const support = require('./support');
 const { timeout, press } = support(assert);
-const SplitPrompt = require('../lib/prompts/list');
+const ListPrompt = require('../lib/prompts/list');
 let prompt;
 
-class Prompt extends SplitPrompt {
+class Prompt extends ListPrompt {
   constructor(options) {
     super({ ...options, show: false });
   }
 }
 
-describe.skip('prompt-list', function() {
-  describe.skip('options.value', () => {
-    it('should return early when options.value is defined', () => {
+describe('prompt-list', function() {
+  describe('options.value', () => {
+    it.skip('should return early when options.value is defined', () => {
       prompt = new Prompt({
         message: 'Enter a list of words',
         initial: 'a, b, c',
@@ -23,7 +23,7 @@ describe.skip('prompt-list', function() {
       });
 
       return prompt.run()
-        .then(function(answer) {
+        .then(answer => {
           assert.deepEqual(answer, ['foo', 'bar', 'baz']);
         });
     });
@@ -31,54 +31,59 @@ describe.skip('prompt-list', function() {
     it('should use options.value when it is an empty string', () => {
       prompt = new Prompt({
         message: 'Enter a list of words',
-        value: ''
+        initial: ''
       });
 
+      prompt.on('run', () => prompt.submit());
+
       return prompt.run()
-        .then(function(answer) {
+        .then(answer => {
           assert.deepEqual(answer, []);
         });
     });
   });
 
-  describe.skip('options.initial', () => {
+  describe('options.initial', () => {
     it('should use options.initial when no other value is entered', () => {
       prompt = new Prompt({ message: 'Enter comma-separated values', initial: 'a, b, c' });
 
       prompt.on('run', () => prompt.submit());
+
       return prompt.run()
-        .then(function(answer) {
+        .then(answer => {
           assert.deepEqual(answer, ['a', 'b', 'c']);
         });
     });
   });
 
-  describe.skip('options.separator', () => {
+  describe('options.separator', () => {
     it('should use a custom separator', () => {
       prompt = new Prompt({
         message: 'Enter dot-separated values',
         separator: /\. */,
-        value: 'a.b.c'
+        initial: 'a.b.c'
       });
 
+      prompt.on('run', () => prompt.submit());
+
       return prompt.run()
-        .then(function(answer) {
+        .then(answer => {
           assert.deepEqual(answer, ['a', 'b', 'c']);
         });
     });
   });
 
-  describe.skip('usage', () => {
+  describe('usage', () => {
     it('should get a list of keywords', () => {
       prompt = new Prompt({ message: 'Enter a list of comma separated keywords:' });
       prompt.once('run', async() => {
-        await press(prompt, 'prompt, cli, enquirer, commandline');
+        await press(prompt, 'foo, bar, baz, qux');
         await timeout(() => prompt.submit());
       });
 
       return prompt.run()
         .then(answer => {
-          assert.deepEqual(answer, ['prompt', 'cli', 'enquirer', 'commandline']);
+          assert.deepEqual(answer, ['foo', 'bar', 'baz', 'qux']);
         });
     });
 
@@ -86,8 +91,8 @@ describe.skip('prompt-list', function() {
       prompt = new Prompt({
         message: 'Enter email address either separated by a comma (,) or semicolon (;):',
         separator: /[,;]/,
-        format(value) {
-          return value.filter(Boolean);
+        format(list) {
+          return list.filter(Boolean);
         }
       });
 

@@ -1,3 +1,4 @@
+
 ## Why use this?
 
 * Minimal - Only one dependency ([ansi-colors](https://github.com/doowb/ansi-colors)). ([inquirer][] has 32!)
@@ -58,13 +59,11 @@ new Confirm('Like chocolate?')
 **Interface**
 
 ```
-{
-  past: Array<T>,
-  present: T,
-  future: Array<T>
+interface History {
+  past: Array<String>,
+  present: String
 }
 ```
-
 
 ## Usage with [enquirer][]
 

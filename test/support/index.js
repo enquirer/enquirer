@@ -16,7 +16,7 @@ module.exports = function(assert) {
   };
 
   utils.press = async(prompt, chars) => {
-    for (const ch of chars) {
+    for (const ch of [...chars]) {
       await utils.timeout(() => prompt.keypress(ch));
     }
   };

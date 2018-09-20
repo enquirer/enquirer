@@ -9,15 +9,8 @@ class Prompt extends StringPrompt {
   constructor(options) {
     super({ ...options, show: false });
   }
-  initialize() {
-    super.initialize();
-    if (this.options.value !== void 0) {
-      this.state.value = String(this.options.value);
-      this.submit();
-    }
-  }
   validate() {
-    const isValid = typeof this.value === 'string';
+    const isValid = typeof this.state.value === 'string';
     if (!isValid && this.options.show === false) {
       return this.cancel(new Error('invalid initial value'));
     }
@@ -35,9 +28,12 @@ describe('string prompt', function() {
     });
   });
 
-  describe('options.value', () => {
+  describe('options.validate', () => {
     it('should not prompt when options.value is a string', () => {
       prompt = new Prompt({ message: 'foo', value: 'true' });
+      prompt.on('run', () => {
+        prompt.submit(String(prompt.options.value));
+      });
       return prompt.run()
         .then(answer => {
           assert.equal(answer, 'true');
@@ -46,6 +42,9 @@ describe('string prompt', function() {
 
     it('should cast options.value to a string', () => {
       prompt = new Prompt({ message: 'foo', value: false });
+      prompt.on('run', () => {
+        prompt.submit(String(prompt.options.value));
+      });
       return prompt.run()
         .then(answer => {
           assert.equal(answer, 'false');
@@ -65,6 +64,9 @@ describe('string prompt', function() {
 
     it('should not use options.initial when options.value is defined', () => {
       prompt = new Prompt({ message: 'foo', initial: true, value: 'false' });
+      prompt.on('run', () => {
+        prompt.submit(String(prompt.options.value));
+      });
       return prompt.run().then(answer => assert.equal(answer, 'false'));
     });
   });

@@ -11,18 +11,10 @@ class Prompt extends ArrayPrompt {
   constructor(options = {}) {
     super({ ...options, show: false });
   }
-  render() {}
-  initialize() {
-    super.initialize();
-    if (this.options.value !== void 0) {
-      this.state.value = this.find(this.options.value, 'value');
-      this.submit();
-    }
-  }
 }
 
-describe.skip('array prompt', function() {
-  describe.skip('options.choices', () => {
+describe('array prompt', function() {
+  describe('options.choices', () => {
     it('should add an array of choice objects', cb => {
       prompt = new Prompt({
         message: 'prompt-array',
@@ -76,11 +68,12 @@ describe.skip('array prompt', function() {
     });
   });
 
-  describe.skip('options.initial', () => {
-    it('should take a number on options.initial', cb => {
+  describe('options.autofocus', () => {
+    it('should take a number on options.autofocus', cb => {
       prompt = new Prompt({
         message: 'prompt-array',
-        initial: 2,
+        autofocus: 2,
+        selected: 2,
         choices: [
           { name: 'a', message: 'A' },
           { name: 'b', message: 'BB' },
@@ -90,7 +83,7 @@ describe.skip('array prompt', function() {
       });
 
       prompt.once('run', () => {
-        assert.equal(prompt.initial, 2);
+        assert.equal(prompt.state.autofocus, 2);
         prompt.submit();
       });
 
@@ -101,13 +94,12 @@ describe.skip('array prompt', function() {
         })
         .catch(cb);
     });
-  });
 
-  describe.skip('options.value', () => {
-    it('should use options.value', () => {
+    it('should take a string on options.autofocus', () => {
       prompt = new Prompt({
         message: 'prompt-array',
-        value: 'b',
+        autofocus: 'b',
+        selected: 'b',
         choices: [
           { name: 'a', message: 'A' },
           { name: 'b', message: 'BB' },
@@ -115,6 +107,8 @@ describe.skip('array prompt', function() {
           { name: 'd', message: 'DDDD' }
         ]
       });
+
+      prompt.once('run', () => prompt.submit());
 
       return prompt.run()
         .then(answer => {
