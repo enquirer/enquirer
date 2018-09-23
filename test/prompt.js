@@ -10,21 +10,45 @@ let prompt;
 class Prompt extends PromptBase {
   constructor(options = {}) {
     super({ ...options, show: false });
+    this.value = this.options.value || this.options.initial;
+  }
+  render() {}
+  skip() {
+    if (this.options.value !== void 0) {
+      this.value = this.options.value;
+      return true;
+    }
   }
 }
 
-describe('prompt-base', function() {
+describe('base', function() {
   describe('.keypress()', () => {
+    it('should emit alert when an unrecognized keypress is entered', cb => {
+      prompt = new Prompt({ message: 'Example prompt' });
+
+      prompt.on('run', () => prompt.keypress('/'));
+      prompt.on('alert', keypress => {
+        assert.equal(keypress.action, void 0);
+        cb();
+      });
+
+      prompt.on('run', () => prompt.submit());
+
+      prompt.run()
+        .then(answer => {
+          assert.equal(answer, void 0);
+        });
+    });
+
     it('should emit a keypress for each character', cb => {
       prompt = new Prompt({ message: 'Example prompt' });
+      const keypresses = [];
       prompt.keypress =  async(str, key) => {
         if (str && str.length > 1) {
           return [...str].forEach(async ch => await prompt.keypress(ch, key));
         }
         prompt.constructor.prototype.keypress.call(prompt, str, key);
       };
-
-      const keypresses = [];
 
       prompt.on('keypress', (ch, key) => {
         keypresses.push(key.raw);
@@ -110,7 +134,7 @@ describe('prompt-base', function() {
   });
 
   describe('options.symbols', () => {
-    it.skip('should use custom symbols', () => {
+    it('should use custom symbols', () => {
       prompt = new Prompt({
         message: 'prompt',
         symbols: {

@@ -13,13 +13,15 @@ class Prompt extends Invisible {
   }
 }
 
-describe.skip('invisible prompt', function() {
-  describe.skip('options.value', () => {
+describe('invisible prompt', function() {
+  describe('options.value', () => {
     it('should use options.value without prompting', () => {
       prompt = new Prompt({
         message: 'prompt-invisible',
         value: 'woohooo!'
       });
+
+      prompt.on('run', () => prompt.submit());
 
       return prompt.run()
         .then(function(answer) {
@@ -28,7 +30,7 @@ describe.skip('invisible prompt', function() {
     });
   });
 
-  describe.skip('options.initial', () => {
+  describe('options.initial', () => {
     it('should use options.initial when submitted without typing', () => {
       prompt = new Prompt({
         message: 'prompt-invisible',
@@ -44,7 +46,7 @@ describe.skip('invisible prompt', function() {
     });
   });
 
-  describe.skip('prompt.value', () => {
+  describe('prompt.value', () => {
     it('should output the un-modified value', () => {
       prompt = new Prompt({ message: 'Enter some invisible text' });
 

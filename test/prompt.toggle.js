@@ -18,7 +18,7 @@ class Prompt extends Toggle {
   }
 }
 
-describe('prompt-toggle', function() {
+describe('toggle', function() {
   describe('options.value', () => {
     it('should return early when options.value is defined', () => {
       prompt = new Prompt({

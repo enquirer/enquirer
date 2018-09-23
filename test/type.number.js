@@ -15,25 +15,8 @@ class Prompt extends NumberPrompt {
   }
 }
 
-describe.skip('number prompt', function() {
-  describe.skip('options.value', () => {
-    it('should return options.value without prompting', () => {
-      prompt = new Prompt({
-        message: 'prompt-number',
-        min: 10,
-        value: 5
-      });
-
-      assert.equal(prompt.min, 10);
-
-      return prompt.run()
-        .then(function(answer) {
-          assert.equal(answer, 5);
-        });
-    });
-  });
-
-  describe.skip('options.min', () => {
+describe('number prompt', function() {
+  describe('options.min', () => {
     it('should set prompt.min with options.min', () => {
       prompt = new Prompt({
         message: 'prompt-number',
@@ -42,15 +25,16 @@ describe.skip('number prompt', function() {
       });
 
       assert.equal(prompt.min, 10);
+      prompt.on('run', () => prompt.submit());
 
       return prompt.run()
-        .then(function(answer) {
+        .then(answer => {
           assert.equal(answer, 15);
         });
     });
   });
 
-  describe.skip('options.max', () => {
+  describe('options.max', () => {
     it('should set prompt.max with options.max', () => {
       prompt = new Prompt({
         message: 'prompt-number',
@@ -59,14 +43,16 @@ describe.skip('number prompt', function() {
       });
 
       assert.equal(prompt.max, 10);
+      prompt.on('run', () => prompt.submit());
+
       return prompt.run()
-        .then(function(answer) {
+        .then(answer => {
           assert.equal(answer, 5);
         });
     });
   });
 
-  describe.skip('options.float', () => {
+  describe('options.float', () => {
     it('should allow floats when options.float is true', () => {
       prompt = new Prompt({
         message: 'prompt-number',
@@ -75,9 +61,10 @@ describe.skip('number prompt', function() {
       });
 
       assert.equal(prompt.float, true);
+      prompt.on('run', () => prompt.submit());
 
       return prompt.run()
-        .then(function(answer) {
+        .then(answer => {
           assert.equal(answer, 42.42);
         });
     });
@@ -105,14 +92,14 @@ describe.skip('number prompt', function() {
       });
 
       return prompt.run()
-        .then(function(answer) {
+        .then(answer => {
           assert.equal(prompt.typed, 42.82);
           assert.equal(answer, 43);
         });
     });
   });
 
-  describe.skip('options.increment', () => {
+  describe('options.increment', () => {
     it('should support options.increment', () => {
       prompt = new Prompt({
         message: 'prompt-number',
@@ -126,7 +113,7 @@ describe.skip('number prompt', function() {
       });
 
       return prompt.run()
-        .then(function(answer) {
+        .then(answer => {
           assert.equal(answer, 5);
         });
     });
@@ -141,7 +128,7 @@ describe.skip('number prompt', function() {
       prompt.on('run', () => prompt.submit());
 
       return prompt.run()
-        .then(function(answer) {
+        .then(answer => {
           assert.equal(answer, 0);
         });
     });
@@ -164,7 +151,7 @@ describe.skip('number prompt', function() {
       });
 
       return prompt.run()
-        .then(function(answer) {
+        .then(answer => {
           assert.equal(answer, 47);
         });
     });
@@ -211,14 +198,14 @@ describe.skip('number prompt', function() {
       });
 
       return prompt.run()
-        .then(function(answer) {
+        .then(answer => {
           assert.equal(answer, 48);
         });
     });
   });
 
-  describe.skip('options.initial', () => {
-    it('should use options.initial', () => {
+  describe('options.initial', () => {
+    it('should use options.initial when 0', () => {
       prompt = new Prompt({
         message: 'prompt-number',
         initial: 0
@@ -228,31 +215,29 @@ describe.skip('number prompt', function() {
       prompt.on('run', () => prompt.submit());
 
       return prompt.run()
-        .then(function(answer) {
+        .then(answer => {
           assert.equal(answer, 0);
         });
     });
-  });
 
-  describe.skip('options.value', () => {
-    it('should submit options.value', () => {
+    it('should use options.initial', () => {
       prompt = new Prompt({
         message: 'prompt-number',
-        initial: 0,
-        value: 42
+        initial: 42
       });
 
-      assert.equal(prompt.initial, 0);
+      assert.equal(prompt.initial, 42);
+      prompt.on('run', () => prompt.submit());
 
       return prompt.run()
-        .then(function(answer) {
+        .then(answer => {
           assert.equal(answer, 42);
         });
     });
   });
 
-  describe.skip('prompt.reset', () => {
-    it('should reset the prompt to initial values', () => {
+  describe('prompt.reset', () => {
+    it('should reset the prompt to options.initial', () => {
       prompt = new Prompt({
         message: 'prompt-number',
         increment: 5,
@@ -276,7 +261,7 @@ describe.skip('number prompt', function() {
       });
 
       return prompt.run()
-        .then(function(answer) {
+        .then(answer => {
           assert.equal(prompt.value, 37.6);
           assert.equal(answer, 37.6);
         });

@@ -124,10 +124,6 @@ class Enquirer extends Events {
   static get types() {
     return require('./lib/types');
   }
-
-  static get utils() {
-    return require('./lib/utils');
-  }
 }
 
 utils.mixinEmitter(Enquirer, new Events());

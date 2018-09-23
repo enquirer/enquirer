@@ -11,12 +11,12 @@ const fixture = ['almond', 'apple', 'banana', 'cherry', 'chocolate', 'cinnamon',
 
 class Prompt extends AutoComplete {
   constructor(options = {}) {
-    super({ ...options, show: false });
+    super({ ...options });
   }
 }
 
-describe.skip('prompt-autocomplete', () => {
-  describe.skip('keypress > number', () => {
+describe('prompt-autocomplete', () => {
+  describe('keypress > number', () => {
     it('should support number keypresses', () => {
       prompt = new Prompt({
         message: 'Favorite flavor?',
@@ -40,7 +40,9 @@ describe.skip('prompt-autocomplete', () => {
       });
     });
 
-    it('should filter by keypress', () => {
+    it.only('should filter by keypress', function() {
+      this.timeout(5000);
+
       prompt = new Prompt({
         message: 'Favorite letters?',
         choices: [
@@ -52,10 +54,10 @@ describe.skip('prompt-autocomplete', () => {
       });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress('a'));
-        await timeout(() => prompt.keypress('b'));
-        await timeout(() => prompt.keypress('c'));
-        await timeout(() => prompt.submit());
+        await timeout(() => prompt.keypress('a'), 1000);
+        await timeout(() => prompt.keypress('b'), 1000);
+        await timeout(() => prompt.keypress('c'), 1000);
+        await timeout(() => prompt.submit(), 1000);
       });
 
       return prompt.run().then(answer => {
@@ -64,7 +66,7 @@ describe.skip('prompt-autocomplete', () => {
     });
   });
 
-  describe.skip('prompt.reset', () => {
+  describe('prompt.reset', () => {
     it('should reset to initial state', () => {
       prompt = new Prompt({
         message: 'Favorite flavor?',
@@ -90,7 +92,7 @@ describe.skip('prompt-autocomplete', () => {
     });
   });
 
-  describe.skip('options.choices', () => {
+  describe('options.choices', () => {
     it('should add an array of choice objects', cb => {
       prompt = new Prompt({
         message: 'Favorite letters?',
@@ -145,7 +147,7 @@ describe.skip('prompt-autocomplete', () => {
     });
   });
 
-  describe.skip('options.initial', () => {
+  describe('options.initial', () => {
     it('should support options.initial as a string', () => {
       prompt = new Prompt({
         message: 'Favorite letters?',
@@ -196,7 +198,7 @@ describe.skip('prompt-autocomplete', () => {
     });
   });
 
-  describe.skip('options.suggest', () => {
+  describe('options.suggest', () => {
     it('should support a custom suggest function', () => {
       prompt = new Prompt({
         message: 'Favorite flavor?',
@@ -417,7 +419,7 @@ describe.skip('prompt-autocomplete', () => {
     });
   });
 
-  describe.skip('choice.value', () => {
+  describe('choice.value', () => {
     it('should return the choice.value', async() => {
       prompt = new Prompt({
         message: 'Favorite flavor?',

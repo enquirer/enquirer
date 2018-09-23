@@ -26,12 +26,10 @@
     "cover": "nyc --reporter=text --reporter=html mocha"
   },
   "devDependencies": {
-    "data-store": "^3.1.0",
-    "inquirer": "^6.0.0",
-    "prompts": "^0.1.13",
-    "mocha": "^5.2.0",
     "gulp-format-md": "^1.0.0",
-    "nyc": "^12.0.2"
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
+    "yosay": "^2.0.2"
   },
   "keywords": [
     "answer",

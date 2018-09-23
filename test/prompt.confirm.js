@@ -13,33 +13,16 @@ class Prompt extends Confirm {
   }
 }
 
-describe.skip('prompt-confirm', function() {
-  describe.skip('options.value', () => {
-    it('should not prompt when options.value is boolean true', () => {
-      prompt = new Prompt({ message: 'foo', value: true });
-      return prompt.run().then(answer => assert.equal(answer, true));
-    });
-
-    it('should not prompt when options.value is boolean false', () => {
-      prompt = new Prompt({ message: 'foo', value: false });
-      return prompt.run().then(answer => assert.equal(answer, false));
-    });
-  });
-
-  describe.skip('options.initial', () => {
+describe('confirm', function() {
+  describe('options.initial', () => {
     it('should use options.initial when submitted without changes', () => {
       prompt = new Prompt({ message: 'foo', initial: true });
       prompt.once('run', () => prompt.submit());
       return prompt.run().then(answer => assert.equal(answer, true));
     });
-
-    it('should not use options.initial when options.value is defined', () => {
-      prompt = new Prompt({ message: 'foo', initial: true, value: false });
-      return prompt.run().then(answer => assert.equal(answer, false));
-    });
   });
 
-  describe.skip('hint', () => {
+  describe('hint', () => {
     it('should show the correct hint based on options.initial', () => {
       prompt = new Prompt({ message: 'foo', initial: true });
       assert.equal(prompt.hint, '(Y/n)');
@@ -49,7 +32,7 @@ describe.skip('prompt-confirm', function() {
     });
   });
 
-  describe.skip('usage', () => {
+  describe('usage', () => {
     it('should confirm with an affirmative', () => {
       prompt = new Prompt({ message: 'Are you sure?' });
 

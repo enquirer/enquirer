@@ -6,7 +6,7 @@ const Prompt = require('../lib/prompts/text');
 const { press } = require('./support')(assert);
 let prompt;
 
-describe('prompt-text', function() {
+describe('text', function() {
   describe('options.initial', () => {
     it('should use value defined on options.initial', () => {
       prompt = new Prompt({

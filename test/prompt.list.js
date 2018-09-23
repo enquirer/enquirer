@@ -13,14 +13,16 @@ class Prompt extends ListPrompt {
   }
 }
 
-describe('prompt-list', function() {
+describe('list', function() {
   describe('options.value', () => {
-    it.skip('should return early when options.value is defined', () => {
+    it('should return early when options.value is defined', () => {
       prompt = new Prompt({
         message: 'Enter a list of words',
         initial: 'a, b, c',
         value: 'foo, bar, baz'
       });
+
+      prompt.on('run', () => prompt.submit());
 
       return prompt.run()
         .then(answer => {

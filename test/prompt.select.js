@@ -6,7 +6,6 @@ const { cyan } = require('ansi-colors');
 const support = require('./support');
 const { nextTick, expect } = support(assert);
 const PromptSelect = require('../lib/prompts/select');
-const symbols = require('../lib/style/symbols');
 let prompt;
 
 class Prompt extends PromptSelect {
@@ -15,7 +14,7 @@ class Prompt extends PromptSelect {
   }
 }
 
-describe('prompt-select', function() {
+describe('select', function() {
   describe('options.choices', () => {
     it('should set a list of choices', cb => {
       prompt = new Prompt({
@@ -30,13 +29,13 @@ describe('prompt-select', function() {
 
       prompt.once('run', () => {
         assert.has(prompt.choices, [
-          { name: 'a', message: 'A', enabled: false },
+          { name: 'a', message: 'A', enabled: true },
           { name: 'b', message: 'BB', enabled: false },
           { name: 'c', message: 'CCC', enabled: false },
           { name: 'd', message: 'DDDD', enabled: false }
         ]);
 
-        assert.deepEqual(prompt.initial, []);
+        assert.equal(prompt.initial, void 0);
         assert.equal(prompt.longest, 4);
         prompt.submit();
         cb();
@@ -45,7 +44,7 @@ describe('prompt-select', function() {
       prompt.run().catch(cb);
     });
 
-    it.skip('should map choice.alias to prompt.aliases', cb => {
+    it('should map choice.alias to prompt.aliases', cb => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -57,7 +56,7 @@ describe('prompt-select', function() {
       });
 
       prompt.once('run', () => {
-        assert.deepEqual(prompt.state.aliases, ['x', '', '', 'z']);
+        assert.deepEqual(prompt.aliases, ['x', '', '', 'z']);
         prompt.submit();
         cb();
       });
@@ -70,7 +69,7 @@ describe('prompt-select', function() {
     it('should use options.initial', () => {
       prompt = new Prompt({
         message: 'prompt-select',
-        selected: 2,
+        initial: 2,
         choices: [
           { name: 'a', message: 'A' },
           { name: 'b', message: 'BB' },
@@ -104,7 +103,7 @@ describe('prompt-select', function() {
 
       return prompt.run()
         .then(answer => {
-          const expected = cyan(symbols.pointer.on) + ' ' + cyan('A');
+          const expected = cyan(prompt.symbols.pointer.on) + ' ' + cyan('A');
           assert.equal(prompt.renderChoice(prompt.choices[0], 0), expected);
           assert.equal(prompt.renderChoice(prompt.choices[1], 1), '  BB');
         });
@@ -122,7 +121,7 @@ describe('prompt-select', function() {
       });
 
       prompt.once('run', () => {
-        const pointer = cyan(symbols.pointer.on);
+        const pointer = cyan(prompt.symbols.pointer.on);
         const expected = `\n${pointer} ${cyan('A')}\n  BB\n  CCC\n  DDDD`;
         const actual = prompt.renderChoices();
         assert.equal(actual, expected);
@@ -193,6 +192,7 @@ describe('prompt-select', function() {
       });
 
       prompt.on('run', async() => {
+        await nextTick(() => prompt.keypress(0));
         await nextTick(() => prompt.keypress(3));
         await nextTick(() => prompt.keypress(4));
         await nextTick(() => prompt.keypress(2));

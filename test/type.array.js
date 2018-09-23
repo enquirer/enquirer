@@ -73,7 +73,7 @@ describe('array prompt', function() {
       prompt = new Prompt({
         message: 'prompt-array',
         autofocus: 2,
-        selected: 2,
+        initial: 2,
         choices: [
           { name: 'a', message: 'A' },
           { name: 'b', message: 'BB' },
@@ -83,7 +83,7 @@ describe('array prompt', function() {
       });
 
       prompt.once('run', () => {
-        assert.equal(prompt.state.autofocus, 2);
+        assert.equal(prompt.autofocus, 2);
         prompt.submit();
       });
 
@@ -99,7 +99,7 @@ describe('array prompt', function() {
       prompt = new Prompt({
         message: 'prompt-array',
         autofocus: 'b',
-        selected: 'b',
+        initial: 'b',
         choices: [
           { name: 'a', message: 'A' },
           { name: 'b', message: 'BB' },

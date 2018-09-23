@@ -13,8 +13,28 @@ class Prompt extends PasswordPrompt {
   }
 }
 
-describe.skip('prompt-password', function() {
-  describe.skip('options.initial', () => {
+describe('password', function() {
+  describe('options.initial', () => {
+    it.skip('should not print password when answer is submitted', () => {
+      prompt = new PasswordPrompt({
+        message: 'What is your password?',
+        initial: 'foobar'
+      });
+
+      let result = [];
+      prompt.once('run', () => prompt.submit());
+      prompt.on('terminal', terminal => {
+        if (prompt.answered === true) {
+          result.push(/foobar/.test(terminal));
+        }
+      });
+
+      return prompt.run()
+        .then(answer => {
+          // assert.equal(result[0], false);
+        });
+    });
+
     it('should use options.initial', () => {
       prompt = new Prompt({
         message: 'What is your password?',
@@ -30,7 +50,7 @@ describe.skip('prompt-password', function() {
     });
   });
 
-  describe.skip('prompt.value', () => {
+  describe('prompt.value', () => {
     it('should output the un-modified value', () => {
       prompt = new Prompt({ message: 'Enter your password', name: 'pw' });
 

@@ -10,7 +10,7 @@ class Prompt extends StringPrompt {
     super({ ...options, show: false });
   }
   validate() {
-    const isValid = typeof this.state.value === 'string';
+    const isValid = typeof this.value === 'string';
     if (!isValid && this.options.show === false) {
       return this.cancel(new Error('invalid initial value'));
     }
@@ -32,11 +32,11 @@ describe('string prompt', function() {
     it('should not prompt when options.value is a string', () => {
       prompt = new Prompt({ message: 'foo', value: 'true' });
       prompt.on('run', () => {
-        prompt.submit(String(prompt.options.value));
+        prompt.submit(prompt.options.value);
       });
       return prompt.run()
-        .then(answer => {
-          assert.equal(answer, 'true');
+        .then(value => {
+          assert.equal(value, 'true');
         });
     });
 
@@ -46,8 +46,8 @@ describe('string prompt', function() {
         prompt.submit(String(prompt.options.value));
       });
       return prompt.run()
-        .then(answer => {
-          assert.equal(answer, 'false');
+        .then(value => {
+          assert.equal(value, 'false');
         });
     });
   });
@@ -57,8 +57,8 @@ describe('string prompt', function() {
       prompt = new Prompt({ message: 'foo', initial: 'true' });
       prompt.on('run', () => prompt.submit());
       return prompt.run()
-        .then(answer => {
-          assert.equal(answer, 'true');
+        .then(value => {
+          assert.equal(value, 'true');
         });
     });
 
@@ -67,7 +67,7 @@ describe('string prompt', function() {
       prompt.on('run', () => {
         prompt.submit(String(prompt.options.value));
       });
-      return prompt.run().then(answer => assert.equal(answer, 'false'));
+      return prompt.run().then(value => assert.equal(value, 'false'));
     });
   });
 });
