@@ -2,59 +2,22 @@
 
 require('mocha');
 const assert = require('assert');
-const StringPrompt = require('../lib/types/string');
+const Prompt = require('../lib/types/string');
 let prompt;
 
-class Prompt extends StringPrompt {
-  constructor(options) {
-    super({ ...options, show: false });
-  }
-  validate() {
-    const isValid = typeof this.value === 'string';
-    if (!isValid && this.options.show === false) {
-      return this.cancel(new Error('invalid initial value'));
-    }
-    return isValid;
-  }
-}
-
-describe('string prompt', function() {
+describe.only('string prompt', function() {
   describe('class', () => {
-    it('should expose static method for getting StringPrompt class', () => {
-      class Foo extends StringPrompt {}
+    it('should expose static method for getting Prompt class', () => {
+      class Foo extends Prompt {}
       class Bar extends Foo {}
       class Baz extends Bar {}
-      assert(Baz.StringPrompt === StringPrompt.StringPrompt);
-    });
-  });
-
-  describe('options.validate', () => {
-    it('should not prompt when options.value is a string', () => {
-      prompt = new Prompt({ message: 'foo', value: 'true' });
-      prompt.on('run', () => {
-        prompt.submit(prompt.options.value);
-      });
-      return prompt.run()
-        .then(value => {
-          assert.equal(value, 'true');
-        });
-    });
-
-    it('should cast options.value to a string', () => {
-      prompt = new Prompt({ message: 'foo', value: false });
-      prompt.on('run', () => {
-        prompt.submit(String(prompt.options.value));
-      });
-      return prompt.run()
-        .then(value => {
-          assert.equal(value, 'false');
-        });
+      assert(Baz.Prompt === Prompt.Prompt);
     });
   });
 
   describe('options.initial', () => {
     it('should use options.initial when submitted without changes', () => {
-      prompt = new Prompt({ message: 'foo', initial: 'true' });
+      prompt = new Prompt({ show: false, message: 'foo', initial: 'true' });
       prompt.on('run', () => prompt.submit());
       return prompt.run()
         .then(value => {
@@ -62,12 +25,15 @@ describe('string prompt', function() {
         });
     });
 
-    it('should not use options.initial when options.value is defined', () => {
-      prompt = new Prompt({ message: 'foo', initial: true, value: 'false' });
+    it('should cast options.initial to a string', () => {
+      prompt = new Prompt({ show: false, message: 'foo', initial: false });
       prompt.on('run', () => {
-        prompt.submit(String(prompt.options.value));
+        prompt.submit(String(prompt.options.initial));
       });
-      return prompt.run().then(value => assert.equal(value, 'false'));
+      return prompt.run()
+        .then(value => {
+          assert.equal(value, 'false');
+        });
     });
   });
 });
