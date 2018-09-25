@@ -24,21 +24,18 @@ const prompt = new Prompt({
     placeholder: colors.dim.blue,
     answered: colors.blueBright.bold
   },
-  run() {
-    showState();
-  },
-  state() {
-    showState();
+  elements: {
+    footer() {
+      let state = { ...prompt.state };
+      delete state.terminal;
+      delete state.header;
+      delete state.footer;
+      delete state.rows;
+      return JSON.stringify(unstyle(state), null, 2);
+    }
   }
 });
 
-function showState() {
-  let state = { ...prompt.state };
-  delete state.terminal;
-  delete state.header;
-  delete state.footer;
-  prompt.state.footer = '\n' + JSON.stringify(unstyle(state), null, 2);
-}
 
 prompt.run()
   .then(answer => console.log('ANSWER', answer))
