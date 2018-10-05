@@ -2,6 +2,7 @@ const Prompt = require('../../lib/prompts/autocomplete');
 const prompt = new Prompt({
   name: 'flavor',
   message: 'Pick your favorite flavor',
+  initial: 3,
   choices: [
     'almond',
     'apple',

@@ -1,5 +1,7 @@
+'use strict';
+
 const utils = require('../../lib/utils');
-const package = require('../../package');
+const pkg = require('../../package');
 
 const Prompt = require('../../lib/prompts/form');
 const prompt = new Prompt({
@@ -7,8 +9,8 @@ const prompt = new Prompt({
   message: 'Update the following fields in package.json:',
   choices() {
     const choices = [];
-    for (let name of Object.keys(package)) {
-      let initial = package[name];
+    for (let name of Object.keys(pkg)) {
+      let initial = pkg[name];
       if (initial && !Array.isArray(initial) && typeof initial !== 'object') {
         choices.push({
           name,
@@ -32,5 +34,5 @@ const prompt = new Prompt({
 });
 
 prompt.run()
-  .then(answers => console.log('ANSWERS:', Object.assign({}, package, answers)))
+  .then(answers => console.log('ANSWERS:', Object.assign({}, pkg, answers)))
   .catch(console.error);

@@ -11,9 +11,15 @@ const prompt = new Prompt({
   highlight: true,
   styles: {
     primary: colors.blue,
+    // get answered() {
+    //   return this.complement;
+    // },
     get answered() {
-      return this.complementary(this.inverse);
-    }
+      return this.inverse;
+    },
+    // get answered() {
+    //   return this.complementary(this.inverse);
+    // }
   }
 });
 

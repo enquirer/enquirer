@@ -25,8 +25,8 @@ const prompt = new Prompt({
   },
   elements: {
     prefix: (state, status) => emoji[status],
-    pointer(state, status, choice, prompt) {
-      let symbol = prompt.symbols.radio[status];
+    pointer(state, status, choice) {
+      let symbol = this.symbols.radio[status];
       let fallback = status === 'on' ? '🗡️ ' : '  ';
       if (typeof symbol === 'function') {
         return symbol(...arguments) || fallback;
