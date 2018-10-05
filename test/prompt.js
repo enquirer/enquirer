@@ -10,29 +10,22 @@ let prompt;
 class Prompt extends PromptBase {
   constructor(options = {}) {
     super({ ...options, show: false });
-    this.value = this.options.value || this.options.initial;
   }
   render() {}
-  skip() {
-    if (this.options.value !== void 0) {
-      this.value = this.options.value;
-      return true;
-    }
-  }
 }
 
-describe('base', function() {
+describe('Prompt', function() {
   describe('.keypress()', () => {
     it('should emit alert when an unrecognized keypress is entered', cb => {
       prompt = new Prompt({ message: 'Example prompt' });
 
-      prompt.on('run', () => prompt.keypress('/'));
-      prompt.on('alert', keypress => {
+      prompt.once('run', () => prompt.keypress('/'));
+      prompt.once('alert', keypress => {
         assert.equal(keypress.action, void 0);
         cb();
       });
 
-      prompt.on('run', () => prompt.submit());
+      prompt.once('run', () => prompt.submit());
 
       prompt.run()
         .then(answer => {
@@ -47,14 +40,16 @@ describe('base', function() {
         if (str && str.length > 1) {
           return [...str].forEach(async ch => await prompt.keypress(ch, key));
         }
-        prompt.constructor.prototype.keypress.call(prompt, str, key);
+        Prompt.prototype.keypress.call(prompt, str, key);
       };
 
-      prompt.on('keypress', (ch, key) => {
+      const keypress = (ch, key) => {
         keypresses.push(key.raw);
-      });
+      };
 
-      prompt.on('submit', () => {
+      prompt.on('keypress', keypress);
+
+      prompt.once('submit', () => {
         assert.deepEqual(keypresses, [1, 2, 3, 'a', 'b', 'c']);
         cb();
       });
@@ -67,26 +62,7 @@ describe('base', function() {
         await timeout(() => prompt.submit());
       });
 
-      prompt.run();
-    });
-  });
-
-  describe('events', () => {
-    it('should submit from listener when options.value is defined', () => {
-      prompt = new Prompt({
-        message: 'prompt',
-        initial: 'woohooo!',
-        value: 'foo'
-      });
-
-      prompt.on('run', () => {
-        prompt.submit(prompt.options.value);
-      })
-
-      return prompt.run()
-        .then(answer => {
-          assert.equal(answer, 'foo');
-        });
+      prompt.run()
     });
   });
 
@@ -97,7 +73,23 @@ describe('base', function() {
         initial: 'woohooo!'
       });
 
-      prompt.on('run', () => prompt.submit());
+      prompt.once('run', () => prompt.submit());
+
+      return prompt.run()
+        .then(answer => {
+          assert.equal(answer, 'woohooo!');
+        });
+    });
+
+    it('should submit from listener when options.initial is defined', () => {
+      prompt = new Prompt({
+        message: 'prompt',
+        initial: 'woohooo!'
+      });
+
+      prompt.once('run', () => {
+        prompt.submit(prompt.options.value);
+      })
 
       return prompt.run()
         .then(answer => {
@@ -113,21 +105,62 @@ describe('base', function() {
     });
   });
 
+  describe('options.format', () => {
+    it('should format the rendered value using a custom function', () => {
+      let count = 0;
+      let actual;
+
+      prompt = new Prompt({
+        message: 'prompt',
+        value: 2,
+        format(value) {
+          if (typeof value === 'number') {
+            return '$' + value.toFixed(2);
+          }
+          return value;
+        }
+      });
+
+      let value = prompt.format(prompt.value);
+      assert.equal(value, '$2.00');
+    });
+  });
+
+  describe('options.transform', () => {
+    it('should transform the returned value using a custom function', () => {
+      let count = 0;
+
+      prompt = new Prompt({
+        message: 'prompt',
+        value: 'foo',
+        format(value) {
+          return '1' + value + '2';
+        }
+      });
+
+      prompt.once('run', () => prompt.submit());
+
+      return prompt.run().then(answer => {
+        assert.equal(answer, '1foo2');
+      });
+    });
+  });
+
   describe('options.validate', () => {
     it('should use a custom `validate` function', () => {
       let count = 0;
 
       prompt = new Prompt({
         message: 'prompt',
-        value: 'foo',
+        value: 'bar',
         validate(value) {
-          assert.equal(value, 'foo');
+          assert.equal(value, 'bar');
           count++;
           return true;
         }
       });
 
-      prompt.on('run', () => prompt.submit());
+      prompt.once('run', () => prompt.submit());
 
       return prompt.run().then(() => assert.equal(count, 1));
     });

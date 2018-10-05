@@ -6,16 +6,17 @@ const prompt = new Prompt({
   message: 'Trick or treat! Take your pick',
   choices: ['candy', 'apple', 'toothbrush', 'insult'],
   styles: {
-    primary: colors.blue,
-    muted: colors.yellow,
+    primary: colors.yellow,
+    muted(...args) {
+      return this.complement(...args);
+    }
   },
   elements: {
-    separator: colors.dim(symbols.middot),
-    // pointer: { on: '🔮' },
-    // pointer: { on: '🦉' },
-    // pointer: { on: '🗡️  ' },
-    pointer(state, status, choice) {
-      return status === 'on' ? '🗡️ ' : '  ';
+    separator(state, status) {
+      return colors.dim(status === 'answered' ? symbols.middot : symbols.ellipsis);
+    },
+    pointer(state, status) {
+      return status === 'on' ? ['🍬', '🍎', '👄', '🖕'][state.index] : '  ';
     },
     prefix(state, status) {
       switch (status) {
@@ -29,4 +30,4 @@ const prompt = new Prompt({
 
 prompt.run()
   .then(answer => console.log('Answer:', answer === 'insult' ? 'You stink!' : answer))
-  .catch(console.error);
+  .catch(err => console.error('TERMINATED'));

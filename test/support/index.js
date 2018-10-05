@@ -9,13 +9,19 @@ module.exports = function(assert) {
     });
   };
 
+  utils.immediate = fn => {
+    return new Promise((resolve, reject) => {
+      setImmediate(() => fn().then(resolve).catch(reject));
+    });
+  };
+
   utils.timeout = (fn, ms = 0) => {
     return new Promise((resolve, reject) => {
       setTimeout(() => fn().then(resolve).catch(reject), ms);
     });
   };
 
-  utils.press = async(prompt, chars) => {
+  utils.keypresses = async(prompt, chars) => {
     for (const ch of chars) {
       await utils.timeout(() => prompt.keypress(ch));
     }

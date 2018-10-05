@@ -1,15 +1,19 @@
+
 'use strict';
 
 const yosay = require('yosay');
 const colors = require('ansi-colors');
-const Prompt = require('../../lib/types/string');
+const Prompt = require('../../lib/prompts/input');
+const utils = require('../../lib/utils');
 const prompt = new Prompt({
   message: 'What is your username?',
   initial: 'jonschlinkert',
-  hideCursor: true,
+  highlight: true,
   styles: {
     primary: colors.blue,
-    highlight: colors.bgGreen.black
+    get answered() {
+      return this.complementary(this.inverse);
+    }
   }
 });
 

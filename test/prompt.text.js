@@ -3,7 +3,7 @@
 require('mocha');
 const assert = require('assert');
 const Prompt = require('../lib/prompts/text');
-const { press } = require('./support')(assert);
+const { kepresses } = require('./support')(assert);
 let prompt;
 
 describe('text', function() {

@@ -3,15 +3,15 @@
 require('mocha');
 const fs = require('fs');
 const assert = require('assert');
-const { timeout, press } = require('./support')(assert);
+const { timeout, keypresses, immediate } = require('./support')(assert);
 const { AutoComplete } = require('../lib/prompts');
 let prompt;
 
-const fixture = ['almond', 'apple', 'banana', 'cherry', 'chocolate', 'cinnamon', 'coconut', 'cotton candy', 'grape', 'nougat', 'orange', 'pear', 'pineapple', 'strawberry', 'vanilla', 'watermelon', 'wintergreen'];
+const fixtures = ['almond', 'apple', 'banana', 'cherry', 'chocolate', 'cinnamon', 'coconut', 'cotton candy', 'grape', 'nougat', 'orange', 'pear', 'pineapple', 'strawberry', 'vanilla', 'watermelon', 'wintergreen'];
 
 class Prompt extends AutoComplete {
-  constructor(options = {}) {
-    super({ ...options });
+  constructor(options) {
+    super({ ...options, show: false });
   }
 }
 
@@ -29,10 +29,10 @@ describe('prompt-autocomplete', () => {
       });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress(1));
-        await timeout(() => prompt.keypress(3));
-        await timeout(() => prompt.keypress(2));
-        await timeout(() => prompt.submit());
+        await immediate(async() => prompt.keypress(1));
+        await immediate(async() => prompt.keypress(3));
+        await immediate(async() => prompt.keypress(2));
+        await immediate(async() => prompt.submit());
       });
 
       return prompt.run().then(answer => {
@@ -40,7 +40,7 @@ describe('prompt-autocomplete', () => {
       });
     });
 
-    it.only('should filter by keypress', function() {
+    it('should filter by keypress', function() {
       this.timeout(5000);
 
       prompt = new Prompt({
@@ -54,10 +54,10 @@ describe('prompt-autocomplete', () => {
       });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress('a'), 1000);
-        await timeout(() => prompt.keypress('b'), 1000);
-        await timeout(() => prompt.keypress('c'), 1000);
-        await timeout(() => prompt.submit(), 1000);
+        await timeout(async() => prompt.keypress('a'));
+        await timeout(async() => prompt.keypress('b'), 10);
+        await timeout(async() => prompt.keypress('c'), 10);
+        await timeout(async() => prompt.submit(), 10);
       });
 
       return prompt.run().then(answer => {
@@ -70,19 +70,19 @@ describe('prompt-autocomplete', () => {
     it('should reset to initial state', () => {
       prompt = new Prompt({
         message: 'Favorite flavor?',
-        choices: fixture.slice(),
-        suggest(typed) {
-          return this.choices.filter(choice => choice.message.includes(typed));
+        choices: fixtures.slice(),
+        suggest(typed, choices = []) {
+          return choices.filter(choice => choice.message.includes(typed));
         },
       });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress('b'));
-        await timeout(() => prompt.keypress('e'));
-        await timeout(() => prompt.keypress('r'));
-        await timeout(() => prompt.keypress('r'));
-        await timeout(() => prompt.keypress('y'));
-        await timeout(() => prompt.submit());
+        await immediate(() => prompt.keypress('b'));
+        await immediate(() => prompt.keypress('e'));
+        await immediate(() => prompt.keypress('r'));
+        await immediate(() => prompt.keypress('r'));
+        await immediate(() => prompt.keypress('y'));
+        await immediate(() => prompt.submit());
       });
 
       return prompt.run()
@@ -106,12 +106,12 @@ describe('prompt-autocomplete', () => {
 
       prompt.once('run', () => {
         assert.has(prompt.choices, [
-          { value: 'a', message: 'A', enabled: false },
+          { value: 'a', message: 'A', enabled: true },
           { value: 'b', message: 'BB', enabled: false },
           { value: 'c', message: 'CCC', enabled: false },
           { value: 'd', message: 'DDDD', enabled: false }
         ]);
-        assert.equal(prompt.initial, void 0);
+        assert.equal(prompt.initial, 0);
         cb();
       });
 
@@ -134,10 +134,10 @@ describe('prompt-autocomplete', () => {
       });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress('c'));
-        await timeout(() => prompt.keypress('h'));
-        await timeout(() => prompt.keypress('o'));
-        await timeout(() => prompt.submit());
+        await immediate(() => prompt.keypress('c'));
+        await immediate(() => prompt.keypress('h'));
+        await immediate(() => prompt.keypress('o'));
+        await immediate(() => prompt.submit());
       });
 
       return prompt.run()
@@ -168,15 +168,15 @@ describe('prompt-autocomplete', () => {
         });
     });
 
-    it('should support options.initial as a number', cb => {
+    it('should support options.initial as a number', () => {
       prompt = new Prompt({
         message: 'Favorite letters?',
         initial: 2,
         choices: [
-          { value: 'a', message: 'A' },
-          { value: 'b', message: 'BB' },
-          { value: 'c', message: 'CCC' },
-          { value: 'd', message: 'DDDD' }
+          { name: 'a', message: 'A' },
+          { name: 'b', message: 'BB' },
+          { name: 'c', message: 'CCC' },
+          { name: 'd', message: 'DDDD' }
         ]
       });
 
@@ -189,12 +189,11 @@ describe('prompt-autocomplete', () => {
           { name: 'd', message: 'DDDD', enabled: false }
         ]);
         await prompt.submit();
-        cb();
+
       });
 
-      prompt.run()
+      return prompt.run()
         .then(answer => assert.equal(answer, 'c'))
-        .catch(cb);
     });
   });
 
@@ -202,19 +201,19 @@ describe('prompt-autocomplete', () => {
     it('should support a custom suggest function', () => {
       prompt = new Prompt({
         message: 'Favorite flavor?',
-        choices: fixture.slice(),
+        choices: fixtures.slice(),
         suggest(typed, choices) {
           return choices.filter(choice => choice.message.includes(typed));
         }
       });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress('b'));
-        await timeout(() => prompt.keypress('e'));
-        await timeout(() => prompt.keypress('r'));
-        await timeout(() => prompt.keypress('r'));
-        await timeout(() => prompt.keypress('y'));
-        await timeout(() => prompt.submit());
+        await immediate(() => prompt.keypress('b'));
+        await immediate(() => prompt.keypress('e'));
+        await immediate(() => prompt.keypress('r'));
+        await immediate(() => prompt.keypress('r'));
+        await immediate(() => prompt.keypress('y'));
+        await immediate(() => prompt.submit());
       });
 
       return prompt.run()
@@ -226,19 +225,19 @@ describe('prompt-autocomplete', () => {
     it('should filter this.choices', () => {
       prompt = new Prompt({
         message: 'Favorite flavor?',
-        choices: fixture.slice(),
-        suggest(typed) {
-          return this.choices.filter(choice => choice.message.includes(typed));
+        choices: fixtures.slice(),
+        suggest(typed, choices) {
+          return choices.filter(choice => choice.message.includes(typed));
         }
       });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress('b'));
-        await timeout(() => prompt.keypress('e'));
-        await timeout(() => prompt.keypress('r'));
-        await timeout(() => prompt.keypress('r'));
-        await timeout(() => prompt.keypress('y'));
-        await timeout(() => prompt.submit());
+        await prompt.keypress('b');
+        await prompt.keypress('e');
+        await prompt.keypress('r');
+        await prompt.keypress('r');
+        await prompt.keypress('y');
+        await prompt.submit();
       });
 
       return prompt.run()
@@ -247,32 +246,32 @@ describe('prompt-autocomplete', () => {
         });
     });
 
-    it('should support a custom suggest function that works when backspaces are typed', () => {
+    it('should work when backspaces are typed', () => {
       prompt = new Prompt({
         message: 'Favorite flavor?',
-        choices: fixture.slice(),
-        suggest(typed) {
-          return this.choices.filter(choice => choice.message.includes(typed));
+        choices: fixtures.slice(),
+        suggest(typed, choices) {
+          return choices.filter(choice => choice.message.includes(typed));
         }
       });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress('a'));
-        await timeout(() => prompt.keypress('p'));
-        await timeout(() => prompt.keypress('p'));
-        await timeout(() => prompt.keypress('l'));
-        await timeout(() => prompt.keypress('e'));
-        await timeout(() => prompt.keypress(null, { name: 'backspace' }));
-        await timeout(() => prompt.keypress(null, { name: 'backspace' }));
-        await timeout(() => prompt.keypress(null, { name: 'backspace' }));
-        await timeout(() => prompt.keypress(null, { name: 'backspace' }));
-        await timeout(() => prompt.keypress(null, { name: 'backspace' }));
-        await timeout(() => prompt.keypress('b'));
-        await timeout(() => prompt.keypress('e'));
-        await timeout(() => prompt.keypress('r'));
-        await timeout(() => prompt.keypress('r'));
-        await timeout(() => prompt.keypress('y'));
-        await timeout(() => prompt.submit());
+        await prompt.keypress('a');
+        await prompt.keypress('p');
+        await prompt.keypress('p');
+        await prompt.keypress('l');
+        await prompt.keypress('e');
+        await prompt.keypress(null, { name: 'backspace' });
+        await prompt.keypress(null, { name: 'backspace' });
+        await prompt.keypress(null, { name: 'backspace' });
+        await prompt.keypress(null, { name: 'backspace' });
+        await prompt.keypress(null, { name: 'backspace' });
+        await prompt.keypress('b');
+        await prompt.keypress('e');
+        await prompt.keypress('r');
+        await prompt.keypress('r');
+        await prompt.keypress('y');
+        await prompt.submit();
       });
 
       return prompt.run()
@@ -284,29 +283,29 @@ describe('prompt-autocomplete', () => {
     it('should support a custom suggest function and use choices passed in', () => {
       prompt = new Prompt({
         message: 'Favorite flavor?',
-        choices: fixture.slice(),
+        choices: fixtures.slice(),
         suggest(typed, choices) {
           return choices.filter(choice => choice.message.includes(typed));
         },
       });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress('a'));
-        await timeout(() => prompt.keypress('p'));
-        await timeout(() => prompt.keypress('p'));
-        await timeout(() => prompt.keypress('l'));
-        await timeout(() => prompt.keypress('e'));
-        await timeout(() => prompt.keypress(null, { name: 'backspace' }));
-        await timeout(() => prompt.keypress(null, { name: 'backspace' }));
-        await timeout(() => prompt.keypress(null, { name: 'backspace' }));
-        await timeout(() => prompt.keypress(null, { name: 'backspace' }));
-        await timeout(() => prompt.keypress(null, { name: 'backspace' }));
-        await timeout(() => prompt.keypress('b'));
-        await timeout(() => prompt.keypress('e'));
-        await timeout(() => prompt.keypress('r'));
-        await timeout(() => prompt.keypress('r'));
-        await timeout(() => prompt.keypress('y'));
-        await timeout(() => prompt.submit());
+        await immediate(() => prompt.keypress('a'));
+        await immediate(() => prompt.keypress('p'));
+        await immediate(() => prompt.keypress('p'));
+        await immediate(() => prompt.keypress('l'));
+        await immediate(() => prompt.keypress('e'));
+        await immediate(() => prompt.keypress(null, { name: 'backspace' }));
+        await immediate(() => prompt.keypress(null, { name: 'backspace' }));
+        await immediate(() => prompt.keypress(null, { name: 'backspace' }));
+        await immediate(() => prompt.keypress(null, { name: 'backspace' }));
+        await immediate(() => prompt.keypress(null, { name: 'backspace' }));
+        await immediate(() => prompt.keypress('b'));
+        await immediate(() => prompt.keypress('e'));
+        await immediate(() => prompt.keypress('r'));
+        await immediate(() => prompt.keypress('r'));
+        await immediate(() => prompt.keypress('y'));
+        await immediate(() => prompt.submit());
       });
 
       return prompt.run()
@@ -327,10 +326,10 @@ describe('prompt-autocomplete', () => {
       });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress('a'));
-        await timeout(() => prompt.keypress('p'));
-        await timeout(() => prompt.keypress('p'));
-        await timeout(() => prompt.submit());
+        await immediate(() => prompt.keypress('a'));
+        await immediate(() => prompt.keypress('p'));
+        await immediate(() => prompt.keypress('p'));
+        await immediate(() => prompt.submit());
       });
 
       return prompt.run()
@@ -341,37 +340,49 @@ describe('prompt-autocomplete', () => {
 
     it('should dynamically add choices', function() {
       this.timeout(5000);
-      let pending = fixture.slice();
+      let pending = fixtures.slice();
 
       prompt = new Prompt({
         message: 'Favorite flavor?',
-        async choices(typed) {
-          let list = typed ? pending.filter(ele => ele.indexOf(typed) === 0) : [];
-          if (!list.length) return this.choices;
-          pending = pending.filter(ele => !list.includes(ele));
-          let choices = list.length ? this.choices.concat(list) : this.choices;
-          // simulate a delay
-          return timeout(() => Promise.resolve(choices), 10);
+        choices(typed, choices) {
+          return new Promise(async(resolve) => {
+            setTimeout(() => resolve([]), 10);
+          });
         },
-        suggest(typed, choices = []) {
-          return choices.filter(choice => choice.message.includes(typed));
+        async suggest(input, choices = []) {
+          return new Promise(async(resolve) => {
+            if (!input) {
+              resolve(choices);
+              return;
+            }
+
+            let list = pending.filter(str => str.startsWith(input));
+            let items = await this.toChoices(list);
+            for (let item of items) {
+              if (!this.find(item.name)) {
+                this.choices.push(item);
+              }
+            }
+            setTimeout(() => resolve(items), 5);
+          });
         }
       });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress('a'));
-        await timeout(() => prompt.keypress(null, { name: 'backspace' }));
-        await timeout(() => prompt.keypress('b'));
-        await timeout(() => prompt.keypress(null, { name: 'backspace' }));
-        await timeout(() => prompt.keypress('c'));
-        await timeout(() => prompt.keypress('h'));
-        await timeout(() => prompt.keypress('o'));
-        await prompt.submit();
+        await timeout(() => prompt.keypress('a'), 5);
+        await timeout(() => prompt.keypress(null, { name: 'backspace' }), 5);
+        await timeout(() => prompt.keypress('b'), 5);
+        await timeout(() => prompt.keypress(null, { name: 'backspace' }), 5);
+        await timeout(() => prompt.keypress('c'), 5);
+        await timeout(() => prompt.keypress('h'), 5);
+        await timeout(() => prompt.keypress('o'), 5);
+        await timeout(() => prompt.submit(), 5);
       });
 
       return prompt.run()
         .then(answer => {
-          assert.deepEqual(prompt.choices.map(ch => ch.name), ['almond', 'apple', 'banana', 'cherry', 'chocolate', 'cinnamon', 'coconut', 'cotton candy']);
+          assert.deepEqual(prompt.allChoices.map(ch => ch.name), ['almond', 'apple', 'banana', 'cherry', 'chocolate', 'cinnamon', 'coconut', 'cotton candy']);
+          assert.deepEqual(prompt.choices.map(ch => ch.name), ['chocolate']);
           assert.equal(answer, 'chocolate');
         });
     });
@@ -385,8 +396,8 @@ describe('prompt-autocomplete', () => {
       });
 
       prompt.once('run', async() => {
-        await press(prompt, prompt.choices[0].message);
-        await timeout(() => prompt.submit());
+        await keypresses(prompt, prompt.choices[0].message);
+        await immediate(() => prompt.submit());
       });
 
       return prompt.run()
@@ -398,7 +409,7 @@ describe('prompt-autocomplete', () => {
     it('should support async options.suggest function', () => {
       prompt = new Prompt({
         message: 'Favorite flavor?',
-        choices: fixture.slice(),
+        choices: fixtures.slice(),
         suggest(typed, choices) {
           const search = async() => choices.filter(choice => choice.message.includes(typed));
           return timeout(search, 20);
@@ -406,10 +417,10 @@ describe('prompt-autocomplete', () => {
       });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress('a'));
-        await timeout(() => prompt.keypress('p'));
-        await timeout(() => prompt.keypress('p'));
-        await timeout(() => prompt.submit());
+        await immediate(() => prompt.keypress('a'));
+        await immediate(() => prompt.keypress('p'));
+        await immediate(() => prompt.keypress('p'));
+        await immediate(() => prompt.submit());
       });
 
       return prompt.run()
@@ -434,10 +445,10 @@ describe('prompt-autocomplete', () => {
       });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress('c'));
-        await timeout(() => prompt.keypress('h'));
-        await timeout(() => prompt.keypress('o'));
-        await timeout(() => prompt.submit());
+        await immediate(() => prompt.keypress('c'));
+        await immediate(() => prompt.keypress('h'));
+        await immediate(() => prompt.keypress('o'));
+        await immediate(() => prompt.submit());
       });
 
       return prompt.run()

@@ -15,24 +15,20 @@ class Prompt extends PasswordPrompt {
 
 describe('password', function() {
   describe('options.initial', () => {
-    it.skip('should not print password when answer is submitted', () => {
-      prompt = new PasswordPrompt({
+    it('should not print password when answer is submitted', cb => {
+      prompt = new Prompt({
         message: 'What is your password?',
         initial: 'foobar'
       });
 
-      let result = [];
       prompt.once('run', () => prompt.submit());
-      prompt.on('terminal', terminal => {
-        if (prompt.answered === true) {
-          result.push(/foobar/.test(terminal));
-        }
+      prompt.once('submit', () => {
+        assert(!/foobar/.test(prompt.buffer));
+        assert(/[*]{6}/.test(prompt.buffer));
+        cb();
       });
 
-      return prompt.run()
-        .then(answer => {
-          // assert.equal(result[0], false);
-        });
+      prompt.run();
     });
 
     it('should use options.initial', () => {
@@ -54,7 +50,7 @@ describe('password', function() {
     it('should output the un-modified value', () => {
       prompt = new Prompt({ message: 'Enter your password', name: 'pw' });
 
-      prompt.on('run', async() => {
+      prompt.once('run', async() => {
         await nextTick(() => prompt.keypress('f'));
         await nextTick(() => prompt.keypress('o'));
         await nextTick(() => prompt.keypress('o'));

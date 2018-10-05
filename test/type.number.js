@@ -3,7 +3,7 @@
 require('mocha');
 const assert = require('assert');
 const NumberPrompt = require('../lib/types/number');
-const { nextTick } = require('./support')(assert);
+const { immediate } = require('./support')(assert);
 const reset = { name: 'g', ctrl: true };
 const down = { name: 'down' };
 const up = { name: 'up' };
@@ -78,38 +78,39 @@ describe('number prompt', function() {
       assert.equal(prompt.float, false);
 
       prompt.on('run', async() => {
-        await nextTick(() => prompt.keypress('4'));
-        await nextTick(async() => assert.equal(prompt.typed, 4));
-        await nextTick(() => prompt.keypress('2'));
-        await nextTick(async() => assert.equal(prompt.typed, 42));
-        await nextTick(() => prompt.keypress('.'));
-        await nextTick(async() => assert.equal(prompt.typed, 42));
-        await nextTick(() => prompt.keypress('8'));
-        await nextTick(async() => assert.equal(prompt.typed, 42.8));
-        await nextTick(() => prompt.keypress('2'));
-        await nextTick(async() => assert.equal(prompt.typed, 42.82));
-        await nextTick(() => prompt.submit());
+        await immediate(async() => prompt.keypress('4'));
+        await immediate(async() => assert.equal(prompt.input, 4));
+        await immediate(async() => prompt.keypress('2'));
+        await immediate(async() => assert.equal(prompt.input, 42));
+        await immediate(async() => prompt.keypress('.'));
+        await immediate(async() => assert.equal(prompt.input, 42));
+        await immediate(async() => prompt.keypress('8'));
+        await immediate(async() => assert.equal(prompt.input, 42.8));
+        await immediate(async() => prompt.keypress('2'));
+        await immediate(async() => assert.equal(prompt.input, 42.82));
+        await immediate(async() => prompt.submit());
       });
 
       return prompt.run()
-        .then(answer => {
-          assert.equal(prompt.typed, 42.82);
-          assert.equal(answer, 43);
+        .then(value => {
+          assert.equal(prompt.input, 42.82);
+          assert.equal(prompt.value, 43);
+          assert.equal(value, 43);
         });
     });
   });
 
-  describe('options.increment', () => {
-    it('should support options.increment', () => {
+  describe('options.minor', () => {
+    it('should support options.minor', () => {
       prompt = new Prompt({
         message: 'prompt-number',
-        increment: 5
+        minor: 5
       });
 
-      assert.equal(prompt.step, 5);
+      assert.equal(prompt.minor, 5);
       prompt.on('run', async() => {
-        await nextTick(() => prompt.keypress(null, up));
-        await nextTick(() => prompt.submit());
+        await immediate(async() => prompt.keypress(null, up));
+        await immediate(async() => prompt.submit());
       });
 
       return prompt.run()
@@ -118,13 +119,13 @@ describe('number prompt', function() {
         });
     });
 
-    it('should return zero when submitted with no val and options.increment', () => {
+    it('should return zero when submitted with no val and options.minor', () => {
       prompt = new Prompt({
         message: 'prompt-number',
-        increment: 5
+        minor: 5
       });
 
-      assert.equal(prompt.step, 5);
+      assert.equal(prompt.minor, 5);
       prompt.on('run', () => prompt.submit());
 
       return prompt.run()
@@ -136,18 +137,18 @@ describe('number prompt', function() {
     it('should increment and decrement by options.step', () => {
       prompt = new Prompt({
         message: 'prompt-number',
-        increment: 5,
+        minor: 5,
         initial: 37
       });
 
-      assert.equal(prompt.step, 5);
+      assert.equal(prompt.minor, 5);
 
       prompt.on('run', async() => {
-        await nextTick(() => prompt.keypress(null, up));
-        await nextTick(() => prompt.keypress(null, up));
-        await nextTick(() => prompt.keypress(null, up));
-        await nextTick(() => prompt.keypress(null, down));
-        await nextTick(() => prompt.submit());
+        await immediate(() => prompt.keypress(null, up));
+        await immediate(() => prompt.keypress(null, up));
+        await immediate(() => prompt.keypress(null, up));
+        await immediate(() => prompt.keypress(null, down));
+        await immediate(() => prompt.submit());
       });
 
       return prompt.run()
@@ -159,18 +160,18 @@ describe('number prompt', function() {
     it('should increment and decrement floats', () => {
       prompt = new Prompt({
         message: 'prompt-number',
-        increment: 5,
+        minor: 5,
         initial: 37.2
       });
 
-      assert.equal(prompt.step, 5);
+      assert.equal(prompt.minor, 5);
 
       prompt.on('run', async() => {
-        await nextTick(() => prompt.keypress(null, up));
-        await nextTick(() => prompt.keypress(null, up));
-        await nextTick(() => prompt.keypress(null, up));
-        await nextTick(() => prompt.keypress(null, down));
-        await nextTick(() => prompt.submit());
+        await immediate(async() => prompt.keypress(null, up));
+        await immediate(async() => prompt.keypress(null, up));
+        await immediate(async() => prompt.keypress(null, up));
+        await immediate(async() => prompt.keypress(null, down));
+        await immediate(async() => prompt.submit());
       });
 
       return prompt.run()
@@ -182,19 +183,19 @@ describe('number prompt', function() {
     it('should increment and decrement and round floats when disabled', () => {
       prompt = new Prompt({
         message: 'prompt-number',
-        increment: 5,
+        minor: 5,
         initial: 37.6,
         float: false
       });
 
-      assert.equal(prompt.step, 5);
+      assert.equal(prompt.minor, 5);
 
       prompt.on('run', async() => {
-        await nextTick(() => prompt.keypress(null, up));
-        await nextTick(() => prompt.keypress(null, up));
-        await nextTick(() => prompt.keypress(null, up));
-        await nextTick(() => prompt.keypress(null, down));
-        await nextTick(() => prompt.submit());
+        await immediate(async() => prompt.keypress(null, up));
+        await immediate(async() => prompt.keypress(null, up));
+        await immediate(async() => prompt.keypress(null, up));
+        await immediate(async() => prompt.keypress(null, down));
+        await immediate(async() => prompt.submit());
       });
 
       return prompt.run()
@@ -240,24 +241,24 @@ describe('number prompt', function() {
     it('should reset the prompt to options.initial', () => {
       prompt = new Prompt({
         message: 'prompt-number',
-        increment: 5,
+        minor: 5,
         initial: 37.6
       });
 
-      assert.equal(prompt.step, 5);
+      assert.equal(prompt.minor, 5);
 
       prompt.on('run', async() => {
-        await nextTick(async() => prompt.keypress(null, up));
-        await nextTick(async() => assert.equal(prompt.typed, 42.6));
-        await nextTick(async() => prompt.keypress(null, up));
-        await nextTick(async() => assert.equal(prompt.typed, 47.6));
-        await nextTick(async() => prompt.keypress(null, up));
-        await nextTick(async() => assert.equal(prompt.typed, 52.6));
-        await nextTick(async() => prompt.keypress(null, down));
-        await nextTick(async() => assert.equal(prompt.typed, 47.6));
-        await nextTick(async() => prompt.keypress(null, reset));
-        await nextTick(async() => assert.equal(prompt.typed, ''));
-        await nextTick(async() => prompt.submit());
+        await immediate(async() => prompt.keypress(null, up));
+        await immediate(async() => assert.equal(prompt.input, 42.6));
+        await immediate(async() => prompt.keypress(null, up));
+        await immediate(async() => assert.equal(prompt.input, 47.6));
+        await immediate(async() => prompt.keypress(null, up));
+        await immediate(async() => assert.equal(prompt.input, 52.6));
+        await immediate(async() => prompt.keypress(null, down));
+        await immediate(async() => assert.equal(prompt.input, 47.6));
+        await immediate(async() => prompt.keypress(null, reset));
+        await immediate(async() => assert.equal(prompt.input, ''));
+        await immediate(async() => prompt.submit());
       });
 
       return prompt.run()

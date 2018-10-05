@@ -1,15 +1,11 @@
 const colors = require('ansi-colors');
 const Prompt = require('../../lib/prompts/select');
-const symbols = require('../../lib/style/symbols');
 const prompt = new Prompt({
   name: 'color',
-  message: 'Trick or treat! Take your pick',
-  choices: ['candy', 'apple', 'toothbrush', 'insult'],
-  elements: {
-    separator: symbols.middot
-  }
+  message: 'Pick a flavor',
+  choices: ['apple', 'grape', 'watermelon', 'cherry', 'orange']
 });
 
 prompt.run()
-  .then(answer => console.log('Answer:', answer === 'insult' ? 'You stink!' : answer))
-  .catch(console.error);
+  .then(answer => console.log('Answer:', answer))
+  .catch(err => console.error('TERMINATED'));

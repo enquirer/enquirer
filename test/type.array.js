@@ -11,6 +11,7 @@ class Prompt extends ArrayPrompt {
   constructor(options = {}) {
     super({ ...options, show: false });
   }
+  render() {}
 }
 
 describe('array prompt', function() {
@@ -83,7 +84,7 @@ describe('array prompt', function() {
       });
 
       prompt.once('run', () => {
-        assert.equal(prompt.autofocus, 2);
+        assert.equal(prompt.index, 2);
         prompt.submit();
       });
 

@@ -120,7 +120,7 @@ describe('multiselect', function() {
 
       prompt.on('run', () => {
         assert(Array.isArray(prompt.choices));
-        const key = colors.cyan.underline('foo');
+        const key = prompt.styles.selected('foo');
         const pointer = colors.dim.gray(prompt.symbols.check);
         assert.equal(prompt.renderChoice(prompt.choices[0], 0), `${pointer} ${key}`);
         assert.equal(prompt.renderChoice(prompt.choices[1], 1), `${pointer} bar`);

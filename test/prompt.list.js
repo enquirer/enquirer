@@ -3,7 +3,7 @@
 require('mocha');
 const assert = require('assert');
 const support = require('./support');
-const { timeout, press } = support(assert);
+const { timeout, keypresses } = support(assert);
 const ListPrompt = require('../lib/prompts/list');
 let prompt;
 
@@ -79,7 +79,7 @@ describe('list', function() {
     it('should get a list of keywords', () => {
       prompt = new Prompt({ message: 'Enter a list of comma separated keywords:' });
       prompt.once('run', async() => {
-        await press(prompt, 'foo, bar, baz, qux');
+        await keypresses(prompt, 'foo, bar, baz, qux');
         await timeout(() => prompt.submit());
       });
 
@@ -93,14 +93,14 @@ describe('list', function() {
       prompt = new Prompt({
         message: 'Enter email address either separated by a comma (,) or semicolon (;):',
         separator: /[,;]/,
-        format(list) {
+        result(list) {
           return list.filter(Boolean);
         }
       });
 
       prompt.once('run', async() => {
-        await press(prompt, 'brian.woodward@gmail.com;doowb@example.com,jon@example.com;');
-        await timeout(() => prompt.submit());
+        prompt.state.input = 'brian.woodward@gmail.com;doowb@example.com,jon@example.com;';
+        prompt.submit();
       });
 
       return prompt.run()

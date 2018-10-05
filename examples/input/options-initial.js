@@ -1,6 +1,7 @@
 'use strict';
 
-const Prompt = require('../../lib/types/string');
+const colors = require('ansi-colors');
+const Prompt = require('../../lib/prompts/input');
 const prompt = new Prompt({
   message: 'What is your username?',
   initial: 'jonschlinkert'

@@ -5,7 +5,7 @@ const assert = require('assert');
 const colors = require('ansi-colors');
 const { cyan, green } = colors;
 const support = require('./support');
-const { nextTick } = support(assert);
+const { immediate } = support(assert);
 const Radio = require('../lib/prompts/radio');
 const down = { sequence: '\u001b[B', name: 'down', code: '[B' };
 const up = { sequence: '\u001b[A', name: 'up', code: '[A' };
@@ -18,8 +18,8 @@ class Prompt extends Radio {
 }
 
 describe('radio', function() {
-  describe('.renderChoiceHelp', () => {
-    it('should support custom options.renderChoiceHelp function', cb => {
+  describe('.renderChoice', () => {
+    it('should support custom options.renderChoice function', cb => {
       prompt = new Prompt({
         message: 'prompt-radio',
         choices: [
@@ -30,12 +30,16 @@ describe('radio', function() {
         ]
       });
 
-      prompt.renderChoiceHelp = choice => choice.enabled ? 'foo' : 'bar';
+      let renderChoice = prompt.renderChoice.bind(prompt);
+      prompt.renderChoice = (choice, i) => {
+        return renderChoice(choice, i) + ' ' + (choice.enabled ? 'foo' : 'bar');
+      };
 
-      prompt.once('run', () => {
-        const pointer = cyan(prompt.symbols.pointer.on) + green('◉');
-        const actual = prompt.renderChoices();
-        assert.equal(actual, `\n${pointer} A foo\n ◯ BB bar\n ◯ CCC bar\n ◯ DDDD bar`);
+      prompt.once('run', async () => {
+        const radio = cyan(prompt.symbols.pointer) + green('◉');
+        const actual = await prompt.renderChoices();
+        const expected = `\n${radio} A foo\n ◯ BB bar\n ◯ CCC bar\n ◯ DDDD bar`;
+        assert.equal(actual, expected);
         cb();
       });
 
@@ -106,8 +110,8 @@ describe('radio', function() {
       });
 
       prompt.once('run', () => {
-        assert.equal(prompt.indicator(prompt.choices[0]), green(prompt.symbols.indicator.on));
-        assert.equal(prompt.indicator(prompt.choices[1]), prompt.symbols.indicator.off);
+        assert.equal(prompt.indicator(prompt.choices[0]), green(prompt.symbols.radio.on));
+        assert.equal(prompt.indicator(prompt.choices[1]), prompt.symbols.radio.off);
         cb();
       });
 
@@ -126,7 +130,7 @@ describe('radio', function() {
       });
 
       prompt.once('run', () => {
-        const pointer = cyan(prompt.symbols.pointer.on) + green(prompt.symbols.indicator.on);
+        const pointer = cyan(prompt.symbols.pointer) + green(prompt.symbols.radio.on);
         assert.equal(prompt.renderChoice(prompt.choices[0], 0), `${pointer} A`);
         assert.equal(prompt.renderChoice(prompt.choices[1], 1), ' ◯ BB');
         cb();
@@ -146,9 +150,9 @@ describe('radio', function() {
         ]
       });
 
-      prompt.once('run', () => {
-        const pointer = cyan(prompt.symbols.pointer.on) + green('◉');
-        const actual = prompt.renderChoices();
+      prompt.once('run', async() => {
+        const pointer = cyan(prompt.symbols.pointer) + green('◉');
+        const actual = await prompt.renderChoices();
         assert.equal(actual, `\n${pointer} A\n ◯ BB\n ◯ CCC\n ◯ DDDD`);
         cb();
       });
@@ -157,7 +161,7 @@ describe('radio', function() {
     });
   });
 
-  describe('key handling', () => {
+  describe('keypresses', () => {
     it('should handle toggling a selection with the `space` key', () => {
       prompt = new Prompt({
         message: 'prompt-radio',
@@ -170,9 +174,9 @@ describe('radio', function() {
       });
 
       prompt.once('run', async() => {
-        await nextTick(() => prompt.keypress(null, down));
-        await nextTick(() => prompt.keypress(' '));
-        await nextTick(() => prompt.submit());
+        await prompt.keypress(null, down);
+        await prompt.keypress(' ');
+        await prompt.submit();
       });
 
       return prompt.run().then(answer => assert.equal(answer, 'b'));
@@ -191,13 +195,13 @@ describe('radio', function() {
 
       prompt.once('run', async() => {
         // down to 'b'
-        await nextTick(() => prompt.keypress(null, down));
+        await immediate(() => prompt.keypress(null, down));
         // down to 'c'
-        await nextTick(() => prompt.keypress(null, down));
+        await immediate(() => prompt.keypress(null, down));
         // back up to 'b'
-        await nextTick(() => prompt.keypress(null, up));
-        await nextTick(() => prompt.keypress(' '));
-        await nextTick(() => prompt.submit());
+        await immediate(() => prompt.keypress(null, up));
+        await immediate(() => prompt.keypress(' '));
+        await immediate(() => prompt.submit());
       });
 
       return prompt.run().then(answer => assert.equal(answer, 'b'));
@@ -215,10 +219,10 @@ describe('radio', function() {
       });
 
       prompt.once('run', async() => {
-        await nextTick(() => prompt.keypress(3));
-        await nextTick(() => prompt.keypress(4));
-        await nextTick(() => prompt.keypress(2));
-        await nextTick(() => prompt.submit());
+        await immediate(() => prompt.keypress(3));
+        await immediate(() => prompt.keypress(4));
+        await immediate(() => prompt.keypress(2));
+        await immediate(() => prompt.submit());
       });
 
       return prompt.run().then(answer => assert.equal(answer, 'c'));

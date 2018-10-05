@@ -61,7 +61,8 @@
     "devDependencies": {
       "files": {
         "patterns": [
-          "perf/*.js"
+          "perf/*.js",
+          "examples/**/*.js"
         ]
       }
     }
@@ -83,6 +84,6 @@
     }
   },
   "dependencies": {
-    "ansi-colors": "^3.0.6"
+    "ansi-colors": "file:../../ansi/ansi-colors"
   }
 }

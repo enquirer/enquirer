@@ -14,30 +14,38 @@ class Prompt extends Invisible {
 }
 
 describe('invisible prompt', function() {
-  describe('options.value', () => {
-    it('should use options.value without prompting', () => {
-      prompt = new Prompt({
-        message: 'prompt-invisible',
-        value: 'woohooo!'
-      });
-
-      prompt.on('run', () => prompt.submit());
-
-      return prompt.run()
-        .then(function(answer) {
-          assert.equal(answer, 'woohooo!');
-        });
-    });
-  });
-
   describe('options.initial', () => {
-    it('should use options.initial when submitted without typing', () => {
+    it('should use options.initial without typing', () => {
       prompt = new Prompt({
         message: 'prompt-invisible',
         initial: 'woohooo!'
       });
 
       prompt.once('run', () => prompt.submit());
+
+      return prompt.run()
+        .then(function(answer) {
+          assert.equal(answer, 'woohooo!');
+        });
+    });
+
+    it('should use options.initial after typing', () => {
+      prompt = new Prompt({
+        message: 'prompt-invisible',
+        initial: 'woohooo!'
+      });
+
+      let backspace = { name: 'backspace' };
+
+      prompt.on('run', async() => {
+        await nextTick(async() => prompt.keypress('f'));
+        await nextTick(async() => prompt.keypress('o'));
+        await nextTick(async() => prompt.keypress('o'));
+        await nextTick(async() => prompt.keypress(null, backspace));
+        await nextTick(async() => prompt.keypress(null, backspace));
+        await nextTick(async() => prompt.keypress(null, backspace));
+        await nextTick(async() => prompt.submit());
+      });
 
       return prompt.run()
         .then(function(answer) {
@@ -51,10 +59,10 @@ describe('invisible prompt', function() {
       prompt = new Prompt({ message: 'Enter some invisible text' });
 
       prompt.on('run', async() => {
-        await nextTick(() => prompt.keypress('f'));
-        await nextTick(() => prompt.keypress('o'));
-        await nextTick(() => prompt.keypress('o'));
-        await nextTick(() => prompt.submit());
+        await nextTick(async() => prompt.keypress('f'));
+        await nextTick(async() => prompt.keypress('o'));
+        await nextTick(async() => prompt.keypress('o'));
+        await nextTick(async() => prompt.submit());
       });
 
       return prompt.run()

@@ -13,7 +13,7 @@ class Prompt extends Confirm {
   }
 }
 
-describe('confirm', function() {
+describe('confirm', () => {
   describe('options.initial', () => {
     it('should use options.initial when submitted without changes', () => {
       prompt = new Prompt({ message: 'foo', initial: true });
@@ -25,10 +25,10 @@ describe('confirm', function() {
   describe('hint', () => {
     it('should show the correct hint based on options.initial', () => {
       prompt = new Prompt({ message: 'foo', initial: true });
-      assert.equal(prompt.hint, '(Y/n)');
+      assert.equal(prompt.state.hint, '(Y/n)');
 
       prompt = new Prompt({ message: 'foo', initial: false });
-      assert.equal(prompt.hint, '(y/N)');
+      assert.equal(prompt.state.hint, '(y/N)');
     });
   });
 
@@ -37,8 +37,8 @@ describe('confirm', function() {
       prompt = new Prompt({ message: 'Are you sure?' });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress('y'));
-        await timeout(() => prompt.submit());
+        await timeout(async() => prompt.keypress('y'));
+        await timeout(async() => prompt.submit());
       });
 
       return prompt.run().then(answer => assert.equal(answer, true));
@@ -48,8 +48,8 @@ describe('confirm', function() {
       prompt = new Prompt({ message: 'Are you sure?' });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress('n'));
-        await timeout(() => prompt.submit());
+        await timeout(async() => prompt.keypress('n'));
+        await timeout(async() => prompt.submit());
       });
 
       return prompt.run().then(answer => assert.equal(answer, false));

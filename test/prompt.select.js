@@ -4,9 +4,12 @@ require('mocha');
 const assert = require('assert');
 const { cyan } = require('ansi-colors');
 const support = require('./support');
-const { nextTick, expect } = support(assert);
+const { nextTick, expect, immediate } = support(assert);
 const PromptSelect = require('../lib/prompts/select');
 let prompt;
+
+const up = { sequence: '\u001b[A', name: 'up', code: '[A' };
+const down = { sequence: '\u001b[B', name: 'down', code: '[B' };
 
 class Prompt extends PromptSelect {
   constructor(options) {
@@ -35,28 +38,7 @@ describe('select', function() {
           { name: 'd', message: 'DDDD', enabled: false }
         ]);
 
-        assert.equal(prompt.initial, void 0);
-        assert.equal(prompt.longest, 4);
-        prompt.submit();
-        cb();
-      });
-
-      prompt.run().catch(cb);
-    });
-
-    it('should map choice.alias to prompt.aliases', cb => {
-      prompt = new Prompt({
-        message: 'prompt-select',
-        choices: [
-          { name: 'a', message: 'A', alias: 'x' },
-          { name: 'b', message: 'BB' },
-          { name: 'c', message: 'CCC' },
-          { name: 'd', message: 'DDDD', alias: 'z' }
-        ]
-      });
-
-      prompt.once('run', () => {
-        assert.deepEqual(prompt.aliases, ['x', '', '', 'z']);
+        assert.deepEqual(prompt.initial, 0);
         prompt.submit();
         cb();
       });
@@ -103,7 +85,7 @@ describe('select', function() {
 
       return prompt.run()
         .then(answer => {
-          const expected = cyan(prompt.symbols.pointer.on) + ' ' + cyan('A');
+          let expected = cyan(prompt.symbols.pointer) + ' ' + cyan('A');
           assert.equal(prompt.renderChoice(prompt.choices[0], 0), expected);
           assert.equal(prompt.renderChoice(prompt.choices[1], 1), '  BB');
         });
@@ -120,10 +102,11 @@ describe('select', function() {
         ]
       });
 
-      prompt.once('run', () => {
-        const pointer = cyan(prompt.symbols.pointer.on);
-        const expected = `\n${pointer} ${cyan('A')}\n  BB\n  CCC\n  DDDD`;
-        const actual = prompt.renderChoices();
+      prompt.once('run', async() => {
+        let { state, symbols } = prompt;
+        let pointer = cyan(symbols.pointer);
+        let expected = `\n${pointer} ${cyan('A')}\n  BB\n  CCC\n  DDDD`;
+        let actual = await prompt.renderChoices();
         assert.equal(actual, expected);
         prompt.submit();
       });
@@ -132,8 +115,8 @@ describe('select', function() {
     });
   });
 
-  describe('key handling', () => {
-    it('should handle submitting with the enter key', () => {
+  describe('keypress events', () => {
+    it('should handle submitting with <enter>', () => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -155,9 +138,6 @@ describe('select', function() {
     });
 
     it('should handle moving up and down with the arrow keys', () => {
-      const up = { sequence: '\u001b[A', name: 'up', code: '[A' };
-      const down = { sequence: '\u001b[B', name: 'down', code: '[B' };
-
       prompt = new Prompt({
         message: 'prompt-select',
         show: false,
@@ -170,10 +150,10 @@ describe('select', function() {
       });
 
       prompt.on('run', async() => {
-        await nextTick(() => prompt.keypress(null, down)); // down to 'b'
-        await nextTick(() => prompt.keypress(null, down)); // down to 'c'
-        await nextTick(() => prompt.keypress(null, up)); // back up to 'b'
-        await nextTick(() => prompt.submit());
+        await immediate(() => prompt.keypress(null, down)); // down to 'b'
+        await immediate(() => prompt.keypress(null, down)); // down to 'c'
+        await immediate(() => prompt.keypress(null, up)); // back up to 'b'
+        await immediate(() => prompt.submit());
       });
 
       return prompt.run().then(expect('b'));
@@ -192,11 +172,11 @@ describe('select', function() {
       });
 
       prompt.on('run', async() => {
-        await nextTick(() => prompt.keypress(0));
-        await nextTick(() => prompt.keypress(3));
-        await nextTick(() => prompt.keypress(4));
-        await nextTick(() => prompt.keypress(2));
-        await nextTick(() => prompt.submit());
+        await immediate(() => prompt.keypress(0));
+        await immediate(() => prompt.keypress(3));
+        await immediate(() => prompt.keypress(4));
+        await immediate(() => prompt.keypress(2));
+        await immediate(() => prompt.submit());
       });
 
       return prompt.run()

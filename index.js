@@ -132,7 +132,7 @@ for (let name of Object.keys(Enquirer.prompts)) {
   utils.define(Enquirer, name, options => {
     let prompt = new Enquirer.prompts[name](options);
     utils.forwardEvents(prompt, Enquirer);
-    return prompt.run();
+    return prompt;
   });
 }
 

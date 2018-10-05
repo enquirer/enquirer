@@ -1,7 +1,8 @@
-const Prompt = require('../../lib/prompts/select');
+const colors = require('ansi-colors');
+const Prompt = require('../../lib/prompts/typeahead');
 const prompt = new Prompt({
   name: 'color',
-  message: 'Pick a color',
+  message: 'What\'s your favorite color?',
   choices: ['Red', 'Green', 'Blue'],
   typeahead: true
 });
