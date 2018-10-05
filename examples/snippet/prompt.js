@@ -5,7 +5,6 @@ const prompt = new Prompt({
   values: {
     name: 'awesome-lib'
   },
-  // format: (value, choice, state) => value || '',
   template: `{
   "name": "\${name}",
   "description": "\${description:This is a great project}",
