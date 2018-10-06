@@ -13,7 +13,6 @@ class Enquirer extends Events {
     this.defer = [].concat(this.options.defer || defer);
     this.Prompt = Enquirer.Prompt;
     this.prompts = Enquirer.prompts;
-    this.utils = Enquirer.utils;
   }
 
   register(name, fn) {
@@ -61,6 +60,11 @@ class Enquirer extends Events {
       let prompt = state.prompt = new Prompt(question);
       state = this.state(prompt, question);
       state.deferred = deferred;
+
+      prompt.on('state', value => this.emit('state', value, prompt));
+      prompt.on('submit', value => this.emit('submit', value, prompt));
+      prompt.on('cancel', error => this.emit('cancel', error, prompt));
+      this.emit('prompt', prompt, state);
 
       for (let key of Object.keys(question)) {
         if (this.isDeferred(key, Prompt.prototype)) {
