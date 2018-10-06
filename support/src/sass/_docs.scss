@@ -1,0 +1,347 @@
+$docs-primary-color: #444;
+
+/*
+ * Scaffolding
+ *
+ * Update the basics of our documents to prep for docs content.
+ */
+
+body {
+  position: relative; /* For scrollspy */
+}
+
+/* Inline code within headings retain the heading's background-color */
+h2 code,
+h3 code,
+h4 code {
+  background-color: inherit;
+}
+
+/*
+ * Homepage
+ *
+ * Tweaks to the custom homepage and the masthead (main jumbotron).
+ */
+
+/* Share masthead with page headers */
+// .masthead,
+// .header {
+//   position: relative;
+//   padding: 30px 0;
+//   color: #cdbfe3;
+//   text-align: center;
+//   text-shadow: 0 1px 0 rgba(0,0,0,.1);
+//   background-repeat: repeat-x;
+// }
+
+// /* Masthead (headings and download button) */
+// .masthead h1 {
+//   font-weight: 300;
+//   line-height: 1;
+//   color: #fff;
+// }
+// .masthead .lead {
+//   margin: 0 auto 30px;
+//   font-size: 20px;
+//   color: #fff;
+// }
+// .masthead .version {
+//   margin-top: -15px;
+//   margin-bottom: 30px;
+//   color: #9783b9;
+// }
+// .masthead .btn {
+//   width: 100%;
+//   padding: 15px 30px;
+//   font-size: 20px;
+// }
+
+@media (min-width: 480px) {
+  .masthead .btn {
+    width: auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .masthead {
+    padding: 80px 0;
+  }
+  .masthead h1 {
+    font-size: 60px;
+  }
+  .masthead .lead {
+    font-size: 24px;
+  }
+}
+
+@media (min-width: 992px) {
+  .masthead .lead {
+    font-size: 30px;
+  }
+}
+
+/*
+ * Page headers
+ *
+ * Jumbotron-esque headers at the top of every page that's not the homepage.
+ */
+
+/* Page headers */
+.header {
+  margin-bottom: 40px;
+  font-size: 20px;
+}
+.header h1 {
+  margin-top: 0;
+  color: #fff;
+}
+.header p {
+  margin-bottom: 0;
+  font-weight: 300;
+  line-height: 1.4;
+}
+.header .container {
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .header {
+    padding-top: 60px;
+    padding-bottom: 60px;
+    font-size: 24px;
+    text-align: left;
+  }
+  .header h1 {
+    font-size: 60px;
+    line-height: 1;
+  }
+}
+
+@media (min-width: 992px) {
+  .header h1,
+  .header p {
+    margin-right: 380px;
+  }
+}
+
+
+/*
+ * Side navigation
+ *
+ * Scrollspy and affixed enhanced navigation to highlight sections and secondary
+ * sections of docs content.
+ */
+
+/* By default it's not affixed in mobile views, so undo that */
+.sidebar.affix {
+  position: static;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    padding-left: 20px;
+  }
+}
+
+/* First level of nav */
+.sidenav {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: block;
+}
+
+/* All levels of nav */
+.sidebar .nav > li > a {
+  display: block;
+  padding: 4px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #767676;
+}
+.sidebar .nav > li > a:hover,
+.sidebar .nav > li > a:focus {
+  padding-left: 19px;
+  color: $docs-primary-color;
+  text-decoration: none;
+  background-color: transparent;
+  border-left: 1px solid $docs-primary-color;
+}
+.sidebar .nav > .active > a,
+.sidebar .nav > .active:hover > a,
+.sidebar .nav > .active:focus > a {
+  padding-left: 18px;
+  font-weight: bold;
+  color: $docs-primary-color;
+  background-color: transparent;
+  border-left: 2px solid $docs-primary-color;
+}
+
+/* Nav: second level (shown on .active) */
+.sidebar .nav .nav {
+  display: none; /* Hide by default, but at >768px, show it */
+  padding-bottom: 10px;
+}
+.sidebar .nav .nav > li > a {
+  padding-top: 1px;
+  padding-bottom: 1px;
+  padding-left: 30px;
+  font-size: 12px;
+  font-weight: normal;
+}
+.sidebar .nav .nav > li > a:hover,
+.sidebar .nav .nav > li > a:focus {
+  padding-left: 29px;
+}
+.sidebar .nav .nav > .active > a,
+.sidebar .nav .nav > .active:hover > a,
+.sidebar .nav .nav > .active:focus > a {
+  padding-left: 28px;
+  font-weight: 500;
+}
+
+/* Back to top (hidden on mobile) */
+.back-to-top,
+.theme-toggle {
+  display: none;
+  padding: 4px 10px;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: #999;
+}
+.back-to-top:hover,
+.theme-toggle:hover {
+  color: $docs-primary-color;
+  text-decoration: none;
+}
+.theme-toggle {
+  margin-top: 0;
+}
+
+@media (min-width: 768px) {
+  .back-to-top,
+  .theme-toggle {
+    display: block;
+  }
+}
+
+/* Show and affix the side nav when space allows it */
+@media (min-width: 992px) {
+  .sidebar .nav > .active > ul {
+    display: block;
+  }
+  /* Widen the fixed sidebar */
+  .sidebar.affix,
+  .sidebar.affix-bottom {
+    width: 213px;
+  }
+  .sidebar.affix {
+    position: fixed; /* Undo the static from mobile first approach */
+    top: 80px;
+  }
+  .sidebar.affix-bottom {
+    position: absolute; /* Undo the static from mobile first approach */
+  }
+  .sidebar.affix-bottom .sidenav,
+  .sidebar.affix .sidenav {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+@media (min-width: 1200px) {
+  /* Widen the fixed sidebar again */
+  .sidebar.affix-bottom,
+  .sidebar.affix {
+    width: 263px;
+  }
+}
+
+
+/*
+ * Docs sections
+ *
+ * Content blocks for each component or feature.
+ */
+
+/* Space things out */
+.section {
+  margin-bottom: 60px;
+}
+.section:last-child {
+  margin-bottom: 0;
+}
+
+h1[id] {
+  padding-top: 20px;
+  margin-top: 0;
+}
+
+/*
+ * Code snippets
+ *
+ * Generated via Pygments and Jekyll, these are snippets of HTML, CSS, and JS.
+ */
+
+.highlight {
+  padding: 9px 14px;
+  margin-bottom: 14px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 4px;
+}
+.highlight pre {
+  padding: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+  word-break: normal;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+}
+.highlight pre code {
+  font-size: inherit;
+  color: #333; /* Effectively the base text color */
+}
+.highlight pre code:first-child {
+  display: inline-block;
+  padding-right: 45px;
+}
+
+
+
+/*
+ * Footer
+ *
+ * Separated section of content at the bottom of all pages, save the homepage.
+ */
+
+.footer {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  margin-top: 100px;
+  color: #99979c;
+  text-align: center;
+  background-color: #2a2730;
+}
+.footer a {
+  color: #fff;
+}
+.footer-links {
+  padding-left: 0;
+  margin-bottom: 20px;
+}
+.footer-links li {
+  display: inline-block;
+}
+.footer-links li + li {
+  margin-left: 15px;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    text-align: left;
+  }
+  .footer p {
+    margin-bottom: 0;
+  }
+}

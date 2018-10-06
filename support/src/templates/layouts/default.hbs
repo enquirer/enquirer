@@ -1,0 +1,46 @@
+{{#frame site=site page=page}}
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    {{> site-head }}
+  </head>
+  <body>
+    <!-- site-wide navigation -->
+    <div class="container">
+      {{> site-nav }}
+    </div>
+
+    <!-- page header -->
+    {{#is @page.stem "index"}}
+      {{> page-header }}
+    {{else}}
+      {{> page-header-sm }}
+    {{/is}}
+
+    <!-- page content -->
+    <div class="container">
+      <div class="row">
+        {{> page-nav }}
+
+        <div class="col-12 col-md-9 pull-md-3">
+          <div class="main-content">
+          {{#if @page.description}}
+            {{ @page.description }}
+          {{/if}}
+
+          {% body %}
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="container">
+          {{> site-footer }}
+        </div>
+      </div>
+    </div>
+
+    {{> site-javascripts }}
+  </body>
+</html>
+{{/frame}}
