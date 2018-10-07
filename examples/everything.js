@@ -1,7 +1,14 @@
 const Prompt = require('../../lib/prompts/multiselect');
+const yosay = require('yosay');
 const prompt = new Prompt({
+  type: 'multiselect',
   name: 'value',
   message: 'Pick your favorite colors',
+  header: yosay('Welcome to my awesome generator!'),
+  footer: 'This is a footer\nwith a\nfew\nextra\nlines',
+  hint: '(Use <space> to select, <return> to submit)',
+  initial: 'jonschlinkert',
+  limit: 7,
   choices: [
     { name: 'aqua', value: '#00ffff' },
     { name: 'black', value: '#000000' },

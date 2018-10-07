@@ -3,16 +3,14 @@
 const assert = require('assert');
 const Events = require('events');
 const utils = require('./lib/utils');
-const defer = ['suggest', 'format', 'validate', 'test'];
 
 class Enquirer extends Events {
   constructor(options, answers) {
     super();
+    this.prompts = Enquirer.prompts;
+    this.Prompt = Enquirer.Prompt;
     this.options = { ...options };
     this.answers = { ...answers };
-    this.defer = [].concat(this.options.defer || defer);
-    this.Prompt = Enquirer.Prompt;
-    this.prompts = Enquirer.prompts;
   }
 
   register(name, fn) {
@@ -33,81 +31,37 @@ class Enquirer extends Events {
   }
 
   async prompt(questions = []) {
-    let state = this.state();
-    let deferred;
-
     for (let question of [].concat(questions)) {
-      question = state.question = { ...question };
-      deferred = state.deferred = new Set();
+      let options = { ...this.options, ...question };
+      let { type, name } = options;
 
-      if (question.skip && await question.skip(state)) {
-        continue;
-      }
+      if (typeof type === 'function') type = await type.call(this, options);
+      if (typeof type !== 'string') continue;
 
-      let { type, name } = question;
-
-      if (typeof type === 'function') {
-        type = await type(this);
-      }
-
-      if (typeof type !== 'string') {
-        continue;
-      }
-
-      assert(this.prompts[type], type + ' is not registered');
+      assert(this.prompts[type], `Prompt "${type}" is not registered`);
 
       let Prompt = this.prompts[type];
-      let prompt = state.prompt = new Prompt(question);
-      state = this.state(prompt, question);
-      state.deferred = deferred;
+      let prompt = new Prompt(options);
+      let state = this.state(prompt, options);
 
       prompt.on('state', value => this.emit('state', value, prompt));
       prompt.on('submit', value => this.emit('submit', value, prompt));
       prompt.on('cancel', error => this.emit('cancel', error, prompt));
-      this.emit('prompt', prompt, state);
+      this.emit('prompt', prompt);
 
-      for (let key of Object.keys(question)) {
-        if (this.isDeferred(key, Prompt.prototype)) {
-          state.deferred.add(key);
-          continue;
-        }
-
-        if (typeof question[key] === 'function') {
-          question[key] = await question[key].call(prompt, state);
-        }
+      if (this.options.skip && await this.options.skip(state)) {
+        continue;
       }
 
-      let answer = this.answers[name] = await prompt.run();
-
-      for (let key of state.deferred) {
-        if (typeof question[key] === 'function') {
-          await question[key].call(prompt, state);
-        }
-      }
-
-      state.prev = answer;
+      let value = this.answers[name] = await prompt.run();
+      this.emit('answer', value, prompt);
     }
 
     return this.answers;
   }
 
-  /**
-   * Returns true if a custom function defined on a "question" should
-   * not be called until after the prompt is run and the user submits
-   * an answer.
-   *
-   * @param {String} `name` Option name.
-   * @param {Object} `proto` Prompt.prototype
-   * @return {Boolean}
-   * @api public
-   */
-
-  isDeferred(name, proto) {
-    return this.defer.includes(name) || /^on[A-Z]/.test(name) || name in proto;
-  }
-
-  state(prompt, question, answers = this.answers, prev = null) {
-    let state = { enquirer: this, prompt, question, answers, prev };
+  state(prompt, question) {
+    let state = { prompt, question, answers: { ...this.answers } };
     this.emit('state', state);
     return state;
   }

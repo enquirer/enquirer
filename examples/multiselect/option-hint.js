@@ -2,6 +2,7 @@ const Prompt = require('../../lib/prompts/multiselect');
 const prompt = new Prompt({
   name: 'value',
   message: 'Pick your favorite colors',
+  hint: '(Use <space> to select, <return> to submit)',
   choices: [
     { name: 'aqua', value: '#00ffff' },
     { name: 'black', value: '#000000' },

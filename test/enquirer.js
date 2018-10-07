@@ -9,17 +9,19 @@ let enquirer;
 describe('Enquirer', function() {
   describe('question objects', () => {
     it('should run a single question object', cb => {
-      enquirer = new Enquirer();
-      enquirer.on('prompt', prompt => prompt.submit());
+      enquirer = new Enquirer({ show: false });
+      enquirer.on('prompt', prompt => {
+        prompt.value = 'orange';
+        prompt.submit()
+      });
 
       enquirer.prompt({
-        type: 'toggle',
-        name: 'pick',
-        message: 'Take your pick',
-        show: false
+        type: 'input',
+        name: 'color',
+        message: 'Favorite color?'
       })
       .then(answers => {
-        assert.equal(answers.pick, false);
+        assert.equal(answers.color, 'orange');
         cb();
       });
     });
@@ -27,10 +29,10 @@ describe('Enquirer', function() {
 
   describe('question arrays', () => {
     it('should run an array of questions', (cb) => {
-      enquirer = new Enquirer();
+      enquirer = new Enquirer({ show: false });
       enquirer.on('prompt', prompt => {
-        if (prompt.type === 'toggle') {
-          prompt.space();
+        if (prompt.name === 'color') {
+          prompt.value = 'blue';
         } else {
           prompt.value = 'Brian';
         }
@@ -38,20 +40,18 @@ describe('Enquirer', function() {
       });
 
       enquirer.prompt([{
-        type: 'toggle',
-        name: 'foo',
-        message: 'Take your pick',
-        show: false
+        type: 'input',
+        name: 'color',
+        message: 'Favorite color?'
       },
       {
         type: 'input',
-        name: 'bar',
-        message: 'What is your name?',
-        show: false
+        name: 'name',
+        message: 'What is your name?'
       }])
       .then(answers => {
-        assert.equal(answers.foo, true);
-        assert.equal(answers.bar, 'Brian');
+        assert.equal(answers.color, 'blue');
+        assert.equal(answers.name, 'Brian');
         cb();
       });
     });
