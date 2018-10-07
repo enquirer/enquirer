@@ -1,14 +1,24 @@
-const Prompt = require('../../lib/prompts/multiselect');
+const Prompt = require('../lib/prompts/multiselect');
+const colors = require('ansi-colors');
 const yosay = require('yosay');
+
 const prompt = new Prompt({
   type: 'multiselect',
   name: 'value',
   message: 'Pick your favorite colors',
-  header: yosay('Welcome to my awesome generator!'),
-  footer: 'This is a footer\nwith a\nfew\nextra\nlines',
   hint: '(Use <space> to select, <return> to submit)',
-  initial: 'jonschlinkert',
   limit: 7,
+  header() {
+    let dude = yosay('Welcome to my awesome generator!');
+    if (this.index > 5) {
+      dude = dude.replace('_\u001b[33m´U`\u001b[39m_', '@\u001b[33m´U`\u001b[39m@');
+      dude = dude.replace('~', 'O');
+    }
+    return !this.answered ? dude + '\n' : '';
+  },
+  pointer(choice, i) {
+    return this.index === i ? this.styles.primary(this.symbols.pointer) + ' ' : '  ';
+  },
   choices: [
     { name: 'aqua', value: '#00ffff' },
     { name: 'black', value: '#000000' },

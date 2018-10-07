@@ -30,7 +30,6 @@ describe('utils.actions', function() {
     assert.equal(act({ name: 'r', ctrl: true }), 'remove');
     assert.equal(act({ name: 's', ctrl: true }), 'save');
     assert.equal(act({ name: 'u', ctrl: true }), 'undo');
-    assert.equal(act({ name: 'z', ctrl: true }), 'undo');
   });
 
   it('should decorate actions for shift+', () => {

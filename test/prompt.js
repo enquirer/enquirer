@@ -43,11 +43,9 @@ describe('Prompt', function() {
         Prompt.prototype.keypress.call(prompt, str, key);
       };
 
-      const keypress = (ch, key) => {
+      prompt.on('keypress', (s, key) => {
         keypresses.push(key.raw);
-      };
-
-      prompt.on('keypress', keypress);
+      });
 
       prompt.once('submit', () => {
         assert.deepEqual(keypresses, [1, 2, 3, 'a', 'b', 'c']);

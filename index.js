@@ -44,9 +44,18 @@ class Enquirer extends Events {
       let prompt = new Prompt(options);
       let state = this.state(prompt, options);
 
+      for (let key of Object.keys(options)) {
+        let val = options[key];
+        if (typeof val === 'function' && key.slice(0, 2) === 'on') {
+          prompt.on(key.slice(2).toLowerCase(), val.bind(prompt));
+        }
+      }
+
+      prompt.once('run', value => this.emit('run', value, prompt));
+      prompt.once('submit', value => this.emit('submit', value, prompt));
+      prompt.once('cancel', error => this.emit('cancel', error, prompt));
+      prompt.on('keypress', value => this.emit('keypress', value, prompt));
       prompt.on('state', value => this.emit('state', value, prompt));
-      prompt.on('submit', value => this.emit('submit', value, prompt));
-      prompt.on('cancel', error => this.emit('cancel', error, prompt));
       this.emit('prompt', prompt);
 
       if (this.options.skip && await this.options.skip(state)) {
@@ -87,11 +96,7 @@ class Enquirer extends Events {
 utils.mixinEmitter(Enquirer, new Events());
 
 for (let name of Object.keys(Enquirer.prompts)) {
-  utils.define(Enquirer, name, options => {
-    let prompt = new Enquirer.prompts[name](options);
-    utils.forwardEvents(prompt, Enquirer);
-    return prompt;
-  });
+  utils.define(Enquirer, name, Enquirer.prompts[name]);
 }
 
 module.exports = Enquirer;

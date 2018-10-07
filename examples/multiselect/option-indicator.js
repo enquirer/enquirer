@@ -1,16 +1,17 @@
 const Prompt = require('../../lib/prompts/multiselect');
-const { red, dim, blue } = require('ansi-colors');
-const heart = '❤';
+const colors = require('ansi-colors');
 
 const prompt = new Prompt({
   name: 'example-groups',
-  message: 'What are your favorite colors?',
-  choices: { foo: ['a', 'b', 'c'], bar: ['d', 'e', 'f'] },
-  indicator(choice, i) {
-    if (choice.enabled && choice.group === 'bar') {
-      return blue(heart);
+  message: 'What are your favorite letters?',
+  choices: ['a', 'b', 'c', 'd', 'e', 'f'],
+  styles: { primary: colors.red },
+  symbols: { indicator: '❤' },
+  indicator(choice) {
+    if (choice.enabled) {
+      return this.styles.primary(this.symbols.indicator);
     }
-    return choice.enabled ? red(heart) : dim.gray(heart);
+    return colors.dim.gray(this.symbols.indicator);
   }
 });
 

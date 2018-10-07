@@ -43,7 +43,7 @@ describe('multiselect', function() {
   });
 
   describe('options.initial', () => {
-    it('should support optoins.initial', cb => {
+    it('should support options.initial', cb => {
       prompt = new Prompt({
         message: 'prompt-multiselect',
         initial: 2,
@@ -61,6 +61,10 @@ describe('multiselect', function() {
       });
 
       prompt.run().catch(cb);
+    });
+
+    it.skip('should not render the initial value on the prompt line', cb => {
+
     });
 
     it('should use options.initial by default', () => {
