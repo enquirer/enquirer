@@ -60,8 +60,7 @@ _Not implemented yet_
 | <kbd>alt</kbd>+<kbd>b</kbd> | Move cursor back one word |
 | <kbd>alt</kbd>+<kbd>f</kbd> | Move cursor forward one word |
 
-
-## Array prompts
+## Array prompt keypresses
 
 | **command** | **description** |
 | --- | --- |
@@ -113,13 +112,8 @@ _Not implemented yet_
 | `autofocus` | `string|number` | `undefined` | The index or name of the choice that should have focus when the prompt loads. Only one choice may have focus at a time. |
 
 
-## Text prompt
 
-- `minLength`
-- `maxLength`
-- `autocomplete`
-- `required`
-
+***
 
 ## Themes
 
@@ -161,6 +155,8 @@ The [ansi-colors][] library is used to apply styling.
 
 If you are a prompt author, styles may be accessed inside a prompt instance on the `this.theme` object, where each "style" is a function that wraps the returned string in ANSI codes. 
 
+***
+
 ## Events
 
 | **Event** | **Description** |
@@ -171,14 +167,3 @@ If you are a prompt author, styles may be accessed inside a prompt instance on t
 | `cancel` | Emitted when the prompt is terminated by the user or an error is thrown. |
 | `close`  | Emitted when the readline interface is closed and the input stream is paused. |
 | `run`    | Emitted when the prompt has been initialized. |
-
-
-## Events
-
-| **Event name** | **Description** |
-| --- | --- |
-| `run`      | Emitted when the `.run()` method is called, after the [readline][] interface is created. |
-| `keypress` |  |
-| `state`    | Emitted at the same time as `keypress`, but emits the object returned from the [prompt.state()](#state) method. This object has useful state properties such as [status](#property-status) [cursor](#property-cursor) [value](#property-value) [typed](#property-typed) [error](#property-error) etc. |
-| `submit`   |  |
-| `abort`    | Emitted when an error occurs or when the user terminates the session early. |
