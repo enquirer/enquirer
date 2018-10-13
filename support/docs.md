@@ -1,5 +1,9 @@
 # Docs
 
+- **Pluggable** - Use plugins to add advanced features, like [autofill][], [history][], and [debounce][]
+
+
+
 ## Performance
 
 **Library** | **Load time**
@@ -247,3 +251,39 @@ Disply a [header](#optionsheader) before your prompt.
   Blue
 (Move up and down to reveal more choices)
 ```
+
+
+
+
+### Cut/paste
+
+| **command** | **description** |
+| --- | --- |
+| <kbd>ctrl</kbd>+<kbd>_</kbd> | Undo |
+| <kbd>ctrl</kbd>+<kbd>c</kbd> | Cancel the current command |
+| <kbd>ctrl</kbd>+<kbd>k</kbd> | Cut everything after the cursor position |
+| <kbd>ctrl</kbd>+<kbd>w</kbd> | Cut a word to the left of the cursor position |
+| <kbd>ctrl</kbd>+<kbd>y</kbd> | Paste the last deleted command |
+| <kbd>ctrl</kbd>+<kbd>d</kbd> | Clear one character to the right of the cursor position |
+| <kbd>ctrl</kbd>+<kbd>l</kbd> | Clear the entire terminal |
+| <kbd>ctrl</kbd>+<kbd>u</kbd> | Clear the current line |
+| <kbd>ctrl</kbd>+<kbd>x</kbd> | Toggle between first and cursor position |
+
+**Windows**
+
+| **command** | **description** |
+| --- | --- |
+| <kbd>alt</kbd>+<kbd><</kbd> | Cut a word to the left of the cursor |
+| <kbd>alt</kbd>+<kbd>d</kbd> | Cut a word to the right of the cursor |
+
+### Search/history
+
+| **command** | **description** |
+| --- | --- |
+| <kbd>ctrl</kbd>+<kbd>r</kbd> | Search for a command in history (type a search term) |
+| <kbd>ctrl</kbd>+<kbd>g</kbd> | Cancel the search and restore original line |
+| <kbd>ctrl</kbd>+<kbd>j</kbd> | End the search at current history entry |
+| <kbd>ctrl</kbd>+<kbd>n</kbd> | Get next command from history |
+| <kbd>ctrl</kbd>+<kbd>▼</kbd> | Get next command from history |
+| <kbd>ctrl</kbd>+<kbd>p</kbd> | Get previous command from history |
+| <kbd>ctrl</kbd>+<kbd>▲</kbd> | Get previous command from history |

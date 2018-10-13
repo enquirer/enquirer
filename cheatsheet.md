@@ -1,11 +1,33 @@
 # Enquirer Cheatsheet
 
 - [Terminology](#terminology)
+
+**API**
+
 - [Keypresses](#keypresses)
 - [Properties](#properties)
 - [Methods](#methods)
 - [Options](#options)
+- [State](#state)
 - [Events](#events)
+
+**Styling**
+
+- [Styles](#styles) - semantic colors 
+- [Symbols](#symbols) - unicode symbols
+- [Elements](#elements) - combinations of styles, text, and unicode symbols
+- [Transforms](#transforms)
+- [Themes](#themes)
+
+## Elements
+
+An element is a functions that is responsible for combining the styles, text and unicode symbols to display for a specific part of prompt, based on prompt's [state](#state) and [status](#status).
+
+prefix 
+message
+separator 
+indicator
+
 
 ## Terminology
 
@@ -21,7 +43,7 @@ Whenever possible, we attempted to use familiar concepts and terminology from HT
 | `selected` | The position of the currently choice. |
 | `enabled` | The position of the currently choice. |
 | `active` | The position of the currently choice. |
-
+| `element` | Elements are the various parts of a prompt. An element may consist of styles, text and unicode symbols. |
 
 ## Keypresses
 
@@ -115,45 +137,42 @@ _Not implemented yet_
 
 ***
 
-## Themes
+## Styles
 
-Themes define the palette of colors to be applied to the various sections of a prompt. 
+Styles are semantically-named functions that may be used for adding color (via ANSI style codes) to the various elements of a prompt.
 
-### Theme styles
-
+### Default palette
 
 | **Name** | **Default colors** | **Description** |
 | --- | --- | --- |
-| `primary`       | `cyan`          | Used on the prompt [indicator](#indicator), choice [pointers](#pointer), and user input after submitted. |
-| `danger`        | `red`           | Used on error messages. |
-| `strong`        | `bold`          | Used on the user-defined [prompt message](#message). |
-| `success`       | `green`         | Used on  |
-| `warning`       | `yellow`        |  |
-| `muted`         | `dim`           |  |
-| `disabled`      | `gray`          |  |
-| `dark`          | `dim_gray`      |  |
-| `default`       | `noop` (no styling is applied)       |   | 
-| `info`          | `theme.primary`                      |   | 
-| `inverse`       | Inverse of `theme.primary`      |   | 
-| `complement`    | Complement of `theme.primary` |   | 
-| `pending`       | `theme.default`                      |   | 
-| `completing`    | `theme.default`                      |   | 
-| `cancelled`     | `theme.default`                      |   | 
-| `answered`      | `theme.primary`                      |   | 
-| `on`            | `theme.success`                      | Used on checked indicators. | 
-| `off`           | `theme.dark`                         | Used on unchecked indicators. | 
-| `active`        | `theme.primary`                      |   | 
-| `selected`      | `theme.active.underline`             |   | 
-| `placeholder`   | `theme.primary.dim`                  |   | 
-| `highlight`     | `theme.inverse`                      |   | 
-| `opposite`      | `utils.inverse`                      |   | 
-| `complementary` | `utils.complement`                   |   | 
+| `primary`       | `cyan`                         | Used on the prompt [indicator](#indicator), choice [pointers](#pointer), and to style user input (the "answer") in the terminal after it's submitted. |  
+| `danger`        | `red`                          | Used on error messages. |  
+| `strong`        | `bold`                         | Used on the user-defined [prompt message](#message) |
+| `success`       | `green`                        | Used on enabled choice [indicators](#choice-indicator). |  
+| `warning`       | `yellow`                       | Not used. |  
+| `muted`         | `dim`                          | Used on hints. |  
+| `disabled`      | `gray`                         | Used on disabled choice messages. |  
+| `dark`          | `dim.gray`                     | Used by other styles. |
+| `default`       | `noop` (no styling is applied) | Not used. |  
+| `info`          | `styles.primary`               | Used by the confirm prompt for styling user-input. |  
+| `inverse`       | Inverse of `styles.primary`    | Not used. |  
+| `complement`    | Complement of `styles.primary` | Not used. |  
+| `answered`      | `styles.primary`               | Used in several prompts to style user input after submitted. |  
+| `cancelled`     | `styles.danger`                | Used to style the prompt prefix when the prompt is cancelled. |  
+| `completing`    | `styles.default`               | Not used. |  
+| `pending`       | `styles.default`               | Not used. |  
+| `on`            | `styles.success`               | Used on checked choice [indicators](#choice-indicator). |  
+| `off`           | `styles.dark`                  | Used on unchecked choice [indicators](#choice-indicator) (radio buttons, checkboxes, check marks, etc.) |  
+| `active`        | `styles.primary`               | |  
+| `selected`      | `styles.active.underline`      | |  
+| `placeholder`   | `styles.primary.dim`           | |  
+| `highlight`     | `styles.inverse`               | |  
 
 The [ansi-colors][] library is used to apply styling. 
 
 ### Applying styles
 
-If you are a prompt author, styles may be accessed inside a prompt instance on the `this.theme` object, where each "style" is a function that wraps the returned string in ANSI codes. 
+If you are a prompt author, styles may be accessed using `prompt.styles` (or `this.styles` inside a prompt instance), where each "style" is a function that wraps the returned string in ANSI codes. 
 
 ***
 

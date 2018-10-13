@@ -9,6 +9,9 @@ const { timeout, nextTick, expect } = support(assert);
 const MultiSelect = require('../lib/prompts/multiselect');
 let prompt;
 
+const up = { name: 'up' };
+const down = { name: 'down' };
+
 class Prompt extends MultiSelect {
   constructor(options) {
     super({ ...options, show: false });
@@ -136,9 +139,6 @@ describe('multiselect', function() {
   });
 
   describe('key handling', () => {
-    const up = { sequence: '\u001b[A', name: 'up', code: '[A' };
-    const down = { sequence: '\u001b[B', name: 'down', code: '[B' };
-
     it('should handle toggling a selection with the `space` key', () => {
       prompt = new Prompt({
         message: 'prompt-multiselect',
