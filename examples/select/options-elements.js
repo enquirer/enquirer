@@ -20,9 +20,9 @@ const prompt = new Prompt({
     },
     prefix(state, status) {
       switch (status) {
-        case 'pending': return '🎃 ';
+        case 'pending': return '🎃';
         case 'cancelled': return '⚰️ ';
-        case 'answered': return '💀 ';
+        case 'answered': return '💀';
       }
     }
   }

@@ -3,22 +3,22 @@
 const fs = require('fs');
 const path = require('path');
 const colors = [
-  { title: 'Aqua',    key: 'aqua',    value: '#00ffff' },
-  { title: 'Black',   key: 'black',   value: '#000000' },
-  { title: 'Blue',    key: 'blue',    value: '#0000ff' },
-  { title: 'Fuchsia', key: 'fuchsia', value: '#ff00ff' },
-  { title: 'Gray',    key: 'gray',    value: '#808080' },
-  { title: 'Green',   key: 'green',   value: '#008000' },
-  { title: 'Lime',    key: 'lime',    value: '#00ff00' },
-  { title: 'Maroon',  key: 'maroon',  value: '#800000' },
-  { title: 'Navy',    key: 'navy',    value: '#000080' },
-  { title: 'Olive',   key: 'olive',   value: '#808000' },
-  { title: 'Purple',  key: 'purple',  value: '#800080' },
-  { title: 'Red',     key: 'red',     value: '#ff0000' },
-  { title: 'Silver',  key: 'silver',  value: '#c0c0c0' },
-  { title: 'Teal',    key: 'teal',    value: '#008080' },
-  { title: 'White',   key: 'white',   value: '#ffffff' },
-  { title: 'Yellow',  key: 'yellow',  value: '#ffff00' }
+  { message: 'Aqua',    name: 'aqua',    value: '#00ffff' },
+  { message: 'Black',   name: 'black',   value: '#000000' },
+  { message: 'Blue',    name: 'blue',    value: '#0000ff' },
+  { message: 'Fuchsia', name: 'fuchsia', value: '#ff00ff' },
+  { message: 'Gray',    name: 'gray',    value: '#808080' },
+  { message: 'Green',   name: 'green',   value: '#008000' },
+  { message: 'Lime',    name: 'lime',    value: '#00ff00' },
+  { message: 'Maroon',  name: 'maroon',  value: '#800000' },
+  { message: 'Navy',    name: 'navy',    value: '#000080' },
+  { message: 'Olive',   name: 'olive',   value: '#808000' },
+  { message: 'Purple',  name: 'purple',  value: '#800080' },
+  { message: 'Red',     name: 'red',     value: '#ff0000' },
+  { message: 'Silver',  name: 'silver',  value: '#c0c0c0' },
+  { message: 'Teal',    name: 'teal',    value: '#008080' },
+  { message: 'White',   name: 'white',   value: '#ffffff' },
+  { message: 'Yellow',  name: 'yellow',  value: '#ffff00' }
 ];
 
 module.exports = [
@@ -28,36 +28,36 @@ module.exports = [
     message: 'Pick your favorite actor',
     initial: 1,
     choices: [
-      { key: 'Adam Sandler' },
-      { key: 'Akshay Kumar' },
-      { key: 'Amy Adam' },
-      { key: 'Cate Blanchett' },
-      { key: 'Charlize Theron' },
-      { key: 'Chris Evans' },
-      { key: 'Chris Hemsworth' },
-      { key: 'Chris Pratt' },
-      { key: 'Dwayne "The Rock" Johnson' },
-      { key: 'Emma Stone' },
-      { key: 'Emma Watson' },
-      { key: 'Jackie Chan' },
-      { key: 'Jennifer Aniston' },
-      { key: 'Jennifer Lawrence' },
-      { key: 'Jeremy Renner' },
-      { key: 'Julia Roberts' },
-      { key: 'Mark Ruffalo' },
-      { key: 'Mark Wahlberg' },
-      { key: 'Matt Damon' },
-      { key: 'Melissa McCarthy' },
-      { key: 'Mila Kunis' },
-      { key: 'Robert Downey, Jr.' },
-      { key: 'Ryan Gosling' },
-      { key: 'Ryan Reynolds' },
-      { key: 'Salman Khan' },
-      { key: 'Samuel L. Jackson' },
-      { key: 'Shah Rukh Khan' },
-      { key: 'Tom Cruise' },
-      { key: 'Tom Hanks' },
-      { key: 'Vin Diesel' }
+      { name: 'Adam Sandler' },
+      { name: 'Akshay Kumar' },
+      { name: 'Amy Adam' },
+      { name: 'Cate Blanchett' },
+      { name: 'Charlize Theron' },
+      { name: 'Chris Evans' },
+      { name: 'Chris Hemsworth' },
+      { name: 'Chris Pratt' },
+      { name: 'Dwayne "The Rock" Johnson' },
+      { name: 'Emma Stone' },
+      { name: 'Emma Watson' },
+      { name: 'Jackie Chan' },
+      { name: 'Jennifer Aniston' },
+      { name: 'Jennifer Lawrence' },
+      { name: 'Jeremy Renner' },
+      { name: 'Julia Roberts' },
+      { name: 'Mark Ruffalo' },
+      { name: 'Mark Wahlberg' },
+      { name: 'Matt Damon' },
+      { name: 'Melissa McCarthy' },
+      { name: 'Mila Kunis' },
+      { name: 'Robert Downey, Jr.' },
+      { name: 'Ryan Gosling' },
+      { name: 'Ryan Reynolds' },
+      { name: 'Salman Khan' },
+      { name: 'Samuel L. Jackson' },
+      { name: 'Shah Rukh Khan' },
+      { name: 'Tom Cruise' },
+      { name: 'Tom Hanks' },
+      { name: 'Vin Diesel' }
     ]
   },
   {
@@ -85,23 +85,23 @@ module.exports = [
   //   default: 'y',
   //   choices: [
   //     {
-  //       key: 'y',
-  //       name: 'Overwrite',
+  //       name: 'y',
+  //       message: 'Overwrite',
   //       value: 'overwrite'
   //     },
   //     {
-  //       key: 'a',
-  //       name: 'Overwrite this one and all next',
+  //       name: 'a',
+  //       message: 'Overwrite this one and all next',
   //       value: 'overwrite_all'
   //     },
   //     {
-  //       key: 'd',
-  //       name: 'Show diff',
+  //       name: 'd',
+  //       message: 'Show diff',
   //       value: 'diff'
   //     },
   //     {
-  //       key: 'x',
-  //       name: 'Cancel',
+  //       name: 'x',
+  //       message: 'Cancel',
   //       value: 'cancel'
   //     }
   //   ]
@@ -113,21 +113,21 @@ module.exports = [
     hint: '',
     choices:   [
      {
-        key: 'firstname',
+        name: 'firstname',
         message: 'First Name:',
         hint: 'Jon',
       },
       {
-        key: 'lastname',
+        name: 'lastname',
         message: 'Last Name:',
         hint: 'Schlinkert',
       },
       {
-        key: 'username',
+        name: 'username',
         message: 'GitHub username:',
       },
       {
-        key: 'email',
+        name: 'email',
         message: 'Email:'
       }
     ]
