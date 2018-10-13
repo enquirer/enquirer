@@ -2,6 +2,7 @@ require('time-require');
 console.time('enquirer');
 require('..');
 console.timeEnd('enquirer');
-// enquirer: 7.561ms
-// enquirer: 4.893ms
-// enquirer: 4.871ms
+// enquirer: 4.169ms
+// enquirer: 3.936ms
+// enquirer: 3.933ms
+// avg: 4.013ms

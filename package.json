@@ -1,6 +1,6 @@
 {
   "name": "enquirer",
-  "description": "Stylish and user-friendly prompt system that is .",
+  "description": "Stylish and user-friendly prompt system. Fast and lightweight enough for small projects, yet powerful and extensible enough for the most advanced use cases.",
   "version": "0.0.0",
   "homepage": "https://github.com/enquirer/enquirer",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
@@ -29,12 +29,13 @@
     "ansi-colors": "^3.1.0"
   },
   "devDependencies": {
-    "yosay": "^2.0.2",
-    "inquirer": "^6.2.0",
-    "prompts": "^1.1.1",
-    "mocha": "^5.2.0",
     "gulp-format-md": "^1.0.0",
-    "nyc": "^12.0.2"
+    "inquirer": "^6.2.0",
+    "mocha": "^5.2.0",
+    "nyc": "^12.0.2",
+    "prompts": "^1.1.1",
+    "time-require": "github:jonschlinkert/time-require",
+    "yosay": "^2.0.2"
   },
   "keywords": [
     "answer",
@@ -66,8 +67,8 @@
     "devDependencies": {
       "files": {
         "patterns": [
-          "perf/*.js",
-          "examples/**/*.js"
+          "examples/**/*.js",
+          "perf/*.js"
         ]
       }
     }
@@ -86,6 +87,15 @@
     ],
     "lint": {
       "reflinks": true
-    }
+    },
+    "related": {
+      "list": []
+    },
+    "reflinks": [
+      "framerate",
+      "inquirer",
+      "prompt-skeleton",
+      "prompts"
+    ]
   }
 }

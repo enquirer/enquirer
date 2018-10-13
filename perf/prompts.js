@@ -2,6 +2,7 @@ require('time-require');
 console.time('prompts');
 require('prompts');
 console.timeEnd('prompts');
-// prompts: 35.469ms (first run)
-// prompts: 21.799ms (second run)
-// prompts: 27.912ms (third run)
+// prompts: 25.653ms (first run)
+// prompts: 12.642ms (second run)
+// prompts: 12.736ms (third run)
+// avg: 17.010

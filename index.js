@@ -4,66 +4,94 @@ const assert = require('assert');
 const Events = require('events');
 const utils = require('./lib/utils');
 
+/**
+ * Create an instance of `Enquirer`.
+ *
+ * @param {Object} `options` Options to use with all prompts.
+ * @param {Object} `answers` Answers object to initialize with.
+ * @api public
+ */
+
 class Enquirer extends Events {
   constructor(options, answers) {
     super();
-    this.prompts = Enquirer.prompts;
-    this.Prompt = Enquirer.Prompt;
     this.options = { ...options };
     this.answers = { ...answers };
   }
 
-  register(name, fn) {
-    if (this.utils.isObject(name)) {
-      for (let key of Object.keys(name)) this.register(key, name[key]);
+  /**
+   * Register a custom prompt `type`.
+   *
+   * @param {String} `type`
+   * @param {Function|Prompt} `fn` `Prompt` class, or a function that returns a `Prompt` class.
+   * @return {Object} Returns the Enquirer instance
+   * @api public
+   */
+
+  register(type, fn) {
+    if (this.utils.isObject(type)) {
+      for (let key of Object.keys(type)) this.register(key, type[key]);
       return this;
     }
-
     assert.equal(typeof fn, 'function', 'expected a function');
-    let type = name.toLowerCase();
-
+    let t = type.toLowerCase();
     if (fn.prototype instanceof this.Prompt) {
-      this.prompts[type] = fn;
+      this.prompts[t] = fn;
     } else {
-      this.prompts[type] = fn(this.Prompt, this);
+      this.prompts[t] = fn(this.Prompt, this);
     }
     return this;
   }
 
-  async prompt(questions = []) {
-    for (let question of [].concat(questions)) {
-      let options = { ...this.options, ...question };
-      let { type, name } = options;
+  submit(value, state) {
+    this.emit('submit', value, state);
+    this.emit('answer', state.prompt.name, value, state);
+  }
 
-      if (typeof type === 'function') type = await type.call(this, options);
-      if (typeof type !== 'string') continue;
+  cancel(error, state) {
+    this.cancelled = true;
+    this.emit('cancel', error, state);
+  }
+
+  async prompt(questions = []) {
+    let cancel = false;
+
+    for (let question of [].concat(questions)) {
+      let opts = { ...this.options, ...question };
+      let { type, name } = question;
+
+      if (typeof type === 'function') type = await type.call(this, question);
+      if (!type) continue;
 
       assert(this.prompts[type], `Prompt "${type}" is not registered`);
 
-      let Prompt = this.prompts[type];
-      let prompt = new Prompt(options);
-      let state = this.state(prompt, options);
+      let prompt = new this.prompts[type](question);
+      let state = this.state(prompt, opts);
+      let onCancel = opts.onCancel || (() => false);
+      let value;
 
-      for (let key of Object.keys(options)) {
-        let val = options[key];
-        if (typeof val === 'function' && key.slice(0, 2) === 'on') {
-          prompt.on(key.slice(2).toLowerCase(), val.bind(prompt));
-        }
-      }
+      this.emit('prompt', prompt, this.answers);
 
-      prompt.once('run', value => this.emit('run', value, prompt));
-      prompt.once('submit', value => this.emit('submit', value, prompt));
-      prompt.once('cancel', error => this.emit('cancel', error, prompt));
-      prompt.on('keypress', value => this.emit('keypress', value, prompt));
-      prompt.on('state', value => this.emit('state', value, prompt));
-      this.emit('prompt', prompt);
-
-      if (this.options.skip && await this.options.skip(state)) {
+      if (opts.skip && await opts.skip(state)) {
         continue;
       }
 
-      let value = this.answers[name] = await prompt.run();
-      this.emit('answer', value, prompt);
+      prompt.once('run', value => this.emit('run', value, state));
+      prompt.once('submit', value => this.submit(value, state));
+      prompt.once('cancel', error => this.cancel(error, state));
+      prompt.on('keypress', value => this.emit('keypress', value, state));
+      prompt.on('state', value => this.emit('state', value, state));
+
+      try {
+        value = this.answers[name] = await prompt.run();
+        cancel = opts.onSubmit && await opts.onSubmit(value, state);
+      } catch (err) {
+        cancel = !(await onCancel(value, state));
+      }
+
+      if (cancel) {
+        return this.answers;
+      }
     }
 
     return this.answers;
@@ -80,6 +108,14 @@ class Enquirer extends Events {
     return this;
   }
 
+  get Prompt() {
+    return this.constructor.Prompt;
+  }
+
+  get prompts() {
+    return this.constructor.prompts;
+  }
+
   static get Prompt() {
     return require('./lib/prompt');
   }
@@ -91,12 +127,18 @@ class Enquirer extends Events {
   static get types() {
     return require('./lib/types');
   }
+
+  static prompt(questions) {
+    let enquirer = new Enquirer();
+    return enquirer.prompt(questions);
+  }
 }
 
 utils.mixinEmitter(Enquirer, new Events());
 
 for (let name of Object.keys(Enquirer.prompts)) {
-  utils.define(Enquirer, name, Enquirer.prompts[name]);
+  Reflect.defineProperty(Enquirer, name, { get: () => Enquirer.prompts[name] });
+  // Enquirer[name.toLowerCase()] = options => new Enquirer.prompts[name](options);
 }
 
 module.exports = Enquirer;

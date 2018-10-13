@@ -7,42 +7,44 @@ const enquirer = new Enquirer();
  * "autofill" plugin - to achieve similar goal to autofill for web forms
  */
 
-const autofill = (values = {}) => {
+const autofill = (answers = {}) => {
   return enquirer => {
     let prompt = enquirer.prompt.bind(enquirer);
+    let context = { ...enquirer.answers, ...answers };
 
     enquirer.prompt = async questions => {
       let list = [].concat(questions || []);
       let choices = [];
-      let filled;
+      let filled = {};
 
       for (let item of list) {
-        let value = values[item.name];
+        let value = context[item.name];
         if (value !== void 0) {
           choices.push({ name: item.name, value, hint: `(${value})` });
         }
       }
 
-      enquirer.on('submit', (value, prompt) => {
-        filled = prompt.values;
-      });
+      enquirer.on('submit', (value, prompt) => (filled = prompt.values));
 
       if (choices.length) {
-        return enquirer.prompt({
+        let values = await enquirer.prompt({
           type: 'multiselect',
           name: 'autofilled',
           message: 'Would you like to autofill prompts with the following values?',
           choices
-        })
-        .then(answers => {
-          answers.autofilled = filled;
-          for (let item of list) {
-            if (answers.autofilled[item.name] !== void 0) {
-              item.value = item.initial = answers.autofilled[item.name];
-            }
+        });
+
+        values.autofilled = filled;
+
+        for (let item of list) {
+          if (values.autofilled[item.name] !== void 0) {
+            item.initial = values.autofilled[item.name];
           }
-          return prompt(list);
-        })
+        }
+
+        if (enquirer.cancelled) {
+          return values;
+        }
       }
 
       return prompt(list);
@@ -62,4 +64,5 @@ const questions = [
 enquirer.prompt(questions)
   .then(answers => {
     console.log(answers);
-  });
+  })
+  .catch(console.error);

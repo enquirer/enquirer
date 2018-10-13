@@ -21,7 +21,7 @@ describe('number prompt', function() {
       prompt = new Prompt({
         message: 'prompt-number',
         min: 10,
-        value: 15
+        initial: 15
       });
 
       assert.equal(prompt.min, 10);
@@ -39,7 +39,7 @@ describe('number prompt', function() {
       prompt = new Prompt({
         message: 'prompt-number',
         max: 10,
-        value: 5
+        initial: 5
       });
 
       assert.equal(prompt.max, 10);
@@ -57,7 +57,7 @@ describe('number prompt', function() {
       prompt = new Prompt({
         message: 'prompt-number',
         float: true,
-        value: 42.42
+        initial: 42.42
       });
 
       assert.equal(prompt.float, true);
@@ -263,8 +263,8 @@ describe('number prompt', function() {
 
       return prompt.run()
         .then(answer => {
-          assert.equal(prompt.value, 37.6);
           assert.equal(answer, 37.6);
+          assert.equal(prompt.value, 37.6);
         });
     });
   });

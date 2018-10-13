@@ -25,10 +25,10 @@ describe('confirm', () => {
   describe('hint', () => {
     it('should show the correct hint based on options.initial', () => {
       prompt = new Prompt({ message: 'foo', initial: true });
-      assert.equal(prompt.state.hint, '(Y/n)');
+      assert.equal(prompt.state.get('hint'), '(Y/n)');
 
       prompt = new Prompt({ message: 'foo', initial: false });
-      assert.equal(prompt.state.hint, '(y/N)');
+      assert.equal(prompt.state.get('hint'), '(y/N)');
     });
   });
 

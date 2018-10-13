@@ -20,7 +20,7 @@ describe('Prompt', function() {
       prompt = new Prompt({ message: 'Example prompt' });
 
       prompt.once('run', () => prompt.keypress('/'));
-      prompt.once('alert', keypress => {
+      prompt.once('alert', (err, keypress) => {
         assert.equal(keypress.action, void 0);
         cb();
       });
