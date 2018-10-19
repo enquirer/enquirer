@@ -33,6 +33,7 @@ describe('Input Prompt', function() {
       });
 
       prompt.once('run', async() => {
+        assert.equal(prompt.initial, 'green');
         await prompt.keypress('b');
         await prompt.keypress('l');
         await prompt.keypress('u');
@@ -44,7 +45,7 @@ describe('Input Prompt', function() {
         await prompt.keypress('l');
         await prompt.keypress('o');
         await prompt.keypress('w');
-        prompt.submit();
+        await prompt.submit();
       });
 
       return prompt.run()

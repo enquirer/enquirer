@@ -1,20 +1,19 @@
 'use strict';
 
 const Store = require('data-store');
-const { yellow } = require('ansi-colors');
-const Prompt = require('../..');
-const ansi = require('../../lib/style/ansi');
-const { AutoComplete } = Prompt.prompts;
-const { timeout } = Prompt.utils;
-const store = new Store('recordings', { path: __dirname + '/recordings.json' });
+const colors = require('ansi-colors');
+const ansi = require('../lib/style/ansi');
+const AutoComplete = require('../lib/prompts/autocomplete');
+const { timeout } = require('../lib/utils');
+const store = new Store({ path: __dirname + '/recordings.json' });
 
 const prompt = new AutoComplete({
   name: 'flavor',
   message: 'Pick your favorite flavor',
   initial: 3,
   limit: 7,
-  suggest(typed) {
-    return this.choices.filter(item => item.message.includes(typed));
+  suggest(typed, choices) {
+    return choices.filter(item => item.message.includes(typed));
   },
   choices: [
     'almond',
@@ -37,7 +36,11 @@ const prompt = new AutoComplete({
   ]
 });
 
-prompt.on('keypress', (ch, key) => prompt.hint = yellow(`<${key.name}>`));
+prompt.state.set('header', 'KEYPRESS: ');
+
+prompt.on('keypress', (ch, key) => {
+  prompt.state.set('header', 'KEYPRESS: ' + colors.yellow(`<${key.name}>`));
+});
 
 prompt.once('run', async() => {
   for (let step of store.get(prompt.name)) {

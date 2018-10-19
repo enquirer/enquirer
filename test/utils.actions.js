@@ -2,8 +2,8 @@
 
 require('mocha');
 const assert = require('assert');
-const { action, keypress } = require('../lib/utils');
-const act = key => action(keypress(null, key)).action;
+const keypress = require('../lib/keypress');
+const act = key => keypress.action(null, key).action;
 
 describe('utils.actions', function() {
   it('should decorate actions on keypress events', () => {
@@ -41,28 +41,28 @@ describe('utils.actions', function() {
   });
 
   it('should handle numbers', () => {
-    assert.equal(action(keypress('0', { name: '0' })).name, 'number');
-    assert.equal(action(keypress('1', { name: '1' })).name, 'number');
-    assert.equal(action(keypress('2', { name: '2' })).name, 'number');
-    assert.equal(action(keypress('3', { name: '3' })).name, 'number');
-    assert.equal(action(keypress('4', { name: '4' })).name, 'number');
-    assert.equal(action(keypress('5', { name: '5' })).name, 'number');
-    assert.equal(action(keypress('6', { name: '6' })).name, 'number');
-    assert.equal(action(keypress('7', { name: '7' })).name, 'number');
-    assert.equal(action(keypress('8', { name: '8' })).name, 'number');
-    assert.equal(action(keypress('9', { name: '9' })).name, 'number');
+    assert.equal(keypress('0', { name: '0' }).name, 'number');
+    assert.equal(keypress('1', { name: '1' }).name, 'number');
+    assert.equal(keypress('2', { name: '2' }).name, 'number');
+    assert.equal(keypress('3', { name: '3' }).name, 'number');
+    assert.equal(keypress('4', { name: '4' }).name, 'number');
+    assert.equal(keypress('5', { name: '5' }).name, 'number');
+    assert.equal(keypress('6', { name: '6' }).name, 'number');
+    assert.equal(keypress('7', { name: '7' }).name, 'number');
+    assert.equal(keypress('8', { name: '8' }).name, 'number');
+    assert.equal(keypress('9', { name: '9' }).name, 'number');
   });
 
   it('should handle shift+number', () => {
-    assert.equal(action(keypress('!', { name: '!', shift: true })).name, '!');
-    assert.equal(action(keypress('@', { name: '@', shift: true })).name, '@');
-    assert.equal(action(keypress('#', { name: '#', shift: true })).name, '#');
-    assert.equal(action(keypress('$', { name: '$', shift: true })).name, '$');
-    assert.equal(action(keypress('%', { name: '%', shift: true })).name, '%');
-    assert.equal(action(keypress('^', { name: '^', shift: true })).name, '^');
-    assert.equal(action(keypress('&', { name: '&', shift: true })).name, '&');
-    assert.equal(action(keypress('*', { name: '*', shift: true })).name, '*');
-    assert.equal(action(keypress('(', { name: '(', shift: true })).name, '(');
-    assert.equal(action(keypress(')', { name: ')', shift: true })).name, ')');
+    assert.equal(keypress('!', { name: '!', shift: true }).name, '!');
+    assert.equal(keypress('@', { name: '@', shift: true }).name, '@');
+    assert.equal(keypress('#', { name: '#', shift: true }).name, '#');
+    assert.equal(keypress('$', { name: '$', shift: true }).name, '$');
+    assert.equal(keypress('%', { name: '%', shift: true }).name, '%');
+    assert.equal(keypress('^', { name: '^', shift: true }).name, '^');
+    assert.equal(keypress('&', { name: '&', shift: true }).name, '&');
+    assert.equal(keypress('*', { name: '*', shift: true }).name, '*');
+    assert.equal(keypress('(', { name: '(', shift: true }).name, '(');
+    assert.equal(keypress(')', { name: ')', shift: true }).name, ')');
   });
 });

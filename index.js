@@ -7,8 +7,8 @@ const utils = require('./lib/utils');
 /**
  * Create an instance of `Enquirer`.
  *
- * @param {Object} `options` Options to use with all prompts.
- * @param {Object} `answers` Answers object to initialize with.
+ * @param {Object} `options` (optional) Options to use with all prompts.
+ * @param {Object} `answers` (optional) Answers object to initialize with.
  * @api public
  */
 
@@ -34,30 +34,51 @@ class Enquirer extends Events {
       return this;
     }
     assert.equal(typeof fn, 'function', 'expected a function');
-    let t = type.toLowerCase();
+    let name = type.toLowerCase();
     if (fn.prototype instanceof this.Prompt) {
-      this.prompts[t] = fn;
+      this.prompts[name] = fn;
     } else {
-      this.prompts[t] = fn(this.Prompt, this);
+      this.prompts[name] = fn(this.Prompt, this);
     }
     return this;
   }
 
-  submit(value, state) {
-    this.emit('submit', value, state);
-    this.emit('answer', state.prompt.name, value, state);
-  }
-
-  cancel(error, state) {
-    this.cancelled = true;
-    this.emit('cancel', error, state);
-  }
+  /**
+   * Prompt function that takes a "question" object or array of question objects,
+   * and returns an object with responses from the user.
+   *
+   * ```js
+   * const { prompt } = require('enquirer');
+   * (async() => {
+   *   const response = await prompt({
+   *     type: 'input',
+   *     name: 'username',
+   *     message: 'What is your username?'
+   *   });
+   *   console.log(response);
+   * })();
+   * ```
+   * @param {Array|Object} `questions` Options objects for one or more prompts to run.
+   * @return {Promise} Promise that returns an "answers" object with the user's responses.
+   * @api public
+   */
 
   async prompt(questions = []) {
     let cancel = false;
 
     for (let question of [].concat(questions)) {
       let opts = { ...this.options, ...question };
+
+      for (let key of Object.keys(opts)) {
+        let val = opts[key];
+        if (typeof val === 'function') {
+          opts[key] = (...args) => {
+            args.push(this.answers);
+            return val(...args);
+          };
+        }
+      }
+
       let { type, name } = question;
 
       if (typeof type === 'function') type = await type.call(this, question);
@@ -65,7 +86,7 @@ class Enquirer extends Events {
 
       assert(this.prompts[type], `Prompt "${type}" is not registered`);
 
-      let prompt = new this.prompts[type](question);
+      let prompt = new this.prompts[type](opts);
       let state = this.state(prompt, opts);
       let onCancel = opts.onCancel || (() => false);
       let value;
@@ -76,17 +97,18 @@ class Enquirer extends Events {
         continue;
       }
 
-      prompt.once('run', value => this.emit('run', value, state));
-      prompt.once('submit', value => this.submit(value, state));
-      prompt.once('cancel', error => this.cancel(error, state));
-      prompt.on('keypress', value => this.emit('keypress', value, state));
-      prompt.on('state', value => this.emit('state', value, state));
+      prompt.state.answers = this.answers;
+      let emit = prompt.emit.bind(prompt);
+      prompt.emit = (...args) => {
+        this.emit(...args.concat(state));
+        return emit(...args);
+      };
 
       try {
         value = this.answers[name] = await prompt.run();
-        cancel = opts.onSubmit && await opts.onSubmit(value, state);
+        cancel = opts.onSubmit && await opts.onSubmit(name, value, prompt.state);
       } catch (err) {
-        cancel = !(await onCancel(value, state));
+        cancel = !(await onCancel(name, value, prompt.state));
       }
 
       if (cancel) {
@@ -97,15 +119,42 @@ class Enquirer extends Events {
     return this.answers;
   }
 
-  state(prompt, question) {
-    let state = { prompt, question, answers: { ...this.answers } };
-    this.emit('state', state);
-    return state;
-  }
+  /**
+   * Use an enquirer plugin.
+   *
+   * ```js
+   * const Enquirer = require('enquirer');
+   * const enquirer = new Enquirer();
+   * const plugin = enq => {
+   *   // do stuff to enquire ("enq") instance
+   * };
+   * enquirer.use(plugin);
+   * ```
+   * @param {Function} `plugin` Plugin function that takes an instance of Enquirer.
+   * @return {Object} Returns the Enquirer instance.
+   * @api public
+   */
 
   use(plugin) {
     plugin.call(this, this);
     return this;
+  }
+
+  submit(value, state) {
+    this.submitted = true;
+    this.emit('submit', value, state);
+    this.emit('answer', state.prompt.name, value, state);
+  }
+
+  cancel(error, state) {
+    this.cancelled = true;
+    this.emit('cancel', error, state);
+  }
+
+  state(prompt, question) {
+    let state = { prompt, question, answers: this.answers };
+    this.emit('state', state);
+    return state;
   }
 
   get Prompt() {
@@ -128,8 +177,8 @@ class Enquirer extends Events {
     return require('./lib/types');
   }
 
-  static prompt(questions) {
-    let enquirer = new Enquirer();
+  static prompt(questions, onSubmit, onCancel) {
+    let enquirer = new Enquirer({ onSubmit, onCancel });
     return enquirer.prompt(questions);
   }
 }
@@ -137,8 +186,11 @@ class Enquirer extends Events {
 utils.mixinEmitter(Enquirer, new Events());
 
 for (let name of Object.keys(Enquirer.prompts)) {
-  Reflect.defineProperty(Enquirer, name, { get: () => Enquirer.prompts[name] });
-  // Enquirer[name.toLowerCase()] = options => new Enquirer.prompts[name](options);
+  Enquirer[name.toLowerCase()] = options => new Enquirer.prompts[name](options).run();
+
+  if (!Enquirer[name]) {
+    Reflect.defineProperty(Enquirer, name, { get: () => Enquirer.prompts[name] });
+  }
 }
 
 module.exports = Enquirer;

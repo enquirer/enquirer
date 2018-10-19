@@ -4,16 +4,16 @@ const prompt = new Prompt({
   price: 7.75,
   message: 'How many tickets do you need?',
   float: false,
-  validate(value) {
-    return +value < 2 ? 'You must purchase 2 or more tickets' : true;
+  validate(state) {
+    return +state.value < 2 ? 'You must purchase 2 or more tickets' : true;
   },
   hint() {
     if (!this.answered) {
       return this.styles.muted(`(${dollars(this.input, this.options.price)})`);
     }
   },
-  format(value) {
-    return this.answered ? dollars(value, this.options.price) : value;
+  format() {
+    return this.answered ? dollars(this.value, this.options.price) : this.value;
   }
 });
 

@@ -1,31 +1,50 @@
 # enquirer [![NPM version](https://img.shields.io/npm/v/enquirer.svg?style=flat)](https://www.npmjs.com/package/enquirer) [![NPM monthly downloads](https://img.shields.io/npm/dm/enquirer.svg?style=flat)](https://npmjs.org/package/enquirer) [![NPM total downloads](https://img.shields.io/npm/dt/enquirer.svg?style=flat)](https://npmjs.org/package/enquirer) [![Linux Build Status](https://img.shields.io/travis/enquirer/enquirer.svg?style=flat&label=Travis)](https://travis-ci.org/enquirer/enquirer)
 
-> Stylish and user-friendly prompt system that is .
+> Stylish, intuitive and user-friendly prompt system. Fast and lightweight enough for small projects, powerful and extensible enough for the most advanced use cases.
 
 Please consider following this project's author, [Jon Schlinkert](https://github.com/jonschlinkert), and consider starring the project to show your :heart: and support.
 
-## Why use this?
+<p align="center">
+<b>Stylish CLI prompts that are user-friendly, intuitive and easy to create.</b></br>
+<sub>>_ Prompts should be more like conversations than inquisitions▌<sub>
+</p>
 
-* **Fast** - Loads in ~4ms (that's about _3-4 times faster than a [single frame of a HD movie](https://github.com/KoryNunn/framerate) at 60fps_)
-* **Lightweight** - Only [one dependency](https://github.com/doowb/ansi-colors)
-* **Easy to use** - Uses promises, so prompts are easy to run, use, and compose.
+## ❯ Why use Enquirer?
+
+Enquirer is fast, lightweight, and easy enough to use on small projects, while also being powerful and customizable enough for the most advanced use cases.
+
+* **Fast** - [Loads in ~4ms](#performance) (that's about _3-4 times faster than a [single frame of a HD movie](http://www.endmemo.com/sconvert/framespersecondframespermillisecond.php) at 60fps_)
+* **Lightweight** - Only [one dependency](https://github.com/doowb/ansi-colors).
+* **Easy to use** - Uses promises and async/await to make prompts easy to create and use.
+* **Intuitive** - Navigating around input and choices is a breeze. Advanced keypress combos are available to simplify usage. You can even [record and playback keypresses](recipes/play.js) to aid with tutorials and videos.
+* **Multilingual** - Easily add support for multiple languages.
 * **Extensible** - Prompts are easy to create and extend.
-* **Stylish** - Easily override default colors and symbols for any part of the prompt.
+* **Flexible** - All prompts can be used standalone or chained together.
+* **Pluggable** - Add advanced features to Enquirer with plugins.
+* **Stylish** - Easily override styles and symbols for any part of the prompt.
 * **Validation** - Optionally validate user input with any prompt.
-* **Well tested** - All prompts are well-tested. Tests easy to create, without having to use hacky solutions to spy on prompts or pass values.
+* **Well tested** - All prompts are well-tested, and tests are easy to create without having to use brittle, hacky solutions to spy on prompts or "inject" values.
 
-### Why use Enquirer, instead of X?
+<br>
+<hr>
+<br>
 
-Enquirer is just as fast, lightweight, and easy to use as [prompts](https://github.com/terkelg/prompts) and [inquirer](https://github.com/SBoudrias/Inquirer.js), but it's more powerful and customizable than both.
+## ❯ Getting started
 
-| **Feature** | **enquirer** | **prompts** | **Inquirer** |
-| --- | --- | --- | --- | --- |
-| Dependencies | 1 | 2 | 32 |
-| Load time<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup> | `8.019ms` | `25.653ms` (~10% slower) | `191.380ms` (~2,400% slower) |
-| Class-based | ✔ | ✖ | ✖ |
-| Plugins | ✔ | ✖ | ✖ |
+Get started with Enquirer, the most powerful Node.js library for creating interactive CLI prompts.
 
-## Install
+* [Install](#-install)
+* [Usage](#-usage)
+* [API](#-api)
+* [Options](#-options)
+* [Performance](#-performance)
+* [Credit](#-credit)
+
+<br>
+<hr>
+<br>
+
+## ❯ Install
 
 Install with [npm](https://www.npmjs.com/):
 
@@ -33,13 +52,39 @@ Install with [npm](https://www.npmjs.com/):
 $ npm install --save enquirer
 ```
 
-## Usage
+_(Requires Node.js 8.6 or higher. Please let us know if you need support for an earlier version by creating an [issue](../../issues/new).)_
+
+<br>
+<hr>
+<br>
+
+## ❯ Usage
+
+### Single prompt
+
+Pass a [question object](#prompt-options) to run a single prompt.
 
 ```js
 const { prompt } = require('enquirer');
 
-// pass an array of "question" objects, or a single question object
-const values = await prompt([
+const response = await prompt({
+  type: 'input',
+  name: 'username',
+  message: 'What is your username?' 
+});
+
+console.log(response); 
+//=> { username: 'jonschlinkert' }
+```
+
+_(Any examples in this document that use `await` need to be run inside an `async` function)_
+
+### Multiple prompts
+
+Pass an array of ["question" objects](#prompt-options) to run a series of prompts.
+
+```js
+const response = await prompt([
   {
     type: 'input',
     name: 'name',
@@ -49,22 +94,82 @@ const values = await prompt([
     type: 'input',
     name: 'username',
     message: 'What is your username?' 
-  },
-  {
-    type: 'confirm',
-    name: 'persist',
-    message: 'Want to save?'
   }
 ]);
 
-console.log('ANSWERS', values);
+console.log(response);
+//=> { name: 'Edward Chan', username: 'edwardmchan' }
 ```
 
-***
+<br>
+<hr>
+<br>
 
-## Prompt options
+## ❯ API
 
-Each prompt takes a options object, referred to as a "question" object, that implements the following interface:
+Create an instance of `Enquirer`.
+
+**Params**
+
+* `options` **{Object}**: (optional) Options to use with all prompts.
+* `answers` **{Object}**: (optional) Answers object to initialize with.
+
+Register a custom prompt `type`.
+
+**Params**
+
+* `type` **{String}**
+* `fn` **{Function|Prompt}**: `Prompt` class, or a function that returns a `Prompt` class.
+* `returns` **{Object}**: Returns the Enquirer instance
+
+**Params**
+
+* `questions` **{Array|Object}**: Options objects for one or more prompts to run.
+* `returns` **{Promise}**: Promise that returns an "answers" object with the user's responses.
+
+**Example**
+
+```js
+const { prompt } = require('enquirer');
+(async() => {
+  const response = await prompt({
+    type: 'input',
+    name: 'username',
+    message: 'What is your username?'
+  });
+  console.log(response);
+})();
+```
+
+**Params**
+
+* `plugin` **{Function}**: Plugin function that takes an instance of Enquirer.
+* `returns` **{Object}**: Returns the Enquirer instance.
+
+**Example**
+
+```js
+const Enquirer = require('enquirer');
+const enquirer = new Enquirer();
+const plugin = enq => {
+  // do stuff to enquire ("enq") instance
+};
+enquirer.use(plugin);
+```
+
+<br>
+<hr>
+<br>
+
+## ❯ Options
+
+### Enquirer options
+
+TODO
+
+### Prompt options
+
+Each prompt takes a options object (i.e. "question" object), that implements the following interface:
 
 ```js
 {
@@ -78,8 +183,6 @@ Each prompt takes a options object, referred to as a "question" object, that imp
 }
 ```
 
-### Prompt options
-
 | **Property** | **Type** | **Description** | 
 | --- | --- | --- |
 | `type` (required) | **{string | function}** | Enquirer uses this value to determine the type of prompt to run, but it's optional when prompts are run directly. |
@@ -88,8 +191,8 @@ Each prompt takes a options object, referred to as a "question" object, that imp
 | `initial` (optional) | **{string | function}** | The default value to return if the user does not supply a value. |
 | `format` (optional) | **{function}**
  | Function to format user input in the terminal. |
-| `answer` (optional) | **{function}**
- | Function to format the submitted value before it's returned. |
+| `result` (optional) | **{function}**
+ | Function to format the final, submitted value before it's returned. |
 | `validate` (optional) | **{function}**
  | Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message. |
 
@@ -109,11 +212,7 @@ const question = {
 };
 ```
 
-***
-
-## Choices
-
-### Choice object
+### Choice objects
 
 ```js
 Choice {
@@ -138,13 +237,23 @@ Choice {
 | `separator` | `boolean` |  |
 | `selected` | `boolean` |  |
 
-## Credit
+## ❯ Performance
 
-A few libraries influenced this library:
+MacBook Pro, Intel Core i7, 2.5 GHz, 16 GB.
 
-* [inquirer](https://github.com/SBoudrias/Inquirer.js) - `inquirer` inspired the class-based prompt concept we're using.
-* [prompts](https://github.com/terkelg/prompts) - `prompts` inspired the simplicity of "actions" in our prompts. We really liked how the code was written, the lack of abstractions makes the code easy to work with an understand.
-* [prompt-skeleton](https://github.com/derhuerst/prompt-skeleton) - The [prompts](https://github.com/terkelg/prompts) library is based on the work of [derhuerst](https://github.com/derhuerst) (including [prompt-skeleton](https://github.com/derhuerst/prompt-skeleton) and related libs).
+### Load time
+
+Time it takes for the module to load the first time:
+
+```
+enquirer: 4.013ms
+inquirer: 286.717ms
+prompts: 17.010ms
+```
+
+## ❯ Credit
+
+Thanks to [derhuerst](https://github.com/derhuerst), creator of [prompt-skeleton](https://github.com/derhuerst/prompt-skeleton) and other prompt libraries that influenced some of the concepts we used in our prompts.
 
 ## About
 
@@ -203,13 +312,4 @@ Released under the [MIT License](LICENSE).
 
 ***
 
-_This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.6.0, on October 12, 2018._
-
-<hr class="footnotes-sep">
-<section class="footnotes">
-<ol class="footnotes-list">
-<li id="fn1"  class="footnote-item">Load times are average times of three runs for each library. <a href="#fnref1" class="footnote-backref">↩</a>
-
-</li>
-</ol>
-</section>
+_This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.6.0, on October 18, 2018._

@@ -1,15 +1,14 @@
 'use strict';
 
 const Store = require('data-store');
-const Prompt = require('../..');
-const { AutoComplete } = Prompt.prompts;
-const store = new Store('recordings', { path: __dirname + '/recordings.json' });
+const AutoComplete = require('../lib/prompts/autocomplete');
+const store = new Store({ path: __dirname + '/recordings.json' });
 
 const prompt = new AutoComplete({
   name: 'flavor',
   message: 'Pick your favorite flavor',
-  suggest(typed) {
-    return this.choices.filter(item => item.message.includes(typed));
+  suggest(typed, choices) {
+    return choices.filter(item => item.message.includes(typed));
   },
   choices: [
     'almond',

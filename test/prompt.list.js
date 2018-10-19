@@ -14,23 +14,22 @@ class Prompt extends ListPrompt {
 }
 
 describe('list', function() {
-  describe('options.value', () => {
-    it('should return early when options.value is defined', () => {
+  describe('options.initial', () => {
+    it('should return early when options.initial is defined', () => {
       prompt = new Prompt({
         message: 'Enter a list of words',
         initial: 'a, b, c',
-        value: 'foo, bar, baz'
       });
 
       prompt.on('run', () => prompt.submit());
 
       return prompt.run()
         .then(answer => {
-          assert.deepEqual(answer, ['foo', 'bar', 'baz']);
+          assert.deepEqual(answer, ['a', 'b', 'c']);
         });
     });
 
-    it('should use options.value when it is an empty string', () => {
+    it('should use options.initial when it is an empty string', () => {
       prompt = new Prompt({
         message: 'Enter a list of words',
         initial: ''
@@ -41,19 +40,6 @@ describe('list', function() {
       return prompt.run()
         .then(answer => {
           assert.deepEqual(answer, []);
-        });
-    });
-  });
-
-  describe('options.initial', () => {
-    it('should use options.initial when no other value is entered', () => {
-      prompt = new Prompt({ message: 'Enter comma-separated values', initial: 'a, b, c' });
-
-      prompt.on('run', () => prompt.submit());
-
-      return prompt.run()
-        .then(answer => {
-          assert.deepEqual(answer, ['a', 'b', 'c']);
         });
     });
   });

@@ -23,8 +23,9 @@ describe('password', function() {
 
       prompt.once('run', () => prompt.submit());
       prompt.once('submit', () => {
-        assert(!/foobar/.test(prompt.buffer));
-        assert(/[*]{6}/.test(prompt.buffer));
+        assert(!/foobar/.test(prompt.state.buffer));
+        assert(!/[*]{6}/.test(prompt.state.buffer));
+        assert.equal(prompt.value, 'foobar');
         cb();
       });
 

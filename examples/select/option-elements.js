@@ -1,6 +1,6 @@
 const colors = require('ansi-colors');
 const Prompt = require('../../lib/prompts/select');
-const symbols = require('../../lib/style/symbols');
+const symbols = require('../../lib/symbols');
 const prompt = new Prompt({
   name: 'color',
   message: 'Trick or treat! Take your pick',
@@ -11,19 +11,17 @@ const prompt = new Prompt({
       return this.complement(...args);
     }
   },
-  elements: {
-    separator(state, status) {
-      return colors.dim(status === 'answered' ? symbols.middot : symbols.ellipsis);
-    },
-    pointer(state, status) {
-      return status === 'on' ? ['🍬', '🍎', '👄', '🖕'][state.index] : '  ';
-    },
-    prefix(state, status) {
-      switch (status) {
-        case 'pending': return '🎃';
-        case 'cancelled': return '⚰️ ';
-        case 'answered': return '💀';
-      }
+  separator(state) {
+    return colors.dim(state.status === 'submitted' ? symbols.middot : symbols.ellipsis);
+  },
+  pointer(state, choice, i) {
+    return state.index === i ? ['🍬', '🍎', '👄', '🖕'][i] : '  ';
+  },
+  prefix(state) {
+    switch (state.status) {
+      case 'pending': return '🎃';
+      case 'cancelled': return '⚰️ ';
+      case 'submitted': return '💀';
     }
   }
 });

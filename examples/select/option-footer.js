@@ -1,6 +1,5 @@
 const colors = require('ansi-colors');
 const Prompt = require('../../lib/prompts/select');
-
 const prompt = new Prompt({
   name: 'color',
   message: 'Pick a color',

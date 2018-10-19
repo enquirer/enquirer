@@ -3,7 +3,6 @@
 - **Pluggable** - Use plugins to add advanced features, like [autofill][], [history][], and [debounce][]
 
 
-
 ## Performance
 
 **Library** | **Load time**
@@ -251,8 +250,6 @@ Disply a [header](#optionsheader) before your prompt.
   Blue
 (Move up and down to reveal more choices)
 ```
-
-
 
 
 ### Cut/paste

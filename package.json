@@ -1,6 +1,6 @@
 {
   "name": "enquirer",
-  "description": "Stylish and user-friendly prompt system. Fast and lightweight enough for small projects, yet powerful and extensible enough for the most advanced use cases.",
+  "description": "Stylish, intuitive and user-friendly prompt system. Fast and lightweight enough for small projects, powerful and extensible enough for the most advanced use cases.",
   "version": "0.0.0",
   "homepage": "https://github.com/enquirer/enquirer",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
@@ -19,7 +19,7 @@
   ],
   "main": "index.js",
   "engines": {
-    "node": ">=8"
+    "node": ">=8.6"
   },
   "scripts": {
     "test": "mocha",
@@ -29,12 +29,11 @@
     "ansi-colors": "^3.1.0"
   },
   "devDependencies": {
+    "cli-spinners": "^1.3.1",
+    "data-store": "^3.1.0",
     "gulp-format-md": "^1.0.0",
-    "inquirer": "^6.2.0",
     "mocha": "^5.2.0",
     "nyc": "^12.0.2",
-    "prompts": "^1.1.1",
-    "time-require": "github:jonschlinkert/time-require",
     "yosay": "^2.0.2"
   },
   "keywords": [
@@ -68,7 +67,8 @@
       "files": {
         "patterns": [
           "examples/**/*.js",
-          "perf/*.js"
+          "perf/*.js",
+          "recipes/*.js"
         ]
       }
     }
@@ -76,9 +76,6 @@
   "verb": {
     "toc": false,
     "layout": "common-minimal",
-    "data": {
-      "alias": "base"
-    },
     "tasks": [
       "readme"
     ],
@@ -88,14 +85,9 @@
     "lint": {
       "reflinks": true
     },
-    "related": {
-      "list": []
-    },
     "reflinks": [
-      "framerate",
       "inquirer",
-      "prompt-skeleton",
-      "prompts"
+      "prompt-skeleton"
     ]
   }
 }

@@ -2,6 +2,7 @@
 
 require('mocha');
 const assert = require('assert');
+const colors = require('ansi-colors');
 const support = require('./support');
 const Enquirer = require('..');
 let enquirer;
@@ -26,7 +27,7 @@ describe('Enquirer', function() {
       });
     });
 
-    it('should run an array of questions', (cb) => {
+    it('should run an array of questions', cb => {
       enquirer = new Enquirer({ show: false });
       enquirer.on('prompt', prompt => {
         if (prompt.name === 'color') {
@@ -55,11 +56,44 @@ describe('Enquirer', function() {
     });
   });
 
+  describe('options', () => {
+    it('should pass enquirer options to prompts', () => {
+      enquirer = new Enquirer({
+        show: false,
+        styles: {
+          primary: colors.blue
+        }
+      });
+
+      enquirer.on('prompt', async prompt => {
+        try {
+          prompt.state.input = 'orange';
+          prompt.submit();
+          assert.equal(prompt.styles.primary('orange'), colors.blue('orange'));
+          assert.equal(prompt.format(), colors.blue('orange'));
+          await prompt.render();
+        } catch (err) {
+          await prompt.cancel(err);
+        }
+      });
+
+      return enquirer.prompt({
+        type: 'input',
+        name: 'color',
+        message: 'Favorite color?'
+      })
+      .then(answers => {
+        assert.equal(answers.color, 'orange');
+      });
+    });
+
+  });
+
   describe('onSubmit', () => {
     it('should call onSubmit when a prompt submitted', cb => {
       enquirer = new Enquirer({
         show: false,
-        onSubmit(value) {
+        onSubmit(name, value) {
           assert.equal(value, 'orange');
           cb();
         }
@@ -77,15 +111,15 @@ describe('Enquirer', function() {
       });
     });
 
-    it('should await onSubmit when a prompt submitted', async cb => {
+    it('should await onSubmit when a prompt submitted', async () => {
       let called = 0;
 
       enquirer = new Enquirer({
         show: false,
-        onSubmit(value, state) {
+        onSubmit(name, value, state) {
           return new Promise(resolve => {
             setTimeout(() => {
-              assert.equal(value, state.prompt.name === 'flavor' ? 'orange' : 'blue');
+              assert.equal(value, name === 'flavor' ? 'orange' : 'blue');
               called++;
               resolve();
             }, 10);
@@ -112,7 +146,6 @@ describe('Enquirer', function() {
       ]);
 
       assert.equal(called, 2);
-      cb();
     });
   });
 });

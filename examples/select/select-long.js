@@ -10,7 +10,7 @@ const prompt = new Prompt({
   header: yosay('Welcome to my awesome generator!'),
   footer() {
     let fn = colors[keys[++idx]];
-    return fn('(Scroll up and down to reveal more choices)');
+    return '\n' + fn('(Scroll up and down to reveal more choices)');
   },
   limit: 5,
   choices: [

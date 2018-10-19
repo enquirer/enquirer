@@ -12,17 +12,7 @@ const prompt = new Prompt({
     'blue',
     'fuchsia',
     'gray',
-    'green',
-    'lime',
-    'maroon',
-    'navy',
-    'olive',
-    'purple',
-    'red',
-    'silver',
-    'teal',
-    'white',
-    'yellow'
+    'green'
   ]
 });
 

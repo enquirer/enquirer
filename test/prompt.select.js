@@ -2,7 +2,7 @@
 
 require('mocha');
 const assert = require('assert');
-const { cyan } = require('ansi-colors');
+const { cyan, dim, gray } = require('ansi-colors');
 const support = require('./support');
 const { nextTick, expect, immediate } = support(assert);
 const PromptSelect = require('../lib/prompts/select');
@@ -84,11 +84,58 @@ describe('select', function() {
       prompt.once('run', () => prompt.submit());
 
       return prompt.run()
-        .then(answer => {
-          let expected = cyan(prompt.symbols.pointer) + ' ' + cyan('A');
-          assert.equal(prompt.renderChoice(prompt.choices[0], 0), expected);
-          assert.equal(prompt.renderChoice(prompt.choices[1], 1), '  BB');
+        .then(async answer => {
+          let expected = cyan(prompt.symbols.pointer) + ' ' + cyan.underline('A');
+          assert.equal(await prompt.renderChoice(prompt.choices[0], 0), expected);
+          assert.equal(await prompt.renderChoice(prompt.choices[1], 1), '  BB');
         });
+    });
+
+    it('should render a choice hint', () => {
+      prompt = new Prompt({
+        message: 'prompt-select',
+        choices: [
+          { name: 'a', message: 'A' },
+          { name: 'b', message: 'BB', hint: '(this is a hint)' },
+          { name: 'c', message: 'CCC' },
+          { name: 'd', message: 'DDDD' }
+        ]
+      });
+
+      prompt.once('run', async() => {
+        let { state, symbols } = prompt;
+        let pointer = cyan(symbols.pointer);
+        let hint = dim('(this is a hint)');
+        let expected = `${pointer} ${cyan.underline('A')}\n  BB ${hint}\n  CCC\n  DDDD`;
+        let actual = await prompt.renderChoices();
+        assert.equal(actual, expected);
+        prompt.submit();
+      });
+
+      return prompt.run();
+    });
+
+    it('should render disabled choices', () => {
+      prompt = new Prompt({
+        message: 'prompt-select',
+        choices: [
+          { name: 'a', message: 'A' },
+          { name: 'b', message: 'BB', disabled: true },
+          { name: 'c', message: 'CCC' },
+          { name: 'd', message: 'DDDD' }
+        ]
+      });
+
+      prompt.once('run', async() => {
+        let { state, symbols } = prompt;
+        let pointer = cyan(symbols.pointer);
+        let expected = `${pointer} ${cyan.underline('A')}\n  ${gray('BB')}\n  CCC\n  DDDD`;
+        let actual = await prompt.renderChoices();
+        assert.equal(actual, expected);
+        prompt.submit();
+      });
+
+      return prompt.run();
     });
 
     it('should render a list of choices with the correct styles', () => {
@@ -105,7 +152,7 @@ describe('select', function() {
       prompt.once('run', async() => {
         let { state, symbols } = prompt;
         let pointer = cyan(symbols.pointer);
-        let expected = `\n${pointer} ${cyan('A')}\n  BB\n  CCC\n  DDDD`;
+        let expected = `${pointer} ${cyan.underline('A')}\n  BB\n  CCC\n  DDDD`;
         let actual = await prompt.renderChoices();
         assert.equal(actual, expected);
         prompt.submit();

@@ -146,7 +146,7 @@ module.exports = [
     // format: (...args) => {
     //   console.log(args);
     // },
-    validate: answer => true
+    validate: () => true
   },
   {
     type: 'invisible',

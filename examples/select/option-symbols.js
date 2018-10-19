@@ -1,7 +1,5 @@
 const colors = require('ansi-colors');
 const Prompt = require('../../lib/prompts/select');
-const symbols = require('../../lib/style/symbols');
-const emoji = { pending: '🎃 ', cancelled: '⚰️ ', answered: '💀 ' };
 
 const prompt = new Prompt({
   name: 'halloween',
@@ -18,21 +16,12 @@ const prompt = new Prompt({
     muted: colors.yellow,
   },
   symbols: {
-    radio: {
-      on: state => ['🍬', '🍎', '👄', '🖕'][state.index],
-      off: '  '
-    }
-  },
-  elements: {
-    prefix: (state, status) => emoji[status],
-    pointer(state, status, choice) {
-      let symbol = this.symbols.radio[status];
-      let fallback = status === 'on' ? '🗡️ ' : '  ';
-      if (typeof symbol === 'function') {
-        return symbol(...arguments) || fallback;
-      }
-      return symbol || fallback;
+    pointer(state) {
+      return ['🍬', '🍎', '👄', '🖕', '🗡️ '][state.index];
     },
+    prefix(state) {
+      return ({ pending: '🎃', cancelled: '⚰️ ', answered: '💀' })[state.status];
+    }
   }
 });
 

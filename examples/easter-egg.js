@@ -47,5 +47,7 @@ const prompt = new Prompt({
 });
 
 prompt.run()
-  .then(answer => console.log('Answer:', prompt.values))
+  .then(names => {
+    console.log('Answer:', prompt.map(names));
+  })
   .catch(console.error);

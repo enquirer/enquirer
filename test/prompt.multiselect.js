@@ -14,7 +14,7 @@ const down = { name: 'down' };
 
 class Prompt extends MultiSelect {
   constructor(options) {
-    super({ ...options, show: false });
+    super({ show: false, ...options });
   }
 }
 
@@ -66,8 +66,32 @@ describe('multiselect', function() {
       prompt.run().catch(cb);
     });
 
-    it.skip('should not render the initial value on the prompt line', cb => {
+    it('should not render the initial value on the prompt line', cb => {
+      prompt = new Prompt({
+        message: 'prompt-multiselect',
+        initial: 'd',
+        choices: [
+          { name: 'a', message: 'A' },
+          { name: 'b', message: 'BB' },
+          { name: 'c', message: 'CCC' },
+          { name: 'd', message: 'DDDD' }
+        ]
+      });
 
+      prompt.once('run', async() => {
+        let init = colors.unstyle([prompt.symbols.pointer, prompt.options.initial].join(' '));
+        await prompt.render();
+        try {
+          let buf = colors.unstyle(prompt.state.buffer);
+          assert(!buf.includes(init));
+          prompt.submit();
+          cb();
+        } catch (err) {
+          cb(err);
+        }
+      });
+
+      prompt.run();
     });
 
     it('should use options.initial by default', () => {
@@ -86,8 +110,8 @@ describe('multiselect', function() {
       prompt.once('run', () => prompt.submit());
 
       return prompt.run()
-        .then(answer => {
-          assert.deepEqual(answer, ['c']);
+        .then(value => {
+          assert.deepEqual(value, ['c']);
         });
     });
 
@@ -125,16 +149,47 @@ describe('multiselect', function() {
         ]
       });
 
-      prompt.on('run', () => {
+      prompt.on('run', async() => {
         assert(Array.isArray(prompt.choices));
-        const key = prompt.styles.selected('foo');
+        const key = colors.cyan.underline('foo');
         const pointer = colors.dim.gray(prompt.symbols.check);
-        assert.equal(prompt.renderChoice(prompt.choices[0], 0), `${pointer} ${key}`);
-        assert.equal(prompt.renderChoice(prompt.choices[1], 1), `${pointer} bar`);
-        cb();
+        assert.equal(await prompt.renderChoice(prompt.choices[0], 0), `${pointer} ${key}`);
+        assert.equal(await prompt.renderChoice(prompt.choices[1], 1), `${pointer} bar`);
+        prompt.submit();
       });
 
-      prompt.run().catch(cb);
+      prompt.run()
+        .then(() => cb())
+        .catch(cb);
+    });
+
+    it('should render a message when no choices are selected', () => {
+      let called = 0;
+
+      prompt = new Prompt({
+        message: 'prompt-multiselect',
+        choices: [
+          { value: 'a', message: 'foo' },
+          { value: 'b', message: 'bar' },
+          { value: 'c', message: 'baz' },
+          { value: 'd', message: 'qux' }
+        ]
+      });
+
+      prompt.on('run', async() => {
+        assert(Array.isArray(prompt.choices));
+        const key = colors.cyan.underline('foo');
+        const pointer = colors.dim.gray(prompt.symbols.check);
+        assert.equal(await prompt.renderChoice(prompt.choices[0], 0), `${pointer} ${key}`);
+        assert.equal(await prompt.renderChoice(prompt.choices[1], 1), `${pointer} bar`);
+        called++;
+        prompt.submit();
+      });
+
+      return prompt.run()
+        .then(value => {
+          assert.equal(called, 1);
+        })
     });
   });
 

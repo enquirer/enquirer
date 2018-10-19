@@ -2,16 +2,22 @@ const Prompt = require('../../lib/prompts/multiselect');
 const colors = require('ansi-colors');
 
 const prompt = new Prompt({
-  name: 'example-groups',
-  message: 'What are your favorite letters?',
-  choices: ['a', 'b', 'c', 'd', 'e', 'f'],
-  styles: { primary: colors.red },
+  name: 'food',
+  message: 'What are your favorite foods?',
+  choices: [
+    { name: 'lasagna', message: 'Lasagna' },
+    { name: 'pizza', message: 'Pizza' },
+    { name: 'chicken_curry', message: 'Chicken Curry' },
+    { name: 'tacos', message: 'Tacos' },
+    { name: 'none', message: 'None of the Above' },
+    { name: 'all', message: 'All of the above' },
+  ],
   symbols: { indicator: '❤' },
-  indicator(choice) {
+  indicator(state, choice) {
     if (choice.enabled) {
-      return this.styles.primary(this.symbols.indicator);
+      return colors.red(state.symbols.indicator);
     }
-    return colors.dim.gray(this.symbols.indicator);
+    return colors.dim.gray(state.symbols.indicator);
   }
 });
 

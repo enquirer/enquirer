@@ -16,23 +16,6 @@ class Prompt extends PromptBase {
 
 describe('Prompt', function() {
   describe('.keypress()', () => {
-    it('should emit alert when an unrecognized keypress is entered', cb => {
-      prompt = new Prompt({ message: 'Example prompt' });
-
-      prompt.once('run', () => prompt.keypress('/'));
-      prompt.once('alert', (err, keypress) => {
-        assert.equal(keypress.action, void 0);
-        cb();
-      });
-
-      prompt.once('run', () => prompt.submit());
-
-      prompt.run()
-        .then(answer => {
-          assert.equal(answer, void 0);
-        });
-    });
-
     it('should emit a keypress for each character', cb => {
       prompt = new Prompt({ message: 'Example prompt' });
       const keypresses = [];
@@ -131,7 +114,7 @@ describe('Prompt', function() {
       prompt = new Prompt({
         message: 'prompt',
         value: 'foo',
-        format(value) {
+        result(value) {
           return '1' + value + '2';
         }
       });
