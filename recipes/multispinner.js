@@ -10,18 +10,13 @@ const prompt = new Prompt({
   choices: ['Foo', 'Bar', 'Baz']
 });
 
-const separator = animate(prompt, 'separator', { ...spinners.star, styles: ['cyan', 'white', 'dim', 'white', 'cyan', 'white'], blacklist: [] });
+const separator = animate(prompt, 'separator', { ...spinners.star, frames: [colors.symbols.bullet] });
 const prefix = animate(prompt, 'prefix', { ...spinners.christmas, offset: 50, interval: 1000, styles: ['none'] });
 
 prompt.once('run', () => {
   separator.start();
   prefix.start();
 });
-
-setTimeout(() => {
-  separator.stop();
-  prompt.symbols.separator = prompt.symbols.bullet;
-}, 300);
 
 prompt.once('close', () => {
   separator.stop();
