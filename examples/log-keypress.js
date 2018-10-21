@@ -9,18 +9,24 @@ const yosay = require('yosay');
  * then scroll to a visible choice with an index of greater than 5.
  */
 
+let header = () => {
+  let dude = yosay('Welcome to my awesome generator!');
+  if (this.index > 5) {
+    dude = dude.replace('_\u001b[33m´U`\u001b[39m_', '@\u001b[33m´U`\u001b[39m@');
+    dude = dude.replace('~', 'O');
+  }
+  return !this.answered ? dude + '\n' : '';
+};
+
 const prompt = new Prompt({
+  type: 'multiselect',
   name: 'colors',
   message: 'Pick your favorite colors',
-  header() {
-    let dude = yosay('Welcome to my awesome generator!');
-    if (this.index > 5) {
-      dude = dude.replace('_\u001b[33m´U`\u001b[39m_', '@\u001b[33m´U`\u001b[39m@');
-      dude = dude.replace('~', 'O');
-    }
-    return !this.answered ? dude + '\n' : '';
-  },
+  hint: '(Use <space> to select, <return> to submit)',
   limit: 6,
+  pointer(state, choice, i) {
+    return (state.index === i ? state.symbols.pointer : ' ') + ' ';
+  },
   choices: [
     { name: 'aqua',    value: '#00ffff' },
     { name: 'black',   value: '#000000' },
@@ -41,8 +47,22 @@ const prompt = new Prompt({
   ]
 });
 
+const press = str => {
+  return colors.bold(colors.red('<') + str + colors.red('>'));
+};
+
+prompt.on('keypress', (ch, key) => {
+  let keypress = '';
+  if (key.shift) keypress = press('shift') + colors.bold('+');
+  if (key.ctrl) keypress = press('ctrl') + colors.bold('+');
+  keypress += press(key.name);
+
+  prompt.state.header = header() + keypress + '\n';
+  prompt.render();
+});
+
 prompt.run()
   .then(names => {
-    console.log('Answer:', names);
+    console.log('Answer:', header());
   })
   .catch(console.error);

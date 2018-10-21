@@ -10,8 +10,11 @@ const yosay = require('yosay');
  */
 
 const prompt = new Prompt({
+  type: 'multiselect',
   name: 'colors',
   message: 'Pick your favorite colors',
+  hint: '(Use <space> to select, <return> to submit)',
+  limit: 6,
   header() {
     let dude = yosay('Welcome to my awesome generator!');
     if (this.index > 5) {
@@ -20,7 +23,14 @@ const prompt = new Prompt({
     }
     return !this.answered ? dude + '\n' : '';
   },
-  limit: 6,
+  footer(state) {
+    if (state.limit < state.choices.length) {
+      return colors.dim('(Scroll up and down to reveal more choices)');
+    }
+  },
+  pointer(state, choice, i) {
+    return (state.index === i ? state.symbols.pointer : ' ') + ' ';
+  },
   choices: [
     { name: 'aqua',    value: '#00ffff' },
     { name: 'black',   value: '#000000' },
@@ -32,7 +42,7 @@ const prompt = new Prompt({
     { name: 'maroon',  value: '#800000' },
     { name: 'navy',    value: '#000080' },
     { name: 'olive',   value: '#808000' },
-    { name: 'purple',  value: '#800080' },
+    { name: 'purple',  value: '#800080', hint: colors.red('(this is a colored choice hint)') },
     { name: 'red',     value: '#ff0000' },
     { name: 'silver',  value: '#c0c0c0' },
     { name: 'teal',    value: '#008080' },
