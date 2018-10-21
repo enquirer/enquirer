@@ -206,11 +206,11 @@ describe('multiselect', function() {
       });
 
       prompt.on('run', async() => {
-        await nextTick(() => prompt.keypress(null, down));
-        await nextTick(() => prompt.keypress(' '));
-        await nextTick(() => prompt.keypress(null, down));
-        await nextTick(() => prompt.keypress(' '));
-        await nextTick(() => prompt.submit());
+        await prompt.keypress(null, down);
+        await prompt.keypress(' ');
+        await prompt.keypress(null, down);
+        await prompt.keypress(' ');
+        await prompt.submit();
       });
 
       return prompt.run()
@@ -232,16 +232,15 @@ describe('multiselect', function() {
 
       prompt.on('run', async() => {
         // unselect 'a' TODO: figure out if initial should be 0 by default or not
-        await nextTick(() => prompt.keypress(' '));
-
+        await prompt.keypress(' ');
         // down to 'b'
-        await nextTick(() => prompt.keypress(null, down));
+        await prompt.keypress(null, down);
         // down to 'c'
-        await nextTick(() => prompt.keypress(null, down));
+        await prompt.keypress(null, down);
         // back up to 'b'
-        await nextTick(() => prompt.keypress(null, up));
-        await nextTick(() => prompt.keypress(' '));
-        await nextTick(() => prompt.submit());
+        await prompt.keypress(null, up);
+        await prompt.keypress(' ');
+        await prompt.submit();
       });
 
       return prompt.run()
@@ -263,11 +262,11 @@ describe('multiselect', function() {
       });
 
       prompt.on('run', async() => {
-        await nextTick(() => prompt.keypress(2));
-        await nextTick(() => prompt.keypress(3));
-        await nextTick(() => prompt.keypress(1));
-        await nextTick(() => prompt.keypress(1));
-        await nextTick(() => prompt.submit());
+        await prompt.keypress(2);
+        await prompt.keypress(3);
+        await prompt.keypress(1);
+        await prompt.keypress(1);
+        await prompt.submit();
       });
 
       return prompt.run()
@@ -288,8 +287,8 @@ describe('multiselect', function() {
       });
 
       prompt.on('run', async() => {
-        await nextTick(() => prompt.keypress('a'));
-        await nextTick(() => prompt.submit());
+        await prompt.keypress('a');
+        await prompt.submit();
       });
 
       return prompt.run()
@@ -310,11 +309,11 @@ describe('multiselect', function() {
       });
 
       prompt.on('run', async() => {
-        await nextTick(() => prompt.keypress(0));
-        await nextTick(() => prompt.keypress(1));
-        await nextTick(() => prompt.keypress(3));
-        await nextTick(() => prompt.keypress('i'));
-        await nextTick(() => prompt.submit());
+        await prompt.keypress(0);
+        await prompt.keypress(1);
+        await prompt.keypress(3);
+        await prompt.keypress('i');
+        await prompt.submit();
       });
 
       return prompt.run().then(expect(['c']));

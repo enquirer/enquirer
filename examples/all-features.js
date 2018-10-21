@@ -3,10 +3,7 @@ const colors = require('ansi-colors');
 const yosay = require('yosay');
 
 /**
- * Example of creating a silly easter egg for users
- *
- * To see the easter egg, use `<fn>+<down>` or (`<Page Down>` on windows)
- * then scroll to a visible choice with an index of greater than 5.
+ * Example that shows all of the prompt elements displayed at once.
  */
 
 const prompt = new Prompt({
@@ -14,15 +11,7 @@ const prompt = new Prompt({
   name: 'colors',
   message: 'Pick your favorite colors',
   hint: '(Use <space> to select, <return> to submit)',
-  limit: 6,
-  header() {
-    let dude = yosay('Welcome to my awesome generator!');
-    if (this.index > 5) {
-      dude = dude.replace('_\u001b[33m´U`\u001b[39m_', '@\u001b[33m´U`\u001b[39m@');
-      dude = dude.replace('~', 'O');
-    }
-    return !this.answered ? dude + '\n' : '';
-  },
+  header: yosay('Welcome to my awesome generator!'),
   footer(state) {
     if (state.limit < state.choices.length) {
       return colors.dim('(Scroll up and down to reveal more choices)');
@@ -31,6 +20,7 @@ const prompt = new Prompt({
   pointer(state, choice, i) {
     return (state.index === i ? state.symbols.pointer : ' ') + ' ';
   },
+  limit: 6,
   choices: [
     { name: 'aqua',    value: '#00ffff' },
     { name: 'black',   value: '#000000' },

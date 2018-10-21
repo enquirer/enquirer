@@ -129,7 +129,7 @@ describe('select', function() {
       prompt.once('run', async() => {
         let { state, symbols } = prompt;
         let pointer = cyan(symbols.pointer);
-        let expected = `${pointer} ${cyan.underline('A')}\n  ${gray('BB')}\n  CCC\n  DDDD`;
+        let expected = `${pointer} ${cyan.underline('A')}\n  ${gray('BB')} ${dim('(disabled)')}\n  CCC\n  DDDD`;
         let actual = await prompt.renderChoices();
         assert.equal(actual, expected);
         prompt.submit();
