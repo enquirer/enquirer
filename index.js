@@ -87,6 +87,7 @@ class Enquirer extends Events {
       assert(this.prompts[type], `Prompt "${type}" is not registered`);
 
       let prompt = new this.prompts[type](opts);
+
       let state = this.state(prompt, opts);
       let onCancel = opts.onCancel || (() => false);
       let value;
@@ -98,6 +99,8 @@ class Enquirer extends Events {
       }
 
       prompt.state.answers = this.answers;
+
+      // bubble events
       let emit = prompt.emit.bind(prompt);
       prompt.emit = (...args) => {
         this.emit(...args.concat(state));
@@ -105,10 +108,12 @@ class Enquirer extends Events {
       };
 
       try {
-        value = this.answers[name] = await prompt.run();
-        cancel = opts.onSubmit && await opts.onSubmit(name, value, prompt.state);
+        value = await prompt.run();
+        if (name) this.answers[name] = value;
+
+        cancel = opts.onSubmit && await opts.onSubmit(name, value, prompt.state, prompt);
       } catch (err) {
-        cancel = !(await onCancel(name, value, prompt.state));
+        cancel = !(await onCancel(name, value, prompt.state, prompt));
       }
 
       if (cancel) {
