@@ -31,7 +31,7 @@ const prompt = new Prompt({
 
 prompt.on('run', () => {
   (function timeout(ms, i) {
-    prompt.state.lastBeat = setTimeout(() => {
+    prompt.state.timeout = setTimeout(() => {
       prompt.symbols.prefix = frame(i);
       prompt.render();
       timeout(ms, i + 1);
@@ -39,7 +39,7 @@ prompt.on('run', () => {
   })(80, 0);
 });
 
-prompt.once('close', () => clearTimeout(prompt.state.lastBeat));
+prompt.once('close', () => clearTimeout(prompt.state.timeout));
 
 prompt.run()
   .then(answer => console.log('Answer:', answer))

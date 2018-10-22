@@ -142,46 +142,39 @@ const prompt = new Prompt({
   ]
 });
 
-const setValue = (prop, value) => {
+const inject = (prop, fn) => {
   let orig = get(prompt, prop);
 
-  return {
-    update(value) {
+  const restore = () => set(prompt, prop, orig);
+  const update = value => {
+    let completing = prompt.choices.filter(ch => ch.completing);
+    if (completing.length) {
       set(prompt, prop, value);
-    },
-    restore() {
-      set(prompt, prop, orig);
+    } else {
+      if (fn) fn(prompt.state);
+      restore();
     }
-  }
+  };
+
+  return { update, restore };
 };
 
 prompt.once('run', () => {
-  let prefix = setValue('symbols.prefix.pending');
-  let prefix = prompt.symbols.prefix.pending;
-  let sep = prompt.symbols.separator;
   let i = 0;
   let j = 0;
 
+  let prefix = inject('symbols.prefix.pending');
+  let sep = inject('symbols.separator', state => {
+    state.hint = 'Ready to go!';
+  });
+
   prompt.state.interval = setInterval(() => {
-    let completing = prompt.choices.filter(ch => ch.completing);
-    if (completing.length) {
-      let symb = colors.cyan(frame(spinners.point.frames, ++i));
-      prompt.symbols.prefix.pending = symb;
-    } else {
-      prompt.symbols.prefix.pending = prefix;
-    }
+    prefix.update(colors.cyan(frame(spinners.point.frames, ++i)));
     prompt.render();
   }, 120);
 
   prompt.state.interval2 = setInterval(() => {
-    let completing = prompt.choices.filter(ch => ch.completing);
-    if (completing.length) {
-      let symb = colors.green(frame(spinners.point.frames, ++j));
-      prompt.symbols.separator = symb;
-    } else {
-      prompt.state.hint = 'Ready to go!';
-      prompt.symbols.separator = sep;
-    }
+    sep.update(colors.green(frame(spinners.point.frames, ++j)));
     prompt.render();
   }, 120);
 });
