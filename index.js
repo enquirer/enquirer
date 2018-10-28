@@ -6,7 +6,11 @@ const utils = require('./lib/utils');
 
 /**
  * Create an instance of `Enquirer`.
- *
+ * ```js
+ * const Enquirer = require('enquirer');
+ * const enquirer = new Enquirer();
+ * ```
+ * @name Enquirer
  * @param {Object} `options` (optional) Options to use with all prompts.
  * @param {Object} `answers` (optional) Answers object to initialize with.
  * @api public
@@ -20,8 +24,14 @@ class Enquirer extends Events {
   }
 
   /**
-   * Register a custom prompt `type`.
+   * Register a custom prompt type.
    *
+   * ```js
+   * const Enquirer = require('enquirer');
+   * const enquirer = new Enquirer();
+   * enquirer.register('customType', require('./custom-prompt'));
+   * ```
+   * @name register
    * @param {String} `type`
    * @param {Function|Prompt} `fn` `Prompt` class, or a function that returns a `Prompt` class.
    * @return {Object} Returns the Enquirer instance
@@ -48,9 +58,11 @@ class Enquirer extends Events {
    * and returns an object with responses from the user.
    *
    * ```js
-   * const { prompt } = require('enquirer');
+   * const Enquirer = require('enquirer');
+   * const enquirer = new Enquirer();
+   *
    * (async() => {
-   *   const response = await prompt({
+   *   const response = await enquirer.prompt({
    *     type: 'input',
    *     name: 'username',
    *     message: 'What is your username?'
@@ -58,6 +70,7 @@ class Enquirer extends Events {
    *   console.log(response);
    * })();
    * ```
+   * @name prompt
    * @param {Array|Object} `questions` Options objects for one or more prompts to run.
    * @return {Promise} Promise that returns an "answers" object with the user's responses.
    * @api public
@@ -79,7 +92,7 @@ class Enquirer extends Events {
         }
       }
 
-      let { type, name } = question;
+      let { type } = question;
 
       if (typeof type === 'function') type = await type.call(this, question);
       if (!type) continue;
@@ -87,12 +100,20 @@ class Enquirer extends Events {
       assert(this.prompts[type], `Prompt "${type}" is not registered`);
 
       let prompt = new this.prompts[type](opts);
+      let name = prompt.name;
 
       let state = this.state(prompt, opts);
       let onCancel = opts.onCancel || (() => false);
-      let value;
+      let value = utils.get(this.answers, name);
 
       this.emit('prompt', prompt, this.answers);
+
+      if (opts.autofill === true && value != null) {
+        prompt.value = value;
+        prompt.submit();
+        opts.onSubmit && await opts.onSubmit(name, value, prompt);
+        continue;
+      }
 
       if (opts.skip && await opts.skip(state)) {
         continue;
@@ -108,12 +129,10 @@ class Enquirer extends Events {
       };
 
       try {
-        value = await prompt.run();
-        if (name) this.answers[name] = value;
-
-        cancel = opts.onSubmit && await opts.onSubmit(name, value, prompt.state, prompt);
+        value = this.answers[name] = await prompt.run();
+        cancel = opts.onSubmit && await opts.onSubmit(name, value, prompt);
       } catch (err) {
-        cancel = !(await onCancel(name, value, prompt.state, prompt));
+        cancel = !(await onCancel(name, value, prompt));
       }
 
       if (cancel) {
@@ -130,11 +149,12 @@ class Enquirer extends Events {
    * ```js
    * const Enquirer = require('enquirer');
    * const enquirer = new Enquirer();
-   * const plugin = enq => {
-   *   // do stuff to enquire ("enq") instance
+   * const plugin = enquirer => {
+   *   // do stuff to enquire instance
    * };
    * enquirer.use(plugin);
    * ```
+   * @name use
    * @param {Function} `plugin` Plugin function that takes an instance of Enquirer.
    * @return {Object} Returns the Enquirer instance.
    * @api public
@@ -144,6 +164,23 @@ class Enquirer extends Events {
     plugin.call(this, this);
     return this;
   }
+
+  /**
+   * Programmatically cancel all prompts.
+   *
+   * ```js
+   * const Enquirer = require('enquirer');
+   * const enquirer = new Enquirer();
+   *
+   *
+   *
+   * enquirer.use(plugin);
+   * ```
+   * @name use
+   * @param {Function} `plugin` Plugin function that takes an instance of Enquirer.
+   * @return {Object} Returns the Enquirer instance.
+   * @api public
+   */
 
   submit(value, state) {
     this.submitted = true;
@@ -182,20 +219,59 @@ class Enquirer extends Events {
     return require('./lib/types');
   }
 
+  /**
+   * Prompt function that takes a "question" object or array of question objects,
+   * and returns an object with responses from the user.
+   *
+   * ```js
+   * const { prompt } = require('enquirer');
+   * (async() => {
+   *   const response = await prompt({
+   *     type: 'input',
+   *     name: 'username',
+   *     message: 'What is your username?'
+   *   });
+   *   console.log(response);
+   * })();
+   * ```
+   * @name Enquirer#prompt
+   * @param {Array|Object} `questions` Options objects for one or more prompts to run.
+   * @return {Promise} Promise that returns an "answers" object with the user's responses.
+   * @api public
+   */
+
   static prompt(questions, onSubmit, onCancel) {
     let enquirer = new Enquirer({ onSubmit, onCancel });
+    let emit = enquirer.emit.bind(enquirer);
+    enquirer.emit = (...args) => {
+      prompt.emit(...args);
+      return emit(...args);
+    };
     return enquirer.prompt(questions);
   }
 }
 
 utils.mixinEmitter(Enquirer, new Events());
+utils.mixinEmitter(Enquirer.prompt, new Events());
+const prompts = Enquirer.prompts;
 
-for (let name of Object.keys(Enquirer.prompts)) {
-  Enquirer[name.toLowerCase()] = options => new Enquirer.prompts[name](options).run();
+for (let name of Object.keys(prompts)) {
+  let key = name.toLowerCase();
+
+  let run = options => new prompts[name](options).run();
+  Enquirer.prompt[key] = run;
+  Enquirer[key] = run;
 
   if (!Enquirer[name]) {
-    Reflect.defineProperty(Enquirer, name, { get: () => Enquirer.prompts[name] });
+    Reflect.defineProperty(Enquirer, name, { get: () => prompts[name] });
   }
 }
 
 module.exports = Enquirer;
+
+
+// const { prompt } = Enquirer;
+
+// // prompt.on('prompt', console.log);
+
+// prompt.confirm({ message: 'Name?' })
