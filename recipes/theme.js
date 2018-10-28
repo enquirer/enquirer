@@ -1,28 +1,27 @@
 const colors = require('ansi-colors');
 const Prompt = require('../lib/prompts/select');
-const symbols = require('../lib/style/symbols');
-const emoji = { pending: '🎃 ', cancelled: '⚰️ ', answered: '💀 ' };
+const symbols = require('../lib/symbols');
+const emoji = { pending: '🎃 ', cancelled: '⚰️ ', submitted: '💀 ' };
 const halloween = {
   styles: {
     primary: colors.blue,
-    muted: colors.yellow,
+    muted: colors.yellow
   },
   symbols: {
     radio: {
-      on: state => ['🍬 ', '🍎 ', '👄 ', '🖕 '][state.index],
+      on: state => ['🍬', '🍎', '👄', '🖕'][state.index],
       off: '  '
     }
   },
-  elements: {
-    prefix: (state, status) => emoji[status],
-    pointer(state, status, choice) {
-      let symbol = this.symbols.radio[status];
-      let fallback = status === 'on' ? '🗡️ ' : '  ';
-      if (typeof symbol === 'function') {
-        return symbol(...arguments) || fallback;
-      }
-      return symbol || fallback;
+  prefix: state => emoji[state.status],
+  pointer(state, choice, i) {
+    let status = state.index === i ? 'on' : 'off';
+    let symbol = this.symbols.radio[status];
+    let fallback = '🗡️ ';
+    if (typeof symbol === 'function') {
+      return symbol(...arguments) || fallback;
     }
+    return symbol || fallback;
   }
 };
 
@@ -31,14 +30,14 @@ const prompt = new Prompt({
   message: 'Trick or treat! Take your pick',
   theme: halloween,
   choices: [
-    { name: 'candy',       value: 'Sweet!' },
-    { name: 'apple',       value: 'Hard... core?' },
-    { name: 'toothpaste',  value: 'Orange juice?' },
-    { name: 'insult',      value: 'You stink!' },
+    { name: 'candy', value: 'Sweet!' },
+    { name: 'apple', value: 'Hard... core?' },
+    { name: 'toothpaste', value: 'Orange juice?' },
+    { name: 'insult', value: 'You stink!' },
     { name: 'razor blade', value: 'Ouch!' }
   ]
 });
 
 prompt.run()
   .then(answer => console.log('Answer:', answer))
-  .catch(err => console.error('TERMINATED'));
+  .catch(err => console.error('Cancelled'));

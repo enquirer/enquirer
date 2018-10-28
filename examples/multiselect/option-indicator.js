@@ -8,9 +8,7 @@ const prompt = new Prompt({
     { name: 'lasagna', message: 'Lasagna' },
     { name: 'pizza', message: 'Pizza' },
     { name: 'chicken_curry', message: 'Chicken Curry' },
-    { name: 'tacos', message: 'Tacos' },
-    { name: 'none', message: 'None of the Above' },
-    { name: 'all', message: 'All of the above' },
+    { name: 'tacos', message: 'Tacos' }
   ],
   symbols: { indicator: '❤' },
   indicator(state, choice) {

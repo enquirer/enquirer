@@ -5,11 +5,12 @@ const completer = require('./completer');
 class Text extends Input {
   constructor(options) {
     super(options);
+
     let history = this.options.history;
     if (history && history.store) {
       this.autosave = !!history.autosave;
       this.store = history.store;
-      this.data = this.store.get('state') || { past: [], present: this.initial };
+      this.data = this.store.get('values') || { past: [], present: this.initial };
       this.initial = this.data.present || this.data.past[this.data.past.length - 1];
     }
   }
@@ -32,17 +33,20 @@ class Text extends Input {
   }
 
   prev() {
-    this.data.past.push(this.input);
+    this.save();
     super.prev();
   }
 
   save() {
-    this.store.set('state', completer('save', this.data, this.value));
+    this.data = completer('save', this.data, this.input);
+    this.store.set('values', this.data);
   }
 
   submit() {
     let value = super.submit();
-    if (this.autosave === true) this.save();
+    if (this.autosave === true) {
+      this.save();
+    }
     return value;
   }
 }
@@ -54,7 +58,7 @@ const prompt = new Text({
   history: {
     store: new Store({ path: `${__dirname}/username.json` }),
     autosave: true
-  },
+  }
 });
 
 prompt.run()

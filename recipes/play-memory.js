@@ -1,16 +1,12 @@
 'use strict';
 
+const colors = require('ansi-colors');
 const AutoComplete = require('../lib/prompts/autocomplete');
 const { timeout } = require('../lib/utils');
 
 const prompt = new AutoComplete({
   name: 'flavor',
   message: 'Pick your favorite flavor',
-  initial: 3,
-  limit: 7,
-  suggest(typed, choices) {
-    return choices.filter(item => item.message.includes(typed));
-  },
   choices: [
     'almond',
     'apple',

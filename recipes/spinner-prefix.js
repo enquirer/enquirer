@@ -7,7 +7,7 @@ let step = 50;
 const keys = Object.keys(spinners);
 // const frames = spinners.dots.frames;
 const ele = (arr, i) => arr[i % arr.length];
-const frame = i => ele(styles, i)(ele(spinners[ele(keys, i % step === 0 ? index++ : index)].frames, i));;
+const frame = i => ele(styles, i)(ele(spinners[ele(keys, i % step === 0 ? index++ : index)].frames, i));
 
 const repeat = (arr, times = 2, blacklist) => {
   let omit = blacklist || ['black', 'gray', 'grey', 'white'];

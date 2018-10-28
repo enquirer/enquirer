@@ -148,4 +148,25 @@ describe('Enquirer', function() {
       assert.equal(called, 2);
     });
   });
+
+  describe('options.autofill', () => {
+    it('should autofill answers', async cb => {
+      enquirer = new Enquirer({
+        show: false,
+        autofill: true
+      }, {
+        color: 'orange'
+      });
+
+      let answers = await enquirer.prompt({
+        type: 'input',
+        name: 'color',
+        message: 'Favorite color?'
+      });
+
+      assert.equal(answers.color, 'orange');
+      cb();
+    });
+
+  });
 });

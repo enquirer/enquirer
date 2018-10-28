@@ -7,9 +7,6 @@ const store = new Store({ path: __dirname + '/recordings.json' });
 const prompt = new AutoComplete({
   name: 'flavor',
   message: 'Pick your favorite flavor',
-  suggest(typed, choices) {
-    return choices.filter(item => item.message.includes(typed));
-  },
   choices: [
     'almond',
     'apple',
@@ -31,11 +28,15 @@ const prompt = new AutoComplete({
   ]
 });
 
-let interval = 750;
+let prev = Date.now();
 let steps = [];
 
-prompt.on('keypress', (ch, key) => steps.push({ keypress: [ch, key], interval }));
 prompt.on('submit', () => store.set(prompt.name, steps));
+prompt.on('keypress', (ch, key) => {
+  let now = Date.now();
+  steps.push({ keypress: [ch, key], interval: now - prev });
+  prev = now;
+});
 
 prompt.run()
   .then(answer => console.log('Answer:', answer))

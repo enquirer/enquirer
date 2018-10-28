@@ -57,68 +57,8 @@ Whenever possible, we attempted to use familiar concepts and terminology from HT
 
 ## ❯ Keypresses
 
-| **command** | **description** |
-| --- | --- |
-| <kbd>ctrl</kbd>+<kbd>a</kdb> | Move the cursor to the first character in user input. |
+TODO - insert keypresses here.
 
-| <kbd>ctrl</kbd>+<kbd>c</kbd> | Cancel the prompt. |
-| <kbd>ctrl</kbd>+<kbd>d</kbd> | Cancel the prompt. |
-| <kbd>ctrl</kbd>+<kbd>g</kdb> | Reset the prompt to its initial state. |
-| <kbd>ctrl</kbd>+<kbd>l</kdb> | Reset the prompt to its initial state. |
-| <kbd>ctrl</kbd>+<kbd>r</kdb> | Remove the current value from prompt history (when supported). |
-| <kbd>ctrl</kbd>+<kbd>s</kdb> | Save the current value to prompt history (when supported). |
-| <kbd>ctrl</kbd>+<kbd>z</kdb> | Undo the previous action (when supported). |
-
-### Move Cursor
-
-The following keypresses may be used on any prompts that support user input.
-
-| **command** | **description** |
-| --- | --- |
-| <kbd>ctrl</kbd>+<kbd>a</kbd> | Move cursor to the start of the line |
-| <kbd>ctrl</kbd>+<kbd>e</kbd> | Move cursor to the end of the line |
-| <kbd>ctrl</kbd>+<kbd>b</kbd> | Move cursor back one character |
-| <kbd>ctrl</kbd>+<kbd>f</kbd> | Move cursor forward one character |
-| <kbd>ctrl</kbd>+<kbd>x</kbd> | Toggle between first and cursor position |
-| <kbd>left</kbd> | Move the cursor forward one character. |
-| <kbd>right</kbd> | Move the cursor back one character. |
-
-**Windows**
-
-_Not implemented yet_
-
-| **command** | **description** |
-| --- | --- |
-| <kbd>alt</kbd>+<kbd>b</kbd> | Move cursor back one word |
-| <kbd>alt</kbd>+<kbd>f</kbd> | Move cursor forward one word |
-
-## ❯ Array prompt keypresses
-
-| **command** | **description** |
-| --- | --- |
-| <kbd>a</kbd> | Toggle all choices to be enabled or disabled. |
-| <kbd>i</kbd> | Invert the current selection of choices. |
-| <kbd>g</kbd> | Toggle the current choice group. |
-| <kbd>space</kbd> | Toggle the currently selected choice when `options.multiple` is true. |
-
-### Hide/show Choices
-
-| <kbd>fn</kbd>+<kbd>up</kbd> | Decrease the number of visible choices by one. |
-| <kbd>fn</kbd>+<kbd>down</kbd> | Increase the number of visible choices by one. |
-
-### Move Pointer
-
-| **command** | **description** |
-| --- | --- |
-| <kbd>number</kbd> | Move the pointer to the choice at the given index. Also toggles the selected choice when `options.multiple` is true. |
-| <kbd>up</kbd> | Move the pointer up. |
-| <kbd>down</kbd> | Move the pointer down. |
-| <kbd>ctrl</kbd>+<kbd>a</kbd> | Move the pointer to the first _visible_ choice. |
-| <kbd>ctrl</kbd>+<kbd>e</kbd> | Move the pointer to the last _visible_ choice. |
-| (mac) <kbd>fn</kbd>+<kbd>left</kbd> / (win) <kbd>home</kbd> | Move the pointer to the first choice in the choices array. |
-| (mac) <kbd>fn</kbd>+<kbd>right</kbd> / (win) <kbd>end</kbd> | Move the pointer to the last choice in the choices array. |
-| <kbd>shift</kbd>+<kbd>up</kbd> | Scroll up one choice without changing pointer position. |
-| <kbd>shift</kbd>+<kbd>down</kbd> | Scroll down one choice without changing pointer position. |
 
 <br>
 <hr>
@@ -223,3 +163,4 @@ If you are a prompt author, styles may be accessed using `prompt.styles` (or `th
 | `cancel` | Emitted when the prompt is terminated by the user or an error is thrown. |
 | `close`  | Emitted when the readline interface is closed and the input stream is paused. |
 | `run`    | Emitted when the prompt has been initialized. |
+

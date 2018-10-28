@@ -106,7 +106,7 @@ describe('prompt-autocomplete', () => {
 
       prompt.once('run', () => {
         assert.has(prompt.choices, [
-          { value: 'a', message: 'A', enabled: true },
+          { value: 'a', message: 'A', enabled: false },
           { value: 'b', message: 'BB', enabled: false },
           { value: 'c', message: 'CCC', enabled: false },
           { value: 'd', message: 'DDDD', enabled: false }

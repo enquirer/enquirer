@@ -6,9 +6,9 @@ const prompt = new Prompt({
   message: 'Favorite song?',
   symbols: { pointer: { on: '♫', off: ' ' } },
   choices: [
-    'Bach - Fugue in D Minor',
-    'Rachmaninoff - Piano Concerto No. 3',
-    'Mozart - Serenade No. 13 "Eine kleine Nachtmusik"'
+    { message: 'Fugue in D Minor', name: 'Bach' },
+    { message: 'Piano Concerto No. 3', name: 'Rachmaninoff' },
+    { message: 'Serenade No. 13 "Eine kleine Nachtmusik"', name: 'Mozart' }
   ]
 });
 

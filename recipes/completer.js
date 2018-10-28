@@ -11,19 +11,19 @@ module.exports = (action, data = {}, value = '') => {
     case 'prev':
     case 'undo':
       rest = past.slice(0, past.length - 1);
-      prev = past[past.length - 1];
+      prev = past[past.length - 1] || '';
       return {
         past: compact([value, ...rest]),
-        present: `${prev || ''}`
+        present: prev
       };
 
     case 'next':
     case 'redo':
       rest = past.slice(1);
-      prev = past[0];
+      prev = past[0] || '';
       return {
         past: compact([...rest, value]),
-        present: `${prev || ''}`
+        present: prev
       };
 
     case 'save':

@@ -10,8 +10,8 @@ const prompt = new Prompt({
   initial: 'jonschlinkert',
   styles: {
     primary: colors.blue,
-    get answered() {
-      return this.inverse;
+    get submitted() {
+      return this.complement;
     }
   }
 });

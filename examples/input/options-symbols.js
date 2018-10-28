@@ -8,19 +8,11 @@ const utils = require('../../lib/utils');
 const prompt = new Prompt({
   message: 'What is your username?',
   initial: 'jonschlinkert',
-  highlight: true,
-  symbols: {
-    question: '$'
-  },
+  symbols: { prefix: '$' },
   styles: {
     primary: colors.yellow,
-    // highlight: colors.bgGreen.black,
-    // answered: colors.blue.bold
-    get highlight() {
-      return this.complementary(this.inverse);
-    },
-    get answered() {
-      return this.complementary(this.inverse);
+    get submitted() {
+      return this.complementary(this.primary);
     }
   }
 });

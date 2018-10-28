@@ -5,7 +5,7 @@ class Animate {
   constructor(options = {}) {
     this.options = options;
     this.frames = options.frames || [];
-    this.maxTime = options.maxTime || Infinity;
+    this.maxTime = options.maxTime || 120000;
     this.framerate = options.framerate || 80;
     this.onUpdate = options.onUpdate || noop;
     this.onStart = options.onStart || noop;
@@ -15,10 +15,10 @@ class Animate {
     this.start = this.start.bind(this);
     this.stop = this.stop.bind(this);
     this.fail = this.fail.bind(this);
-    this.state = { timeout: null, count: 0, index: options.index || 0 };
+    this.timer = { timeout: null, count: 0, index: options.index || 0 };
   }
 
-  ele(arr, i = this.state.index) {
+  ele(arr, i = this.timer.index) {
     return arr[i % arr.length];
   }
 
@@ -28,26 +28,26 @@ class Animate {
 
   async start() {
     this.failed = setTimeout(this.fail, this.maxTime);
-    await this.onStart.call(this, this.state);
+    await this.onStart.call(this, this.timer);
     await this.update();
   }
 
-  update() {
-    clearTimeout(this.state.timeout);
-    this.state.timeout = setTimeout(async() => {
-      await this.onUpdate.call(this, this.state);
-      await this.update(++this.state.index);
+  async update() {
+    clearTimeout(this.timer.timeout);
+    this.timer.timeout = setTimeout(async() => {
+      await this.onUpdate.call(this, this.timer);
+      await this.update(++this.timer.index);
     }, this.framerate);
   }
 
   async stop() {
     clearTimeout(this.failed);
-    clearTimeout(this.state.timeout);
-    await this.onStop.call(this, this.state);
+    clearTimeout(this.timer.timeout);
+    await this.onStop.call(this, this.timer);
   }
 
   async fail() {
-    await this.onFail.call(this, this.state);
+    await this.onFail.call(this, this.timer);
     await this.stop();
   }
 }
@@ -76,7 +76,7 @@ module.exports = Animate;
 //   onStart() {
 //     write(ansi.cursor.hide());
 //   },
-//   onUpdate(state) {
+//   onUpdate() {
 //     write('\r' + this.frame());
 //   },
 //   onStop() {

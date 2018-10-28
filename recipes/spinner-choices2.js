@@ -64,7 +64,7 @@ const indicator = (prompt, choice, index, options) => {
   prompt.on('close', () => animation.stop());
   animation.start();
   return animation;
-}
+};
 
 const prompt = new Prompt({
   name: 'example-choice-spinners',
@@ -182,7 +182,7 @@ prompt.once('run', () => {
 prompt.once('close', () => {
   clearInterval(prompt.state.interval);
   clearInterval(prompt.state.interval2);
-})
+});
 
 prompt.run()
   .then(answer => console.log('\nAnswer:', answer))

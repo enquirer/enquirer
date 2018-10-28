@@ -13,6 +13,13 @@ const prompt = new Prompt({
 
 prompt.footer = () => {
   let state = { ...prompt.state };
+  delete state.prompt;
+  delete state.styles;
+  delete state.keypress;
+  delete state.symbols;
+  delete state.header;
+  delete state.footer;
+  delete state.buffer;
   return '\n' + prompt.options.footer + '\n' + JSON.stringify(state, null, 2);
 };
 

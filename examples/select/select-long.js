@@ -9,7 +9,7 @@ const prompt = new Prompt({
   message: 'Pick a color',
   header: yosay('Welcome to my awesome generator!'),
   footer() {
-    let fn = colors[keys[++idx]];
+    let fn = colors[keys[++idx % keys.length]];
     return '\n' + fn('(Scroll up and down to reveal more choices)');
   },
   limit: 5,

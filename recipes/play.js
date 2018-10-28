@@ -2,7 +2,7 @@
 
 const Store = require('data-store');
 const colors = require('ansi-colors');
-const ansi = require('../lib/style/ansi');
+const ansi = require('../lib/ansi');
 const AutoComplete = require('../lib/prompts/autocomplete');
 const { timeout } = require('../lib/utils');
 const store = new Store({ path: __dirname + '/recordings.json' });
@@ -10,11 +10,6 @@ const store = new Store({ path: __dirname + '/recordings.json' });
 const prompt = new AutoComplete({
   name: 'flavor',
   message: 'Pick your favorite flavor',
-  initial: 3,
-  limit: 7,
-  suggest(typed, choices) {
-    return choices.filter(item => item.message.includes(typed));
-  },
   choices: [
     'almond',
     'apple',
@@ -36,10 +31,9 @@ const prompt = new AutoComplete({
   ]
 });
 
-prompt.state.set('header', 'KEYPRESS: ');
-
+prompt.state.header = 'KEYPRESS: ';
 prompt.on('keypress', (ch, key) => {
-  prompt.state.set('header', 'KEYPRESS: ' + colors.yellow(`<${key.name}>`));
+  prompt.state.header = 'KEYPRESS: ' + colors.yellow(`<${key.name}>`);
 });
 
 prompt.once('run', async() => {

@@ -4,8 +4,8 @@ const prompt = new Prompt({
   message: 'How much do you want to donate?',
   float: true,
   cursor: 1,
-  format(value) {
-    return Intl.NumberFormat(void 0, { style: 'currency', currency: 'USD' }).format(value);
+  format(input = this.input) {
+    return Intl.NumberFormat(void 0, { style: 'currency', currency: 'USD' }).format(input);
   }
 });
 

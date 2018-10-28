@@ -1,8 +1,5 @@
 'use strict';
 
-const Enquirer = require('..');
-const enquirer = new Enquirer();
-
 /**
  * "autofill" plugin - to achieve similar goal to autofill for web forms
  */
@@ -15,7 +12,6 @@ const autofill = (answers = {}) => {
     enquirer.prompt = async questions => {
       let list = [].concat(questions || []);
       let choices = [];
-      let filled = {};
 
       for (let item of list) {
         let value = context[item.name];
@@ -24,21 +20,17 @@ const autofill = (answers = {}) => {
         }
       }
 
-      enquirer.on('submit', (value, prompt) => (filled = prompt.values));
-
       if (choices.length) {
         let values = await enquirer.prompt({
           type: 'multiselect',
-          name: 'autofilled',
+          name: 'autofill',
           message: 'Would you like to autofill prompts with the following values?',
           choices
         });
 
-        values.autofilled = filled;
-
         for (let item of list) {
-          if (values.autofilled[item.name] !== void 0) {
-            item.initial = values.autofilled[item.name];
+          if (values.autofill.includes(item.name)) {
+            item.initial = context[item.name];
           }
         }
 
@@ -52,17 +44,18 @@ const autofill = (answers = {}) => {
   };
 };
 
+const Enquirer = require('..');
+const enquirer = new Enquirer();
+
 enquirer.use(autofill({ name: 'Jon Schlinkert', username: 'jonschlinkert' }));
 
 const questions = [
   { type: 'input', name: 'name', message: 'What is your name?' },
   { type: 'input', name: 'username', message: 'What is your username?' },
   { type: 'input', name: 'email', message: 'What is your email?' },
-  { type: 'input', name: 'phone', message: 'What is your phone number?' },
+  { type: 'input', name: 'phone', message: 'What is your phone number?' }
 ];
 
 enquirer.prompt(questions)
-  .then(answers => {
-    console.log(answers);
-  })
+  .then(answers => console.log(answers))
   .catch(console.error);
