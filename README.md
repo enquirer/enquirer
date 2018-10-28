@@ -4,14 +4,20 @@
 
 Please consider following this project's author, [Jon Schlinkert](https://github.com/jonschlinkert), and consider starring the project to show your :heart: and support.
 
+<h1 align="center">Enquirer</h1>
+
+<br>
+<br>
+
 <p align="center">
 <b>Stylish CLI prompts that are user-friendly, intuitive and easy to create.</b></br>
 <sub>>_ Prompts should be more like conversations than inquisitions▌<sub>
 </p>
 
-## ❯ Why use Enquirer?
+<br>
+<br>
 
-Enquirer is fast, lightweight, and easy enough to use on small projects, while also being powerful and customizable enough for the most advanced use cases.
+Enquirer is fast, easy to use, and lightweighte enough for small projects, while also being powerful and customizable enough for the most advanced use cases.
 
 * **Fast** - [Loads in ~4ms](#performance) (that's about _3-4 times faster than a [single frame of a HD movie](http://www.endmemo.com/sconvert/framespersecondframespermillisecond.php) at 60fps_)
 * **Lightweight** - Only [one dependency](https://github.com/doowb/ansi-colors).
@@ -29,21 +35,6 @@ Enquirer is fast, lightweight, and easy enough to use on small projects, while a
 <hr>
 <br>
 
-## ❯ Getting started
-
-Get started with Enquirer, the most powerful Node.js library for creating interactive CLI prompts.
-
-* [Install](#-install)
-* [Usage](#-usage)
-* [API](#-api)
-* [Options](#-options)
-* [Performance](#-performance)
-* [Credit](#-credit)
-
-<br>
-<hr>
-<br>
-
 ## ❯ Install
 
 Install with [npm](https://www.npmjs.com/):
@@ -53,6 +44,20 @@ $ npm install --save enquirer
 ```
 
 _(Requires Node.js 8.6 or higher. Please let us know if you need support for an earlier version by creating an [issue](../../issues/new).)_
+
+<br>
+<hr>
+<br>
+
+## ❯ Getting started
+
+Get started with Enquirer, the most powerful and easy-to-use Node.js library for creating interactive CLI prompts.
+
+* [Usage](#-usage)
+* [API](#-api)
+* [Options](#-options)
+* [Performance](#-performance)
+* [Credit](#-credit)
 
 <br>
 <hr>
@@ -77,7 +82,7 @@ console.log(response);
 //=> { username: 'jonschlinkert' }
 ```
 
-_(Any examples in this document that use `await` need to be run inside an `async` function)_
+_(Examples with `await` need to be run inside an `async` function)_
 
 ### Multiple prompts
 
@@ -107,6 +112,8 @@ console.log(response);
 
 ## ❯ API
 
+### [Enquirer](index.js#L19)
+
 Create an instance of `Enquirer`.
 
 **Params**
@@ -114,13 +121,97 @@ Create an instance of `Enquirer`.
 * `options` **{Object}**: (optional) Options to use with all prompts.
 * `answers` **{Object}**: (optional) Answers object to initialize with.
 
-Register a custom prompt `type`.
+**Example**
+
+```js
+const Enquirer = require('enquirer');
+const enquirer = new Enquirer();
+```
+
+### [register](index.js#L41)
+
+Register a custom prompt type.
 
 **Params**
 
 * `type` **{String}**
 * `fn` **{Function|Prompt}**: `Prompt` class, or a function that returns a `Prompt` class.
 * `returns` **{Object}**: Returns the Enquirer instance
+
+**Example**
+
+```js
+const Enquirer = require('enquirer');
+const enquirer = new Enquirer();
+enquirer.register('customType', require('./custom-prompt'));
+```
+
+### [prompt](index.js#L79)
+
+Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
+
+**Params**
+
+* `questions` **{Array|Object}**: Options objects for one or more prompts to run.
+* `returns` **{Promise}**: Promise that returns an "answers" object with the user's responses.
+
+**Example**
+
+```js
+const Enquirer = require('enquirer');
+const enquirer = new Enquirer();
+
+(async() => {
+  const response = await enquirer.prompt({
+    type: 'input',
+    name: 'username',
+    message: 'What is your username?'
+  });
+  console.log(response);
+})();
+```
+
+### [use](index.js#L163)
+
+Use an enquirer plugin.
+
+**Params**
+
+* `plugin` **{Function}**: Plugin function that takes an instance of Enquirer.
+* `returns` **{Object}**: Returns the Enquirer instance.
+
+**Example**
+
+```js
+const Enquirer = require('enquirer');
+const enquirer = new Enquirer();
+const plugin = enquirer => {
+  // do stuff to enquire instance
+};
+enquirer.use(plugin);
+```
+
+### [use](index.js#L185)
+
+Programmatically cancel all prompts.
+
+**Params**
+
+* `plugin` **{Function}**: Plugin function that takes an instance of Enquirer.
+* `returns` **{Object}**: Returns the Enquirer instance.
+
+**Example**
+
+```js
+const Enquirer = require('enquirer');
+const enquirer = new Enquirer();
+
+enquirer.use(plugin);
+```
+
+### [Enquirer#prompt](index.js#L243)
+
+Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
 **Params**
 
@@ -141,21 +232,7 @@ const { prompt } = require('enquirer');
 })();
 ```
 
-**Params**
-
-* `plugin` **{Function}**: Plugin function that takes an instance of Enquirer.
-* `returns` **{Object}**: Returns the Enquirer instance.
-
-**Example**
-
-```js
-const Enquirer = require('enquirer');
-const enquirer = new Enquirer();
-const plugin = enq => {
-  // do stuff to enquire ("enq") instance
-};
-enquirer.use(plugin);
-```
+## Prompt API
 
 <br>
 <hr>
@@ -169,7 +246,7 @@ TODO
 
 ### Prompt options
 
-Each prompt takes a options object (i.e. "question" object), that implements the following interface:
+Each prompt takes an options object (aka "question" object), that implements the following interface:
 
 ```js
 {
@@ -183,18 +260,15 @@ Each prompt takes a options object (i.e. "question" object), that implements the
 }
 ```
 
-| **Property** | **Type** | **Description** | 
+| **Property** | **Type** | **Description** |
 | --- | --- | --- |
-| `type` (required) | **{string | function}** | Enquirer uses this value to determine the type of prompt to run, but it's optional when prompts are run directly. |
-| `name` (required) | **{string | function}** | Used as the key for the answer on the returned values (answers) object. |
-| `message` (required) | **{string | function}** | The message to display when the prompt is rendered in the terminal. |
-| `initial` (optional) | **{string | function}** | The default value to return if the user does not supply a value. |
-| `format` (optional) | **{function}**
- | Function to format user input in the terminal. |
-| `result` (optional) | **{function}**
- | Function to format the final, submitted value before it's returned. |
-| `validate` (optional) | **{function}**
- | Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message. |
+| `type` (required) | `string`, `function` | Enquirer uses this value to determine the type of prompt to run, but it's optional when prompts are run directly. |
+| `name` (required) | `string`, `function` | Used as the key for the answer on the returned values (answers) object. |
+| `message` (required) | `string`, `function` | The message to display when the prompt is rendered in the terminal. |
+| `initial` (optional) | `string`, `function` | The default value to return if the user does not supply a value. |
+| `format` (optional) | `function` | Function to format user input in the terminal. |
+| `result` (optional) | `function` | Function to format the final, submitted value before it's returned. |
+| `validate` (optional) | `function` | Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message. |
 
 **Example**
 
@@ -225,17 +299,17 @@ Choice {
 }
 ```
 
-| **Property** | **Type** | **Description** | 
+| **Property**  | **Type**   | **Description**  |
 | --- | --- | --- |
-| `name` | `string` | The unique id for a choice |
-| `message` | `string` | The message to display |
-| `value` | `string` | The value to return if the choice is selected |
-| `alias` | `string` | Single character to use when keypress shortcuts are supported |
-| `hint` | `string` |  |
-| `error` | `string` |  |
-| `disabled` | `boolean` |  |
-| `separator` | `boolean` |  |
-| `selected` | `boolean` |  |
+| `name`        | `string`   | The unique id for a choice |
+| `message`     | `string`   | The message to display  |
+| `value`       | `string`   | The value to return if the choice is selected |
+| `alias`       | `string`   | Single character to use when keypress shortcuts are supported |
+| `hint`        | `string`   |  |
+| `error`       | `string`   |  |
+| `disabled`    | `boolean`  |  |
+| `separator`   | `boolean`  |  |
+| `selected`    | `boolean`  |  |
 
 ## ❯ Performance
 
@@ -243,7 +317,7 @@ MacBook Pro, Intel Core i7, 2.5 GHz, 16 GB.
 
 ### Load time
 
-Time it takes for the module to load the first time:
+Time it takes for the module to load the first time (average of 3 runs):
 
 ```
 enquirer: 4.013ms
@@ -253,7 +327,7 @@ prompts: 17.010ms
 
 ## ❯ Credit
 
-Thanks to [derhuerst](https://github.com/derhuerst), creator of [prompt-skeleton](https://github.com/derhuerst/prompt-skeleton) and other prompt libraries that influenced some of the concepts we used in our prompts.
+Thanks to [derhuerst](https://github.com/derhuerst), creator of prompt libraries such as [prompt-skeleton](https://github.com/derhuerst/prompt-skeleton), which influenced some of the concepts we used in our prompts.
 
 ## About
 
@@ -290,12 +364,12 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 
 ### Contributors
 
-| **Commits** | **Contributor** | 
-| --- | --- |
-| 72 | [jonschlinkert](https://github.com/jonschlinkert) |
-| 12 | [doowb](https://github.com/doowb) |
-| 1 | [mischah](https://github.com/mischah) |
-| 1 | [skellock](https://github.com/skellock) |
+| **Commits** | **Contributor** |  
+| --- | --- |  
+| 72 | [jonschlinkert](https://github.com/jonschlinkert) |  
+| 12 | [doowb](https://github.com/doowb) |  
+| 1  | [mischah](https://github.com/mischah) |  
+| 1  | [skellock](https://github.com/skellock) |  
 
 ### Author
 
@@ -312,4 +386,4 @@ Released under the [MIT License](LICENSE).
 
 ***
 
-_This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.6.0, on October 18, 2018._
+_This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.8.0, on October 28, 2018._
