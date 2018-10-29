@@ -242,11 +242,11 @@ class Enquirer extends Events {
 
   static prompt(questions, onSubmit, onCancel) {
     let enquirer = new Enquirer({ onSubmit, onCancel });
-    let emit = enquirer.emit.bind(enquirer);
-    enquirer.emit = (...args) => {
-      prompt.emit(...args);
-      return emit(...args);
-    };
+    // let emit = enquirer.emit.bind(enquirer);
+    // enquirer.emit = (...args) => {
+    //   prompt.emit(...args);
+    //   return emit(...args);
+    // };
     return enquirer.prompt(questions);
   }
 }

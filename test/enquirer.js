@@ -150,7 +150,7 @@ describe('Enquirer', function() {
   });
 
   describe('options.autofill', () => {
-    it('should autofill answers', async cb => {
+    it('should autofill answers', async () => {
       enquirer = new Enquirer({
         show: false,
         autofill: true
@@ -165,7 +165,6 @@ describe('Enquirer', function() {
       });
 
       assert.equal(answers.color, 'orange');
-      cb();
     });
 
   });
