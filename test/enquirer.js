@@ -56,6 +56,57 @@ describe('Enquirer', function() {
     });
   });
 
+  describe('prompt', () => {
+    it('should run a single question object', cb => {
+      const { prompt } = Enquirer;
+      prompt.on('prompt', prompt => {
+        prompt.value = 'orange';
+        prompt.submit()
+      });
+
+      prompt({
+        type: 'input',
+        name: 'color',
+        message: 'Favorite color?',
+        show: false
+      })
+      .then(answers => {
+        assert.equal(answers.color, 'orange');
+        cb();
+      });
+    });
+
+    it('should run an array of questions', cb => {
+      const { prompt } = Enquirer;
+      prompt.on('prompt', prompt => {
+        if (prompt.name === 'color') {
+          prompt.value = 'blue';
+        } else {
+          prompt.value = 'Brian';
+        }
+        prompt.submit();
+      });
+
+      prompt([{
+        type: 'input',
+        name: 'color',
+        message: 'Favorite color?',
+        show: false
+      },
+      {
+        type: 'input',
+        name: 'name',
+        message: 'What is your name?',
+        show: false
+      }])
+      .then(answers => {
+        assert.equal(answers.color, 'blue');
+        assert.equal(answers.name, 'Brian');
+        cb();
+      });
+    });
+  });
+
   describe('options', () => {
     it('should pass enquirer options to prompts', () => {
       enquirer = new Enquirer({
