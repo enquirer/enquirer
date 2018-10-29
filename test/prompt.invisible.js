@@ -38,13 +38,13 @@ describe('invisible prompt', function() {
       let backspace = { name: 'backspace' };
 
       prompt.on('run', async() => {
-        await nextTick(async() => prompt.keypress('f'));
-        await nextTick(async() => prompt.keypress('o'));
-        await nextTick(async() => prompt.keypress('o'));
-        await nextTick(async() => prompt.keypress(null, backspace));
-        await nextTick(async() => prompt.keypress(null, backspace));
-        await nextTick(async() => prompt.keypress(null, backspace));
-        await nextTick(async() => prompt.submit());
+        await prompt.keypress('f');
+        await prompt.keypress('o');
+        await prompt.keypress('o');
+        await prompt.keypress(null, backspace);
+        await prompt.keypress(null, backspace);
+        await prompt.keypress(null, backspace);
+        await prompt.submit();
       });
 
       return prompt.run()

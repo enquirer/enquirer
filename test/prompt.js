@@ -26,8 +26,8 @@ describe('Prompt', function() {
         Prompt.prototype.keypress.call(prompt, str, key);
       };
 
-      prompt.on('keypress', (s, key) => {
-        keypresses.push(key.raw);
+      prompt.on('state', state => {
+        keypresses.push(state.keypress.raw);
       });
 
       prompt.once('submit', () => {
@@ -36,11 +36,11 @@ describe('Prompt', function() {
       });
 
       prompt.once('run', async() => {
-        await timeout(() => prompt.keypress(1));
-        await timeout(() => prompt.keypress(2));
-        await timeout(() => prompt.keypress(3));
-        await timeout(() => prompt.keypress('abc'));
-        await timeout(() => prompt.submit());
+        await prompt.keypress(1);
+        await prompt.keypress(2);
+        await prompt.keypress(3);
+        await prompt.keypress('abc');
+        await prompt.submit();
       });
 
       prompt.run()
