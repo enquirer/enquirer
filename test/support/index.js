@@ -33,6 +33,7 @@ module.exports = function(assert) {
       for (let i = 0; i < b.length; i++) assert.has(a[i], b[i], msg);
       return;
     }
+
     if (typeof a === 'string') {
       assert.equal(typeof b, 'string', 'expected a string');
       assert(a.includes(b), msg);

@@ -56,12 +56,13 @@ describe('Enquirer', function() {
     });
   });
 
-  describe('prompt', () => {
+  describe('static .prompt()', () => {
     it('should run a single question object', cb => {
       const { prompt } = Enquirer;
+
       prompt.on('prompt', prompt => {
         prompt.value = 'orange';
-        prompt.submit()
+        prompt.submit();
       });
 
       prompt({
@@ -79,11 +80,7 @@ describe('Enquirer', function() {
     it('should run an array of questions', cb => {
       const { prompt } = Enquirer;
       prompt.on('prompt', prompt => {
-        if (prompt.name === 'color') {
-          prompt.value = 'blue';
-        } else {
-          prompt.value = 'Brian';
-        }
+        prompt.value = prompt.name === 'color' ? 'blue' : 'Brian';
         prompt.submit();
       });
 

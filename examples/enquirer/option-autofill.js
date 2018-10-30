@@ -1,6 +1,6 @@
 'use strict';
 
-const options = { autofill: true };
+const options = { autofill: 'show' };
 const answers = { name: 'Jon Schlinkert', username: 'jonschlinkert' };
 
 const Enquirer = require('../..');

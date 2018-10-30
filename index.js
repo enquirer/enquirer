@@ -92,25 +92,22 @@ class Enquirer extends Events {
         }
       }
 
-      let { type } = question;
-
+      let { type, name } = question;
       if (typeof type === 'function') type = await type.call(this, question);
       if (!type) continue;
 
       assert(this.prompts[type], `Prompt "${type}" is not registered`);
 
       let prompt = new this.prompts[type](opts);
-      let name = prompt.name;
-
       let state = this.state(prompt, opts);
       let onCancel = opts.onCancel || (() => false);
       let value = utils.get(this.answers, name);
 
       this.emit('prompt', prompt, this.answers);
 
-      if (opts.autofill === true && value != null) {
-        prompt.value = value;
-        prompt.submit();
+      if (opts.autofill && value != null) {
+        prompt.value = prompt.input = value;
+        if (opts.autofill === 'show') await prompt.submit();
         opts.onSubmit && await opts.onSubmit(name, value, prompt);
         continue;
       }
@@ -129,7 +126,9 @@ class Enquirer extends Events {
       };
 
       try {
-        value = this.answers[name] = await prompt.run();
+        value = await prompt.run();
+        if (name) this.answers[name] = value;
+
         cancel = opts.onSubmit && await opts.onSubmit(name, value, prompt);
       } catch (err) {
         cancel = !(await onCancel(name, value, prompt));
@@ -240,19 +239,22 @@ class Enquirer extends Events {
    * @api public
    */
 
-  static prompt(questions, onSubmit, onCancel) {
-    let enquirer = new Enquirer({ onSubmit, onCancel });
-    let emit = enquirer.emit.bind(enquirer);
-    enquirer.emit = (...args) => {
-      Enquirer.prompt.emit(...args);
-      return emit(...args);
-    };
-    return enquirer.prompt(questions);
+  static get prompt() {
+    const fn = (questions, onSubmit, onCancel) => {
+      let enquirer = new this({ onSubmit, onCancel });
+      let emit = enquirer.emit.bind(enquirer);
+      enquirer.emit = (...args) => {
+        fn.emit(...args);
+        return emit(...args);
+      };
+      return enquirer.prompt(questions);
+    }
+    utils.mixinEmitter(fn, new Events());
+    return fn;
   }
 }
 
 utils.mixinEmitter(Enquirer, new Events());
-utils.mixinEmitter(Enquirer.prompt, new Events());
 const prompts = Enquirer.prompts;
 
 for (let name of Object.keys(prompts)) {

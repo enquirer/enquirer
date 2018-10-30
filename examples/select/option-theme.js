@@ -1,7 +1,7 @@
 const colors = require('ansi-colors');
 const Prompt = require('../lib/prompts/select');
 const symbols = require('../lib/symbols');
-const emoji = { pending: '🎃 ', cancelled: '⚰️ ', submitted: '💀 ' };
+const emoji = { pending: '🎃', cancelled: '⚰️ ', submitted: '💀' };
 const halloween = {
   styles: {
     primary: colors.blue,

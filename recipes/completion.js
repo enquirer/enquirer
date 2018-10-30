@@ -21,20 +21,20 @@ class Text extends Input {
     if (!this.data.present) return this.alert();
     this.input = this.data.present;
     this.cursor = this.input.length;
-    this.render();
+    return this.render();
   }
 
-  up() {
+  altUp() {
     return this.complete('prev');
   }
 
-  down() {
+  altDown() {
     return this.complete('next');
   }
 
   prev() {
     this.save();
-    super.prev();
+    return super.prev();
   }
 
   save() {

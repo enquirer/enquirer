@@ -32,14 +32,14 @@ describe('select', function() {
 
       prompt.once('run', () => {
         assert.has(prompt.choices, [
-          { name: 'a', message: 'A', enabled: true },
+          { name: 'a', message: 'A', enabled: false },
           { name: 'b', message: 'BB', enabled: false },
           { name: 'c', message: 'CCC', enabled: false },
           { name: 'd', message: 'DDDD', enabled: false }
         ]);
 
         assert.deepEqual(prompt.initial, 0);
-        prompt.submit();
+        prompt.close();
         cb();
       });
 
