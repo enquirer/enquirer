@@ -22,7 +22,6 @@ describe('prompts', function() {
   it('should export types', () => {
     assert.equal(typeof types.ArrayPrompt, 'function');
     assert.equal(typeof types.BooleanPrompt, 'function');
-    assert.equal(typeof types.DatePrompt, 'function');
     assert.equal(typeof types.NumberPrompt, 'function');
     assert.equal(typeof types.StringPrompt, 'function');
   });
