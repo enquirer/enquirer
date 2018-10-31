@@ -8,6 +8,29 @@ const Enquirer = require('..');
 let enquirer;
 
 describe('Enquirer', function() {
+  describe('inheritance', () => {
+    it('should extend another class', cb => {
+      class Custom extends Enquirer {}
+      const { prompt } = Custom;
+
+      prompt.on('prompt', p => {
+        p.value = 'orange';
+        p.submit();
+      });
+
+      prompt({
+        type: 'input',
+        name: 'color',
+        message: 'Favorite color?',
+        show: false
+      })
+      .then(answers => {
+        assert.equal(answers.color, 'orange');
+        cb();
+      });
+    });
+  });
+
   describe('questions', () => {
     it('should run a single question object', cb => {
       enquirer = new Enquirer({ show: false });
