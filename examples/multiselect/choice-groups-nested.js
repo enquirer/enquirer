@@ -5,8 +5,18 @@ const prompt = new Prompt({
   initial: 'bar',
   symbols: { indicator: '$' },
   choices: {
-    foo: ['a', 'b', 'c'],
-    bar: ['d', 'e', 'f']
+    foo: ['a', 'b', { name: 'c', disabled: true }],
+    bar: ['d', 'e', 'f'],
+    baz: {
+      qux: ['g', { name: 'h', disabled: true }, 'i'],
+      fez: {
+        faz: ['j', 'k', 'l'],
+        bip: ['m', { name: 'n', disabled: true }],
+        zam: {
+          one: ['o', 'p']
+        }
+      }
+    }
   }
 });
 

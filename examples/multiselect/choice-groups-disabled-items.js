@@ -2,11 +2,11 @@ const Prompt = require('../../lib/prompts/multiselect');
 const prompt = new Prompt({
   name: 'example-groups',
   message: 'What are your favorite colors?',
-  initial: 'bar',
-  symbols: { indicator: '$' },
+  initial: 'b',
+  limit: 8,
+  symbols: { check: '$' },
   choices: {
-    foo: ['a', 'b', 'c'],
-    bar: ['d', 'e', 'f']
+    foo: ['a', 'b', { name: 'c', disabled: true }]
   }
 });
 
