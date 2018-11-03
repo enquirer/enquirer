@@ -2,9 +2,10 @@
 
 const fs = require('fs');
 const path = require('path');
+const utils = require('../../lib/utils');
 const { Snippet, MultiSelect, Sort } = require('../../lib/prompts');
 
-const fixture = fs.readFileSync(path.join(__dirname, '../_fixtures/package.json'));
+const fixture = fs.readFileSync(path.join(__dirname, 'fixtures/_package.json'));
 const template = JSON.parse(fixture);
 
 const fields = new MultiSelect({
@@ -30,5 +31,12 @@ const snippet = new Snippet({
 });
 
 snippet.run()
-  .then(answer => console.log('Answer:', answer))
+  .then(answer => {
+    console.log('Answer:', answer);
+    let values = {};
+    for (let key of Object.keys(answer.values)) {
+      utils.set(values, key, answer.values[key]);
+    }
+    console.log('Values:', values);
+  })
   .catch(console.error);

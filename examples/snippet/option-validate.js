@@ -11,8 +11,8 @@ const prompt = new Prompt({
   },
   required: 'description',
   initial: 'version',
-  isValid(key, value) {
-    if (key === 'version' && !semver.valid(value)) {
+  validate(value, state, item, index) {
+    if (item && item.name === 'version' && !semver.valid(value)) {
       return colors.red('version should be a valid semver value');
     }
     return true;

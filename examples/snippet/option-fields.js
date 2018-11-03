@@ -2,6 +2,33 @@ const Prompt = require('../../lib/prompts/snippet');
 const prompt = new Prompt({
   name: 'username',
   message: 'Fill out the fields in package.json',
+  required: true,
+  fields: [
+    {
+      name: 'name',
+      message: 'Project Name',
+      validate(value) {
+        return value !== 'foo';
+      }
+    },
+    {
+      name: 'author_name',
+      message: 'Author Name'
+    },
+    {
+      name: 'keywords',
+      message: 'Keywords (comma separated)',
+      result(value) {
+        return JSON.stringify(value.split(','));
+      }
+    },
+    {
+      name: 'license',
+      validate(value) {
+        return value !== 'MIT';
+      }
+    }
+  ],
   template: `{
   "name": "\${name}",
   "description": "\${description:This is a great project}",

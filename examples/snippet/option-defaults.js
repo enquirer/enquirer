@@ -2,12 +2,8 @@ const Prompt = require('../../lib/prompts/snippet');
 const prompt = new Prompt({
   name: 'username',
   message: 'Fill out the fields in package.json',
-  hint: 'Do stuff',
-  defaults: {
-    name: 'awesome-lib',
-    version: '0.1.0',
-    license: 'MIT'
-  },
+  hint: '...Start typing',
+  defaults: { name: 'awesome-lib', version: '0.1.0', license: 'MIT' },
   template: `{
   "name": "{{name}}",
   "description": "{{description}}",

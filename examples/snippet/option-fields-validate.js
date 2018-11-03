@@ -1,3 +1,5 @@
+const colors = require('ansi-colors');
+const semver = require('semver');
 const Prompt = require('../../lib/prompts/snippet');
 const prompt = new Prompt({
   name: 'username',
@@ -21,7 +23,36 @@ const prompt = new Prompt({
   },
   "keywords": \${keywords}
 }
-`
+`,
+  fields: [
+    // {
+    //   name: 'version',
+    //   validate(value, state, item, index) {
+    //     if (item && item.name === 'version' && !semver.valid(value)) {
+    //       return colors.red('version should be a valid semver value');
+    //     }
+    //     return true;
+    //   },
+    // },
+    {
+      name: 'name',
+      validate(value) {
+        return value !== '' && value !== 'Jon';
+      }
+    },
+    {
+      name: 'username',
+      validate(value) {
+        return value !== '' && value !== 'jon';
+      }
+    },
+    // {
+    //   name: 'license',
+    //   validate(value) {
+    //     return value !== 'MIT';
+    //   }
+    // }
+  ]
 });
 
 prompt.run()

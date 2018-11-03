@@ -1,9 +1,13 @@
+const colors = require('ansi-colors');
 const Prompt = require('../../lib/prompts/snippet');
 const prompt = new Prompt({
   name: 'username',
   message: 'Fill out the fields in package.json',
   values: {
     name: 'awesome-lib'
+  },
+  styles: {
+    primary: colors.blue
   },
   template: `
   name: "\${name}"
