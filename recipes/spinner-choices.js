@@ -142,7 +142,7 @@ const prompt = new Prompt({
   ]
 });
 
-const setValue = (prop, value) => {
+const getValue = (prop, value) => {
   let orig = get(prompt, prop);
 
   return {
@@ -156,8 +156,7 @@ const setValue = (prop, value) => {
 };
 
 prompt.once('run', () => {
-  let prefix = setValue('symbols.prefix.pending');
-  let prefix = prompt.symbols.prefix.pending;
+  let prefix = getValue('symbols.prefix.pending');
   let sep = prompt.symbols.separator;
   let i = 0;
   let j = 0;

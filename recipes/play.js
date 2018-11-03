@@ -4,8 +4,13 @@ const Store = require('data-store');
 const colors = require('ansi-colors');
 const ansi = require('../lib/ansi');
 const AutoComplete = require('../lib/prompts/autocomplete');
-const { timeout } = require('../lib/utils');
 const store = new Store({ path: __dirname + '/recordings.json' });
+
+const timeout = (fn, ms = 0) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => fn().then(resolve).catch(reject), ms);
+  });
+};
 
 const prompt = new AutoComplete({
   name: 'flavor',

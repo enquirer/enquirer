@@ -8,14 +8,15 @@ class Text extends Input {
 
     let history = this.options.history;
     if (history && history.store) {
+      let initial = history.values || this.initial;
       this.autosave = !!history.autosave;
       this.store = history.store;
-      this.data = this.store.get('values') || { past: [], present: this.initial };
+      this.data = this.store.get('values') || { past: [], present: initial };
       this.initial = this.data.present || this.data.past[this.data.past.length - 1];
     }
   }
 
-  complete(action) {
+  completion(action) {
     if (!this.store) return this.alert();
     this.data = completer(action, this.data, this.input);
     if (!this.data.present) return this.alert();
@@ -25,11 +26,11 @@ class Text extends Input {
   }
 
   altUp() {
-    return this.complete('prev');
+    return this.completion('prev');
   }
 
   altDown() {
-    return this.complete('next');
+    return this.completion('next');
   }
 
   prev() {
@@ -38,15 +39,14 @@ class Text extends Input {
   }
 
   save() {
+    if (!this.store) return;
     this.data = completer('save', this.data, this.input);
     this.store.set('values', this.data);
   }
 
   submit() {
     let value = super.submit();
-    if (this.autosave === true) {
-      this.save();
-    }
+    if (this.store && this.autosave === true) this.save();
     return value;
   }
 }

@@ -14,18 +14,22 @@ const { Prompt } = Enquirer;
 class CustomPrompt extends Prompt {
   dispatch(ch) {
     if (!ch) return this.alert();
-    this.value += ch;
+    this.input += ch;
     this.cursor += 1;
     this.render();
   }
   delete() {
-    this.value = this.value.slice(0, -1);
-    this.cursor = this.value.length;
+    this.input = this.input.slice(0, -1);
+    this.cursor = this.input.length;
     this.render();
   }
   render() {
     this.clear();
-    this.write(this.renderMessage(this.value));
+    let prefix = this.style(this.symbols.prefix[this.state.status]);
+    let msg = this.styles.strong(this.state.message);
+    let sep = this.styles.muted(this.symbols.separator[this.state.status]);
+    let prompt = [prefix, msg, sep].filter(Boolean).join(' ');
+    this.write(prompt + ' ' + this.input);
   }
 }
 

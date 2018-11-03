@@ -39,7 +39,7 @@ class Enquirer extends Events {
    */
 
   register(type, fn) {
-    if (this.utils.isObject(type)) {
+    if (utils.isObject(type)) {
       for (let key of Object.keys(type)) this.register(key, type[key]);
       return this;
     }
@@ -81,16 +81,6 @@ class Enquirer extends Events {
 
     for (let question of [].concat(questions)) {
       let opts = { ...this.options, ...question };
-
-      for (let key of Object.keys(opts)) {
-        let val = opts[key];
-        if (typeof val === 'function') {
-          opts[key] = (...args) => {
-            args.push(this.answers);
-            return val(...args);
-          };
-        }
-      }
 
       let { type, name } = question;
       if (typeof type === 'function') type = await type.call(this, question);

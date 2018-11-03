@@ -5,11 +5,12 @@ const assert = require('assert');
 const colors = require('ansi-colors');
 const support = require('./support');
 const Enquirer = require('..');
+const { Prompt, Input } = Enquirer;
 let enquirer;
 
 describe('Enquirer', function() {
   describe('inheritance', () => {
-    it('should extend another class', cb => {
+    it('should support inheritance', cb => {
       class Custom extends Enquirer {}
       const { prompt } = Custom;
 
@@ -182,7 +183,7 @@ describe('Enquirer', function() {
       });
     });
 
-    it('should await onSubmit when a prompt submitted', async () => {
+    it('should await onSubmit when a prompt submitted', () => {
       let called = 0;
 
       enquirer = new Enquirer({
@@ -203,7 +204,7 @@ describe('Enquirer', function() {
         prompt.submit();
       });
 
-      let answers = await enquirer.prompt([
+      return enquirer.prompt([
         {
           type: 'input',
           name: 'flavor',
@@ -214,14 +215,61 @@ describe('Enquirer', function() {
           name: 'color',
           message: 'Favorite color?'
         }
-      ]);
+      ])
+      .then(() => {
+        assert.equal(called, 2);
+      });
+    });
+  });
 
-      assert.equal(called, 2);
+  describe('.register', () => {
+    beforeEach(() => {
+      enquirer = new Enquirer({ show: false });
+    });
+
+    it('should register a custom prompt type as a class', () => {
+      class Foo extends Input {}
+      enquirer.register('foo', Foo);
+      enquirer = new Enquirer({
+        show: false,
+        autofill: true
+      }, {
+        color: 'orange'
+      })
+
+      return enquirer.prompt({
+        type: 'foo',
+        name: 'color',
+        message: 'Favorite color?'
+      })
+      .then(answers => {
+        assert.equal(answers.color, 'orange');
+      });
+    });
+
+    it('should register a custom prompt type as a function', () => {
+      class Foo extends Input {}
+      enquirer.register('foo', () => Foo);
+      enquirer = new Enquirer({
+        show: false,
+        autofill: true
+      }, {
+        color: 'orange'
+      })
+
+      return enquirer.prompt({
+        type: 'foo',
+        name: 'color',
+        message: 'Favorite color?'
+      })
+      .then(answers => {
+        assert.equal(answers.color, 'orange');
+      });
     });
   });
 
   describe('options.autofill', () => {
-    it('should autofill answers', async () => {
+    it('should autofill answers', () => {
       enquirer = new Enquirer({
         show: false,
         autofill: true
@@ -229,14 +277,14 @@ describe('Enquirer', function() {
         color: 'orange'
       });
 
-      let answers = await enquirer.prompt({
+      return enquirer.prompt({
         type: 'input',
         name: 'color',
         message: 'Favorite color?'
+      })
+      .then(answers => {
+        assert.equal(answers.color, 'orange');
       });
-
-      assert.equal(answers.color, 'orange');
     });
-
   });
 });
