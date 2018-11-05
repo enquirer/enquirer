@@ -27,6 +27,14 @@ const prompt = new Prompt({
       prefix() {
         return prompt.symbols.check;
       }
+    },
+    {
+      name: 'email',
+      message: 'Email address?',
+      editable: true,
+      prefix() {
+        return prompt.symbols.check;
+      }
     }
   ]
 });
