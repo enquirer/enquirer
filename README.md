@@ -20,6 +20,8 @@
 <sub>>_ Prompts should be more like conversations than inquisitions▌<sub>
 </p>
 
+<br>
+
 <p align="center">
 <img src="https://github.com/enquirer/enquirer/raw/master/media/survey-prompt.gif" alt="Prompts" width="600" />
 </p>
@@ -42,7 +44,7 @@ Enquirer is fast, easy to use, and lightweight enough for small projects, while 
 * **Well tested** - All prompts are well-tested, and tests are easy to create without having to use brittle, hacky solutions to spy on prompts or "inject" values.
 
 <br>
-<hr>
+![divider](media/hr.png)
 <br>
 
 ## ❯ Install
@@ -56,7 +58,7 @@ $ npm install --save enquirer@beta
 _(Requires Node.js 8.6 or higher. Please let us know if you need support for an earlier version by creating an [issue](../../issues/new).)_
 
 <br>
-<hr>
+![divider](media/hr.png)
 <br>
 
 ## ❯ Getting started
@@ -73,7 +75,7 @@ Get started with Enquirer, the most powerful and easy-to-use Node.js library for
 * [Credit](#-credit)
 
 <br>
-<hr>
+![divider](media/hr.png)
 <br>
 
 ## ❯ Usage
@@ -119,8 +121,6 @@ console.log(response);
 //=> { name: 'Edward Chan', username: 'edwardmchan' }
 ```
 
-<br>
-<hr>
 <br>
 
 ## ❯ API
@@ -225,8 +225,29 @@ console.log(response);
 
 ## Prompts
 
-<br>
-<hr>
+* Base Types
+  - ArrayPrompt
+  - BooleanPrompt
+  - DatePrompt (Coming Soon!)
+  - NumberPrompt
+  - StringPrompt
+* Prompt Types
+  - [Autocomplete](#autocomplete)
+  - [Confirm](#confirm)
+  - [Editable](#editable)
+  - [Form](#form)
+  - [Input](#input)
+  - [Invisible](#invisible)
+  - [List](#list)
+  - [Multiselect](#multiselect)
+  - [Number](#number)
+  - [Password](#password)
+  - [Select](#select)
+  - [Snippet](#snippet)
+  - [Sort](#sort)
+  - [Survey](#survey)
+  - `Text` (alias for [Input](#input))
+
 <br>
 
 ## ❯ Options
