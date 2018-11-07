@@ -61,14 +61,12 @@ class Enquirer extends Events {
    * const Enquirer = require('enquirer');
    * const enquirer = new Enquirer();
    *
-   * (async() => {
-   *   const response = await enquirer.prompt({
-   *     type: 'input',
-   *     name: 'username',
-   *     message: 'What is your username?'
-   *   });
-   *   console.log(response);
-   * })();
+   * const response = await enquirer.prompt({
+   *   type: 'input',
+   *   name: 'username',
+   *   message: 'What is your username?'
+   * });
+   * console.log(response);
    * ```
    * @name prompt
    * @param {Array|Object} `questions` Options objects for one or more prompts to run.
@@ -154,23 +152,6 @@ class Enquirer extends Events {
     return this;
   }
 
-  /**
-   * Programmatically cancel all prompts.
-   *
-   * ```js
-   * const Enquirer = require('enquirer');
-   * const enquirer = new Enquirer();
-   *
-   *
-   *
-   * enquirer.use(plugin);
-   * ```
-   * @name use
-   * @param {Function} `plugin` Plugin function that takes an instance of Enquirer.
-   * @return {Object} Returns the Enquirer instance.
-   * @api public
-   */
-
   submit(value, state) {
     this.submitted = true;
     this.emit('submit', value, state);
@@ -214,14 +195,12 @@ class Enquirer extends Events {
    *
    * ```js
    * const { prompt } = require('enquirer');
-   * (async() => {
-   *   const response = await prompt({
-   *     type: 'input',
-   *     name: 'username',
-   *     message: 'What is your username?'
-   *   });
-   *   console.log(response);
-   * })();
+   * const response = await prompt({
+   *   type: 'input',
+   *   name: 'username',
+   *   message: 'What is your username?'
+   * });
+   * console.log(response);
    * ```
    * @name Enquirer#prompt
    * @param {Array|Object} `questions` Options objects for one or more prompts to run.

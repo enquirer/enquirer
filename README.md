@@ -65,7 +65,10 @@ Get started with Enquirer, the most powerful and easy-to-use Node.js library for
 
 * [Usage](#-usage)
 * [API](#-api)
+  - [Enquirer](#enquirer)
+  - [Prompts](#prompt)
 * [Options](#-options)
+* [Release History](#-release-history)
 * [Performance](#-performance)
 * [Credit](#-credit)
 
@@ -77,7 +80,7 @@ Get started with Enquirer, the most powerful and easy-to-use Node.js library for
 
 ### Single prompt
 
-Pass a [question object](#prompt-options) to run a single prompt.
+The easiest way to get started with enquirer is to pass a [question object](#prompt-options) to the `prompt` method.
 
 ```js
 const { prompt } = require('enquirer');
@@ -156,7 +159,7 @@ const enquirer = new Enquirer();
 enquirer.register('customType', require('./custom-prompt'));
 ```
 
-### [prompt](index.js#L79)
+### [prompt](index.js#L77)
 
 Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
@@ -171,17 +174,15 @@ Prompt function that takes a "question" object or array of question objects, and
 const Enquirer = require('enquirer');
 const enquirer = new Enquirer();
 
-(async() => {
-  const response = await enquirer.prompt({
-    type: 'input',
-    name: 'username',
-    message: 'What is your username?'
-  });
-  console.log(response);
-})();
+const response = await enquirer.prompt({
+  type: 'input',
+  name: 'username',
+  message: 'What is your username?'
+});
+console.log(response);
 ```
 
-### [use](index.js#L152)
+### [use](index.js#L150)
 
 Use an enquirer plugin.
 
@@ -201,25 +202,7 @@ const plugin = enquirer => {
 enquirer.use(plugin);
 ```
 
-### [use](index.js#L174)
-
-Programmatically cancel all prompts.
-
-**Params**
-
-* `plugin` **{Function}**: Plugin function that takes an instance of Enquirer.
-* `returns` **{Object}**: Returns the Enquirer instance.
-
-**Example**
-
-```js
-const Enquirer = require('enquirer');
-const enquirer = new Enquirer();
-
-enquirer.use(plugin);
-```
-
-### [Enquirer#prompt](index.js#L232)
+### [Enquirer#prompt](index.js#L211)
 
 Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
@@ -232,17 +215,15 @@ Prompt function that takes a "question" object or array of question objects, and
 
 ```js
 const { prompt } = require('enquirer');
-(async() => {
-  const response = await prompt({
-    type: 'input',
-    name: 'username',
-    message: 'What is your username?'
-  });
-  console.log(response);
-})();
+const response = await prompt({
+  type: 'input',
+  name: 'username',
+  message: 'What is your username?'
+});
+console.log(response);
 ```
 
-## Prompt API
+## Prompts
 
 <br>
 <hr>
@@ -313,6 +294,10 @@ Choice {
 | `value`       | `string`   | An optional value to associate with the choice. This is useful for creating key-value pairs from user choices. |
 | `hint`        | `string`   | Value to display to provide user help next to a choice. |
 | `disabled`    | `boolean\|string` | Disable a choice so that it cannot be selected. This value may either be `true`, `false`, or a message to display. |
+
+## ❯ Release History
+
+Please see [CHANGELOG.md](CHANGELOG.md).
 
 ## ❯ Performance
 
