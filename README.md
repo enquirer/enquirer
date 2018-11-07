@@ -473,6 +473,8 @@ These key combinations may be used on prompts that support _multiple_ choices, s
 
 ### Hide/show choices
 
+| **command** | **description** |
+| --- | --- |
 | <kbd>fn</kbd>+<kbd>up</kbd> | Decrease the number of visible choices by one. |
 | <kbd>fn</kbd>+<kbd>down</kbd> | Increase the number of visible choices by one. |
 
