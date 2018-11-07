@@ -5,9 +5,12 @@ const prompt = new Prompt({
   initial: 'b',
   limit: 8,
   symbols: { check: '$' },
-  choices: {
-    foo: ['a', 'b', { name: 'c', disabled: true }]
-  }
+  choices: [
+    {
+      name: 'foo',
+      choices: ['a', 'b', { name: 'c', disabled: true }]
+    }
+  ]
 });
 
 prompt.run()

@@ -455,7 +455,7 @@ describe('array prompt', function() {
         });
       });
 
-      it('should select the choice at the current index', () => {
+      it.skip('should select the choice at the current index', () => {
         return create({}, prompt => {
           prompt.number(0);
           prompt.number(1);

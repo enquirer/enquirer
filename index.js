@@ -238,7 +238,7 @@ class Enquirer extends Events {
         return emit(...args);
       };
       return enquirer.prompt(questions);
-    }
+    };
     utils.mixinEmitter(fn, new Events());
     return fn;
   }

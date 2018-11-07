@@ -4,43 +4,29 @@ const prompt = new Prompt({
   message: 'Please provide the following information:',
   choices: [
     {
-      name: 'author',
-      role: 'heading',
-      choices: [
-        {
-          name: 'firstname',
-          message: 'First Name',
-          initial: 'Jon',
-          editable: true,
-          prefix() {
-            return prompt.symbols.check;
-          }
-        },
-        {
-          name: 'lastname',
-          message: 'Last Name',
-          initial: 'Schlinkert',
-          prefix() {
-            return prompt.symbols.check;
-          }
-        },
-        {
-          name: 'username',
-          message: 'GitHub username',
-          initial: 'jonschlinkert',
-          prefix() {
-            return prompt.symbols.check;
-          }
-        },
-        {
-          name: 'email',
-          message: 'Email address?',
-          editable: true,
-          prefix() {
-            return prompt.symbols.check;
-          }
+      name: 'firstname',
+      message: 'First Name',
+      initial: 'Jon',
+      editable: true
+    },
+    {
+      name: 'lastname',
+      message: 'Last Name',
+      initial: 'Schlinkert',
+      editable: true
+    },
+    {
+      name: 'email',
+      message: 'Email address?',
+      editable: true,
+      validate(value, state) {
+        if (value && !value.includes('@sellside.com')) {
+          this.error = 'Invalid email address';
+          return false;
         }
-      ]
+        this.error = void 0;
+        return true;
+      }
     }
   ]
 });

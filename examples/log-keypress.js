@@ -9,13 +9,9 @@ const yosay = require('yosay');
  * then scroll to a visible choice with an index of greater than 5.
  */
 
-let header = () => {
-  let dude = yosay('Welcome to my awesome generator!');
-  if (this.index > 5) {
-    dude = dude.replace('_\u001b[33m´U`\u001b[39m_', '@\u001b[33m´U`\u001b[39m@');
-    dude = dude.replace('~', 'O');
-  }
-  return !this.answered ? dude + '\n' : '';
+let timeout;
+const press = str => {
+  return colors.bold(colors.red('<') + str + colors.red('>'));
 };
 
 const prompt = new Prompt({
@@ -24,6 +20,31 @@ const prompt = new Prompt({
   message: 'Pick your favorite colors',
   hint: '(Use <space> to select, <return> to submit)',
   limit: 6,
+  header() {
+    let key = prompt.state.keypress;
+    let dude = yosay('Welcome to my awesome generator!');
+    let keypress = '';
+    clearTimeout(timeout);
+
+    if (prompt.index > 5) {
+      dude = dude.replace('_\u001b[33m´U`\u001b[39m_', '@\u001b[33m´U`\u001b[39m@');
+      dude = dude.replace('~', 'O');
+    }
+
+    if (key) {
+      if (key.shift) keypress = press('shift') + colors.bold('+');
+      if (key.ctrl) keypress = press('ctrl') + colors.bold('+');
+      keypress += press(key.name);
+    }
+
+    timeout = setTimeout(async() => {
+      prompt.state.keypress = '';
+      await prompt.render();
+    }, 300);
+    prompt.on('close', () => clearTimeout(timeout));
+
+    return !prompt.state.answered ? dude + keypress + '\n' : '';
+  },
   pointer(state, choice, i) {
     return (state.index === i ? state.symbols.pointer : ' ') + ' ';
   },
@@ -47,22 +68,22 @@ const prompt = new Prompt({
   ]
 });
 
-const press = str => {
-  return colors.bold(colors.red('<') + str + colors.red('>'));
-};
+// prompt.on('keypress', async (ch, key) => {
+//   let keypress = '';
+//   if (key.shift) keypress = press('shift') + colors.bold('+');
+//   if (key.ctrl) keypress = press('ctrl') + colors.bold('+');
+//   keypress += press(key.name);
 
-prompt.on('keypress', (ch, key) => {
-  let keypress = '';
-  if (key.shift) keypress = press('shift') + colors.bold('+');
-  if (key.ctrl) keypress = press('ctrl') + colors.bold('+');
-  keypress += press(key.name);
-
-  prompt.state.header = header() + keypress + '\n';
-  prompt.render();
-});
+//   if (!prompt.state.submitted) {
+//     prompt.state.header = header() + keypress + '\n';
+//   } else {
+//     prompt.state.header = '';
+//   }
+//   await prompt.render();
+// });
 
 prompt.run()
   .then(names => {
-    console.log('Answer:', header());
+    console.log('Answer:', names);
   })
   .catch(console.error);
