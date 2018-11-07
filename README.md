@@ -1,10 +1,16 @@
-# enquirer [![NPM version](https://img.shields.io/npm/v/enquirer.svg?style=flat)](https://www.npmjs.com/package/enquirer) [![NPM monthly downloads](https://img.shields.io/npm/dm/enquirer.svg?style=flat)](https://npmjs.org/package/enquirer) [![NPM total downloads](https://img.shields.io/npm/dt/enquirer.svg?style=flat)](https://npmjs.org/package/enquirer) [![Linux Build Status](https://img.shields.io/travis/enquirer/enquirer.svg?style=flat&label=Travis)](https://travis-ci.org/enquirer/enquirer)
-
-> Stylish, intuitive and user-friendly prompt system. Fast and lightweight enough for small projects, powerful and extensible enough for the most advanced use cases.
-
-Please consider following this project's author, [Jon Schlinkert](https://github.com/jonschlinkert), and consider starring the project to show your :heart: and support.
-
 <h1 align="center">Enquirer</h1>
+
+<p align="center">
+<a href="https://npmjs.org/package/enquirer">
+<img src="https://img.shields.io/npm/v/enquirer.svg" alt="version">
+</a>
+<a href="https://travis-ci.org/enquirer/enquirer">
+<img src="https://img.shields.io/travis/enquirer/enquirer.svg" alt="travis">
+</a>
+<a href="https://npmjs.org/package/enquirer">
+<img src="https://img.shields.io/npm/dm/enquirer.svg" alt="downloads">
+</a>
+</p>
 
 <br>
 <br>
@@ -30,16 +36,6 @@ Enquirer is fast, easy to use, and lightweight enough for small projects, while 
 * **Stylish** - Easily override styles and symbols for any part of the prompt.
 * **Validation** - Optionally validate user input with any prompt.
 * **Well tested** - All prompts are well-tested, and tests are easy to create without having to use brittle, hacky solutions to spy on prompts or "inject" values.
-
-<br>
-<hr>
-<br>
-
-## ❯ Beta release!!!
-
-We're extremely excited to announce that we've published Enquirer 2.0.0 as a beta release to [npm](https://www.npmjs.com/package/enquirer/v/beta). To use the beta version see the [installation instructions below](#-install).
-
-This documentation is for the beta, which means we're still working on documenting everything, creating [examples](./examples), and having fun writing [recipes](./recipes) to demonstrate how [prompts](#prompt-api) can be extended and customized. If you'd like to contribute to any of these, please feel free to open an [issue](https://github.com/enquirer/enquirer/issues/new) for discussion or [pull request](https://github.com/enquirer/enquirer/pulls) with your changes. We are also looking for technical writers to help with writing more detailed user and developer documentation, tutorials, and blog posts about Enquirer 2 and all of the awesome features that are available.
 
 <br>
 <hr>
@@ -250,10 +246,6 @@ const { prompt } = require('enquirer');
 
 ## ❯ Options
 
-### Enquirer options
-
-TODO
-
 ### Prompt options
 
 Each prompt takes an options object (aka "question" object), that implements the following interface:
@@ -265,20 +257,22 @@ Each prompt takes an options object (aka "question" object), that implements the
   message: string | function | async function,
   initial: string | function | async function
   format: function | async function,
-  answer: function | async function,
+  result: function | async function,
   validate: function | async function
 }
 ```
 
 | **Property** | **Type** | **Description** |
 | --- | --- | --- |
-| `type` (required) | `string`, `function` | Enquirer uses this value to determine the type of prompt to run, but it's optional when prompts are run directly. |
-| `name` (required) | `string`, `function` | Used as the key for the answer on the returned values (answers) object. |
-| `message` (required) | `string`, `function` | The message to display when the prompt is rendered in the terminal. |
-| `initial` (optional) | `string`, `function` | The default value to return if the user does not supply a value. |
-| `format` (optional) | `function` | Function to format user input in the terminal. |
-| `result` (optional) | `function` | Function to format the final, submitted value before it's returned. |
-| `validate` (optional) | `function` | Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message. |
+| `type` | `string\|function` | Enquirer uses this value to determine the type of prompt to run, but it's optional when prompts are run directly. |
+| `name` | `string\|function` | Used as the key for the answer on the returned values (answers) object. |
+| `message` | `string\|function` | The message to display when the prompt is rendered in the terminal. |
+| `initial` | `string\|function` | The default value to return if the user does not supply a value. |
+| `format` | `function` | Function to format user input in the terminal. |
+| `result` | `function` | Function to format the final submitted value before it's returned. |
+| `validate` | `function` | Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message. |
+
+_(`type`, `name` and `message` are required)._
 
 **Example**
 
@@ -305,21 +299,16 @@ Choice {
   value: string | undefined;
   hint: string | undefined;
   disabled: boolean | string | undefined;
-  enabled: boolean | undefined;
 }
 ```
 
 | **Property**  | **Type**   | **Description**  |
 | --- | --- | --- |
-| `name`        | `string`   | The unique id for a choice |
-| `message`     | `string`   | The message to display  |
-| `value`       | `string`   | The value to return if the choice is selected |
-| `alias`       | `string`   | Single character to use when keypress shortcuts are supported |
-| `hint`        | `string`   |  |
-| `error`       | `string`   |  |
-| `disabled`    | `boolean`  |  |
-| `separator`   | `boolean`  |  |
-| `selected`    | `boolean`  |  |
+| `name`        | `string`   | The unique key to identify a choice |
+| `message`     | `string`   | The message to display in the terminal |
+| `value`       | `string`   | An optional value to associate with the choice. This is useful for creating key-value pairs from user choices. |
+| `hint`        | `string`   | Value to display to provide user help next to a choice. |
+| `disabled`    | `boolean\|string` | Disable a choice so that it cannot be selected. This value may either be `true`, `false`, or a message to display. |
 
 ## ❯ Performance
 
@@ -393,7 +382,3 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 
 Copyright © 2018, [Jon Schlinkert](https://github.com/jonschlinkert).
 Released under the [MIT License](LICENSE).
-
-***
-
-_This file was generated by [verb-generate-readme](https://github.com/verbose/verb-generate-readme), v0.8.0, on November 04, 2018._
