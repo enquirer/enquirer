@@ -45,6 +45,20 @@ Enquirer is fast, easy to use, and lightweight enough for small projects, while 
 
 <br>
 
+## ❯ Table of Contents
+
+* [Install](#install)
+* [Getting started](#getting-started)
+* [Usage](#usage)
+* [Enquirer API](#enquirer-api)
+* [Prompts](#prompts)
+* [Types](#types)
+* [Keypresses](#keypresses)
+* [Options](#options)
+* [Release History](#release-history)
+* [Performance](#performance)
+* [About](#about)
+
 ## ❯ Install
 
 Install with [npm](https://www.npmjs.com/):
