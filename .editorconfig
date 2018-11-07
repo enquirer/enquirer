@@ -1,13 +1,13 @@
+# http://editorconfig.org/
 root = true
 
 [*]
-indent_style = space
-end_of_line = lf
 charset = utf-8
+end_of_line = lf
 indent_size = 2
-trim_trailing_whitespace = true
+indent_style = space
 insert_final_newline = true
+trim_trailing_whitespace = true
 
-[{**/{actual,fixtures,expected,templates}/**,*.md}]
+[*.md]
 trim_trailing_whitespace = false
-insert_final_newline = false

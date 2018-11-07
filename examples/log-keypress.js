@@ -1,0 +1,68 @@
+const Prompt = require('../lib/prompts/multiselect');
+const colors = require('ansi-colors');
+const yosay = require('yosay');
+
+/**
+ * Example of creating a silly easter egg for users
+ *
+ * To see the easter egg, use `<fn>+<down>` or (`<Page Down>` on windows)
+ * then scroll to a visible choice with an index of greater than 5.
+ */
+
+let header = () => {
+  let dude = yosay('Welcome to my awesome generator!');
+  if (this.index > 5) {
+    dude = dude.replace('_\u001b[33m´U`\u001b[39m_', '@\u001b[33m´U`\u001b[39m@');
+    dude = dude.replace('~', 'O');
+  }
+  return !this.answered ? dude + '\n' : '';
+};
+
+const prompt = new Prompt({
+  type: 'multiselect',
+  name: 'colors',
+  message: 'Pick your favorite colors',
+  hint: '(Use <space> to select, <return> to submit)',
+  limit: 6,
+  pointer(state, choice, i) {
+    return (state.index === i ? state.symbols.pointer : ' ') + ' ';
+  },
+  choices: [
+    { name: 'aqua',    value: '#00ffff' },
+    { name: 'black',   value: '#000000' },
+    { name: 'blue',    value: '#0000ff', hint: '(this is a choice hint)' },
+    { name: 'fuchsia', value: '#ff00ff' },
+    { name: 'gray',    value: '#808080' },
+    { name: 'green',   value: '#008000' },
+    { name: 'lime',    value: '#00ff00' },
+    { name: 'maroon',  value: '#800000' },
+    { name: 'navy',    value: '#000080' },
+    { name: 'olive',   value: '#808000' },
+    { name: 'purple',  value: '#800080' },
+    { name: 'red',     value: '#ff0000' },
+    { name: 'silver',  value: '#c0c0c0' },
+    { name: 'teal',    value: '#008080' },
+    { name: 'white',   value: '#ffffff' },
+    { name: 'yellow',  value: '#ffff00' }
+  ]
+});
+
+const press = str => {
+  return colors.bold(colors.red('<') + str + colors.red('>'));
+};
+
+prompt.on('keypress', (ch, key) => {
+  let keypress = '';
+  if (key.shift) keypress = press('shift') + colors.bold('+');
+  if (key.ctrl) keypress = press('ctrl') + colors.bold('+');
+  keypress += press(key.name);
+
+  prompt.state.header = header() + keypress + '\n';
+  prompt.render();
+});
+
+prompt.run()
+  .then(names => {
+    console.log('Answer:', header());
+  })
+  .catch(console.error);

@@ -1,12 +1,12 @@
 'use strict';
 
-var path = require('path');
-var prompt = require('helper-prompt');
-var sitemap = require('assemble-sitemaps');
-var pageData = require('assemble-middleware-page-variable');
-var geopattern = require('helper-geopattern');
-var helpers = require('handlebars-helpers');
-var Store = require('data-store');
+const path = require('path');
+const prompt = require('helper-prompt');
+const sitemap = require('assemble-sitemaps');
+const pageData = require('assemble-middleware-page-variable');
+const geopattern = require('helper-geopattern');
+const helpers = require('handlebars-helpers');
+const Store = require('data-store');
 
 /**
  * Configuration for assemblefile.js. Includes:
@@ -16,22 +16,20 @@ var Store = require('data-store');
  * - data
  */
 
-module.exports = function(app, cwd) {
+module.exports = (app, cwd) => {
   app.cwd = path.resolve(cwd, '..');
 
   /**
    * Listen for errors
    */
 
-  app.on('error', function(err) {
-    console.log(err);
-  });
+  app.on('error', console.error);
 
   /**
    * Build paths
    */
 
-  var paths = {};
+  const paths = {};
   paths.src = path.join.bind(path, cwd, 'src');
   paths.dest = path.join.bind(path, cwd, '../docs');
   paths.assets = path.join.bind(path, paths.dest('assets'));

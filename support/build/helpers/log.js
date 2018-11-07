@@ -5,8 +5,7 @@
  * built-in {{log}} helper. for now this works
  */
 
-module.exports = function() {
-  var args = [].slice.call(arguments);
-  args.pop();
-  console.log.apply(console, args);
+module.exports = (...args) => {
+  args.pop(); // remove "options" from args
+  console.log(...args);
 };

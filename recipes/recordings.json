@@ -1,0 +1,471 @@
+{
+  "flavor": [
+    {
+      "keypress": [
+        "a",
+        {
+          "name": "a",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "a",
+          "raw": "a"
+        }
+      ],
+      "interval": 1366
+    },
+    {
+      "keypress": [
+        "l",
+        {
+          "name": "l",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "l",
+          "raw": "l"
+        }
+      ],
+      "interval": 205
+    },
+    {
+      "keypress": [
+        "m",
+        {
+          "name": "m",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "m",
+          "raw": "m"
+        }
+      ],
+      "interval": 231
+    },
+    {
+      "keypress": [
+        "",
+        {
+          "name": "backspace",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "",
+          "raw": "",
+          "action": "delete"
+        }
+      ],
+      "interval": 545
+    },
+    {
+      "keypress": [
+        "",
+        {
+          "name": "backspace",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "",
+          "raw": "",
+          "action": "delete"
+        }
+      ],
+      "interval": 159
+    },
+    {
+      "keypress": [
+        "",
+        {
+          "name": "backspace",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "",
+          "raw": "",
+          "action": "delete"
+        }
+      ],
+      "interval": 136
+    },
+    {
+      "keypress": [
+        "undefined",
+        {
+          "name": "down",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "\u001b[B",
+          "raw": "",
+          "code": "[B",
+          "action": "down"
+        }
+      ],
+      "interval": 977
+    },
+    {
+      "keypress": [
+        "undefined",
+        {
+          "name": "down",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "\u001b[B",
+          "raw": "",
+          "code": "[B",
+          "action": "down"
+        }
+      ],
+      "interval": 167
+    },
+    {
+      "keypress": [
+        "undefined",
+        {
+          "name": "down",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "\u001b[B",
+          "raw": "",
+          "code": "[B",
+          "action": "down"
+        }
+      ],
+      "interval": 136
+    },
+    {
+      "keypress": [
+        "undefined",
+        {
+          "name": "down",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "\u001b[B",
+          "raw": "",
+          "code": "[B",
+          "action": "down"
+        }
+      ],
+      "interval": 176
+    },
+    {
+      "keypress": [
+        "undefined",
+        {
+          "name": "down",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "\u001b[B",
+          "raw": "",
+          "code": "[B",
+          "action": "down"
+        }
+      ],
+      "interval": 120
+    },
+    {
+      "keypress": [
+        "undefined",
+        {
+          "name": "down",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "\u001b[B",
+          "raw": "",
+          "code": "[B",
+          "action": "down"
+        }
+      ],
+      "interval": 168
+    },
+    {
+      "keypress": [
+        "undefined",
+        {
+          "name": "down",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "\u001b[B",
+          "raw": "",
+          "code": "[B",
+          "action": "down"
+        }
+      ],
+      "interval": 144
+    },
+    {
+      "keypress": [
+        "undefined",
+        {
+          "name": "down",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "\u001b[B",
+          "raw": "",
+          "code": "[B",
+          "action": "down"
+        }
+      ],
+      "interval": 157
+    },
+    {
+      "keypress": [
+        "undefined",
+        {
+          "name": "down",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "\u001b[B",
+          "raw": "",
+          "code": "[B",
+          "action": "down"
+        }
+      ],
+      "interval": 139
+    },
+    {
+      "keypress": [
+        "undefined",
+        {
+          "name": "down",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "\u001b[B",
+          "raw": "",
+          "code": "[B",
+          "action": "down"
+        }
+      ],
+      "interval": 159
+    },
+    {
+      "keypress": [
+        "undefined",
+        {
+          "name": "down",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "\u001b[B",
+          "raw": "",
+          "code": "[B",
+          "action": "down"
+        }
+      ],
+      "interval": 144
+    },
+    {
+      "keypress": [
+        "undefined",
+        {
+          "name": "down",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "\u001b[B",
+          "raw": "",
+          "code": "[B",
+          "action": "down"
+        }
+      ],
+      "interval": 144
+    },
+    {
+      "keypress": [
+        "undefined",
+        {
+          "name": "down",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "\u001b[B",
+          "raw": "",
+          "code": "[B",
+          "action": "down"
+        }
+      ],
+      "interval": 153
+    },
+    {
+      "keypress": [
+        "s",
+        {
+          "name": "s",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "s",
+          "raw": "s"
+        }
+      ],
+      "interval": 1320
+    },
+    {
+      "keypress": [
+        "",
+        {
+          "name": "backspace",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "",
+          "raw": "",
+          "action": "delete"
+        }
+      ],
+      "interval": 912
+    },
+    {
+      "keypress": [
+        "w",
+        {
+          "name": "w",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "w",
+          "raw": "w"
+        }
+      ],
+      "interval": 1088
+    },
+    {
+      "keypress": [
+        "a",
+        {
+          "name": "a",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "a",
+          "raw": "a"
+        }
+      ],
+      "interval": 200
+    },
+    {
+      "keypress": [
+        "",
+        {
+          "name": "backspace",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "",
+          "raw": "",
+          "action": "delete"
+        }
+      ],
+      "interval": 552
+    },
+    {
+      "keypress": [
+        "",
+        {
+          "name": "backspace",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "",
+          "raw": "",
+          "action": "delete"
+        }
+      ],
+      "interval": 104
+    },
+    {
+      "keypress": [
+        "v",
+        {
+          "name": "v",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "v",
+          "raw": "v"
+        }
+      ],
+      "interval": 152
+    },
+    {
+      "keypress": [
+        "a",
+        {
+          "name": "a",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "a",
+          "raw": "a"
+        }
+      ],
+      "interval": 104
+    },
+    {
+      "keypress": [
+        "n",
+        {
+          "name": "n",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "n",
+          "raw": "n"
+        }
+      ],
+      "interval": 376
+    },
+    {
+      "keypress": [
+        "\r",
+        {
+          "name": "return",
+          "ctrl": false,
+          "meta": false,
+          "shift": false,
+          "option": false,
+          "sequence": "\r",
+          "action": "submit"
+        }
+      ],
+      "interval": 545
+    }
+  ]
+}
