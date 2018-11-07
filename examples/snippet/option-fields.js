@@ -8,7 +8,7 @@ const prompt = new Prompt({
       name: 'name',
       message: 'Project Name',
       validate(value) {
-        return value !== 'foo';
+        return value === 'foo' ? 'Invalid: cannot use "foo"' : true;
       }
     },
     {
@@ -19,13 +19,13 @@ const prompt = new Prompt({
       name: 'keywords',
       message: 'Keywords (comma separated)',
       result(value) {
-        return JSON.stringify(value.split(','));
+        return value ? JSON.stringify(value.split(',')) : [];
       }
     },
     {
       name: 'license',
       validate(value) {
-        return value !== 'MIT';
+        return value === 'MIT';
       }
     }
   ],
@@ -42,7 +42,7 @@ const prompt = new Prompt({
   "engines": {
     "node": ">=4"
   },
-  "license": "\${license:MIT}",
+  "license": "\${license:ISC}",
   "scripts": {
     "test": "mocha"
   },

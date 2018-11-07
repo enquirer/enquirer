@@ -1,6 +1,6 @@
 const colors = require('ansi-colors');
-const Prompt = require('../lib/prompts/select');
-const symbols = require('../lib/symbols');
+const Prompt = require('../../lib/prompts/select');
+const symbols = require('../../lib/symbols');
 const emoji = { pending: '🎃', cancelled: '⚰️ ', submitted: '💀' };
 const halloween = {
   styles: {
@@ -9,7 +9,7 @@ const halloween = {
   },
   symbols: {
     radio: {
-      on: state => ['🍬', '🍎', '👄', '🖕'][state.index],
+      on: state => ['🍬 ', '🍎 ', '👄 ', '🖕 '][state.index],
       off: '  '
     }
   },
@@ -39,5 +39,8 @@ const prompt = new Prompt({
 });
 
 prompt.run()
-  .then(answer => console.log('Answer:', answer))
+  .then(key => {
+    let choice = prompt.choices.find(ch => ch.name === key);
+    console.log('answer:', { [key]: choice.value })
+  })
   .catch(err => console.error('Cancelled'));

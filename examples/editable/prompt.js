@@ -7,33 +7,25 @@ const prompt = new Prompt({
       name: 'firstname',
       message: 'First Name',
       initial: 'Jon',
-      editable: true,
-      prefix() {
-        return prompt.symbols.check;
-      }
+      editable: true
     },
     {
       name: 'lastname',
       message: 'Last Name',
       initial: 'Schlinkert',
-      prefix() {
-        return prompt.symbols.check;
-      }
-    },
-    {
-      name: 'username',
-      message: 'GitHub username',
-      initial: 'jonschlinkert',
-      prefix() {
-        return prompt.symbols.check;
-      }
+      editable: true
     },
     {
       name: 'email',
       message: 'Email address?',
       editable: true,
-      prefix() {
-        return prompt.symbols.check;
+      validate(value, state) {
+        if (value && !value.includes('@sellside.com')) {
+          this.error = 'Invalid email address';
+          return false;
+        }
+        this.error = void 0;
+        return true;
       }
     }
   ]

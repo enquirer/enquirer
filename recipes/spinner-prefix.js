@@ -3,7 +3,7 @@ const colors = require('ansi-colors');
 const spinners = require('cli-spinners');
 
 let index = 0;
-let step = 50;
+let step = 10;
 const keys = Object.keys(spinners);
 // const frames = spinners.dots.frames;
 const ele = (arr, i) => arr[i % arr.length];
@@ -23,7 +23,7 @@ const styles = repeat(colors.keys.color, 3);
 const prompt = new Prompt({
   name: 'example-groups',
   message: 'What are your favorite colors?',
-  choices: ['Foo', 'Bar', 'Baz'],
+  choices: ['Alabaster', 'Beige', 'Orange', 'Red', 'Blue', 'Green', 'Purple', 'Mauve', 'Bicycle Yellow', 'Corduroy'],
   symbols: {
     prefix: frame(0)
   }
