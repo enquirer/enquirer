@@ -5,5 +5,5 @@ const prompt = new Prompt({
 });
 
 prompt.run()
-  .then(answer => console.log('Answer:', [answer]))
+  .then(answer => console.log('Answer:', { secret: answer }))
   .catch(console.error);

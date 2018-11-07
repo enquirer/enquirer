@@ -5,8 +5,8 @@ const prompt = new Prompt({
   initial: ['dependencies'],
   symbols: { indicator: '$' },
   choices: [
-    { name: 'dependencies', choices: ['kind-of', 'picomatch'] },
-    { name: 'devDependencies', choices: ['ansi-colors', 'mocha'] }
+    { name: 'dependencies', choices: ['ansi-colors', 'enquirer', 'picomatch'] },
+    { name: 'devDependencies', choices: ['kind-of', ''] }
   ]
 });
 
