@@ -43,9 +43,7 @@ Enquirer is fast, easy to use, and lightweight enough for small projects, while 
 * **Validation** - Optionally validate user input with any prompt.
 * **Well tested** - All prompts are well-tested, and tests are easy to create without having to use brittle, hacky solutions to spy on prompts or "inject" values.
 
-<br>
 ![divider](media/hr.png)
-<br>
 
 ## ❯ Install
 
@@ -57,9 +55,7 @@ $ npm install --save enquirer@beta
 
 _(Requires Node.js 8.6 or higher. Please let us know if you need support for an earlier version by creating an [issue](../../issues/new).)_
 
-<br>
 ![divider](media/hr.png)
-<br>
 
 ## ❯ Getting started
 
@@ -74,9 +70,7 @@ Get started with Enquirer, the most powerful and easy-to-use Node.js library for
 * [Performance](#-performance)
 * [Credit](#-credit)
 
-<br>
 ![divider](media/hr.png)
-<br>
 
 ## ❯ Usage
 
@@ -121,7 +115,7 @@ console.log(response);
 //=> { name: 'Edward Chan', username: 'edwardmchan' }
 ```
 
-<br>
+![divider](media/hr.png)
 
 ## ❯ API
 
@@ -248,7 +242,7 @@ console.log(response);
   - [Survey](#survey)
   - `Text` (alias for [Input](#input))
 
-<br>
+![divider](media/hr.png)
 
 ## ❯ Options
 
@@ -316,6 +310,8 @@ Choice {
 | `hint`        | `string`   | Value to display to provide user help next to a choice. |
 | `disabled`    | `boolean\|string` | Disable a choice so that it cannot be selected. This value may either be `true`, `false`, or a message to display. |
 
+![divider](media/hr.png)
+
 ## ❯ Release History
 
 Please see [CHANGELOG.md](CHANGELOG.md).
@@ -334,11 +330,9 @@ inquirer: 286.717ms
 prompts: 17.010ms
 ```
 
-## ❯ Credit
+![divider](media/hr.png)
 
-Thanks to [derhuerst](https://github.com/derhuerst), creator of prompt libraries such as [prompt-skeleton](https://github.com/derhuerst/prompt-skeleton), which influenced some of the concepts we used in our prompts.
-
-## About
+## ❯ About
 
 <details>
 <summary><strong>Contributing</strong></summary>
@@ -387,6 +381,10 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 * [GitHub Profile](https://github.com/jonschlinkert)
 * [Twitter Profile](https://twitter.com/jonschlinkert)
 * [LinkedIn Profile](https://linkedin.com/in/jonschlinkert)
+
+### Credit
+
+Thanks to [derhuerst](https://github.com/derhuerst), creator of prompt libraries such as [prompt-skeleton](https://github.com/derhuerst/prompt-skeleton), which influenced some of the concepts we used in our prompts.
 
 ### License
 
