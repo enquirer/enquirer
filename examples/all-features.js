@@ -12,13 +12,13 @@ const prompt = new Prompt({
   message: 'Pick your favorite colors',
   hint: '(Use <space> to select, <return> to submit)',
   header: yosay('Welcome to my awesome generator!'),
+  pointer(state, choice, i) {
+    return (state.index === i ? state.symbols.pointer : ' ') + ' ';
+  },
   footer(state) {
     if (state.limit < state.choices.length) {
       return colors.dim('(Scroll up and down to reveal more choices)');
     }
-  },
-  pointer(state, choice, i) {
-    return (state.index === i ? state.symbols.pointer : ' ') + ' ';
   },
   limit: 6,
   choices: [
