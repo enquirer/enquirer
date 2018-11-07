@@ -47,17 +47,17 @@ Enquirer is fast, easy to use, and lightweight enough for small projects, while 
 
 ## ❯ Table of Contents
 
-* [Install](#install)
-* [Getting started](#getting-started)
-* [Usage](#usage)
-* [Enquirer API](#enquirer-api)
-* [Prompts](#prompts)
-* [Types](#types)
-* [Keypresses](#keypresses)
-* [Options](#options)
-* [Release History](#release-history)
-* [Performance](#performance)
-* [About](#about)
+* [Install](#-install)
+* [Getting started](#-getting-started)
+* [Usage](#-usage)
+* [Enquirer API](#-enquirer-api)
+* [Prompts](#-prompts)
+* [Types](#-types)
+* [Keypresses](#-keypresses)
+* [Options](#-options)
+* [Release History](#-release-history)
+* [Performance](#-performance)
+* [About](#-about)
 
 ## ❯ Install
 
