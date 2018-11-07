@@ -49,9 +49,9 @@ const indicator = (prompt, choice, index, options) => {
       await prompt.render();
     },
     onFail() {
-      choice.hint = prompt.styles.disabled('(cannot resolve choice)');
-      choice.disabled = true;
-      choice.enabled = false;
+      // choice.hint = prompt.styles.disabled('(cannot resolve choice)');
+      // choice.disabled = true;
+      // choice.enabled = true;
     },
     async onStop() {
       clearInterval(choice.colorInt);
@@ -69,7 +69,6 @@ const indicator = (prompt, choice, index, options) => {
 const prompt = new Prompt({
   name: 'example-choice-spinners',
   message: 'What are your favorite colors?',
-  hint: 'Thinking...',
   choices: [
     {
       name: 'Blue',
@@ -82,7 +81,7 @@ const prompt = new Prompt({
       name: 'Red',
       message,
       onChoice(state, choice, i) {
-        indicator(prompt, choice, i, { maxTime: 3000, ...spinners.dots, colorRate: 900 });
+        indicator(prompt, choice, i, { maxTime: 2000, ...spinners.dots, colorRate: 900 });
       }
     },
     {
@@ -101,27 +100,31 @@ const prompt = new Prompt({
       }
     },
     {
-      name: 'Maroon'
+      name: 'Maroon',
+      message,
+      onChoice(state, choice, i) {
+        indicator(prompt, choice, i, { maxTime: 3000, ...spinners.dots, colorRate: 1000 });
+      }
     },
     {
       name: 'Green',
       message,
       onChoice(state, choice, i) {
-        indicator(prompt, choice, i, { maxTime: 6000, ...spinners.dots, colorRate: 2000 });
+        indicator(prompt, choice, i, { maxTime: 5000, ...spinners.dots, colorRate: 2000 });
       }
     },
     {
       name: 'Orange',
       message,
       onChoice(state, choice, i) {
-        indicator(prompt, choice, i, { maxTime: 8000, ...spinners.dots });
+        indicator(prompt, choice, i, { maxTime: 2500, ...spinners.dots, colorRate: 500 });
       }
     },
     {
       name: 'Yellow',
       message,
       onChoice(state, choice, i) {
-        indicator(prompt, choice, i, { maxTime: 9000, ...spinners.dots });
+        indicator(prompt, choice, i, { maxTime: 7000, ...spinners.dots });
       }
     },
     {
@@ -129,14 +132,14 @@ const prompt = new Prompt({
       message,
       hint: 'This is a hint',
       onChoice(state, choice, i) {
-        indicator(prompt, choice, i, { maxTime: 7000, ...spinners.dots });
+        indicator(prompt, choice, i, { maxTime: 1000, ...spinners.dots });
       }
     },
     {
       name: 'Grey',
       message,
       onChoice(state, choice, i) {
-        indicator(prompt, choice, i, { maxTime: 4000, ...spinners.dots });
+        indicator(prompt, choice, i, { maxTime: 3000, ...spinners.dots });
       }
     }
   ]
@@ -156,7 +159,7 @@ const getValue = (prop, value) => {
 };
 
 prompt.once('run', () => {
-  let prefix = getValue('symbols.prefix.pending');
+  let prefix = getValue('symbols.prefix');
   let sep = prompt.symbols.separator;
   let i = 0;
   let j = 0;
@@ -167,7 +170,7 @@ prompt.once('run', () => {
       let symb = colors.cyan(frame(spinners.point.frames, ++i));
       prompt.symbols.prefix.pending = symb;
     } else {
-      prompt.symbols.prefix.pending = prefix;
+      prompt.symbols.prefix = '';
     }
     prompt.render();
   }, 120);
@@ -177,6 +180,7 @@ prompt.once('run', () => {
     if (completing.length) {
       let symb = colors.green(frame(spinners.point.frames, ++j));
       prompt.symbols.separator = symb;
+      prompt.state.hint = 'Thinking...';
     } else {
       prompt.state.hint = 'Ready to go!';
       prompt.symbols.separator = sep;

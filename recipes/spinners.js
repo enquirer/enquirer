@@ -49,9 +49,9 @@ const indicator = (prompt, choice, index, options) => {
       await prompt.render();
     },
     onFail() {
-      choice.hint = prompt.styles.disabled('(cannot resolve choice)');
-      choice.disabled = true;
-      choice.enabled = false;
+      // choice.hint = prompt.styles.disabled('(cannot resolve choice)');
+      // choice.disabled = true;
+      // choice.enabled = false;
     },
     async onStop() {
       clearInterval(choice.colorInt);
