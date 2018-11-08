@@ -233,7 +233,7 @@ console.log(response);
 * [Snippet](#snippet-prompt)
 * [Sort](#sort-prompt)
 * [Survey](#survey-prompt)
-* `Text` (alias for [Input](#input))
+* `Text` (alias for [Input](#input-prompt))
 
 ### AutoComplete Prompt
 
