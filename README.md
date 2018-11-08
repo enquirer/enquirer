@@ -31,7 +31,7 @@
 
 Enquirer is fast, easy to use, and lightweight enough for small projects, while also being powerful and customizable enough for the most advanced use cases.
 
-* **Fast** - [Loads in ~4ms](#performance) (that's about _3-4 times faster than a [single frame of a HD movie](http://www.endmemo.com/sconvert/framespersecondframespermillisecond.php) at 60fps_)
+* **Fast** - [Loads in ~4ms](#-performance) (that's about _3-4 times faster than a [single frame of a HD movie](http://www.endmemo.com/sconvert/framespersecondframespermillisecond.php) at 60fps_)
 * **Lightweight** - Only [one dependency](https://github.com/doowb/ansi-colors).
 * **Easy to use** - Uses promises and async/await to make prompts easy to create and use.
 * **Intuitive** - Navigating around input and choices is a breeze. Advanced keypress combos are available to simplify usage. You can even [record and playback keypresses](recipes/play.js) to aid with tutorials and videos.
