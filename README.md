@@ -29,7 +29,7 @@
 <br>
 <br>
 
-Enquirer is fast, easy to use, and lightweight enough for small projects, while also being powerful and customizable enough for the most advanced use cases.
+Created by [jonschlinkert](https://github.com/jonschlinkert) and [doowb](https://github.com/doowb), Enquirer is fast, easy to use, and lightweight enough for small projects, while also being powerful and customizable enough for the most advanced use cases.
 
 * **Fast** - [Loads in ~4ms](#-performance) (that's about _3-4 times faster than a [single frame of a HD movie](http://www.endmemo.com/sconvert/framespersecondframespermillisecond.php) at 60fps_)
 * **Lightweight** - Only [one dependency](https://github.com/doowb/ansi-colors).
@@ -45,10 +45,11 @@ Enquirer is fast, easy to use, and lightweight enough for small projects, while 
 
 <br>
 
-## ❯ Table of Contents
+## ❯ Getting started
+
+Get started with Enquirer, the most powerful and easy-to-use Node.js library for creating interactive CLI prompts.
 
 * [Install](#-install)
-* [Getting started](#-getting-started)
 * [Usage](#-usage)
 * [Enquirer API](#-enquirer-api)
 * [Prompts](#-prompts)
@@ -59,6 +60,8 @@ Enquirer is fast, easy to use, and lightweight enough for small projects, while 
 * [Performance](#-performance)
 * [About](#-about)
 
+<br>
+
 ## ❯ Install
 
 Install with [npm](https://www.npmjs.com/):
@@ -68,20 +71,6 @@ $ npm install --save enquirer
 ```
 
 _(Requires Node.js 8.6 or higher. Please let us know if you need support for an earlier version by creating an [issue](../../issues/new).)_
-
-<br>
-
-## ❯ Getting started
-
-Get started with Enquirer, the most powerful and easy-to-use Node.js library for creating interactive CLI prompts.
-
-* [Usage](#-usage)
-* [Enquirer](#enquirer)
-* [Prompts](#prompt)
-* [Options](#-options)
-* [Release History](#-release-history)
-* [Performance](#-performance)
-* [Credit](#-credit)
 
 <br>
 
@@ -440,7 +429,7 @@ todo
 Key combinations that may be used with all prompts.
 
 | **command** | **description** |
-| --- | --- |
+| ---: | --- |
 | <kbd>ctrl</kbd>+<kbd>a</kdb> | Move the cursor to the first character in user input. |
 | <kbd>ctrl</kbd>+<kbd>c</kbd> | Cancel the prompt. |
 | <kbd>ctrl</kbd>+<kbd>g</kdb> | Reset the prompt to its initial state. |
@@ -450,7 +439,7 @@ Key combinations that may be used with all prompts.
 Key combinations that may be used on prompts that support user input, such as the [input prompt](#input-prompt), [password prompt](#password-prompt), and [invisible prompt](#invisible-prompt)).
 
 | **command** | **description** |
-| --- | --- |
+| ---: | --- |
 | <kbd>left</kbd> | Move the cursor forward one character. |
 | <kbd>right</kbd> | Move the cursor back one character. |
 | <kbd>ctrl</kbd>+<kbd>a</kbd> | Move cursor to the start of the line |
@@ -464,7 +453,7 @@ Key combinations that may be used on prompts that support user input, such as th
 These key combinations may be used on prompts that support _multiple_ choices, such as the [multiselect prompt](#multiselect-prompt), or the [select prompt](#select-prompt) when the `multiple` options is true.
 
 | **command** | **description** |
-| --- | --- |
+| ---: | --- |
 | <kbd>space</kbd> | Toggle the currently selected choice when `options.multiple` is true. |
 | <kbd>number</kbd> | Move the pointer to the choice at the given index. Also toggles the selected choice when `options.multiple` is true. |
 | <kbd>a</kbd> | Toggle all choices to be enabled or disabled. |
@@ -474,14 +463,14 @@ These key combinations may be used on prompts that support _multiple_ choices, s
 ### Hide/show choices
 
 | **command** | **description** |
-| --- | --- |
+| ---: | --- |
 | <kbd>fn</kbd>+<kbd>up</kbd> | Decrease the number of visible choices by one. |
 | <kbd>fn</kbd>+<kbd>down</kbd> | Increase the number of visible choices by one. |
 
 ### Move/lock Pointer
 
 | **command** | **description** |
-| --- | --- |
+| ---: | --- |
 | <kbd>number</kbd> | Move the pointer to the choice at the given index. Also toggles the selected choice when `options.multiple` is true. |
 | <kbd>up</kbd> | Move the pointer up. |
 | <kbd>down</kbd> | Move the pointer down. |
