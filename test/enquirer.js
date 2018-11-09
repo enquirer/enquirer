@@ -162,25 +162,30 @@ describe('Enquirer', function() {
   });
 
   describe('onSubmit', () => {
-    it('should call onSubmit when a prompt submitted', cb => {
+    it('should call onSubmit when a prompt is submitted', cb => {
+      let called = 0;
       enquirer = new Enquirer({
         show: false,
         onSubmit(name, value) {
           assert.equal(value, 'orange');
-          cb();
+          called++;
         }
       });
 
       enquirer.on('prompt', prompt => {
         prompt.value = 'orange';
-        prompt.submit()
+        prompt.submit();
       });
 
       enquirer.prompt({
         type: 'input',
         name: 'color',
         message: 'Favorite color?'
-      });
+      })
+      .then(() => {
+        assert.equal(called, 1);
+        cb();
+      })
     });
 
     it('should await onSubmit when a prompt submitted', () => {
