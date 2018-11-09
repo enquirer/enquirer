@@ -33,13 +33,13 @@ Created by [jonschlinkert](https://github.com/jonschlinkert) and [doowb](https:/
 
 * **Fast** - [Loads in ~4ms](#-performance) (that's about _3-4 times faster than a [single frame of a HD movie](http://www.endmemo.com/sconvert/framespersecondframespermillisecond.php) at 60fps_)
 * **Lightweight** - Only [one dependency](https://github.com/doowb/ansi-colors).
-* **Easy to implement** - Uses promises and async/await to make prompts easy to create and use.
+* **Easy to implement** - Uses promises and async/await and sensible defaults to make prompts easy to create and implement.
 * **Easy to use** - Thrill your users! Navigating around input and choices is a breeze. You can even create [quizzes](recipes/quiz.js), or [record](recipes/record.js) and [playback](recipes/play.js) keypresses to aid with tutorials and videos.
 * **Intuitive** - Keypress combos are available to simplify usage.
-* **Extensible** - Prompts are easy to create and extend.
 * **Flexible** - All prompts can be used standalone or chained together.
-* **Pluggable** - Add advanced features to Enquirer with plugins.
 * **Stylish** - Easily override semantic styles and symbols for any part of the prompt.
+* **Extensible** - Easily create and use custom prompts by extending Enquirer's built-in [prompts](#-prompts).
+* **Pluggable** - Add advanced features to Enquirer using plugins.
 * **Validation** - Optionally validate user input with any prompt.
 * **Well tested** - All prompts are well-tested, and tests are easy to create without having to use brittle, hacky solutions to spy on prompts or "inject" values.
 * **Examples** - There are numerous [examples](examples) and [recipes](recipes) available to help you get started.
@@ -53,8 +53,8 @@ Get started with Enquirer, the most powerful and easy-to-use Node.js library for
 * [Install](#-install)
 * [Usage](#-usage)
 * [Enquirer API](#-enquirer-api)
-* [Prompts](#-prompts)
-* [Types](#-types)
+* [Built-in Prompts](#-prompts)
+* [Custom Prompts](#-custom-prompts)
 * [Keypresses](#-keypresses)
 * [Options](#-options)
 * [Release History](#-release-history)
@@ -130,16 +130,6 @@ console.log(response);
 **Jump to**: [Getting Started](#-getting-started) · [Prompts](#-prompts) · [Options](#-options) · [Keypresses](#-keypresses)
 
 <br>
-
-## ❯ Custom prompts
-
-With Enquirer 2.0, custom prompts are easier than ever to create and use.
-
-**How do I create a custom prompt?**
-
-To register a custom prompt, you must first instantiate `Enquirer`.
-
-Then use the `.register()` method to add your custom prompt.
 
 ## TODO
 
@@ -604,6 +594,51 @@ The `NumberPrompt` class is used for creating prompts that display and return a 
 The `StringPrompt` class is used for creating prompts that display and return a string value.
 
 <br>
+
+## ❯ Custom prompts
+
+With Enquirer 2.0, custom prompts are easier than ever to create and use.
+
+**How do I create a custom prompt?**
+
+Custom prompts are created by extending Enquirer's [prompts](#-prompts).
+
+```js
+const { Prompt } = require('enquirer');
+
+class Custom extends Prompt {
+  constructor(options) {
+    super(options);
+    this.number = 0;
+    this.calls = 0;
+  }
+  up() {
+    this.number++;
+    this.render();
+  }
+  down() {
+    this.number--;
+    this.render();
+  }
+  render() {
+    this.clear();
+    this.write(`number: ${this.number} | calls: ${this.calls++}`);
+  }
+}
+```
+
+To register a custom prompt, you must first instantiate `Enquirer`.
+
+```js
+const Enquirer = require('enquirer');
+const enquirer = new Enquirer();
+```
+
+Then use the `.register()` method to add your custom prompt.
+
+```js
+enquirer.register('HaiKarate', function_or_class);
+```
 
 ## ❯ Keypresses
 
