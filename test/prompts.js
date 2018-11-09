@@ -13,7 +13,7 @@ describe('prompts', function() {
     assert.equal(typeof prompts.Invisible, 'function');
     assert.equal(typeof prompts.List, 'function');
     assert.equal(typeof prompts.MultiSelect, 'function');
-    assert.equal(typeof prompts.Number, 'function');
+    assert.equal(typeof prompts.Numeral, 'function');
     assert.equal(typeof prompts.Password, 'function');
     assert.equal(typeof prompts.Select, 'function');
     assert.equal(typeof prompts.Text, 'function');

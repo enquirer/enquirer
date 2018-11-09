@@ -29,15 +29,15 @@ Array prompts take the following options.
 | `choices` | `Array` | `undefined` | todo |
 
 
-## Options examples
+## Options Examples
+
+### options.limit
 
 **Type**: `number`
 
-**Default**: `options.choices.length`
+**Default**: Defaults to `choices.length`
 
-**Description**: The number of choices to make visible in the terminal. Users can scroll up and down to reveal more choices when the entire list is not shown.
-
-### options.limit example
+**Description**: The number of choices to make visible ("on screen") in the terminal. Users can scroll up and down to reveal more choices when the entire list is not shown.
 
 The following prompt would only render three choices in the terminal at any given time.
 
@@ -50,12 +50,15 @@ const prompt = new Prompt({
 });
 ```
 
+array-option-limit.gif
+
 
 ### Instance properties
 
 - `prompt.choices` - Normalized array of choices created from `options.choices`.
 - `prompt.list` - Visible list of choices, if `options.limit` is defined, or the entire choices array.
 - `prompt.cursor` - the position of the cursor in the visible `prompt.list` array
+
 
 ### Related
 

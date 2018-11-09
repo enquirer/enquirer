@@ -120,29 +120,6 @@ _Not implemented yet_
 | <kbd>shift</kbd>+<kbd>down</kbd> | Scroll down one choice without changing pointer position. |
 
 
-## Methods
-
-| **term** | **description** |
-| --- | --- |
-| `focus` | Sets focus on the specified choice, if it can be focused. |
-
-
-## Getters
-
-| **term** | **description** |
-| --- | --- |
-| `prompt.focused` | Gets the currently selected choice. Equivalent to `prompt.choices[prompt.index]`. |
-
-
-## Options
-
-| **name** | **type** | **default** | **description** |
-| --- | --- |
-| `stdin` | `stream` | `process.stdin` | The input stream to use for emitting keypress events. |
-| `stdout` | `stream` | `process.stdout` | The output stream to use for writing the prompt to the terminal. |
-| `autofocus` | `string|number` | `undefined` | The index or name of the choice that should have focus when the prompt loads. Only one choice may have focus at a time. |
-
-
 
 ***
 
