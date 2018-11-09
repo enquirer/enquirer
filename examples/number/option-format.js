@@ -1,5 +1,5 @@
-const Prompt = require('../../lib/types/number');
-const prompt = new Prompt({
+const { Numeral } = require('../..');
+const prompt = new Numeral({
   name: 'amount',
   message: 'How much do you want to donate?',
   float: true,
@@ -10,5 +10,5 @@ const prompt = new Prompt({
 });
 
 prompt.run()
-  .then(answer => console.log('Answer:', answer))
+  .then(answer => console.log('Answer: $' + answer, 'dollars'))
   .catch(console.error);
