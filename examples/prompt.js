@@ -1,6 +1,29 @@
-const Prompt = require('../lib/prompt');
-const prompt = new Prompt({ name: 'error', message: 'Should throw an error' });
+const { Prompt } = require('..');
+
+class HaiKarate extends Prompt {
+  constructor(options = {}) {
+    super(options);
+    this.value = options.initial || 0;
+    this.cursorHide();
+  }
+  up() {
+    this.value++;
+    this.render();
+  }
+  down() {
+    this.value--;
+    this.render();
+  }
+  render() {
+    this.clear(); // clear previously rendered prompt from the terminal
+    this.write(`${this.state.message}: ${this.value}`);
+  }
+}
+
+const prompt = new HaiKarate({
+  message: 'How many sprays do you want?',
+  sprays: 10
+});
 
 prompt.run()
-  .then(answer => console.log('Answer:', answer))
-  .catch(err => console.error(err));
+  .then(console.log).catch(console.error);

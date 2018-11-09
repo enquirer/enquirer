@@ -12,6 +12,9 @@ const prompt = new Prompt({
   message: 'Pick your favorite colors',
   hint: '(Use <space> to select, <return> to submit)',
   header: yosay('Welcome to my awesome generator!'),
+  format() {
+    return prompt.input + ' ' + prompt.styles.muted(prompt.state.hint);
+  },
   pointer(state, choice, i) {
     return (state.index === i ? state.symbols.pointer : ' ') + ' ';
   },
@@ -40,6 +43,16 @@ const prompt = new Prompt({
     { name: 'yellow',  value: '#ffff00' }
   ]
 });
+
+let dispatch = prompt.dispatch.bind(prompt);
+prompt.dispatch = (char, key) => {
+  if (/[\w\s]/.test(char)) {
+    prompt.input += char;
+    prompt.cursor++;
+    return prompt.render();
+  }
+  return dispatch(char, key);
+};
 
 prompt.run()
   .then(names => {
