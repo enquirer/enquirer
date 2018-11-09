@@ -51,11 +51,6 @@ Enquire 2.0 is a bottom-up complete re-write:
 ### Added
 
 - Many prompts that were previously separate packages are now bundled into Enquirer itself. 
-- 
-
-## 1.0.0
-
-todo
 
 
 [Unreleased]: https://github.com/enquirer/enquirer/compare/2.0.2...HEAD

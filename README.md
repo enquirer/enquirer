@@ -601,7 +601,7 @@ With Enquirer 2.0, custom prompts are easier than ever to create and use.
 
 **How do I create a custom prompt?**
 
-Custom prompts are created by extending Enquirer's `Prompt` class.
+Custom prompts are created by extending Enquirer's `Prompt` class, or one of the built-in [prompts](#-prompts) or low-level [types](#-types).
 
 ```js
 const { Prompt } = require('enquirer');
@@ -650,7 +650,7 @@ let answers = await enquirer.prompt([
     name: 'cologne',
     message: 'How many sprays do you need?',
     initial: 10,
-    async onSubmit(value) {
+    async onSubmit(name, value) {
       await spritzer.activate(value); //<= activate drone 
       return value;
     }
