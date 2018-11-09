@@ -35,13 +35,23 @@ Changelog entries are classified using the following labels _(from [keep-a-chang
 
 ## 2.0.0 - 2018-11-07
 
+**What changed in Enquirer 2.0?**
+
+Enquire 2.0 is a bottom-up complete re-write:
+
+- Several prompts that were previously published as individual packages will be included in Enquirer itself. 
+- Why? - As users, we didn't like having to add commonly-used prompts as plugins. Enquirer 2.0 will still support custom prompts as plugins, but many prompts will also be built-in.
+- Enquirer will only have a single dependency, https://github.com/doowb/ansi-colors, which itself has no other dependencies). This will make Enquirer easier to maintain and faster for users.
+- Methods for registering "questions" have been removed. While it was nice to be able to preregister questions that could be called upon later, this is something that is better left to implementors, as it's relatively trivial to do with custom code.
+
 ### Changed
 
-todo
+- `options.default` is now `options.initial`
 
 ### Added
 
-todo
+- Many prompts that were previously separate packages are now bundled into Enquirer itself. 
+- 
 
 ## 1.0.0
 
