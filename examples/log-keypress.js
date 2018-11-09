@@ -68,20 +68,6 @@ const prompt = new Prompt({
   ]
 });
 
-// prompt.on('keypress', async (ch, key) => {
-//   let keypress = '';
-//   if (key.shift) keypress = press('shift') + colors.bold('+');
-//   if (key.ctrl) keypress = press('ctrl') + colors.bold('+');
-//   keypress += press(key.name);
-
-//   if (!prompt.state.submitted) {
-//     prompt.state.header = header() + keypress + '\n';
-//   } else {
-//     prompt.state.header = '';
-//   }
-//   await prompt.render();
-// });
-
 prompt.run()
   .then(names => {
     console.log('Answer:', names);

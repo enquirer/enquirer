@@ -36,11 +36,6 @@ const prompt = new AutoComplete({
   ]
 });
 
-prompt.state.header = 'KEYPRESS: ';
-prompt.on('keypress', (ch, key) => {
-  prompt.state.header = 'KEYPRESS: ' + colors.yellow(`<${key.name}>`);
-});
-
 prompt.once('run', async() => {
   for (let step of store.get(prompt.name)) {
     await timeout(() => prompt.keypress(...step.keypress), step.interval);
