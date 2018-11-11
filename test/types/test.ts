@@ -36,5 +36,5 @@ instance
 class CustomPrompt extends Enquirer.Prompt {
   render() {}
 }
-const customPrompt = new CustomPrompt()
-customPrompt.run().then(answer => answer)
+const customPrompt = new CustomPrompt();
+customPrompt.run().then(answer => answer);
