@@ -879,7 +879,7 @@ const { Prompt } = require('enquirer');
 class HaiKarate extends Prompt {
   constructor(options = {}) {
     super(options);
-    this.value = options.sprays || 0;
+    this.value = options.initial || 0;
     this.cursorHide();
   }
   up() {
