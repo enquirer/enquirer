@@ -6,6 +6,7 @@ const utils = require('./lib/utils');
 
 /**
  * Create an instance of `Enquirer`.
+ *
  * ```js
  * const Enquirer = require('enquirer');
  * const enquirer = new Enquirer();

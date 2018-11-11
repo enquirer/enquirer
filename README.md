@@ -29,12 +29,14 @@
 <br>
 <br>
 
+Please consider starting or tweeting about this project to show your support. Thanks!
+
 Created by [jonschlinkert](https://github.com/jonschlinkert) and [doowb](https://github.com/doowb), Enquirer is fast, easy to use, and lightweight enough for small projects, while also being powerful and customizable enough for the most advanced use cases.
 
 * **Fast** - [Loads in ~4ms](#-performance) (that's about _3-4 times faster than a [single frame of a HD movie](http://www.endmemo.com/sconvert/framespersecondframespermillisecond.php) at 60fps_)
-* **Lightweight** - Only [one dependency](https://github.com/doowb/ansi-colors).
+* **Lightweight** - Only one dependency, the excellent [ansi-colors](https://github.com/doowb/ansi-colors) by [Brian Woodward](https://github.com/doowb).
 * **Easy to implement** - Uses promises and async/await and sensible defaults to make prompts easy to create and implement.
-* **Easy to use** - Thrill your users! Navigating around input and choices is a breeze. You can even create [quizzes](recipes/quiz.js), or [record](recipes/record.js) and [playback](recipes/play.js) keypresses to aid with tutorials and videos.
+* **Easy to use** - Thrill your users with a better experience! Navigating around input and choices is a breeze. You can even create [quizzes](recipes/quiz.js), or [record](recipes/record.js) and [playback](recipes/play.js) keypresses to aid with tutorials and videos.
 * **Intuitive** - Keypress combos are available to simplify usage.
 * **Flexible** - All prompts can be used standalone or chained together.
 * **Stylish** - Easily override semantic styles and symbols for any part of the prompt.
@@ -43,6 +45,8 @@ Created by [jonschlinkert](https://github.com/jonschlinkert) and [doowb](https:/
 * **Validation** - Optionally validate user input with any prompt.
 * **Well tested** - All prompts are well-tested, and tests are easy to create without having to use brittle, hacky solutions to spy on prompts or "inject" values.
 * **Examples** - There are numerous [examples](examples) and [recipes](recipes) available to help you get started.
+
+_(If you like Enquirer, you might also like [micromatch](https://github.com/micromatch/micromatch), created by [Jon Schlinkert](https://github.com/jonschlinkert), author of Enquirer)_.
 
 <br>
 
@@ -60,7 +64,7 @@ Get started with Enquirer, the most powerful and easy-to-use Node.js library for
 
 * [Install](#-install)
 * [Usage](#-usage)
-* [Enquirer API](#-enquirer-api)
+* [Enquirer](#-enquirer)
 * [Built-in Prompts](#-prompts)
 * [Custom Prompts](#-custom-prompts)
 * [Keypresses](#-keypresses)
@@ -138,16 +142,78 @@ console.log(response);
 
 We're currently working on documentation for the following items. Please star and watch the repository for updates!
 
-* Customizing symbols
-* Customizing styles (palette)
-* Customizing styles
-* Links to recipes
+* [ ] Customizing symbols
+* [ ] Customizing styles (palette)
+* [ ] Customizing rendered input
+* [ ] Customizing returned values
+* [ ] Question validation
+* [ ] Choice validation
+* [ ] Skipping questions
+* [ ] Async choices
+* [ ] Async loaders, spinners and other timers
+* [ ] Links to recipes
 
 <br>
 
-## ❯ Enquirer API
+## ❯ Enquirer
 
-### [Enquirer](index.js#L19)
+The main export of this library is the `Enquirer` class. You can add Enquirer to your JavaScript project with following line of code.
+
+```js
+const Enquirer = require('enquirer');
+```
+
+### How does Enquirer work?
+
+**Enquirer is a prompt runner**
+
+Enquirer has methods and features designed to simplify running multiple prompts.
+
+```js
+const { prompt } = require('enquirer');
+const question = [
+  { 
+    type: 'input', 
+    name: 'username', 
+    message: 'What is your username?' 
+  },
+  { 
+    type: 'password', 
+    name: 'password', 
+    message: 'What is your password?' 
+  }
+];
+
+let answers = await prompt(question);
+console.log(answers);
+```
+
+**Prompts control how values are rendered and returned**
+
+Each individual prompt is a class with special features and functionality for rendering the types of values you want to show users in the terminal, and subsequently returning the types of values you need to use in your application.
+
+**How can I customize prompts?**
+
+Below in this guide you will find information about creating [custom prompts](#-custom-prompts). For now, we'll focus on how to customize an existing prompt.
+
+All of the individual [prompt classes](#built-in-prompts) in this library are exposed as static properties on Enquirer. This allows them to be used directly (without using `enquirer.prompt()`.
+
+Use this approach if you need to modify a prompt instance, or listen for events on the prompt.
+
+**Example**
+
+```js
+const { Input } = require('enquirer');
+const prompt = new Input({ 
+  name: 'username', 
+  message: 'What is your username?' 
+});
+
+let answer = await prompt.run();
+console.log('Username:', answer);
+```
+
+### [Enquirer](index.js#L20)
 
 Create an instance of `Enquirer`.
 
@@ -163,7 +229,7 @@ const Enquirer = require('enquirer');
 const enquirer = new Enquirer();
 ```
 
-### [register](index.js#L41)
+### [register](index.js#L42)
 
 Register a custom prompt type.
 
@@ -181,7 +247,7 @@ const enquirer = new Enquirer();
 enquirer.register('customType', require('./custom-prompt'));
 ```
 
-### [prompt](index.js#L77)
+### [prompt](index.js#L78)
 
 Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
@@ -204,7 +270,7 @@ const response = await enquirer.prompt({
 console.log(response);
 ```
 
-### [use](index.js#L150)
+### [use](index.js#L151)
 
 Use an enquirer plugin.
 
@@ -224,7 +290,7 @@ const plugin = enquirer => {
 enquirer.use(plugin);
 ```
 
-### [Enquirer#prompt](index.js#L211)
+### [Enquirer#prompt](index.js#L212)
 
 Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
@@ -247,6 +313,12 @@ console.log(response);
 
 ## ❯ Prompts
 
+* [Built-in prompts](#built-in-prompts)
+* [Prompt Options](#options)
+
+### Built-in prompts
+
+* [Prompt](#prompt) - The base `Prompt` class used by other prompts
 * [AutoComplete](#autocomplete-prompt)
 * [Confirm](#confirm-prompt)
 * [Form](#form-prompt)
@@ -262,7 +334,18 @@ console.log(response);
 * [Snippet](#snippet-prompt)
 * [Sort](#sort-prompt)
 * [Survey](#survey-prompt)
-* `Text` (alias for [Input](#input-prompt))
+* [Text](#input-prompt) (alias for the [Input prompt](#input-prompt))
+
+### Prompt
+
+The base `Prompt` class is used to create all other prompts.
+
+```js
+const { Prompt } = require('enquirer');
+class MyCustomPrompt extends Prompt {}
+```
+
+See the documentation for [creating custom prompts](#-custom-prompts) to learn more about how this works.
 
 ### AutoComplete Prompt
 
@@ -272,6 +355,36 @@ Prompt that auto-completes as the user types, and returns the selected value as 
 <img src="https://github.com/enquirer/enquirer/raw/master/media/autocomplete-prompt.gif" alt="Enquirer Autocomplete Prompt" width="750">
 </p>
 
+**Example Usage**
+
+```js
+const question = {
+  type: 'autocomplete',
+  name: 'country',
+  message: 'Where to?',
+  limit: 5,
+  suggest(input, choices) {
+    return choices.filter(choice => choice.message.startsWith(input));
+  },
+  choices: [
+    'Afghanistan',
+    'Albania',
+    'Algeria',
+    'Andorra',
+    'Angola',
+    ...
+  ]
+};
+```
+
+**AutoComplete Options**
+
+| Option | Type | Default | Description |
+| --- | --- | --- |
+| `highlight` | `function` | `dim` version of primary style | The color to use when "highlighting" characters in the list that match user input. |
+| `multiple`  | `boolean` | `false` | Allow multiple choices to be selected. |
+| `suggest`   | `function` | Greedy match, returns true if choice message contains input string. | Function that filters choices. Takes user input and a choices array, and returns a list of matching choices. |
+
 **Related prompts**
 
 * [select prompt](#select-prompt)
@@ -279,6 +392,9 @@ Prompt that auto-completes as the user types, and returns the selected value as 
 * [survey prompt](#survey-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
+
+<br>
+<br>
 
 ### Confirm Prompt
 
@@ -296,6 +412,9 @@ Prompt that returns `true` or `false`.
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
+<br>
+<br>
+
 ### Form Prompt
 
 Prompt that allows the user to enter and submit multiple values on a single terminal screen.
@@ -310,6 +429,9 @@ Prompt that allows the user to enter and submit multiple values on a single term
 * [survey prompt](#survey-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
+
+<br>
+<br>
 
 ### hSelect Prompt
 
@@ -327,6 +449,9 @@ The `hSelect` (Horizontal Select) allows the user to select from a horizontal li
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
+<br>
+<br>
+
 ### hMultiSelect Prompt
 
 The `hMultiSelect` (Horizontal MultiSelect) allows the user to select multiple items from a horizontal list of choices.
@@ -343,6 +468,9 @@ The `hMultiSelect` (Horizontal MultiSelect) allows the user to select multiple i
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
+<br>
+<br>
+
 ### Input Prompt
 
 Prompt that takes user input and returns a string.
@@ -351,6 +479,35 @@ Prompt that takes user input and returns a string.
 <img src="https://github.com/enquirer/enquirer/raw/master/media/input-prompt.gif" alt="Enquirer Input Prompt" width="750">
 </p>
 
+**Usage**
+
+Usage with Enquirer.
+
+```js
+const { prompt } = require('enquirer');
+const question = { 
+  type: 'input', 
+  name: 'username', 
+  message: 'What is your username?' 
+};
+
+let answers = await prompt(question);
+console.log('Username:', answers.username);
+```
+
+Usage as a standalone prompt. Use this approach if you need to modify the prompt instance, or listen for events on the prompt.
+
+```js
+const { Input } = require('enquirer');
+const prompt = new Input({ 
+  name: 'username', 
+  message: 'What is your username?' 
+});
+
+let answer = await prompt.run();
+console.log('Username:', answer);
+```
+
 **Related prompts**
 
 * [confirm prompt](#confirm-prompt)
@@ -358,6 +515,9 @@ Prompt that takes user input and returns a string.
 * [password prompt](#password-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
+
+<br>
+<br>
 
 ### Invisible Prompt
 
@@ -374,6 +534,9 @@ Prompt that takes user input, hides it from the terminal, and returns a string.
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
+<br>
+<br>
+
 ### List Prompt
 
 Prompt that returns a list of values, created by splitting the user input. The default split character is `,` with optional trailing whitespace.
@@ -388,6 +551,9 @@ Prompt that returns a list of values, created by splitting the user input. The d
 * [select prompt](#select-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
+
+<br>
+<br>
 
 ### Multiselect Prompt
 
@@ -404,6 +570,9 @@ Prompt that allows the user to select multiple items from a list of options.
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
+<br>
+<br>
+
 ### Numeral Prompt
 
 Prompt that takes a number as input.
@@ -418,6 +587,9 @@ Prompt that takes a number as input.
 * [confirm prompt](#confirm-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
+
+<br>
+<br>
 
 ### Password Prompt
 
@@ -434,6 +606,9 @@ Prompt that takes user input and masks it in the terminal. Also see the [invisib
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
+<br>
+<br>
+
 ### Select Prompt
 
 Prompt that allows the user to select from a list of options.
@@ -449,6 +624,9 @@ Prompt that allows the user to select from a list of options.
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
+<br>
+<br>
+
 ### Snippet Prompt
 
 Prompt that allows the user to replace placeholders in a snippet of code or text.
@@ -463,6 +641,9 @@ Prompt that allows the user to replace placeholders in a snippet of code or text
 * [autocomplete prompt](#autocomplete-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
+
+<br>
+<br>
 
 ### Sort Prompt
 
@@ -482,6 +663,9 @@ In this [example](https://github.com/enquirer/enquirer/raw/master/examples/sort/
 * [select prompt](#select-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
+
+<br>
+<br>
 
 ### Survey Prompt
 
@@ -555,11 +739,34 @@ Array prompts have the following instance properties and getters.
 
 #### Choices
 
-Array prompts support the `choices` option, which is the array of choices you want to allow the user to select from. Choices may be defined as strings or objects.
+Array prompts support the `choices` option, which is the array of choices users will be able to select from when rendered in the terminal.
 
-**Choice objects**
+**Type**: `string|object`
 
-Choices are normalized to the following interface:
+**Example**
+
+```js
+const { prompt } = require('enquirer');
+
+const questions = [{
+  type: 'select',
+  name: 'color',
+  message: 'Favorite color?',
+  initial: 1,
+  choices: [
+    { name: 'red',   message: 'Red',   value: '#ff0000' }, //<= choice object
+    { name: 'green', message: 'Green', value: '#00ff00' }, //<= choice object
+    { name: 'blue',  message: 'Blue',  value: '#0000ff' }  //<= choice object
+  ]
+}];
+
+let answers = await prompt(questions);
+console.log('Answer:', answers.color);
+```
+
+#### Defining choices
+
+Whether defined as a string or object, choices are normalized to the following interface:
 
 ```js
 {
@@ -571,41 +778,43 @@ Choices are normalized to the following interface:
 }
 ```
 
-**Choice properties**
+**Example**
+
+```js
+const question = {
+  name: 'fruit',
+  message: 'Favorite fruit?'
+  choices: ['Apple', 'Orange', 'Raspberry']
+};
+
+// Normalizes to the following when the prompt is run:
+// 
+// const question = {
+//   name: 'fruit',
+//   message: 'Favorite fruit?'
+//   choices: [
+//     { name: 'Apple', message: 'Apple', value: 'Apple' },
+//     { name: 'Orange', message: 'Orange', value: 'Orange' },
+//     { name: 'Raspberry', message: 'Raspberry', value: 'Raspberry' }
+//   ]
+// }
+```
+
+#### Choice properties
+
+The following properties are supported on `choice` objects.
 
 | **Option**  | **Type**   | **Description**  |
 | --- | --- | --- |
-| `name`     | `string`   | The unique key to identify a choice |
-| `message`  | `string`   | The message to display in the terminal. `name` is used when this is undefined.  |
-| `value`    | `string`   | Value to associate with the choice. Useful for creating key-value pairs from user choices. `name` is used when this is undefined. |
-| `choices`    | `array`   | Array of "child" choices. |
-| `hint`     | `string`   | Help message to display next to a choice. |
-| `role`     | `string`   | Determines how the choice will be displayed. Currently the only role supported is `separator`. Additional roles may be added in the future (like `heading`, etc). Please create a [feature request] |
+| `name`     | `string` | The unique key to identify a choice |
+| `message`  | `string` | The message to display in the terminal. `name` is used when this is undefined.  |
+| `value`    | `string` | Value to associate with the choice. Useful for creating key-value pairs from user choices. `name` is used when this is undefined. |
+| `choices`    | `array` | Array of "child" choices. |
+| `hint`     | `string` | Help message to display next to a choice. |
+| `role`     | `string` | Determines how the choice will be displayed. Currently the only role supported is `separator`. Additional roles may be added in the future (like `heading`, etc). Please create a [feature request] |
 | `enabled` | `boolean` | Enabled a choice by default. This is only supported when `options.multiple` is true or on prompts that support multiple choices, like [MultiSelect](#-multiselect). |
 | `disabled` | `boolean\|string` | Disable a choice so that it cannot be selected. This value may either be `true`, `false`, or a message to display. |
 | `indicator` | `string\|function` | Custom indicator to render for a choice (like a check or radio button). |
-
-**Example usage**
-
-```js
-const { prompt } = require('enquirer');
-
-const question = {
-  type: 'select',
-  name: 'color',
-  message: 'Favorite color?',
-  initial: 1,
-  choices: [
-    { name: 'red',   message: 'Red',   value: '#ff0000' },
-    { name: 'green', message: 'Green', value: '#00ff00' },
-    { name: 'blue',  message: 'Blue',  value: '#0000ff' }
-  ]
-};
-
-prompt(question)
-  .then(answer => console.log('Answer:', answer))
-  .catch(console.error);
-```
 
 #### Related prompts
 
