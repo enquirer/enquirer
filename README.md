@@ -16,7 +16,7 @@
 <br>
 
 <p align="center">
-<b>Stylish CLI prompts that are user-friendly, intuitive and easy to create.</b></br>
+<b>Stylish CLI prompts that are user-friendly, intuitive and easy to create.</b><br>
 <sub>>_ Prompts should be more like conversations than inquisitions▌<sub>
 </p>
 
@@ -44,6 +44,14 @@ Created by [jonschlinkert](https://github.com/jonschlinkert) and [doowb](https:/
 * **Well tested** - All prompts are well-tested, and tests are easy to create without having to use brittle, hacky solutions to spy on prompts or "inject" values.
 * **Examples** - There are numerous [examples](examples) and [recipes](recipes) available to help you get started.
 
+<br>
+
+<p align="center">
+<b>Ready to start making prompts your users will love?</b><br>
+<img src="https://github.com/enquirer/enquirer/raw/master/media/heartbeat.gif" alt="Enquirer Select Prompt with heartbeat example" width="750">
+</p>
+
+<br>
 <br>
 
 ## ❯ Getting started
