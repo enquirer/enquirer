@@ -380,7 +380,7 @@ const question = {
 **AutoComplete Options**
 
 | Option | Type | Default | Description |
-| --- | --- | --- |
+| --- | --- | --- | --- |
 | `highlight` | `function` | `dim` version of primary style | The color to use when "highlighting" characters in the list that match user input. |
 | `multiple`  | `boolean` | `false` | Allow multiple choices to be selected. |
 | `suggest`   | `function` | Greedy match, returns true if choice message contains input string. | Function that filters choices. Takes user input and a choices array, and returns a list of matching choices. |
