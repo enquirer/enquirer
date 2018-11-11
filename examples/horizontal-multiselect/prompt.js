@@ -2,9 +2,7 @@ const { hMultiSelect } = require('../..');
 
 const prompt = new hMultiSelect({
   message: 'Keywords:',
-  choices: ['foo', 'bar', 'baz'],
-  horizontal: true,
-  symbols: { indicator: '' }
+  choices: ['foo', 'bar', 'baz']
 });
 
 prompt.run()

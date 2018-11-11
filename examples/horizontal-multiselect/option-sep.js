@@ -1,8 +1,9 @@
-const { MultiList } = require('../prompts');
+const colors = require('ansi-colors');
+const { hMultiSelect } = require('../..');
 
-const prompt = new MultiList({
+const prompt = new hMultiSelect({
   message: 'Keywords:',
-  sep: ' ~ ',
+  sep: colors.red(' ~ '),
   choices: ['foo', 'bar', 'baz']
 });
 

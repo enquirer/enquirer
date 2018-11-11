@@ -1,5 +1,6 @@
 const Prompt = require('../../lib/prompts/survey');
 const prompt = new Prompt({
+  name: 'experience',
   message: 'Please rate your experience',
   choices: [
     {

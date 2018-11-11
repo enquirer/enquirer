@@ -1,4 +1,4 @@
-const Prompt = require('../../lib/prompts/horizontal-select');
+const Prompt = require('../../lib/prompts/hselect');
 const prompt = new Prompt({
   message: 'Keywords:',
   choices: ['foo', 'bar', 'baz']
