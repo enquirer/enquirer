@@ -1,8 +1,8 @@
-const Prompt = require('../lib/prompts/multiselect');
+const Prompt = require('../lib/prompts/select');
 const { red, dim } = require('ansi-colors');
 
 const colors = [red.dim, red, red.dim, red, red.dim, red.dim];
-const frame = (arr, i) => arr[i % arr.length]('❤ ');
+const frame = (arr, i) => arr[i % arr.length]('❤');
 let framerate = 250;
 
 const prompt = new Prompt({
@@ -10,7 +10,7 @@ const prompt = new Prompt({
   message: 'Favorite fruit?',
   timers: { prefix: framerate },
   prefix: state => frame(colors, state.timer.tick),
-  choices: ['Watermelon', 'Apple', 'Orange']
+  choices: ['Apple', 'Cherry', 'Grape', 'Orange', 'Strawberry', 'Watermelon']
 });
 
 prompt.run()
