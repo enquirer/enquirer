@@ -8,4 +8,4 @@ const prompt = new Prompt({
 
 prompt.run()
   .then(answer => console.log('ANSWER:', answer))
-  .catch(console.log)
+  .catch(console.log);

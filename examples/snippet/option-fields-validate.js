@@ -45,7 +45,7 @@ const prompt = new Prompt({
       validate(value) {
         return value !== '' && value !== 'jon';
       }
-    },
+    }
     // {
     //   name: 'license',
     //   validate(value) {

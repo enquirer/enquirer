@@ -13,7 +13,7 @@ const prompt = new Prompt({
   ],
   styles: {
     primary: colors.blue,
-    muted: colors.yellow,
+    muted: colors.yellow
   },
   symbols: {
     pointer(state) {

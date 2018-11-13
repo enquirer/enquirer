@@ -67,7 +67,7 @@ const stop = keypress.listen(process.stdin, (ch, key) => {
       state.cursor--;
       break;
     default: {
-      if (key.shift && !/[\w\-!"#$%&\'()\*+,./:;<=>?@[\]^_`{|}~]/.test(ch)) return alert()
+      if (key.shift && !/[\w\-!"#$%&\'()\*+,./:;<=>?@[\]^_`{|}~]/.test(ch)) return alert();
       if (key.ctrl) return alert();
       state.input += ch;
       state.cursor++;

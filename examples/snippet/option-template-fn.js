@@ -33,7 +33,7 @@ const prompt = new Prompt({
 prompt.run()
   .then(answer => {
     console.log('Answer:', answer.values);
-    console.log('---')
+    console.log('---');
     console.log(answer.rendered);
   })
   .catch(console.error);

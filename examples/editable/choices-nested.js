@@ -9,7 +9,6 @@ const prompt = new Prompt({
       name: 'author',
       role: 'heading',
       message: colors.underline.bold('Author information'),
-      disabled: ' ',
       async indicator() {
         return prompt.style(await prompt.prefix());
       },
@@ -51,7 +50,6 @@ const prompt = new Prompt({
       name: 'colors',
       role: 'heading',
       message: colors.underline.bold('Favorite colors?'),
-      disabled: '',
       async indicator() {
         return '\n' + prompt.style(await prompt.prefix());
       },
@@ -67,7 +65,7 @@ const prompt = new Prompt({
 
 prompt.run()
   .then(value => {
-    console.log('author:', value.author)
-    console.log('colors:', value.colors)
+    console.log('author:', value.author);
+    console.log('colors:', value.colors);
   })
   .catch(console.error);

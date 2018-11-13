@@ -32,7 +32,7 @@ const prompt = new Prompt({
     { name: 'lasagna', message: 'Lasagna' },
     { name: 'pizza', message: 'Pizza' },
     { name: 'chicken_curry', message: 'Chicken Curry' },
-    { name: 'tacos', message: 'Tacos' },
+    { name: 'tacos', message: 'Tacos' }
   ],
   symbols: { indicator: '❤' },
   indicator(state, choice) {

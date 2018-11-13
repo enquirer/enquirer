@@ -16,7 +16,7 @@ const prompt = new Prompt({
           return prompt.styles.danger('version should be a valid semver value');
         }
         return true;
-      },
+      }
     }
   ],
   template: `{

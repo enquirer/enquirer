@@ -41,6 +41,6 @@ const prompt = new Prompt({
 prompt.run()
   .then(key => {
     let choice = prompt.choices.find(ch => ch.name === key);
-    console.log('answer:', { [key]: choice.value })
+    console.log('answer:', { [key]: choice.value });
   })
   .catch(err => console.error('Cancelled'));

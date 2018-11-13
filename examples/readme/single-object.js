@@ -1,13 +1,13 @@
 const { prompt } = require('../..');
 
-(async () => {
+(async() => {
 
-const response = await prompt({
-  type: 'input',
-  name: 'username',
-  message: 'What is your username?'
-});
+  const response = await prompt({
+    type: 'input',
+    name: 'username',
+    message: 'What is your username?'
+  });
 
-console.log(response.username);
+  console.log(response.username);
 //=> 'jonschlinkert'
 })();
