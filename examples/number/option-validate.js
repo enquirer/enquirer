@@ -8,12 +8,12 @@ const prompt = new Prompt({
     return +state.value < 2 ? 'You must purchase 2 or more tickets' : true;
   },
   hint() {
-    if (!this.answered) {
+    if (!this.state.submitted) {
       return this.styles.muted(`(${dollars(this.input, this.options.price)})`);
     }
   },
   format() {
-    return this.answered ? dollars(this.value, this.options.price) : this.value;
+    return this.state.submitted ? dollars(this.value, this.options.price) : this.value;
   }
 });
 

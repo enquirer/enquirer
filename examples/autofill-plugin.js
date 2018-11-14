@@ -2,8 +2,9 @@
 
 /**
  * Example "autofill" plugin - to achieve similar goal to autofill for web forms.
- * (this isn't really needed in Enquirer, since the `autofill` option does
- * effectively the same thing natively)
+ *
+ * _This isn't really needed in Enquirer, since the `autofill` option does
+ * effectively the same thing natively_. This is just an example.
  */
 
 const autofill = (answers = {}) => {

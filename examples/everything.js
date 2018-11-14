@@ -1,6 +1,8 @@
-const Prompt = require('../lib/prompts/multiselect');
-const colors = require('ansi-colors');
+'use strict';
+
 const yosay = require('yosay');
+const colors = require('ansi-colors');
+const Prompt = require('../lib/prompts/multiselect');
 
 /**
  * Example that shows all of the prompt elements displayed at once.
@@ -11,6 +13,7 @@ const prompt = new Prompt({
   name: 'colors',
   message: 'Pick your favorite colors',
   hint: '(Use <space> to select, <return> to submit)',
+  limit: 6,
   header: yosay('Welcome to my awesome generator!'),
   format() {
     return prompt.input + ' ' + prompt.styles.muted(prompt.state.hint);
@@ -23,7 +26,9 @@ const prompt = new Prompt({
       return colors.dim('(Scroll up and down to reveal more choices)');
     }
   },
-  limit: 6,
+  result(names) {
+    return this.map(names);
+  },
   choices: [
     { name: 'aqua', value: '#00ffff' },
     { name: 'black', value: '#000000' },
@@ -44,18 +49,6 @@ const prompt = new Prompt({
   ]
 });
 
-let dispatch = prompt.dispatch.bind(prompt);
-prompt.dispatch = (char, key) => {
-  if (/[\w\s]/.test(char)) {
-    prompt.input += char;
-    prompt.cursor++;
-    return prompt.render();
-  }
-  return dispatch(char, key);
-};
-
 prompt.run()
-  .then(names => {
-    console.log('Answer:', names);
-  })
+  .then(names => console.log('Answer:', names))
   .catch(console.error);

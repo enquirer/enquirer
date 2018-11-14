@@ -1,49 +1,36 @@
-const Prompt = require('../lib/prompts/multiselect');
-const colors = require('ansi-colors');
+'use strict';
+
 const yosay = require('yosay');
-
-/**
- * Example of creating a silly easter egg for users
- *
- * To see the easter egg, use `<fn>+<down>` or (`<Page Down>` on windows)
- * then scroll to a visible choice with an index of greater than 5.
- */
-
+const colors = require('ansi-colors');
+const { MultiSelect } = require('..');
 let timeout;
-const press = str => {
-  return colors.bold(colors.red('<') + str + colors.red('>'));
-};
 
-const prompt = new Prompt({
+const press = str => colors.red('<') + str + colors.red('>');
+const prompt = new MultiSelect({
   type: 'multiselect',
   name: 'colors',
   message: 'Pick your favorite colors',
-  hint: '(Use <space> to select, <return> to submit)',
-  limit: 6,
-  header() {
+  limit: 5,
+  footer() {
+    if (!prompt.state.buffer) return '\n';
     let key = prompt.state.keypress;
-    let dude = yosay('Welcome to my awesome generator!');
     let keypress = '';
     clearTimeout(timeout);
-
-    if (prompt.index > 5) {
-      dude = dude.replace('_\u001b[33m´U`\u001b[39m_', '@\u001b[33m´U`\u001b[39m@');
-      dude = dude.replace('~', 'O');
-    }
 
     if (key) {
       if (key.shift) keypress = press('shift') + colors.bold('+');
       if (key.ctrl) keypress = press('ctrl') + colors.bold('+');
+      if (key.name === 'number') key.name += ' ' + key.raw;
       keypress += press(key.name);
     }
 
     timeout = setTimeout(async() => {
       prompt.state.keypress = '';
       await prompt.render();
-    }, 300);
-    prompt.on('close', () => clearTimeout(timeout));
+    }, 500);
 
-    return !prompt.state.answered ? dude + keypress + '\n' : '';
+    prompt.on('close', () => clearTimeout(timeout));
+    return !prompt.state.submitted ? '\n' + keypress : '';
   },
   pointer(state, choice, i) {
     return (state.index === i ? state.symbols.pointer : ' ') + ' ';
@@ -69,7 +56,5 @@ const prompt = new Prompt({
 });
 
 prompt.run()
-  .then(names => {
-    console.log('Answer:', names);
-  })
+  .then(names => console.log('Answer:', names))
   .catch(console.error);

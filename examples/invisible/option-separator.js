@@ -4,7 +4,7 @@ const prompt = new Prompt({
   name: 'secret',
   message: 'What is your secret?',
   separator() {
-    if (this.answered) {
+    if (this.state.submitted) {
       return cyan(this.symbols.bullet);
     }
     return this.typed ? green(this.symbols.bullet) : dim(this.symbols.bullet);

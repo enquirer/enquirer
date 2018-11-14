@@ -1,8 +1,9 @@
 'use strict';
 
+const path = require('path');
 const Store = require('data-store');
-const AutoComplete = require('../lib/prompts/autocomplete');
-const store = new Store({ path: __dirname + '/recordings.json' });
+const store = new Store({ path: path.join(__dirname, 'recordings.json') });
+const { AutoComplete } = require('../..');
 
 const prompt = new AutoComplete({
   name: 'flavor',

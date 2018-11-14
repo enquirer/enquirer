@@ -10,12 +10,11 @@ const prompt = new Prompt({
     { name: 'chicken_curry', message: 'Chicken Curry' },
     { name: 'tacos', message: 'Tacos' }
   ],
-  symbols: { indicator: '❤' },
   indicator(state, choice) {
     if (choice.enabled) {
-      return colors.red(state.symbols.indicator);
+      return colors.red(state.symbols.heart);
     }
-    return colors.dim.gray(state.symbols.indicator);
+    return colors.dim.gray(state.symbols.heart);
   }
 });
 

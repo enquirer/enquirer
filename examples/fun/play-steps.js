@@ -1,7 +1,11 @@
 'use strict';
 
 const colors = require('ansi-colors');
-const AutoComplete = require('../lib/prompts/autocomplete');
+const { AutoComplete } = require('../..');
+
+/**
+ * This examples shows how to "play" an array of keypresses.
+ */
 
 const timeout = (fn, ms = 0) => {
   return new Promise((resolve, reject) => {
@@ -34,15 +38,15 @@ const prompt = new AutoComplete({
 });
 
 const steps = [
-  { keypress: ['a'], ms: 750 },
-  { keypress: ['b'], ms: 750 },
-  { keypress: ['b'], ms: 750 },
-  { keypress: [null, { name: 'backspace' }], ms: 750 },
-  { keypress: [null, { name: 'backspace' }], ms: 750 },
-  { keypress: [null, { name: 'backspace' }], ms: 750 },
-  { keypress: ['c'], ms: 750 },
-  { keypress: ['h'], ms: 750 },
-  { keypress: ['o'], ms: 750 },
+  { keypress: ['a'], ms: 150 },
+  { keypress: ['b'], ms: 250 },
+  { keypress: ['b'], ms: 150 },
+  { keypress: [null, { name: 'backspace' }], ms: 150 },
+  { keypress: [null, { name: 'backspace' }], ms: 150 },
+  { keypress: [null, { name: 'backspace' }], ms: 150 },
+  { keypress: ['c'], ms: 250 },
+  { keypress: ['h'], ms: 250 },
+  { keypress: ['o'], ms: 350 },
   { keypress: [null, { name: 'enter' }], ms: 400 }
 ];
 

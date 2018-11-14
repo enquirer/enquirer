@@ -5,7 +5,7 @@ const prompt = new Prompt({
   choices: [
     { name: 'aqua', value: '#00ffff' },
     { name: 'black', value: '#000000' },
-    { name: 'blue', value: '#0000ff', hint: '(this is a choice hint)' },
+    { name: 'blue', value: '#0000ff' },
     { name: 'fuchsia', value: '#ff00ff' },
     { name: 'gray', value: '#808080', disabled: true },
     { name: 'green', value: '#008000' },

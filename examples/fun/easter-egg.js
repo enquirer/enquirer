@@ -1,15 +1,15 @@
-const Prompt = require('../lib/prompts/multiselect');
+const { MultiSelect } = require('../..');
 const colors = require('ansi-colors');
 const yosay = require('yosay');
 
 /**
- * Example of creating a silly easter egg for users
+ * Example of creating a silly easter egg for users.
  *
  * To see the easter egg, use `<fn>+<down>` or (`<Page Down>` on windows)
  * then scroll to a visible choice with an index of greater than 5.
  */
 
-const prompt = new Prompt({
+const prompt = new MultiSelect({
   name: 'colors',
   message: 'Pick your favorite colors',
   header() {
@@ -18,7 +18,7 @@ const prompt = new Prompt({
       dude = dude.replace('_\u001b[33m´U`\u001b[39m_', '@\u001b[33m´U`\u001b[39m@');
       dude = dude.replace('~', 'O');
     }
-    return !this.answered ? dude + '\n' : '';
+    return !this.state.submitted ? dude + '\n' : '';
   },
   limit: 6,
   choices: [
@@ -42,7 +42,5 @@ const prompt = new Prompt({
 });
 
 prompt.run()
-  .then(names => {
-    console.log('Answer:', names);
-  })
+  .then(names => console.log('Answer:', names))
   .catch(console.error);

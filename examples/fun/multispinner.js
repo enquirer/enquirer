@@ -1,13 +1,16 @@
-const colors = require('ansi-colors');
-const spinners = require('cli-spinners');
-const Prompt = require('../lib/prompts/multiselect');
+const { red } = require('ansi-colors');
+const { MultiSelect } = require('../..');
 
-const { red, dim } = require('ansi-colors');
+/**
+ * This examples shows how to use the `timers` option to
+ * create multiple spinners, each with a different framerate.
+ */
+
 const rhythm = [red.dim, red, red.dim, red, red.dim, red.dim];
 const frame = (arr, i) => arr[i % arr.length];
 let i = 0;
 
-const prompt = new Prompt({
+const prompt = new MultiSelect({
   name: 'example-groups',
   message: 'What are your favorite colors?',
   hint: 'Thinking...',

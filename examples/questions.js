@@ -1,7 +1,5 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
 const colors = [
   { message: 'Aqua', name: 'aqua', value: '#00ffff' },
   { message: 'Black', name: 'black', value: '#000000' },
