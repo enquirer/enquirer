@@ -101,7 +101,11 @@ class Enquirer extends Events {
         continue;
       }
 
-      if (opts.skip && await opts.skip(state)) {
+      const isSkip = typeof opts.skip === 'function'
+        ? await opts.skip(state)
+        : Boolean(opts.skip);
+
+      if (isSkip) {
         continue;
       }
 

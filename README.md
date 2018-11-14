@@ -29,7 +29,7 @@
 <br>
 <br>
 
-Please consider starting or tweeting about this project to show your support. Thanks!
+Please consider starring or tweeting about this project to show your support. Thanks!
 
 Created by [jonschlinkert](https://github.com/jonschlinkert) and [doowb](https://github.com/doowb), Enquirer is fast, easy to use, and lightweight enough for small projects, while also being powerful and customizable enough for the most advanced use cases.
 
@@ -270,7 +270,7 @@ const response = await enquirer.prompt({
 console.log(response);
 ```
 
-### [use](index.js#L151)
+### [use](index.js#L155)
 
 Use an enquirer plugin.
 
@@ -290,7 +290,7 @@ const plugin = enquirer => {
 enquirer.use(plugin);
 ```
 
-### [Enquirer#prompt](index.js#L212)
+### [Enquirer#prompt](index.js#L216)
 
 Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
@@ -1015,6 +1015,7 @@ Each prompt takes an options object (aka "question" object), that implements the
   message: string | function | async function,
 
   // optional 
+  skip: boolean | function | async function
   initial: string | function | async function
   format: function | async function,
   result: function | async function,
@@ -1031,6 +1032,7 @@ All prompts take the following options.
 | `type`     | Yes | `string\|function` | Enquirer uses this value to determine the type of prompt to run, but it's optional when prompts are run directly. |
 | `name`     | Yes | `string\|function` | Used as the key for the answer on the returned values (answers) object. |
 | `message`  | Yes | `string\|function` | The message to display when the prompt is rendered in the terminal. |
+| `skip`  | no | `boolean\|function` | If `true` it will not ask that prompt. |
 | `initial`  | no | `string\|function` | The default value to return if the user does not supply a value. |
 | `format`   | no | `function` | Function to format user input in the terminal. |
 | `result`   | no | `function` | Function to format the final submitted value before it's returned. |
