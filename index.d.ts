@@ -116,7 +116,7 @@ declare class Enquirer<T = object> extends NodeJS.EventEmitter {
 }
 
 declare namespace Enquirer {
-  function prompt(questions: PromptOptions | PromptOptions[]): Promise<object>;
+  function prompt<T = object>(questions: PromptOptions | PromptOptions[]): Promise<T>;
 
   class Prompt extends BasePrompt {}
 }
