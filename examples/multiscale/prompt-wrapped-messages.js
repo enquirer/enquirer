@@ -1,7 +1,12 @@
+const colors = require('ansi-colors');
 const { MultiScale } = require('../..');
 const prompt = new MultiScale({
   name: 'experience',
   message: 'Please rate your experience',
+  messageWidth: 35,
+  edgeLength: 3,
+  styles: { primary: colors.blue },
+  margin: '',
   scale: [
     { name: '1', message: 'Strongly Disagree' },
     { name: '2', message: 'Disagree' },
@@ -12,27 +17,27 @@ const prompt = new MultiScale({
   choices: [
     {
       name: 'interface',
-      message: 'The website has a friendly interface.',
+      message: 'A. The website has a friendly interface.',
       initial: 2
     },
     {
       name: 'navigation',
-      message: 'The website is easy to navigate.',
+      message: 'B. The website is easy to navigate.',
       initial: 2
     },
     {
       name: 'images',
-      message: 'The website usually has good images.',
+      message: 'C. The website usually has good images.',
       initial: 2
     },
     {
       name: 'upload',
-      message: 'The website makes it easy to upload images.',
+      message: 'D. The website makes it easy to upload images.',
       initial: 2
     },
     {
       name: 'colors',
-      message: 'The website has a pleasing color palette.',
+      message: 'E. The website has a pleasing color palette.',
       initial: 2
     }
   ]

@@ -2,6 +2,13 @@ const { MultiScale } = require('../..');
 const prompt = new MultiScale({
   name: 'experience',
   message: 'Please rate your experience',
+  number(n) {
+    let choice = prompt.focused;
+    let i = +n - 1;
+    if (i >= prompt.scale.length) return prompt.alert();
+    choice.scaleIndex = i;
+    return prompt.render();
+  },
   scale: [
     { name: '1', message: 'Strongly Disagree' },
     { name: '2', message: 'Disagree' },

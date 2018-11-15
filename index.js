@@ -157,17 +157,6 @@ class Enquirer extends Events {
     return this;
   }
 
-  submit(value, state) {
-    this.submitted = true;
-    this.emit('submit', value, state);
-    this.emit('answer', state.prompt.name, value, state);
-  }
-
-  cancel(error, state) {
-    this.cancelled = true;
-    this.emit('cancel', error, state);
-  }
-
   state(prompt, question) {
     let state = { prompt, question, answers: this.answers };
     this.emit('state', state);
