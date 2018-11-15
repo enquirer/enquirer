@@ -1,12 +1,12 @@
 const Prompt = require('../../lib/prompts/multiselect');
 const prompt = new Prompt({
   name: 'example-groups',
-  message: 'What are your favorite colors?',
+  message: 'Take your pick',
   choices: normalize({
-    local: ['scaffolds', 'package'],
-    global: ['npm', 'git'],
+    local: ['one', 'two'],
+    global: ['three', 'four'],
     other: [],
-    default: { message: 'Default generator' }
+    default: { message: 'Five' }
   })
 });
 

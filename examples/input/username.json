@@ -1,14 +1,7 @@
 {
-  "data": {
+  "values": {
     "past": [
-      "Sally",
-      "George",
-      "Greg",
-      "Joe",
-      "Jon",
-      "Brian",
-      "Fred",
-      "Bob",
+      "doowb",
       "jonschlinkert"
     ],
     "present": ""

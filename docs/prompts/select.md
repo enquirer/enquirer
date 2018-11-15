@@ -1,4 +1,4 @@
-# MultiSelect Prompt
+# Select Prompt
 
 **Todo**
 
