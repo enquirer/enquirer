@@ -5,7 +5,8 @@ interface BasePromptOptions {
   initial?: any
   format?(value: string): string | Promise<string>
   result?(value: string): string | Promise<string>
-  validate?(value: string): boolean | Promise<boolean>
+  skip?: ((state: object) => boolean | Promise<boolean>) | boolean
+  validate?(value: string): boolean | Promise<boolean> | string | Promise<string>
   stdin?: NodeJS.ReadStream
   stdout?: NodeJS.WriteStream
 }
