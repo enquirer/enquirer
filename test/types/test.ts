@@ -10,6 +10,9 @@ Enquirer
 Enquirer
   .prompt([{ name: 'test', type: 'text', message: '' }])
   .then(answer => answer);
+Enquirer
+  .prompt<{ question: string }>({ name: 'question', type: 'text', message: '' })
+  .then(answer => answer.question);
 
 const instance = new Enquirer({}, { question1: '' })
 instance
