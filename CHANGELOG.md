@@ -33,9 +33,24 @@ Changelog entries are classified using the following labels _(from [keep-a-chang
 </details>
 
 
+## 3.0.0 - 2018-11-14
+
+### Fixed
+
+- `validate` function now properly accepts `false` as a return value, thanks to [@g-plane](https://github.com/g-plane).
+
+### Changed
+
+- `ctrl+d` is now mapped to `deleteForward` instead of `cancel`. 
+
+### Added
+
+- Adds support for `options.term` to set the terminal, thanks to [@tunnckoCore](https://github.com/tunnckoCore). At the moment this is only used in a couple of edge cases with the `Survey` and `MultiScale` prompts to check if the terminal is Hyper.
+- `options.skip` may now be a Boolean, thanks to [@tunnckoCore](https://github.com/tunnckoCore)
+
 ## 2.0.0 - 2018-11-07
 
-**What changed in Enquirer 2.0?**
+### Changed
 
 Enquire 2.0 is a bottom-up complete re-write:
 
@@ -43,9 +58,6 @@ Enquire 2.0 is a bottom-up complete re-write:
 - Why? - As users, we didn't like having to add commonly-used prompts as plugins. Enquirer 2.0 will still support custom prompts as plugins, but many prompts will also be built-in.
 - Enquirer will only have a single dependency, https://github.com/doowb/ansi-colors, which itself has no other dependencies). This will make Enquirer easier to maintain and faster for users.
 - Methods for registering "questions" have been removed. While it was nice to be able to preregister questions that could be called upon later, this is something that is better left to implementors, as it's relatively trivial to do with custom code.
-
-### Changed
-
 - `options.default` is now `options.initial`
 
 ### Added
