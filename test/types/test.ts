@@ -38,3 +38,119 @@ class CustomPrompt extends Enquirer.Prompt {
 }
 const customPrompt = new CustomPrompt();
 customPrompt.run().then(answer => answer);
+
+// Prompt options
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  format() {
+    return '';
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  async format() {
+    return '';
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  format(value) {
+    return value;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  result() {
+    return '';
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  async result() {
+    return '';
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  result(value) {
+    return value;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  skip: true
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  async skip() {
+    return true;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  skip(state) {
+    return !!state;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  validate() {
+    return true;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  async validate() {
+    return true;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  validate(value) {
+    return value;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  async validate(value) {
+    return value;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  stdin: process.stdin
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  stdout: process.stdout
+});
