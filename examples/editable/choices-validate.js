@@ -4,6 +4,7 @@ const prompt = new Prompt({
   name: 'user',
   message: 'Please provide the following information:',
   promptLine: false,
+  align: false,
   choices: [
     {
       name: 'author',
@@ -15,25 +16,24 @@ const prompt = new Prompt({
       choices: [
         {
           name: 'firstname',
-          message: colors.italic('First Name'),
+          message: 'First Name',
           initial: 'Jon',
           editable: true
         },
         {
           name: 'lastname',
-          message: colors.italic('Last Name'),
+          message: 'Last Name',
           initial: 'Schlinkert',
           editable: true
         },
         {
           name: 'username',
-          message: colors.italic('GitHub username'),
-          // initial: 'jonschlinkert',
+          message: 'GitHub username',
           editable: true
         },
         {
           name: 'email',
-          message: colors.italic('Email address?'),
+          message: 'Email address?',
           editable: true,
           validate(value) {
             if (value.includes('jon')) {

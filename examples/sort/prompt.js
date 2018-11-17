@@ -2,8 +2,13 @@ const colors = require('ansi-colors');
 const Prompt = require('../../lib/prompts/sort');
 const prompt = new Prompt({
   name: 'colors',
-  message: 'Reorder colors',
-  choices: ['red', 'white', 'green', 'cyan', 'yellow']
+  message: 'Sort the colors in order of preference',
+  hint: 'Top is best, bottom is worst',
+  numbered: true,
+  choices: ['red', 'white', 'green', 'cyan', 'yellow'].map(n => ({
+    name: n,
+    message: colors[n](n)
+  }))
 });
 
 prompt.run()
