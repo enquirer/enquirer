@@ -1,5 +1,8 @@
-const Prompt = require('../../lib/prompts/autocomplete');
-const prompt = new Prompt({
+'use strict';
+
+const { AutoComplete } = require('enquirer');
+
+const prompt = new AutoComplete({
   name: 'flavor',
   message: 'Pick your favorite flavor',
   limit: 10,

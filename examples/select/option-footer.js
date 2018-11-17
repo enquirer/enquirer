@@ -1,6 +1,9 @@
+'use strict';
+
 const colors = require('ansi-colors');
-const Prompt = require('../../lib/prompts/select');
-const prompt = new Prompt({
+const { Select } = require('enquirer');
+
+const prompt = new Select({
   name: 'color',
   message: 'Pick a color',
   footer: colors.blue('(Scroll up and down to reveal more choices)'),

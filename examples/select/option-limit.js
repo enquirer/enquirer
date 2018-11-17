@@ -1,5 +1,8 @@
-const Prompt = require('../../lib/prompts/select');
-const prompt = new Prompt({
+'use strict';
+
+const { Select } = require('enquirer');
+
+const prompt = new Select({
   name: 'alphabet',
   message: 'Favorite color?',
   choices: ['Blue', 'Green', 'Orange', 'Red', 'Violet'],

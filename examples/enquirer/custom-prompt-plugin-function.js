@@ -1,4 +1,4 @@
-const Enquirer = require('..');
+const Enquirer = require('enquirer');
 
 /**
  * This example builds off of the "custom-prompt-plugin-class.js" example.

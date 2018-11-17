@@ -1,6 +1,8 @@
+'use strict';
+
 const colors = require('ansi-colors');
-const Prompt = require('../../lib/prompts/sort');
-const prompt = new Prompt({
+const { Sort } = require('enquirer');
+const prompt = new Sort({
   name: 'colors',
   message: 'Sort the colors in order of preference',
   hint: 'Top is best, bottom is worst',

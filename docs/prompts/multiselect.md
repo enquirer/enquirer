@@ -15,6 +15,7 @@ The MultiSelect prompt allows the user to select multiple items from a list of o
 - [ ] Custom indicator defined on choices
 - [ ] Custom symbols
 - [ ] Choice groups
+- [ ] Choice roles
 - [ ] Choice group headings
 - [ ] Populating choices with other prompts 
 - [ ] `options.initial` choice index
@@ -25,6 +26,7 @@ The MultiSelect prompt allows the user to select multiple items from a list of o
 - [ ] Choice hints
 - [ ] Timers
 - [ ] Async choices
+- [ ] Initial choice values
 
 
 ## Related prompts

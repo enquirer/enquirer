@@ -1,7 +1,9 @@
-const colors = require('ansi-colors');
-const Prompt = require('../../lib/prompts/select');
+'use strict';
 
-const prompt = new Prompt({
+const colors = require('ansi-colors');
+const { Select } = require('enquirer');
+
+const prompt = new Select({
   name: 'halloween',
   message: 'Trick or treat! Take your pick',
   choices: [
@@ -16,8 +18,11 @@ const prompt = new Prompt({
     muted: colors.yellow
   },
   symbols: {
-    pointer(state) {
-      return ['🍬', '🍎', '👄', '🖕', '🗡️ '][state.index];
+    pointer(state, choice, i) {
+      if (state.index === i) {
+        return ['🍬', '🍎', '👄', '🖕', '🗡️ '][i];
+      }
+      return '  ';
     },
     prefix(state) {
       return ({ pending: '🎃', cancelled: '⚰️ ', answered: '💀' })[state.status];
@@ -27,4 +32,4 @@ const prompt = new Prompt({
 
 prompt.run()
   .then(answer => console.log('Answer:', answer))
-  .catch(err => console.error('TERMINATED'));
+  .catch(console.error);

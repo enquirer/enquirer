@@ -1,5 +1,7 @@
-const Prompt = require('../../lib/types/boolean');
-const prompt = new Prompt({
+const { BooleanPrompt } = require('enquirer');
+
+const prompt = new BooleanPrompt({
+  name: 'answer',
   message: 'Want to answer?',
   initial: false
 });

@@ -1,7 +1,8 @@
-const colors = require('ansi-colors');
-const semver = require('semver');
-const Prompt = require('../../lib/prompts/snippet');
-const prompt = new Prompt({
+'use strict';
+
+const { Snippet } = require('enquirer');
+
+const prompt = new Snippet({
   name: 'username',
   message: 'Fill out the fields in package.json',
   defaults: { name: 'awesome-lib', version: '0.1.0', license: 'MIT' },

@@ -1,5 +1,7 @@
-const Prompt = require('../../lib/prompts/invisible');
-const prompt = new Prompt({
+'use strict';
+
+const { Invisible } = require('enquirer');
+const prompt = new Invisible({
   name: 'secret',
   message: 'What is your secret?'
 });

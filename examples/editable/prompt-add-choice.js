@@ -1,5 +1,8 @@
-const Prompt = require('../../lib/prompts/editable');
-const prompt = new Prompt({
+'use strict';
+
+const { Editable } = require('enquirer');
+
+const prompt = new Editable({
   name: 'user',
   message: 'Please provide the following information:',
   choices: [

@@ -1,5 +1,7 @@
-const Prompt = require('../../lib/prompts/list');
-const prompt = new Prompt({
+'use strict';
+
+const { List } = require('enquirer');
+const prompt = new List({
   name: 'keywords',
   message: 'Type comma-separated keywords'
 });

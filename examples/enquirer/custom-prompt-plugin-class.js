@@ -1,4 +1,4 @@
-const Enquirer = require('..');
+const Enquirer = require('enquirer');
 const { Prompt } = Enquirer;
 
 /**

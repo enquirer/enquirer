@@ -1,11 +1,8 @@
-
 'use strict';
 
-const yosay = require('yosay');
 const colors = require('ansi-colors');
-const Prompt = require('../../lib/prompts/input');
-const utils = require('../../lib/utils');
-const prompt = new Prompt({
+const { Input } = require('enquirer');
+const prompt = new Input({
   message: 'What is your username?',
   initial: 'jonschlinkert',
   symbols: { prefix: '$' },

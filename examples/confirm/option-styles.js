@@ -1,6 +1,16 @@
-const colors = require('ansi-colors');
-const { prompt } = require('../../lib/prompts/confirm');
+'use strict';
 
-prompt({ message: 'Want to answer?', styles: { primary: colors.blue } })
+const colors = require('ansi-colors');
+const { prompt } = require('enquirer');
+
+const question = {
+  type: 'confirm',
+  name: 'toast',
+  message: 'Do you like toast?',
+  styles: { primary: colors.blue },
+  initial: true
+};
+
+prompt(question)
   .then(answer => console.log('Answer:', answer))
   .catch(console.error);

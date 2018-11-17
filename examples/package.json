@@ -1,0 +1,7 @@
+{
+  "name": "enquirer-examples",
+  "dependencies": {
+    "@folder/file": "file:../../../@folder/file",
+    "enquirer": "file:.."
+  }
+}

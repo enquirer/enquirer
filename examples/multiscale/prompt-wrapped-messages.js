@@ -1,7 +1,7 @@
 'use strict';
 
 const colors = require('ansi-colors');
-const { MultiScale } = require('../..');
+const { MultiScale } = require('enquirer');
 const prompt = new MultiScale({
   name: 'experience',
   message: 'Please rate your experience',

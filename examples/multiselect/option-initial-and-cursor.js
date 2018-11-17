@@ -1,5 +1,8 @@
-const Prompt = require('../../lib/prompts/multiselect');
-let prompt = new Prompt({
+'use strict';
+
+const { MultiSelect } = require('enquirer');
+
+let prompt = new MultiSelect({
   type: 'multiselect',
   name: 'value',
   message: 'Pick colors',

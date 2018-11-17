@@ -1,5 +1,7 @@
+'use strict';
+
 const Store = require('data-store');
-const { Input } = require('../..');
+const { Input } = require('enquirer');
 
 const prompt = new Input({
   name: 'username',

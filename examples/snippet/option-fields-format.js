@@ -1,6 +1,8 @@
+'use strict';
+
 const colors = require('ansi-colors');
-const Prompt = require('../../lib/prompts/snippet');
-const prompt = new Prompt({
+const { Snippet } = require('enquirer');
+const prompt = new Snippet({
   name: 'username',
   message: 'Fill out the fields in package.json',
   fields: [

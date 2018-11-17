@@ -1,13 +1,15 @@
-const { dim, cyan, red, green, yellow } = require('ansi-colors');
-const Prompt = require('../../lib/prompts/invisible');
-const prompt = new Prompt({
+'use strict';
+
+const { dim, cyan, green } = require('ansi-colors');
+const { Invisible } = require('enquirer');
+
+const prompt = new Invisible({
   name: 'secret',
   message: 'What is your secret?',
   separator() {
-    if (this.state.submitted) {
-      return cyan(this.symbols.bullet);
-    }
-    return this.typed ? green(this.symbols.bullet) : dim(this.symbols.bullet);
+    let bullet = this.symbols.bullet;
+    if (this.state.submitted) return cyan(bullet);
+    return this.typed ? green(bullet) : dim(bullet);
   }
 });
 

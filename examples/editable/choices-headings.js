@@ -1,13 +1,17 @@
+'use strict';
+
 const log = require('../log-keypress');
 const colors = require('ansi-colors');
-const Prompt = require('../../lib/prompts/editable');
-const prompt = new Prompt({
+const { prompt } = require('enquirer');
+
+prompt({
+  type: 'editable',
   name: 'user',
   message: 'Please provide the following information:',
   promptLine: false,
   align: false,
   header() {
-    return 'Keypress: ' + log(prompt) + ' ';
+    return 'Keypress: ' + log(this) + ' ';
   },
   choices: [
     {
@@ -53,9 +57,7 @@ const prompt = new Prompt({
       ]
     }
   ]
-});
-
-prompt.run()
+})
   .then(value => {
     console.log('author:', value.author);
     console.log('colors:', value.colors);

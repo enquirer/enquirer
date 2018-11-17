@@ -2,13 +2,13 @@
 
 const yosay = require('yosay');
 const colors = require('ansi-colors');
-const Prompt = require('../lib/prompts/multiselect');
+const { MultiSelect } = require('enquirer');
 
 /**
  * Example that shows all of the prompt elements displayed at once.
  */
 
-const prompt = new Prompt({
+const prompt = new MultiSelect({
   type: 'multiselect',
   name: 'colors',
   message: 'Pick your favorite colors',

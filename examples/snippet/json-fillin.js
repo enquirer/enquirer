@@ -1,4 +1,6 @@
-const Prompt = require('../../lib/prompts/snippet');
+'use strict';
+
+const { Snippet } = require('enquirer');
 const pkg = { name: 'my-awesome-lib' };
 const required = ['name', 'description', 'version'];
 const template = {};
@@ -7,7 +9,7 @@ for (let name of required) {
   template[name] = `\${${name}}`;
 }
 
-const prompt = new Prompt({
+const prompt = new Snippet({
   name: 'username',
   message: 'Fill out the fields in package.json',
   required,

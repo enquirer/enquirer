@@ -1,5 +1,7 @@
+'use strict';
+
 const colors = require('ansi-colors');
-const { MultiScale } = require('../..');
+const { MultiScale } = require('enquirer');
 const prompt = new MultiScale({
   name: 'experience',
   message: 'Please rate your experience',
@@ -18,7 +20,7 @@ const prompt = new MultiScale({
   },
   scaleIndicator(choice, item, i) {
     let enabled = choice.scaleIndex >= item.index;
-    let { on, off, disabled } = this.symbols.stars;
+    let { on, disabled } = this.symbols.stars;
     if (choice.disabled) return this.styles.muted(disabled);
     if (enabled) {
       if (this.index === i) return this.styles.warning.dim(on);
@@ -35,10 +37,10 @@ const prompt = new MultiScale({
   // ],
   choices: [
     { name: 'shipping', message: '1. Shipping', initial: 2 },
-    { name: 'price',   message: '2. Price', initial: 2 },
+    { name: 'price', message: '2. Price', initial: 2 },
     { name: 'quality', message: '3. Quality', initial: 2 },
     { name: 'communication', message: '4. Communication', initial: 2 },
-    { name: 'experience', message: '5. Overall Experience', initial: 2 },
+    { name: 'experience', message: '5. Overall Experience', initial: 2 }
   ]
 });
 

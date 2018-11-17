@@ -1,24 +1,15 @@
 # Enquirer
 
-
-
 ## ❯ Concepts
 
 High level concepts in Enquirer.
 
 - [Enquirer](#enquirer)
-- [Prompts](#prompts)
 - [Plugins](#plugins)
-
-## ❯ Enquirer
-
-
-## ❯ Prompts
-
-- [Prompt](#prompt)
+- [Prompts](#prompts)
 - [Composition and Inheritance](#composition-and-inheritance)
   * [Types](#types)
-  * [Built-in prompts](#types)
+  * [Built-in prompts](#built-in-prompts)
   * [Custom prompts](#custom-prompts)
 - [Options](#options)
 - [State](#state)
@@ -26,6 +17,12 @@ High level concepts in Enquirer.
 - [Handling Keypresses](#handling-keypresses)
 - [Rendering prompts](#rendering-prompts)
 - [Styling prompts](#rendering-prompts)
+
+## ❯ Enquirer
+
+
+## ❯ Prompts
+
 
 ## ❯ Options
 
@@ -47,6 +44,7 @@ High level concepts in Enquirer.
 
 ## ❯ Composition and Inheritance
 
+- [Prompt](#prompt)
 
 ## ❯ Plugins
 

@@ -1,5 +1,5 @@
 const { dim, green, red, yellow } = require('ansi-colors');
-const { Input } = require('../..');
+const { Input } = require('enquirer');
 const color = t => t >= 7 ? green(t) : t > 3 ? yellow(t) : red(t);
 let time = 5;
 let int;
@@ -20,8 +20,8 @@ const prompt = new Input({
   },
   message(state) {
     if (state.submitted && !state.input) return 'Really? Your own name?';
-    return state.submitted ? 'Well done,' : 'What is your full name!!!'
-  },
+    return state.submitted ? 'Well done,' : 'What is your full name!!!';
+  }
 });
 
 prompt.once('close', () => clearInterval(int));

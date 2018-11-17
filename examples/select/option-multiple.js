@@ -1,6 +1,12 @@
-const colors = require('ansi-colors');
-const Prompt = require('../../lib/prompts/select');
-const prompt = new Prompt({
+'use strict';
+
+const { Select } = require('enquirer');
+
+/**
+ * Shows how to enable multiple choices with the `multiple` option
+ */
+
+const prompt = new Select({
   name: 'color',
   message: 'Pick a flavor',
   multiple: true,
@@ -9,4 +15,4 @@ const prompt = new Prompt({
 
 prompt.run()
   .then(answer => console.log('Answer:', answer))
-  .catch(err => console.error('TERMINATED'));
+  .catch(console.error);

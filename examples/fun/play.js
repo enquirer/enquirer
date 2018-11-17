@@ -2,10 +2,8 @@
 
 const path = require('path');
 const Store = require('data-store');
-const colors = require('ansi-colors');
-const ansi = require('../../lib/ansi');
 const store = new Store({ path: path.join(__dirname, 'recordings.json') });
-const { AutoComplete } = require('../..');
+const { AutoComplete } = require('enquirer');
 
 const timeout = (fn, ms = 0) => {
   return new Promise((resolve, reject) => {

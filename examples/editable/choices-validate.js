@@ -1,6 +1,9 @@
+'use strict';
+
 const colors = require('ansi-colors');
-const Prompt = require('../../lib/prompts/editable');
-const prompt = new Prompt({
+const { Editable } = require('enquirer');
+
+const prompt = new Editable({
   name: 'user',
   message: 'Please provide the following information:',
   promptLine: false,

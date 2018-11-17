@@ -1,6 +1,9 @@
+'use strict';
+
 const { red, dim } = require('ansi-colors');
-const Prompt = require('../../lib/prompts/multiselect');
-const prompt = new Prompt({
+const { MultiSelect } = require('enquirer');
+
+const prompt = new MultiSelect({
   name: 'example-groups',
   message: 'What are your favorite colors?',
   symbols: { indicator: { on: red('❤'), off: dim.red('❤') } },

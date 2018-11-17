@@ -1,5 +1,7 @@
+'use strict';
+
 const colors = require('ansi-colors');
-const { hMultiSelect } = require('../..');
+const { hMultiSelect } = require('enquirer');
 
 const prompt = new hMultiSelect({
   message: 'Keywords:',

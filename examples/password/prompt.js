@@ -1,5 +1,8 @@
-const Prompt = require('../../lib/prompts/password');
-const prompt = new Prompt({
+'use strict';
+
+const { Password } = require('enquirer');
+
+const prompt = new Password({
   name: 'password',
   message: 'What is your password?'
 });

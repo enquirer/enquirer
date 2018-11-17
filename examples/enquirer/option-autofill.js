@@ -3,7 +3,7 @@
 const options = { autofill: 'show' };
 const answers = { name: 'Jon Schlinkert', username: 'jonschlinkert' };
 
-const Enquirer = require('../..');
+const Enquirer = require('enquirer');
 const enquirer = new Enquirer(options, answers);
 
 const questions = [

@@ -1,5 +1,7 @@
-const Prompt = require('../../lib/prompts/snippet');
-const prompt = new Prompt({
+'use strict';
+
+const { Snippet } = require('enquirer');
+const prompt = new Snippet({
   name: 'username',
   message: 'Please add the following config values',
   template: `

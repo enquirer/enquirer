@@ -1,11 +1,12 @@
-const colors = require('ansi-colors');
-const Prompt = require('../../lib/prompts/select');
+'use strict';
 
-const prompt = new Prompt({
+const { Select } = require('enquirer');
+
+const prompt = new Select({
   name: 'color',
   message: 'Pick a color',
   format() {
-    return prompt.state.color(prompt.focused.name);
+    return prompt.style(prompt.focused.name);
   },
   choices: [
     'aqua',

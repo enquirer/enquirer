@@ -1,6 +1,7 @@
-const { MultiSelect } = require('../..');
-const colors = require('ansi-colors');
+'use strict';
+
 const yosay = require('yosay');
+const { MultiSelect } = require('enquirer');
 
 /**
  * Example of creating a silly easter egg for users.

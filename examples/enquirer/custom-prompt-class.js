@@ -1,4 +1,4 @@
-const { Prompt } = require('..');
+const { Prompt } = require('enquirer');
 
 class HaiKarate extends Prompt {
   constructor(options = {}) {

@@ -1,7 +1,9 @@
-const Prompt = require('../../lib/prompts/multiselect');
-const colors = require('ansi-colors');
+'use strict';
 
-const prompt = new Prompt({
+const colors = require('ansi-colors');
+const { MultiSelect } = require('enquirer');
+
+const prompt = new MultiSelect({
   name: 'food',
   message: 'What are your favorite foods?',
   choices: [

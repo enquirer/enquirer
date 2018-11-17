@@ -1,6 +1,14 @@
+'use strict';
+
 const colors = require('ansi-colors');
-const Prompt = require('../../lib/prompts/select');
-const symbols = require('../../lib/symbols');
+const { Select } = require('enquirer');
+
+/**
+ * This example is unnecessarily complex, just to show how
+ * flexible Enquirer is in regards to customizing symbols
+ * and styles.
+ */
+
 const emoji = { pending: '🎃', cancelled: '⚰️ ', submitted: '💀' };
 const halloween = {
   styles: {
@@ -9,7 +17,7 @@ const halloween = {
   },
   symbols: {
     radio: {
-      on: state => ['🍬 ', '🍎 ', '👄 ', '🖕 '][state.index],
+      on: state => ['🍬', '🍎', '👄', '🖕'][state.index],
       off: '  '
     }
   },
@@ -25,7 +33,7 @@ const halloween = {
   }
 };
 
-const prompt = new Prompt({
+const prompt = new Select({
   name: 'halloween',
   message: 'Trick or treat! Take your pick',
   theme: halloween,
@@ -43,4 +51,4 @@ prompt.run()
     let choice = prompt.choices.find(ch => ch.name === key);
     console.log('answer:', { [key]: choice.value });
   })
-  .catch(err => console.error('Cancelled'));
+  .catch(console.error);

@@ -1,8 +1,10 @@
-const Prompt = require('../../lib/prompts/multiselect');
+'use strict';
+
 const colors = require('ansi-colors');
+const { MultiSelect } = require('enquirer');
 const enable = (choices, fn) => choices.forEach(ch => (ch.enabled = fn(ch)));
 
-const prompt = new Prompt({
+const prompt = new MultiSelect({
   name: 'food',
   message: 'What are your favorite foods?',
   choices: [

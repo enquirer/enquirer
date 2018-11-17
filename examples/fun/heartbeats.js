@@ -1,5 +1,5 @@
 const { red } = require('ansi-colors');
-const { MultiSelect } = require('../..');
+const { MultiSelect } = require('enquirer');
 
 /**
  * This examples shows how to use the `timers` option to

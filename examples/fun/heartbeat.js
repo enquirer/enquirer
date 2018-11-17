@@ -1,4 +1,4 @@
-const { Select } = require('../..');
+const { Select } = require('enquirer');
 const { red } = require('ansi-colors');
 
 /**

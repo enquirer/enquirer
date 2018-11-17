@@ -1,16 +1,17 @@
-const { symbols, dim, red } = require('ansi-colors');
-const Prompt = require('../../lib/prompts/select');
+'use strict';
 
-const prompt = new Prompt({
+const { Select } = require('enquirer');
+
+const prompt = new Select({
   name: 'color',
   message: 'Pick a flavor',
   choices: ['apple', 'grape', 'watermelon', 'cherry', 'orange'],
   hint: 'Use arrow-keys, <return> to submit',
   separator(state) {
-    return state.color(symbols.bullet);
+    return this.style(this.symbols.bullet);
   }
 });
 
 prompt.run()
   .then(answer => console.log('Answer:', answer))
-  .catch(err => console.error('TERMINATED'));
+  .catch(console.error);

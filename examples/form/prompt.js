@@ -1,6 +1,8 @@
-const Prompt = require('../../lib/prompts/form');
+'use strict';
 
-const prompt = new Prompt({
+const { Form } = require('enquirer');
+
+const prompt = new Form({
   name: 'user',
   message: 'Please provide the following information:',
   choices: [

@@ -1,7 +1,6 @@
 'use strict';
 
-const colors = require('ansi-colors');
-const { AutoComplete } = require('../..');
+const { AutoComplete } = require('enquirer');
 
 /**
  * This examples shows how to "play" an array of keypresses.

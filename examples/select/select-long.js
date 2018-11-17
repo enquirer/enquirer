@@ -1,10 +1,18 @@
+'use strict';
+
 const yosay = require('yosay');
 const colors = require('ansi-colors');
-const Prompt = require('../../lib/prompts/select');
+const { Select } = require('enquirer');
+
+/**
+ * This prompt shows how you can easily customize the footer
+ * to render a different value based on conditions.
+ */
+
 let keys = Object.keys(colors.styles);
 let idx = 0;
 
-const prompt = new Prompt({
+const prompt = new Select({
   name: 'color',
   message: 'Pick a color',
   header: yosay('Welcome to my awesome generator!'),

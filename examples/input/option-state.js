@@ -1,13 +1,12 @@
 'use strict';
 
 const yosay = require('yosay');
-const colors = require('ansi-colors');
-const Prompt = require('../../lib/prompts/input');
+const { Input } = require('enquirer');
 
-const prompt = new Prompt({
+const prompt = new Input({
   message: 'What is your username?',
   header: yosay('Welcome to my awesome generator!'),
-  footer: 'This is a footer\nwith a\nfew\nlines',
+  footer: 'This is \na footer\nwith a\nfew\nlines\n',
   initial: 'jonschlinkert'
 });
 

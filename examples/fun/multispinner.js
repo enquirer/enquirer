@@ -1,5 +1,5 @@
 const { red } = require('ansi-colors');
-const { MultiSelect } = require('../..');
+const { MultiSelect } = require('enquirer');
 
 /**
  * This examples shows how to use the `timers` option to
@@ -8,7 +8,6 @@ const { MultiSelect } = require('../..');
 
 const rhythm = [red.dim, red, red.dim, red, red.dim, red.dim];
 const frame = (arr, i) => arr[i % arr.length];
-let i = 0;
 
 const prompt = new MultiSelect({
   name: 'example-groups',

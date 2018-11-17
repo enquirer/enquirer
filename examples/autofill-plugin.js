@@ -47,7 +47,7 @@ const autofill = (answers = {}) => {
   };
 };
 
-const Enquirer = require('..');
+const Enquirer = require('enquirer');
 const enquirer = new Enquirer();
 
 enquirer.use(autofill({ name: 'Jon Schlinkert', username: 'jonschlinkert' }));

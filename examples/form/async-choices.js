@@ -1,6 +1,7 @@
+'use strict';
+
 const path = require('path');
-const ansi = require('../../lib/ansi');
-const { Form, Input } = require('../..');
+const { Form, Input } = require('enquirer');
 
 /**
  * This example shows how prompts can be used to populate choices.
@@ -26,7 +27,6 @@ const input = (name, message, initial) => {
  * choices. This creates a nice effect of allowing the user to
  * review their answers before submitting the final result.
  */
-
 
 const prompt = new Form({
   name: 'user',

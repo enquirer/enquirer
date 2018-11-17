@@ -1,8 +1,6 @@
 'use strict';
 
-const yosay = require('yosay');
-const colors = require('ansi-colors');
-const { MultiSelect } = require('..');
+const { MultiSelect } = require('enquirer');
 const log = require('./log-keypress');
 
 const prompt = new MultiSelect({

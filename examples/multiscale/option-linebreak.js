@@ -1,4 +1,6 @@
-const { MultiScale } = require('../..');
+'use strict';
+
+const { MultiScale } = require('enquirer');
 const prompt = new MultiScale({
   name: 'experience',
   message: 'Please rate your experience',

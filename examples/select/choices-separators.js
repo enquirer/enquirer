@@ -1,7 +1,10 @@
+'use strict';
+
 const colors = require('ansi-colors');
-const Prompt = require('../../lib/prompts/select');
-const separator = () => ({ message: colors.dim('────'), disabled: true });
-const prompt = new Prompt({
+const { Select } = require('enquirer');
+const separator = () => ({ value: colors.dim('────'), role: 'separator' });
+
+const prompt = new Select({
   name: 'separator-example',
   message: 'Pick your favorite color',
   choices: [
@@ -17,7 +20,6 @@ const prompt = new Prompt({
   ]
 });
 
-prompt
-  .run()
+prompt.run()
   .then(answer => console.log('Answer:', answer === 'insult' ? 'You stink!' : answer))
-  .catch(err => console.error('TERMINATED'));
+  .catch(console.error);

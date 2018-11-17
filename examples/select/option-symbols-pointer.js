@@ -1,11 +1,13 @@
-const { red, dim } = require('ansi-colors');
-const Prompt = require('../../lib/prompts/select');
+'use strict';
+
+const { red } = require('ansi-colors');
+const { Select } = require('enquirer');
 
 const rhythm = [red.dim, red, red.dim, red, red.dim, red.dim];
 const frame = (arr, i) => arr[i % arr.length];
 let i = 0;
 
-const prompt = new Prompt({
+const prompt = new Select({
   name: 'color',
   message: 'Pick a color',
   symbols: {

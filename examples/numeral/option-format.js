@@ -1,5 +1,8 @@
-const Prompt = require('../../lib/types/number');
-const prompt = new Prompt({
+'use strict';
+
+const { NumberPrompt } = require('enquirer');
+
+const prompt = new NumberPrompt({
   name: 'amount',
   message: 'How much do you want to donate?',
   float: true,

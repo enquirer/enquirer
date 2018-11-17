@@ -3,7 +3,7 @@
 const path = require('path');
 const Store = require('data-store');
 const store = new Store({ path: path.join(__dirname, 'recordings.json') });
-const { AutoComplete } = require('../..');
+const { AutoComplete } = require('enquirer');
 
 const prompt = new AutoComplete({
   name: 'flavor',

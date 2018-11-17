@@ -1,5 +1,8 @@
-const Prompt = require('../../lib/prompts/survey');
-const prompt = new Prompt({
+'use strict';
+
+const { Survey } = require('enquirer');
+
+const prompt = new Survey({
   name: 'experience',
   message: 'Please rate your experience',
   choices: [

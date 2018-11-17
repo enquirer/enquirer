@@ -1,4 +1,4 @@
-const { Prompt } = require('..');
+const { Prompt } = require('enquirer');
 
 /**
  * _Using a custom Prompt class_

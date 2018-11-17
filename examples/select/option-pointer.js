@@ -1,7 +1,9 @@
-const colors = require('ansi-colors');
-const Prompt = require('../../lib/prompts/select');
+'use strict';
 
-const prompt = new Prompt({
+const colors = require('ansi-colors');
+const { Select } = require('enquirer');
+
+const prompt = new Select({
   name: 'color',
   message: 'Pick a flavor',
   choices: ['apple', 'grape', 'watermelon', 'cherry', 'orange'],
@@ -12,4 +14,4 @@ const prompt = new Prompt({
 
 prompt.run()
   .then(answer => console.log('Answer:', answer))
-  .catch(err => console.error('TERMINATED'));
+  .catch(console.error);
