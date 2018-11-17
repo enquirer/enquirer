@@ -20,7 +20,7 @@ const utils = require('./lib/utils');
 class Enquirer extends Events {
   constructor(options, answers) {
     super();
-    this.options = { ...options };
+    this.options = utils.merge({}, options);
     this.answers = { ...answers };
   }
 
@@ -79,7 +79,7 @@ class Enquirer extends Events {
     let cancel = false;
 
     for (let question of [].concat(questions)) {
-      let opts = { ...this.options, ...question };
+      let opts = utils.merge({}, this.options, question);
 
       let { type, name } = question;
       if (typeof type === 'function') type = await type.call(this, question);
@@ -101,21 +101,21 @@ class Enquirer extends Events {
         continue;
       }
 
-      const isSkip = typeof opts.skip === 'function'
+      let skipped = typeof opts.skip === 'function'
         ? await opts.skip(state)
-        : Boolean(opts.skip);
+        : opts.skip === true;
 
-      if (isSkip) {
+      if (skipped) {
         continue;
       }
 
       prompt.state.answers = this.answers;
 
       // bubble events
-      let emit = prompt.emit.bind(prompt);
+      let emit = prompt.emit;
       prompt.emit = (...args) => {
-        this.emit(...args.concat(state));
-        return emit(...args);
+        this.emit(...args);
+        return emit.call(prompt, ...args);
       };
 
       try {
@@ -203,8 +203,8 @@ class Enquirer extends Events {
    */
 
   static get prompt() {
-    const fn = (questions, onSubmit, onCancel) => {
-      let enquirer = new this({ onSubmit, onCancel });
+    const fn = (questions, ...rest) => {
+      let enquirer = new this(...rest);
       let emit = enquirer.emit.bind(enquirer);
       enquirer.emit = (...args) => {
         fn.emit(...args);
@@ -231,5 +231,14 @@ for (let name of Object.keys(prompts)) {
     Reflect.defineProperty(Enquirer, name, { get: () => prompts[name] });
   }
 }
+
+const exp = name => {
+  utils.defineExport(Enquirer, name, () => Enquirer.types[name]);
+};
+
+exp('ArrayPrompt');
+exp('BooleanPrompt');
+exp('NumberPrompt');
+exp('StringPrompt');
 
 module.exports = Enquirer;
