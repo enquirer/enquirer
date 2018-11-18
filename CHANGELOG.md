@@ -39,6 +39,10 @@ Changelog entries are classified using the following labels _(from [keep-a-chang
 
 - `validate` function now properly accepts `false` as a return value, thanks to [@g-plane](https://github.com/g-plane).
 
+### Removed
+
+- `hSelect` and `hMultiSelect` (horizontal select and multiselect) have been removed and moved over to the [recipes](recipes) folder. If you need these prompts and want to see how to re-create the functionality, you will find examples in [recipes/examples](recipes/examples).
+
 ### Changed
 
 - `ctrl+d` is now mapped to `deleteForward` instead of `cancel`. 
@@ -46,8 +50,9 @@ Changelog entries are classified using the following labels _(from [keep-a-chang
 ### Added
 
 - Adds support for <kbd>ctrl</kbd>+<kbd>n</kbd> to add choices
+- Adds support for `options.onRun`, which is called when `prompt.run()` is called, after the readline instance is created.
 - Adds support for `options.history` on the `Input` and `Text` prompts. 
-- Adds support for `options.term` to set the terminal, thanks to [@tunnckoCore](https://github.com/tunnckoCore). At the moment this is only used in a couple of edge cases with the `Survey` and `MultiScale` prompts to check if the terminal is Hyper.
+- Adds support for `options.term` to set the terminal, thanks to [@tunnckoCore](https://github.com/tunnckoCore). At the moment this is only used in a couple of edge cases with the `Survey` and `Scale` prompts to check if the terminal is Hyper.
 - `options.skip` may now be a Boolean, thanks to [@tunnckoCore](https://github.com/tunnckoCore)
 
 ## 2.0.0 - 2018-11-07

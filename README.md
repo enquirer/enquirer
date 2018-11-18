@@ -273,7 +273,7 @@ const response = await enquirer.prompt({
 console.log(response);
 ```
 
-### [use](index.js#L155)
+### [use](index.js#L157)
 
 Use an enquirer plugin.
 
@@ -293,7 +293,7 @@ const plugin = enquirer => {
 enquirer.use(plugin);
 ```
 
-### [Enquirer#prompt](index.js#L205)
+### [Enquirer#prompt](index.js#L207)
 
 Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
@@ -390,12 +390,10 @@ prompt(question)
 * [AutoComplete](#autocomplete-prompt)
 * [Confirm](#confirm-prompt)
 * [Form](#form-prompt)
-* [hSelect](#hselect-prompt) (horizontal select)
-* [hMultiSelect](#hmultiselect-prompt) (horizontal multiselect)
 * [Input](#input-prompt)
 * [Invisible](#invisible-prompt)
 * [List](#list-prompt)
-* [MultiScale](#multiscale-prompt)
+* [Scale](#scale-prompt)
 * [MultiSelect](#multiselect-prompt)
 * [Number](#number-prompt)
 * [Password](#password-prompt)
@@ -491,44 +489,6 @@ Prompt that allows the user to enter and submit multiple values on a single term
 <br>
 <br>
 
-### hSelect Prompt
-
-The `hSelect` (Horizontal Select) allows the user to select from a horizontal list of choices.
-
-<p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/hselect-prompt.gif" alt="Enquirer Horizontal Select / hSelect Prompt" width="750">
-</p>
-
-**Related prompts**
-
-* [Select](#select-prompt)
-* [MultiSelect](#multiselect-prompt)
-* [Hmultiselect](#hmultiselect-prompt)
-
-**↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
-
-<br>
-<br>
-
-### hMultiSelect Prompt
-
-The `hMultiSelect` (Horizontal MultiSelect) allows the user to select multiple items from a horizontal list of choices.
-
-<p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/hmultiselect-prompt.gif" alt="Enquirer Horizontal MultiSelect / hMultiSelect Prompt" width="750">
-</p>
-
-**Related prompts**
-
-* [Select](#select-prompt)
-* [Hselect](#hselect-prompt)
-* [MultiSelect](#multiselect-prompt)
-
-**↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
-
-<br>
-<br>
-
 ### Input Prompt
 
 Prompt that takes user input and returns a string.
@@ -594,12 +554,12 @@ Prompt that returns a list of values, created by splitting the user input. The d
 <br>
 <br>
 
-### MultiScale Prompt
+### Scale Prompt
 
 Prompt that allows the user to quickly provide feedback using a [Likert Scale](https://en.wikipedia.org/wiki/Likert_scale).
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/multiscale-prompt.gif" alt="Enquirer MultiScale Prompt" width="750">
+<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/scale-prompt.gif" alt="Enquirer Scale Prompt" width="750">
 </p>
 
 **Related prompts**
@@ -736,7 +696,7 @@ Prompt that allows the user to provide feedback for a list of questions.
 
 **Related prompts**
 
-* [MultiScale](#multiscale-prompt)
+* [Scale](#scale-prompt)
 * [Snippet](#snippet-prompt)
 * [Select](#select-prompt)
 
@@ -1152,10 +1112,19 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 
 | **Commits** | **Contributor** |  
 | --- | --- |  
-| 72 | [jonschlinkert](https://github.com/jonschlinkert) |  
-| 12 | [doowb](https://github.com/doowb) |  
-| 1  | [mischah](https://github.com/mischah) |  
-| 1  | [skellock](https://github.com/skellock) |  
+| 238 | [jonschlinkert](https://github.com/jonschlinkert) |  
+| 24  | [doowb](https://github.com/doowb) |  
+| 8   | [g-plane](https://github.com/g-plane) |  
+| 3   | [tunnckoCore](https://github.com/tunnckoCore) |  
+| 2   | [DanielRuf](https://github.com/DanielRuf) |  
+| 1   | [gabel0287](https://github.com/gabel0287) |  
+| 1   | [ImgBotApp](https://github.com/ImgBotApp) |  
+| 1   | [jsonkao](https://github.com/jsonkao) |  
+| 1   | [knpwrs](https://github.com/knpwrs) |  
+| 1   | [yeskunall](https://github.com/yeskunall) |  
+| 1   | [mischah](https://github.com/mischah) |  
+| 1   | [sbugert](https://github.com/sbugert) |  
+| 1   | [skellock](https://github.com/skellock) |  
 
 ### Author
 
@@ -1171,5 +1140,5 @@ Thanks to [derhuerst](https://github.com/derhuerst), creator of prompt libraries
 
 ### License
 
-Copyright © 2018, [Jon Schlinkert](https://github.com/jonschlinkert).
+Copyright © 2018-present, [Jon Schlinkert](https://github.com/jonschlinkert).
 Released under the [MIT License](LICENSE).
