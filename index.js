@@ -79,6 +79,10 @@ class Enquirer extends Events {
     let cancel = false;
 
     for (let question of [].concat(questions)) {
+      if (typeof question === 'function') {
+        question = await question.call(this);
+      }
+
       let opts = utils.merge({}, this.options, question);
 
       let { type, name } = question;
@@ -93,6 +97,7 @@ class Enquirer extends Events {
       let value = utils.get(this.answers, name);
 
       this.emit('prompt', prompt, this.answers);
+      prompt.state.answers = this.answers;
 
       if (opts.autofill && value != null) {
         prompt.value = prompt.input = value;
@@ -109,8 +114,6 @@ class Enquirer extends Events {
         continue;
       }
 
-      prompt.state.answers = this.answers;
-
       // bubble events
       let emit = prompt.emit;
       prompt.emit = (...args) => {
@@ -121,7 +124,6 @@ class Enquirer extends Events {
       try {
         value = await prompt.run();
         if (name) this.answers[name] = value;
-
         cancel = opts.onSubmit && await opts.onSubmit(name, value, prompt);
       } catch (err) {
         cancel = !(await onCancel(name, value, prompt));
