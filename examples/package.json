@@ -1,7 +1,11 @@
 {
   "name": "enquirer-examples",
-  "dependencies": {
-    "@folder/file": "file:../../../@folder/file",
-    "enquirer": "file:.."
+  "devDependencies": {
+    "enquirer": "file:..",
+    "ansi-colors": "^3.2.1",
+    "cli-spinners": "^1.3.1",
+    "data-store": "^3.1.0",
+    "semver": "^5.6.0",
+    "yosay": "^2.0.2"
   }
 }
