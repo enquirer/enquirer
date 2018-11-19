@@ -1,11 +1,12 @@
 'use strict';
 
 const { MultiSelect } = require('enquirer');
+const log = require('../log-keypress');
 
 const prompt = new MultiSelect({
-  name: 'example-groups',
-  message: 'What are your favorite colors?',
-  symbols: { indicator: '$' },
+  name: 'items',
+  message: 'Choose your items',
+  header: () => 'Keypress: ' + log(prompt),
   choices: [
     { name: 'foo', choices: ['a', 'b', { name: 'c', disabled: true }] },
     { name: 'bar', choices: ['d', 'e', 'f'] },

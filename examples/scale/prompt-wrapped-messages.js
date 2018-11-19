@@ -1,10 +1,14 @@
 'use strict';
 
-const { MultiScale } = require('enquirer');
-const prompt = new MultiScale({
+const colors = require('ansi-colors');
+const { Scale } = require('enquirer');
+const prompt = new Scale({
   name: 'experience',
   message: 'Please rate your experience',
-  linebreak: true,
+  messageWidth: 20,
+  margin: '    ',
+  edgeLength: 3,
+  styles: { primary: colors.blue },
   scale: [
     { name: '1', message: 'Strongly Disagree' },
     { name: '2', message: 'Disagree' },

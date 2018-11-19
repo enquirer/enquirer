@@ -1,7 +1,7 @@
 'use strict';
 
-const { MultiScale } = require('enquirer');
-const prompt = new MultiScale({
+const { Scale } = require('enquirer');
+const prompt = new Scale({
   name: 'experience',
   message: 'How would you rate your experience?',
   hint: '(0=bad, 10=awesome)',

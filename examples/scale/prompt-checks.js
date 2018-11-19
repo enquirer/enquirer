@@ -1,16 +1,9 @@
 'use strict';
 
-const { MultiScale } = require('enquirer');
-const prompt = new MultiScale({
+const { Scale } = require('enquirer');
+const prompt = new Scale({
   name: 'experience',
   message: 'Please rate your experience',
-  number(n) {
-    let choice = prompt.focused;
-    let i = +n - 1;
-    if (i >= prompt.scale.length) return prompt.alert();
-    choice.scaleIndex = i;
-    return prompt.render();
-  },
   scale: [
     { name: '1', message: 'Strongly Disagree' },
     { name: '2', message: 'Disagree' },
@@ -18,6 +11,15 @@ const prompt = new MultiScale({
     { name: '4', message: 'Agree' },
     { name: '5', message: 'Strongly Agree' }
   ],
+  symbols: { line: ' ' },
+  edgeLength: 1,
+  messageWidth: 48,
+  scaleIndicator(choice, item, i) {
+    let enabled = choice.scaleIndex === item.index;
+    if (enabled) return this.styles.success(this.symbols.check);
+    if (this.index === i) return this.styles.muted(this.symbols.check);
+    return this.styles.dark(this.symbols.check);
+  },
   choices: [
     {
       name: 'interface',
