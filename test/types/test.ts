@@ -183,6 +183,22 @@ Enquirer.prompt({
   name: 'test',
   type: 'text',
   message: '',
+  onCancel(name: string, value: string, prompt: Enquirer.Prompt) {
+    return true;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  async onCancel(name: string, value: string, prompt: Enquirer.Prompt) {
+    return true;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
   stdin: process.stdin
 });
 Enquirer.prompt({
