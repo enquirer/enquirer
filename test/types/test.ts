@@ -167,6 +167,22 @@ Enquirer.prompt({
   name: 'test',
   type: 'text',
   message: '',
+  onSubmit(name: string, value: string, prompt: Enquirer.Prompt) {
+    return true;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  async onSubmit(name: string, value: string, prompt: Enquirer.Prompt) {
+    return true;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
   stdin: process.stdin
 });
 Enquirer.prompt({
