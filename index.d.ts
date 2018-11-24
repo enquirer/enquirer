@@ -3,10 +3,13 @@ interface BasePromptOptions {
   type: string | (() => string)
   message: string | (() => string) | (() => Promise<string>)
   initial?: any
+  required?: boolean
   format?(value: string): string | Promise<string>
   result?(value: string): string | Promise<string>
   skip?: ((state: object) => boolean | Promise<boolean>) | boolean
   validate?(value: string): boolean | Promise<boolean> | string | Promise<string>
+  onSubmit?(name: string, value: any, prompt: Enquirer.Prompt): boolean | Promise<boolean>
+  onCancel?(name: string, value: any, prompt: Enquirer.Prompt): boolean | Promise<boolean>
   stdin?: NodeJS.ReadStream
   stdout?: NodeJS.WriteStream
 }
@@ -24,16 +27,22 @@ interface ArrayPromptOptions extends BasePromptOptions {
     | 'autocomplete'
     | 'editable'
     | 'form'
-    | 'hmultiselect'
-    | 'hselect'
     | 'multiselect'
     | 'select'
     | 'survey'
+    | 'list'
+    | 'scale'
   choices: string[] | Choice[]
   maxChoices?: number
   muliple?: boolean
   initial?: number
   delay?: number
+  separator?: boolean
+  sort?: boolean
+  linebreak?: boolean
+  edgeLength?: number
+  align?: 'left' | 'right'
+  scroll?: boolean
 }
 
 interface BooleanPromptOptions extends BasePromptOptions {
@@ -44,6 +53,7 @@ interface BooleanPromptOptions extends BasePromptOptions {
 interface StringPromptOptions extends BasePromptOptions {
   type: 'input' | 'invisible' | 'list' | 'password' | 'text'
   initial?: string
+  multiline?: boolean
 }
 
 interface NumberPromptOptions extends BasePromptOptions {
@@ -60,11 +70,14 @@ interface NumberPromptOptions extends BasePromptOptions {
 
 interface SnippetPromptOptions extends BasePromptOptions {
   type: 'snippet'
+  newline?: string
 }
 
 interface SortPromptOptions extends BasePromptOptions {
   type: 'sort'
   hint?: string
+  drag?: boolean
+  numbered?: boolean
 }
 
 type PromptOptions =
@@ -106,7 +119,12 @@ declare class Enquirer<T = object> extends NodeJS.EventEmitter {
    *
    * @param questions Options objects for one or more prompts to run.
    */
-  prompt(questions: PromptOptions | PromptOptions[]): Promise<T>;
+  prompt(
+    questions:
+      | PromptOptions
+      | ((this: Enquirer) => PromptOptions)
+      | (PromptOptions | ((this: Enquirer) => PromptOptions))[]
+  ): Promise<T>;
 
   /**
    * Use an enquirer plugin.
@@ -117,7 +135,12 @@ declare class Enquirer<T = object> extends NodeJS.EventEmitter {
 }
 
 declare namespace Enquirer {
-  function prompt<T = object>(questions: PromptOptions | PromptOptions[]): Promise<T>;
+  function prompt<T = object>(
+    questions:
+      | PromptOptions
+      | ((this: Enquirer) => PromptOptions)
+      | (PromptOptions | ((this: Enquirer) => PromptOptions))[]
+  ): Promise<T>;
 
   class Prompt extends BasePrompt {}
 }

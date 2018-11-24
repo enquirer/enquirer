@@ -1,4 +1,4 @@
-import Enquirer = require('../../');
+import * as Enquirer from '../..';
 
 new Enquirer();
 new Enquirer.Prompt();
@@ -8,7 +8,13 @@ Enquirer
   .prompt({ name: 'test', type: 'text', message: '' })
   .then(answer => answer);
 Enquirer
-  .prompt([{ name: 'test', type: 'text', message: '' }])
+  .prompt(() => ({ name: 'test', type: 'text', message: '' }))
+  .then(answer => answer);
+Enquirer
+  .prompt([
+    { name: 'test', type: 'text', message: '' },
+    () => ({ name: 'test', type: 'text', message: '' })
+  ])
   .then(answer => answer);
 Enquirer
   .prompt<{ question: string }>({ name: 'question', type: 'text', message: '' })
@@ -26,7 +32,13 @@ instance
   .prompt({ name: 'test', type: 'text', message: '' })
   .then(answer => answer.question1);
 instance
-  .prompt([{ name: 'test', type: 'text', message: '' }])
+  .prompt(() => ({ name: 'test', type: 'text', message: '' }))
+  .then(answer => answer.question1);
+instance
+  .prompt([
+    { name: 'test', type: 'text', message: '' },
+    () => ({ name: 'test', type: 'text', message: '' })
+  ])
   .then(answer => answer.question1);
 instance
   .use(function () {
@@ -43,6 +55,12 @@ const customPrompt = new CustomPrompt();
 customPrompt.run().then(answer => answer);
 
 // Prompt options
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  required: true
+});
 Enquirer.prompt({
   name: 'test',
   type: 'text',
@@ -143,6 +161,38 @@ Enquirer.prompt({
   message: '',
   async validate(value) {
     return value;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  onSubmit(name: string, value: string, prompt: Enquirer.Prompt) {
+    return true;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  async onSubmit(name: string, value: string, prompt: Enquirer.Prompt) {
+    return true;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  onCancel(name: string, value: string, prompt: Enquirer.Prompt) {
+    return true;
+  }
+});
+Enquirer.prompt({
+  name: 'test',
+  type: 'text',
+  message: '',
+  async onCancel(name: string, value: string, prompt: Enquirer.Prompt) {
+    return true;
   }
 });
 Enquirer.prompt({
