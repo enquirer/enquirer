@@ -67,6 +67,26 @@ describe('select', function() {
           assert.equal(answer, 'c');
         });
     });
+
+    it('should accept a function', () => {
+      prompt = new Prompt({
+        message: 'prompt-select',
+        initial: () => 2,
+        choices: [
+          { name: 'a', message: 'A' },
+          { name: 'b', message: 'BB' },
+          { name: 'c', message: 'CCC' },
+          { name: 'd', message: 'DDDD' }
+        ]
+      });
+
+      prompt.once('run', () => prompt.submit());
+
+      return prompt.run()
+        .then(answer => {
+          assert.equal(answer, 'c');
+        });
+    });
   });
 
   describe('rendering', () => {
