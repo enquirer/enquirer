@@ -37,6 +37,19 @@ describe('string prompt', function() {
           assert.equal(value, 'false');
         });
     });
+
+    it('should not convert empty string to `undefined`', () => {
+      prompt = new Prompt({ show: false, message: 'foo', initial: '' });
+
+      prompt.on('run', () => {
+        prompt.submit(String(prompt.options.initial));
+      });
+
+      return prompt.run()
+        .then(value => {
+          assert.equal(value, '');
+        });
+    })
   });
 
   describe('cursor position', () => {
