@@ -27,5 +27,33 @@ describe('boolean prompt', function() {
           assert(answer === false);
         });
     });
+
+    it('should call options.initial when a function', () => {
+      prompt = new Prompt({
+        message: 'foo',
+        initial: () => {
+          return true;
+        }
+      });
+      prompt.once('run', () => prompt.submit());
+      return prompt.run()
+        .then(answer => {
+          assert(answer === true);
+        });
+    });
+
+    it('should call options.initial when a async function', () => {
+      prompt = new Prompt({
+        message: 'foo',
+        initial: async () => {
+          return true;
+        }
+      });
+      prompt.once('run', () => prompt.submit());
+      return prompt.run()
+        .then(answer => {
+          assert(answer === true);
+        });
+    });
   });
 });
