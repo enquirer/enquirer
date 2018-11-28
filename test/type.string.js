@@ -42,7 +42,7 @@ describe('string prompt', function() {
       prompt = new Prompt({ show: false, message: 'foo', initial: '' });
 
       prompt.on('run', () => {
-        prompt.submit(String(prompt.options.initial));
+        prompt.submit(prompt.options.initial);
       });
 
       return prompt.run()
