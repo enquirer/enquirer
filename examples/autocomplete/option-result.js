@@ -3,14 +3,12 @@
 const { prompt } = require('enquirer');
 
 (async() => {
+
   const answers = await prompt({
     type: 'autocomplete',
     name: 'flavor',
     message: 'Pick your favorite flavor',
     initial: 3,
-    format(value = '') {
-      return value.split('').join('-').toLowerCase();
-    },
     choices: [
       'almond',
       'apple',
@@ -29,9 +27,12 @@ const { prompt } = require('enquirer');
       'vanilla',
       'watermelon',
       'wintergreen'
-    ]
+    ],
+    result(value) {
+      return value.toUpperCase();
+    }
   });
 
-  console.log(answers);
+  console.log('Answers', answers);
 
 })().catch(console.log);
