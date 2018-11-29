@@ -31,9 +31,7 @@ describe('boolean prompt', function() {
     it('should call options.initial when a function', () => {
       prompt = new Prompt({
         message: 'foo',
-        initial: () => {
-          return true;
-        }
+        initial: () => true
       });
       prompt.once('run', () => prompt.submit());
       return prompt.run()
@@ -45,8 +43,10 @@ describe('boolean prompt', function() {
     it('should call options.initial when a async function', () => {
       prompt = new Prompt({
         message: 'foo',
-        initial: async () => {
-          return true;
+        async initial() {
+          return new Promise(resolve => {
+            setTimeout(() => resolve(true), 10);
+          });
         }
       });
       prompt.once('run', () => prompt.submit());
