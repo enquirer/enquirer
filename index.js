@@ -165,16 +165,22 @@ class Enquirer extends Events {
     return state;
   }
 
+  set Prompt(value) {
+    this._Prompt = value;
+  }
   get Prompt() {
-    return this.constructor.Prompt;
+    return this._Prompt || this.constructor.Prompt;
   }
 
   get prompts() {
     return this.constructor.prompts;
   }
 
+  static set Prompt(value) {
+    this._Prompt = value;
+  }
   static get Prompt() {
-    return require('./lib/prompt');
+    return this._Prompt || require('./lib/prompt');
   }
 
   static get prompts() {

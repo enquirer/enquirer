@@ -293,7 +293,7 @@ const plugin = enquirer => {
 enquirer.use(plugin);
 ```
 
-### [Enquirer#prompt](index.js#L207)
+### [Enquirer#prompt](index.js#L213)
 
 Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
@@ -1112,9 +1112,9 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 
 | **Commits** | **Contributor** |  
 | --- | --- |  
-| 238 | [jonschlinkert](https://github.com/jonschlinkert) |  
-| 24  | [doowb](https://github.com/doowb) |  
-| 8   | [g-plane](https://github.com/g-plane) |  
+| 255 | [jonschlinkert](https://github.com/jonschlinkert) |  
+| 25  | [doowb](https://github.com/doowb) |  
+| 15  | [g-plane](https://github.com/g-plane) |  
 | 3   | [tunnckoCore](https://github.com/tunnckoCore) |  
 | 2   | [DanielRuf](https://github.com/DanielRuf) |  
 | 1   | [gabel0287](https://github.com/gabel0287) |  
@@ -1123,6 +1123,7 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 | 1   | [knpwrs](https://github.com/knpwrs) |  
 | 1   | [yeskunall](https://github.com/yeskunall) |  
 | 1   | [mischah](https://github.com/mischah) |  
+| 1   | [renarsvilnis](https://github.com/renarsvilnis) |  
 | 1   | [sbugert](https://github.com/sbugert) |  
 | 1   | [skellock](https://github.com/skellock) |  
 

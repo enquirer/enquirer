@@ -32,20 +32,17 @@ Changelog entries are classified using the following labels _(from [keep-a-chang
 
 </details>
 
+## 2.1.0 - 2018-11-29
 
-## 3.0.0 - 2018-11-14
+### Fixed
+
+- Several improvements were made for handling custom `format`, `result` and `initial` functions defined on the options. 
+
+## 2.0.7 - 2018-11-14
 
 ### Fixed
 
 - `validate` function now properly accepts `false` as a return value, thanks to [@g-plane](https://github.com/g-plane).
-
-### Removed
-
-- `hSelect` and `hMultiSelect` (horizontal select and multiselect) have been removed and moved over to the [recipes](recipes) folder. If you need these prompts and want to see how to re-create the functionality, you will find examples in [recipes/examples](recipes/examples).
-
-### Changed
-
-- `ctrl+d` is now mapped to `deleteForward` instead of `cancel`. 
 
 ### Added
 

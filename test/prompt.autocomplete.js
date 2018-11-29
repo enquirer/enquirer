@@ -197,6 +197,71 @@ describe('prompt-autocomplete', () => {
     });
   });
 
+  describe('options.format', () => {
+    it('should support a custom format function', () => {
+      let buffer = [];
+      prompt = new Prompt({
+        message: 'Favorite flavor?',
+        choices: fixtures.slice(),
+        format(value = this.input) {
+          return value.toUpperCase();
+        }
+      });
+
+      prompt.once('run', async() => {
+        await prompt.keypress('b');
+        await prompt.keypress('e');
+        await prompt.keypress('r');
+        await prompt.keypress('r');
+        await prompt.keypress('y');
+        buffer.push(prompt.state.buffer);
+        await prompt.submit();
+      });
+
+      return prompt.run()
+        .then(answer => {
+          assert(/BERRY/.test(prompt.state.buffer));
+          assert.equal(answer, 'strawberry');
+        });
+    });
+  });
+
+  describe('options.result', () => {
+    it.only('should support a custom result function', () => {
+      let values = [];
+      let results = [];
+      prompt = new Prompt({
+        message: 'Favorite flavor?',
+        choices: fixtures.slice(),
+        format(value) {
+          values.push(value);
+          return value.toUpperCase();
+        },
+        result(value) {
+          results.push(value);
+          return value.toUpperCase();
+        }
+      });
+
+      prompt.once('run', async() => {
+        await prompt.keypress('b');
+        await prompt.keypress('e');
+        await prompt.keypress('r');
+        await prompt.keypress('r');
+        await prompt.keypress('y');
+        console.log([prompt.state.buffer])
+        await prompt.submit();
+      });
+
+      return prompt.run()
+        .then(answer => {
+          assert.deepEqual(values, ['', 'b', 'be', 'ber', 'berr', 'berry', 'STRAWBERRY']);
+          assert.deepEqual(results, ['strawberry']);
+          assert.equal(answer, 'STRAWBERRY');
+        });
+    });
+  });
+
   describe('options.suggest', () => {
     it('should support a custom suggest function', () => {
       prompt = new Prompt({
