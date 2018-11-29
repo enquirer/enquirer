@@ -227,7 +227,7 @@ describe('prompt-autocomplete', () => {
   });
 
   describe('options.result', () => {
-    it.only('should support a custom result function', () => {
+    it('should support a custom result function', () => {
       let values = [];
       let results = [];
       prompt = new Prompt({
@@ -249,7 +249,6 @@ describe('prompt-autocomplete', () => {
         await prompt.keypress('r');
         await prompt.keypress('r');
         await prompt.keypress('y');
-        console.log([prompt.state.buffer])
         await prompt.submit();
       });
 
