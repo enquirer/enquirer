@@ -1,5 +1,16 @@
-declare class Enquirer<T = object> extends NodeJS.EventEmitter {
-  constructor(options?: object, answers?: T);
+// Type definitions for enquirer 2.1
+// Project: https://github.com/enquirer/enquirer
+// Definitions by: Kamontat Chantrachirathumrong <https://github.com/kamontat>
+// TypeScript Version: 2.8
+
+export = EnquirerStatic;
+
+declare class EnquirerStatic<
+  R = any,
+  N extends string = string
+> extends NodeJS.EventEmitter {
+  // TODO: update object options
+  constructor(options?: object, answers?: object);
 
   /**
    * Register a custom prompt type.
@@ -7,69 +18,77 @@ declare class Enquirer<T = object> extends NodeJS.EventEmitter {
    * @param type
    * @param fn `Prompt` class, or a function that returns a `Prompt` class.
    */
-  register(
-    type: string,
-    fn: typeof Enquirer.BasePrompt | (() => typeof Enquirer.BasePrompt)
-  ): this;
-
-  /**
-   * Register a custom prompt type.
-   */
-  register(type: {
-    [key: string]:
-      | typeof Enquirer.BasePrompt
-      | (() => typeof Enquirer.BasePrompt);
-  }): this;
+  register(type: string): this;
 
   /**
    * Prompt function that takes a "question" object or array of question objects,
    * and returns an object with responses from the user.
    *
-   * @param questions Options objects for one or more prompts to run.
+   * @param question Array of question for prompts to run.
    */
   prompt(
-    questions:
-      | Enquirer.Type.PromptOptions
-      | ((this: Enquirer) => Enquirer.Type.PromptOptions)
-      | (
-          | Enquirer.Type.PromptOptions
-          | ((this: Enquirer) => Enquirer.Type.PromptOptions))[]
-  ): Promise<T>;
+    questions: Array<EnquirerStatic.PromptOptions<N>>
+  ): Promise<EnquirerStatic.PromptType.Answers<N, R>>;
+
+  /**
+   * Prompt function that takes a "question" object or array of question objects,
+   * and returns an object with responses from the user.
+   *
+   * @param question Question for prompts to run.
+   */
+  prompt(question: EnquirerStatic.PromptOptions<N>): Promise<R>;
 
   /**
    * Use an enquirer plugin.
    *
    * @param plugin Plugin function that takes an instance of Enquirer.
    */
-  use(plugin: (this: this, enquirer: this) => void): this;
+  use(plugin: EnquirerStatic.Caller.BindOneParam<this, this, void>): this;
 }
 
-declare namespace Enquirer {
-  namespace Type {
-    interface BasePromptOptions {
-      name: string | (() => string);
-      type: string | (() => string);
-      message: string | (() => string) | (() => Promise<string>);
-      initial?: any;
-      required?: boolean;
-      format?(value: string): string | Promise<string>;
-      result?(value: string): string | Promise<string>;
-      skip?: ((state: object) => boolean | Promise<boolean>) | boolean;
-      validate?(
-        value: string
-      ): boolean | Promise<boolean> | string | Promise<string>;
-      onSubmit?(
-        name: string,
-        value: any,
-        prompt: BasePrompt<this>
-      ): boolean | Promise<boolean>;
-      onCancel?(
-        name: string,
-        value: any,
-        prompt: BasePrompt<this>
-      ): boolean | Promise<boolean>;
+declare namespace EnquirerStatic {
+  namespace Caller {
+    type NoParam<R> = () => R;
+    type OneParam<T, R = T> = (value: T) => R;
+
+    type BindNoParam<B, R> = (this: B) => R;
+    type BindOneParam<B, T, R> = (this: B, value: T) => R;
+  }
+
+  namespace UnionType {
+    type ValueOrFunc<T, R = T> = R | Caller.OneParam<T, R>;
+
+    type ValueOrArray<T> = T | T[];
+
+    type ValueOrPromise<T> = T | Promise<T>;
+  }
+
+  namespace PromptType {
+    type Answers<T extends string, R = any> = { [id in T]: R };
+
+    interface BaseOptions<N extends string> {
+      name: UnionType.ValueOrFunc<N>;
+      message: UnionType.ValueOrFunc<N, UnionType.ValueOrPromise<string>>; // async
+
+      // TODO: What type of Skip parameters method.
+      skip?: UnionType.ValueOrFunc<
+        Answers<N> | string,
+        UnionType.ValueOrPromise<boolean>
+      >; // async
+
+      format?: Caller.OneParam<string, UnionType.ValueOrPromise<string>>; // async
+      result?: Caller.OneParam<string, UnionType.ValueOrPromise<string>>; // async
+      validate?: Caller.OneParam<
+        string,
+        UnionType.ValueOrPromise<string | boolean>
+      >; // async
+
       stdin?: NodeJS.ReadStream;
       stdout?: NodeJS.WriteStream;
+    }
+
+    interface BaseTypeOptions<T extends string> {
+      type: UnionType.ValueOrFunc<T>;
     }
 
     interface Choice {
@@ -80,16 +99,27 @@ declare namespace Enquirer {
       disabled?: boolean | string;
     }
 
-    interface ArrayPromptOptions extends BasePromptOptions {
-      type:
-        | "autocomplete"
-        | "editable"
-        | "form"
-        | "multiselect"
-        | "select"
-        | "survey"
-        | "list"
-        | "scale";
+    type StringType = "input" | "invisible" | "list" | "password" | "text";
+
+    type NumberType = "numeral";
+
+    type SortType = "sort";
+
+    type SnippetType = "snippet";
+
+    type BooleanType = "confirm";
+
+    type ArrayType =
+      | "autocomplete"
+      | "editable"
+      | "form"
+      | "multiselect"
+      | "select"
+      | "survey"
+      | "list"
+      | "scale"; // TODO: This support Falsy value ???
+
+    interface ArrayOptions<N extends string = string> extends BaseOptions<N> {
       choices: string[] | Choice[];
       maxChoices?: number;
       muliple?: boolean;
@@ -103,19 +133,12 @@ declare namespace Enquirer {
       scroll?: boolean;
     }
 
-    interface BooleanPromptOptions extends BasePromptOptions {
-      type: "confirm";
-      initial?: boolean;
-    }
-
-    interface StringPromptOptions extends BasePromptOptions {
-      type: "input" | "invisible" | "list" | "password" | "text";
+    interface StringOptions<N extends string = string> extends BaseOptions<N> {
       initial?: string;
       multiline?: boolean;
     }
 
-    interface NumberPromptOptions extends BasePromptOptions {
-      type: "numeral";
+    interface NumberOptions<N extends string = string> extends BaseOptions<N> {
       min?: number;
       max?: number;
       delay?: number;
@@ -126,41 +149,197 @@ declare namespace Enquirer {
       initial?: number;
     }
 
-    interface SnippetPromptOptions extends BasePromptOptions {
-      type: "snippet";
+    interface SnippetOptions<N extends string = string> extends BaseOptions<N> {
       newline?: string;
     }
 
-    interface SortPromptOptions extends BasePromptOptions {
-      type: "sort";
+    interface SortOptions<N extends string = string> extends BaseOptions<N> {
       hint?: string;
       drag?: boolean;
       numbered?: boolean;
     }
 
-    type PromptOptions =
-      | ArrayPromptOptions
-      | BooleanPromptOptions
-      | StringPromptOptions
-      | NumberPromptOptions
-      | SnippetPromptOptions
-      | SortPromptOptions
-      | BasePromptOptions;
+    interface BooleanOptions<N extends string = string> extends BaseOptions<N> {
+      initial?: boolean;
+    }
+
+    interface SnippetTypeOptions<N extends string>
+      extends BaseTypeOptions<SnippetType>,
+        SnippetOptions<N> {}
+
+    interface SortTypeOptions<N extends string>
+      extends BaseTypeOptions<SortType>,
+        SortOptions<N> {}
+
+    interface StringTypeOptions<N extends string>
+      extends BaseTypeOptions<StringType>,
+        StringOptions<N> {}
+
+    interface ArrayTypeOptions<N extends string>
+      extends BaseTypeOptions<ArrayType>,
+        ArrayOptions<N> {}
+
+    interface BooleanTypeOptions<N extends string>
+      extends BaseTypeOptions<BooleanType>,
+        BooleanOptions<N> {}
+
+    interface NumberTypeOptions<N extends string>
+      extends BaseTypeOptions<NumberType>,
+        NumberOptions<N> {}
   }
+
+  type PromptOptions<N extends string> =
+    | PromptType.StringTypeOptions<N>
+    | PromptType.NumberTypeOptions<N>
+    | PromptType.ArrayTypeOptions<N>
+    | PromptType.BooleanTypeOptions<N>
+    | PromptType.SortTypeOptions<N>
+    | PromptType.SnippetTypeOptions<N>; // | PromptType.BaseTypeOptions<N, string>
+
+  // ################################# //
+  // Prompts utils method              //
+  // ################################# //
+
+  export function prompt<R = any, N extends string = string>(
+    questions: Array<PromptOptions<N>>
+  ): Promise<PromptType.Answers<N, R>>;
+
+  export function prompt<R = string, N extends string = string>(
+    questions: PromptOptions<N>
+  ): Promise<R>;
+
+  // ################################# //
+  // Individual Prompts class          //
+  // ################################# //
 
   class BasePrompt<
-    T extends Type.BasePromptOptions
-  > extends NodeJS.EventEmitter {
-    constructor(options?: T);
-
-    render(): void;
-
-    run(): Promise<any>;
+    R,
+    O extends PromptType.BaseOptions<string> = PromptType.BaseOptions<string>
+  > extends Prompt<R> {
+    constructor(option?: O);
   }
 
-  function prompt<T extends Type.BasePromptOptions, R = object>(
-    questions: T | ((this: Enquirer) => T) | (T | ((this: Enquirer) => T))[]
-  ): Promise<R>;
-}
+  class Input extends BasePrompt<string, PromptType.StringOptions> {}
+  class Text extends Input {}
+  class Invisible extends Input {}
+  class Password extends Input {}
 
-export = Enquirer;
+  class Numeral extends BasePrompt<number, PromptType.NumberOptions> {}
+
+  class Select<R = string> extends BasePrompt<R, PromptType.ArrayOptions> {}
+  // TODO: Make need to update, Not public YET!
+  class Editable<R = string> extends Select<R> {}
+  // TODO: Make need to update, Not public YET!
+  class Scale<R = string> extends Select<R> {}
+
+  // TODO: Might have something better than `object`
+  class Survey<R = object> extends Select<R> {}
+
+  class Snippet<R = any> extends BasePrompt<R, PromptType.SnippetOptions> {}
+  class Sort<R = string> extends BasePrompt<R[], PromptType.SortOptions> {}
+
+  class MultiSelect<R = string[]> extends Select<R> {}
+  class AutoComplete<R = any> extends Select<R> {}
+
+  class List<R = any> extends BasePrompt<R[], PromptType.ArrayOptions> {}
+
+  // TODO: Might have something better than `object`
+  class Form extends BasePrompt<object, PromptType.ArrayOptions> {}
+
+  class Prompt<R> extends NodeJS.EventEmitter {
+    readonly base: Prompt<R>;
+
+    // TODO: Recheck this return type
+    readonly style: string;
+
+    readonly height: number;
+
+    readonly width: number;
+
+    cursor: any; // set / get
+
+    input: any;
+
+    value: any;
+
+    // TODO: Is this contructor able to get answer?
+    constructor(option?: object, answer?: object);
+
+    keypress(this: this, char: any, event: object): void | Promise<any>; //async
+    alert(this: this): void;
+
+    cursorHide(this: this): void;
+    cursorShow(this: this): void;
+
+    write(this: this, str: string): void;
+    clear(this: this, lines: number): void;
+
+    restore(this: this): void;
+    // TODO: Improve this method return
+    sections(
+      this: this
+    ): {
+      header: any;
+      prompt: any;
+      after: any;
+      rest: any;
+      last: any;
+    };
+
+    submit(this: this): void | Promise<any>;
+
+    // TODO: what is type of error of this method
+    cancel(this: this, err: Error | string): void | Promise<any>;
+
+    close(this: this): void | Promise<any>;
+
+    start(this: this): void;
+
+    initialize(this: this): void | Promise<any>;
+
+    render(this: this): void;
+
+    run(this: this): Promise<R>;
+
+    // TODO: Recheck is method
+    element(
+      this: this,
+      name: string,
+      choice?: object,
+      i?: number
+    ): Promise<any>;
+
+    prefix(this: this): Promise<any>;
+
+    message(this: this): Promise<string>;
+
+    separator(this: this): Promise<string>;
+
+    // TODO: Recheck is method
+    pointer(this: this, choice?: object, i?: number): Promise<string>;
+
+    indicator(this: this, choice?: object, i?: number): Promise<string>;
+
+    body(this: this): string | undefined | null;
+
+    // TODO: Recheck is method
+    footer(this: this): Promise<string>;
+
+    // TODO: Recheck is method
+    header(this: this): Promise<string>;
+
+    hint(this: this): Promise<string>;
+
+    error(this: this, err?: string | Error): boolean;
+
+    format(this: this, value: any): string;
+
+    result(this: this, value: any): any;
+
+    validate(this: this, value: any): boolean;
+
+    isValue(this: this, value: any): boolean;
+
+    resolve(this: this, value: any, ...args: any[]): Promise<any>;
+  }
+}
