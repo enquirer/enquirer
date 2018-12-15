@@ -254,7 +254,7 @@ describe('prompt-autocomplete', () => {
 
       return prompt.run()
         .then(answer => {
-          assert.deepEqual(values, ['', 'b', 'be', 'ber', 'berr', 'berry', 'STRAWBERRY']);
+          assert.deepEqual(values, ['', 'b', 'be', 'ber', 'berr', 'berry', 'strawberry']);
           assert.deepEqual(results, ['strawberry']);
           assert.equal(answer, 'STRAWBERRY');
         });
@@ -408,7 +408,7 @@ describe('prompt-autocomplete', () => {
 
       prompt = new Prompt({
         message: 'Favorite flavor?',
-        choices(typed, choices) {
+        choices() {
           return new Promise(async(resolve) => {
             setTimeout(() => resolve([]), 3);
           });
