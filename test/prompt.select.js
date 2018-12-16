@@ -19,7 +19,7 @@ class Prompt extends PromptSelect {
 
 describe('select', function() {
   describe('options.choices', () => {
-    it('should set a list of choices', cb => {
+    it('should support choices as an array', cb => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -44,6 +44,32 @@ describe('select', function() {
       });
 
       prompt.run().catch(cb);
+    });
+
+    it('should support choices as a promise', () => {
+      prompt = new Prompt({
+        message: 'Favorite flavor?',
+        choices: Promise.resolve([
+          { name: 'apple', value: 'APPLE' },
+          { name: 'banana', value: 'BANANA' },
+          { name: 'cherry', value: 'CHERRY' },
+          { name: 'chocolate', value: 'CHOCOLATE' },
+          { name: 'cinnamon', value: 'CINNAMON' },
+          { name: 'coconut', value: 'COCONUT' }
+        ])
+      });
+
+      prompt.once('run', async() => {
+        await prompt.keypress(null, { name: 'down' });
+        await prompt.keypress(null, { name: 'down' });
+        await prompt.keypress(null, { name: 'down' });
+        await prompt.submit();
+      });
+
+      return prompt.run()
+        .then(answer => {
+          assert.equal(answer, 'chocolate');
+        });
     });
   });
 
@@ -111,7 +137,7 @@ describe('select', function() {
         });
     });
 
-    it.skip('should render a choice hint', () => {
+    it('should render a choice hint', () => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -135,7 +161,32 @@ describe('select', function() {
       return prompt.run();
     });
 
-    it.skip('should render disabled choices', () => {
+    it('should render a list of choices with the correct styles', () => {
+      prompt = new Prompt({
+        message: 'prompt-select',
+        choices: [
+          { name: 'a', message: 'A' },
+          { name: 'b', message: 'BB' },
+          { name: 'c', message: 'CCC' },
+          { name: 'd', message: 'DDDD' }
+        ]
+      });
+
+      prompt.once('run', async() => {
+        let { state, symbols } = prompt;
+        let pointer = cyan(symbols.pointer);
+        let expected = `${pointer} ${cyan.underline('A')}\n  BB\n  CCC\n  DDDD`;
+        let actual = await prompt.renderChoices();
+        assert.equal(actual, expected);
+        prompt.submit();
+      });
+
+      return prompt.run();
+    });
+  });
+
+  describe('choice.disabled', () => {
+    it('should render disabled choices', () => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -158,27 +209,28 @@ describe('select', function() {
       return prompt.run();
     });
 
-    it.skip('should render a list of choices with the correct styles', () => {
+    it('should not initialize on a disabled choice', () => {
+      let buffer;
+
       prompt = new Prompt({
-        message: 'prompt-select',
+        message: 'prompt-array',
         choices: [
-          { name: 'a', message: 'A' },
+          { name: 'a', message: 'A', disabled: true },
           { name: 'b', message: 'BB' },
           { name: 'c', message: 'CCC' },
           { name: 'd', message: 'DDDD' }
         ]
       });
 
-      prompt.once('run', async() => {
-        let { state, symbols } = prompt;
-        let pointer = cyan(symbols.pointer);
-        let expected = `${pointer} ${cyan.underline('A')}\n  BB\n  CCC\n  DDDD`;
-        let actual = await prompt.renderChoices();
-        assert.equal(actual, expected);
-        prompt.submit();
+      prompt.once('run', async () => {
+        await prompt.render();
+        await prompt.submit();
       });
 
-      return prompt.run();
+      return prompt.run()
+        .then(answer => {
+          assert.equal(prompt.index, 1);
+        });
     });
   });
 

@@ -11,7 +11,6 @@ const prompt = new Scale({
     { name: '4', message: 'Agree' },
     { name: '5', message: 'Strongly Agree' }
   ],
-  margin: [0, 0, 2, 1],
   choices: [
     {
       name: 'interface',

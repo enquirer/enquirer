@@ -1,5 +1,7 @@
 {
   "name": "enquirer-examples",
+  "version": "0.0.0",
+  "private": true,
   "devDependencies": {
     "enquirer": "file:..",
     "ansi-colors": "^3.2.1",

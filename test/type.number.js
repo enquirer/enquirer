@@ -78,17 +78,17 @@ describe('number prompt', function() {
       assert.equal(prompt.float, false);
 
       prompt.once('run', async() => {
-        await immediate(async() => prompt.keypress('4'));
-        await immediate(async() => assert.equal(prompt.input, '4'));
-        await immediate(async() => prompt.keypress('2'));
-        await immediate(async() => assert.equal(prompt.input, '42'));
-        await immediate(async() => prompt.keypress('.'));
-        await immediate(async() => assert.equal(prompt.input, '42.'));
-        await immediate(async() => prompt.keypress('8'));
-        await immediate(async() => assert.equal(prompt.input, '42.8'));
-        await immediate(async() => prompt.keypress('2'));
-        await immediate(async() => assert.equal(prompt.input, '42.82'));
-        await immediate(async() => prompt.submit());
+        await prompt.keypress('4');
+        await assert.equal(prompt.input, '4');
+        await prompt.keypress('2');
+        await assert.equal(prompt.input, '42');
+        await prompt.keypress('.');
+        await assert.equal(prompt.input, '42.');
+        await prompt.keypress('8');
+        await assert.equal(prompt.input, '42.8');
+        await prompt.keypress('2');
+        await assert.equal(prompt.input, '42.82');
+        await prompt.submit();
       });
 
       return prompt.run()
@@ -109,8 +109,8 @@ describe('number prompt', function() {
 
       assert.equal(prompt.minor, 5);
       prompt.once('run', async() => {
-        await immediate(async() => prompt.keypress(null, up));
-        await immediate(async() => prompt.submit());
+        await prompt.keypress(null, up);
+        await prompt.submit();
       });
 
       return prompt.run()
@@ -167,11 +167,11 @@ describe('number prompt', function() {
       assert.equal(prompt.minor, 5);
 
       prompt.once('run', async() => {
-        await immediate(async() => prompt.keypress(null, up));
-        await immediate(async() => prompt.keypress(null, up));
-        await immediate(async() => prompt.keypress(null, up));
-        await immediate(async() => prompt.keypress(null, down));
-        await immediate(async() => prompt.submit());
+        await prompt.keypress(null, up);
+        await prompt.keypress(null, up);
+        await prompt.keypress(null, up);
+        await prompt.keypress(null, down);
+        await prompt.submit();
       });
 
       return prompt.run()
@@ -191,11 +191,11 @@ describe('number prompt', function() {
       assert.equal(prompt.minor, 5);
 
       prompt.once('run', async() => {
-        await immediate(async() => prompt.keypress(null, up));
-        await immediate(async() => prompt.keypress(null, up));
-        await immediate(async() => prompt.keypress(null, up));
-        await immediate(async() => prompt.keypress(null, down));
-        await immediate(async() => prompt.submit());
+        await prompt.keypress(null, up);
+        await prompt.keypress(null, up);
+        await prompt.keypress(null, up);
+        await prompt.keypress(null, down);
+        await prompt.submit();
       });
 
       return prompt.run()
@@ -248,23 +248,58 @@ describe('number prompt', function() {
       assert.equal(prompt.minor, 5);
 
       prompt.once('run', async() => {
-        await immediate(async() => prompt.keypress(null, up));
-        await immediate(async() => assert.equal(prompt.input, 42.6));
-        await immediate(async() => prompt.keypress(null, up));
-        await immediate(async() => assert.equal(prompt.input, 47.6));
-        await immediate(async() => prompt.keypress(null, up));
-        await immediate(async() => assert.equal(prompt.input, 52.6));
-        await immediate(async() => prompt.keypress(null, down));
-        await immediate(async() => assert.equal(prompt.input, 47.6));
-        await immediate(async() => prompt.keypress(null, reset));
-        await immediate(async() => assert.equal(prompt.input, ''));
-        await immediate(async() => prompt.submit());
+        await prompt.keypress(null, up);
+        await assert.equal(prompt.input, 42.6);
+        await prompt.keypress(null, up);
+        await assert.equal(prompt.input, 47.6);
+        await prompt.keypress(null, up);
+        await assert.equal(prompt.input, 52.6);
+        await prompt.keypress(null, down);
+        await assert.equal(prompt.input, 47.6);
+        await prompt.keypress(null, reset);
+        await assert.equal(prompt.input, '');
+        await prompt.submit();
       });
 
       return prompt.run()
         .then(answer => {
           assert.equal(answer, 37.6);
           assert.equal(prompt.value, 37.6);
+        });
+    });
+  });
+
+  describe('keypresses', () => {
+    it('should alert when keypress is invalid', cb => {
+      prompt = new Prompt({
+        message: 'number',
+        initial: 100
+      });
+
+      prompt.once('alert', cb);
+
+      prompt.once('run', async() => {
+        await prompt.keypress('a');
+      });
+
+      prompt.run();
+    });
+
+    it('should support <next>', cb => {
+      prompt = new Prompt({
+        message: 'number',
+        initial: 100
+      });
+
+      prompt.once('alert', cb);
+
+      prompt.once('run', async() => {
+        await prompt.keypress(null, { name: 'tab' });
+      });
+
+      prompt.run()
+        .then(value => {
+          assert.equal(value, 100);
         });
     });
   });

@@ -20,7 +20,7 @@ class Prompt extends MultiSelect {
 
 describe('multiselect', function() {
   describe('options.choices', () => {
-    it('should set a list of choices', cb => {
+    it('should support choices as an array', cb => {
       prompt = new Prompt({
         message: 'prompt-multiselect',
         choices: [
@@ -42,6 +42,35 @@ describe('multiselect', function() {
       });
 
       prompt.run().catch(cb);
+    });
+
+    it('should allow choice.value to be an type', () => {
+      prompt = new Prompt({
+        name: 'example',
+        message: 'Take your pick',
+        choices: [
+          { name: 'foo', value: true },
+          { name: 'bar', value: false },
+          { name: 'baz', value: 42 }
+        ],
+        result(names) {
+          return this.map(names);
+        }
+      });
+
+      prompt.once('run', async() => {
+        await prompt.keypress('a');
+        await prompt.submit();
+      });
+
+      return prompt.run()
+        .then(value => {
+          assert.deepEqual(value, {
+            bar: false,
+            baz: 42,
+            foo: true
+          });
+        });
     });
   });
 
@@ -134,6 +163,44 @@ describe('multiselect', function() {
         .then(answer => {
           assert.deepEqual(answer, ['c']);
         });
+    });
+  });
+
+  describe('options.maxSelected', () => {
+    it('should alert when attempting to enable more than the max allowed choices', () => {
+      let down = { name: 'down' };
+      let alerted = false;
+      let keys = [];
+
+      prompt = new Prompt({
+        message: 'Pick lots of choices',
+        maxSelected: 2,
+        choices: ['a', 'b', 'c', 'd', 'e']
+      });
+
+      prompt.on('keypress', (char, key) => {
+        keys.push(key.name);
+      });
+
+      prompt.once('alert', async() => {
+        alerted = true;
+        await prompt.submit();
+      });
+
+      prompt.once('run', async() => {
+        await prompt.keypress(null, down);
+        await prompt.keypress(' ');
+        await prompt.keypress(null, down);
+        await prompt.keypress(' ');
+        await prompt.keypress(null, down);
+        await prompt.keypress(' ');
+      });
+
+      return prompt.run()
+        .then(() => {
+          assert(alerted);
+          assert.deepEqual(keys, ['down', 'space', 'down', 'space', 'down', 'space']);
+        })
     });
   });
 

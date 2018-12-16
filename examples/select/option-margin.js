@@ -2,22 +2,11 @@
 
 const { Select } = require('enquirer');
 
-/**
- * This prompt shows how to disable scrolling.
- */
-
 const prompt = new Select({
   name: 'color',
-  message: 'Pick a color',
-  scroll: false,
-  choices: [
-    'aqua',
-    'black',
-    'blue',
-    'fuchsia',
-    'gray',
-    'green'
-  ]
+  message: 'Pick a flavor',
+  choices: ['apple', 'grape', 'watermelon', 'cherry', 'orange'],
+  margin: [2, 0, 2, 2]
 });
 
 prompt.run()

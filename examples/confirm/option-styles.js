@@ -8,7 +8,9 @@ const question = {
   name: 'toast',
   message: 'Do you like toast?',
   styles: { primary: colors.blue },
-  initial: true
+  initial: true,
+  separator: () => '',
+  format: () => ''
 };
 
 prompt(question)

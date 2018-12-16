@@ -17,7 +17,7 @@ describe('confirm', () => {
   describe('options.initial', () => {
     it('should use options.initial=true when submitted without changes', () => {
       prompt = new Prompt({ message: 'foo', initial: true });
-      prompt.once('run', () => prompt.submit());
+      prompt.once('run', async () => await prompt.submit());
       return prompt.run().then(answer => assert.equal(answer, true));
     });
 

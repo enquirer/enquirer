@@ -129,8 +129,10 @@ describe('Enquirer', function() {
   });
 
   describe('options', () => {
-    it('should pass enquirer options to prompts', () => {
+    it('should pass enquirer options to prompts', cb => {
       let count = 0;
+      let error;
+
       enquirer = new Enquirer({
         show: false,
         styles: {
@@ -138,16 +140,20 @@ describe('Enquirer', function() {
         }
       });
 
-      enquirer.on('prompt', async prompt => {
-        count++;
-        prompt.state.input = 'orange';
-        prompt.submit();
-        assert.equal(prompt.styles.primary('orange'), colors.blue('orange'));
-        assert.equal(prompt.format(), colors.green('orange'));
-        await prompt.render();
+      enquirer.once('prompt', async prompt => {
+        try {
+          count++;
+          prompt.state.input = 'orange';
+          prompt.submit();
+          assert.equal(prompt.styles.primary('orange'), colors.blue('orange'));
+          assert.equal(await prompt.format(), colors.green('orange'));
+          await prompt.render();
+        } catch (err) {
+          error = err;
+        }
       });
 
-      return enquirer.prompt({
+      enquirer.prompt({
         type: 'input',
         name: 'color',
         message: 'Favorite color?'
@@ -155,6 +161,7 @@ describe('Enquirer', function() {
       .then(answers => {
         assert.equal(count, 1);
         assert.equal(answers.color, 'orange');
+        cb(error);
       });
     });
 

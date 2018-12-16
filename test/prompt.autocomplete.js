@@ -17,7 +17,7 @@ class Prompt extends AutoComplete {
 
 describe('prompt-autocomplete', () => {
   describe('keypress > number', () => {
-    it.skip('should support number keypresses', () => {
+    it('should support number keypresses', () => {
       prompt = new Prompt({
         message: 'Favorite flavor?',
         choices: [

@@ -82,7 +82,7 @@ Get started with Enquirer, the most powerful and easy-to-use Node.js library for
 Install with [npm](https://www.npmjs.com/):
 
 ```sh
-$ npm install enquirer
+$ npm install enquirer --save
 ```
 
 <p align="center">
@@ -105,10 +105,10 @@ const { prompt } = require('enquirer');
 const response = await prompt({
   type: 'input',
   name: 'username',
-  message: 'What is your username?' 
+  message: 'What is your username?'
 });
 
-console.log(response); 
+console.log(response);
 //=> { username: 'jonschlinkert' }
 ```
 
@@ -123,12 +123,12 @@ const response = await prompt([
   {
     type: 'input',
     name: 'name',
-    message: 'What is your name?' 
+    message: 'What is your name?'
   },
   {
     type: 'input',
     name: 'username',
-    message: 'What is your username?' 
+    message: 'What is your username?'
   }
 ]);
 
@@ -140,7 +140,7 @@ console.log(response);
 
 <br>
 
-### Todo
+## Todo
 
 We're currently working on documentation for the following items. Please star and watch the repository for updates!
 
@@ -160,7 +160,7 @@ We're currently working on documentation for the following items. Please star an
 
 ## ❯ Enquirer
 
-The main export of this library is the `Enquirer` class. You can add Enquirer to your JavaScript project with following line of code.
+Add Enquirer to your JavaScript project with following line of code.
 
 ```js
 const Enquirer = require('enquirer');
@@ -170,20 +170,20 @@ const Enquirer = require('enquirer');
 
 **Enquirer is a prompt runner**
 
-Enquirer has methods and features designed to simplify running multiple prompts.
+The main export of this library is the `Enquirer` class, which has methods and features designed to simplify running prompts.
 
 ```js
 const { prompt } = require('enquirer');
 const question = [
-  { 
-    type: 'input', 
-    name: 'username', 
-    message: 'What is your username?' 
+  {
+    type: 'input',
+    name: 'username',
+    message: 'What is your username?'
   },
-  { 
-    type: 'password', 
-    name: 'password', 
-    message: 'What is your password?' 
+  {
+    type: 'password',
+    name: 'password',
+    message: 'What is your password?'
   }
 ];
 
@@ -207,13 +207,14 @@ Use this approach if you need to modify a prompt instance, or listen for events 
 
 ```js
 const { Input } = require('enquirer');
-const prompt = new Input({ 
-  name: 'username', 
-  message: 'What is your username?' 
+const prompt = new Input({
+  name: 'username',
+  message: 'What is your username?'
 });
 
-let answer = await prompt.run();
-console.log('Username:', answer);
+prompt.run()
+  .then(answer => console.log('Username:', answer))
+  .catch(console.error);
 ```
 
 ### [Enquirer](index.js#L20)
@@ -314,7 +315,13 @@ const response = await prompt({
 console.log(response);
 ```
 
+<br>
+
 ## ❯ Prompts
+
+In this document you'll learn about Enquirer's prompts: what they look like, how they work, how to run them, available options, and how to customize the prompts or create your own prompt concept.
+
+**Getting started with Enquirer's prompts**
 
 * [Prompt](#prompt) - The base `Prompt` class used by other prompts
   - [Prompt Options](#prompt-options)
@@ -343,7 +350,7 @@ Each prompt takes an options object (aka "question" object), that implements the
   name: string | function,
   message: string | function | async function,
 
-  // optional 
+  // optional
   skip: boolean | function | async function
   initial: string | function | async function
   format: function | async function,
@@ -393,15 +400,16 @@ prompt(question)
 * [Input](#input-prompt)
 * [Invisible](#invisible-prompt)
 * [List](#list-prompt)
-* [Scale](#scale-prompt)
 * [MultiSelect](#multiselect-prompt)
 * [Number](#number-prompt)
 * [Password](#password-prompt)
+* [Scale](#scale-prompt)
 * [Select](#select-prompt)
 * [Snippet](#snippet-prompt)
 * [Sort](#sort-prompt)
 * [Survey](#survey-prompt)
 * [Text](#input-prompt) (alias for the [Input prompt](#input-prompt))
+* [Toggle](#toggle-prompt)
 
 ### AutoComplete Prompt
 
@@ -500,10 +508,10 @@ Prompt that takes user input and returns a string.
 **Usage**
 
 ```js
-const question = { 
-  type: 'input', 
-  name: 'username', 
-  message: 'What is your username?' 
+const question = {
+  type: 'input',
+  name: 'username',
+  message: 'What is your username?'
 };
 ```
 
@@ -548,25 +556,6 @@ Prompt that returns a list of values, created by splitting the user input. The d
 
 * [Sort](#sort-prompt)
 * [Select](#select-prompt)
-
-**↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
-
-<br>
-<br>
-
-### Scale Prompt
-
-Prompt that allows the user to quickly provide feedback using a [Likert Scale](https://en.wikipedia.org/wiki/Likert_scale).
-
-<p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/scale-prompt.gif" alt="Enquirer Scale Prompt" width="750">
-</p>
-
-**Related prompts**
-
-* [AutoComplete](#autocomplete-prompt)
-* [Select](#select-prompt)
-* [Survey](#survey-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -628,6 +617,25 @@ Prompt that takes user input and masks it in the terminal. Also see the [invisib
 <br>
 <br>
 
+### Scale Prompt
+
+A more compact version of the [Survey prompt](#survey-prompt), the Scale prompt allows the user to quickly provide feedback using a [Likert Scale](https://en.wikipedia.org/wiki/Likert_scale).
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/scale-prompt.gif" alt="Enquirer Scale Prompt" width="750">
+</p>
+
+**Related prompts**
+
+* [AutoComplete](#autocomplete-prompt)
+* [Select](#select-prompt)
+* [Survey](#survey-prompt)
+
+**↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
+
+<br>
+<br>
+
 ### Select Prompt
 
 Prompt that allows the user to select from a list of options.
@@ -640,24 +648,6 @@ Prompt that allows the user to select from a list of options.
 
 * [AutoComplete](#autocomplete-prompt)
 * [MultiSelect](#multiselect-prompt)
-
-**↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
-
-<br>
-<br>
-
-### Snippet Prompt
-
-Prompt that allows the user to replace placeholders in a snippet of code or text.
-
-<p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/snippet-prompt.gif" alt="Prompts" width="750">
-</p>
-
-**Related prompts**
-
-* [Survey](#survey-prompt)
-* [AutoComplete](#autocomplete-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -686,6 +676,24 @@ In this [example](https://github.com/enquirer/enquirer/raw/master/examples/sort/
 <br>
 <br>
 
+### Snippet Prompt
+
+Prompt that allows the user to replace placeholders in a snippet of code or text.
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/snippet-prompt.gif" alt="Prompts" width="750">
+</p>
+
+**Related prompts**
+
+* [Survey](#survey-prompt)
+* [AutoComplete](#autocomplete-prompt)
+
+**↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
+
+<br>
+<br>
+
 ### Survey Prompt
 
 Prompt that allows the user to provide feedback for a list of questions.
@@ -699,6 +707,27 @@ Prompt that allows the user to provide feedback for a list of questions.
 * [Scale](#scale-prompt)
 * [Snippet](#snippet-prompt)
 * [Select](#select-prompt)
+
+<br>
+<br>
+
+### Toggle Prompt
+
+Prompt that allows the user to toggle between two values then returns `true` or `false`.
+
+<p align="center">
+<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/toggle-prompt.gif" alt="Enquirer Toggle Prompt" width="750">
+</p>
+
+As with the other prompts, all parts of this prompt are customizable.
+
+**Related prompts**
+
+* [Confirm](#confirm-prompt)
+* [Input](#input-prompt)
+* [Sort](#sort-prompt)
+
+**↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
 <br>
 <br>
@@ -875,6 +904,8 @@ With Enquirer 2.0, custom prompts are easier than ever to create and use.
 
 Custom prompts are created by extending Enquirer's `Prompt` class, or one of the built-in [prompts](#-prompts) or low-level [types](#-types).
 
+<!-- Example: HaiKarate Custom Prompt -->
+
 ```js
 const { Prompt } = require('enquirer');
 
@@ -897,11 +928,8 @@ class HaiKarate extends Prompt {
     this.write(`${this.state.message}: ${this.value}`);
   }
 }
-```
 
-Custom prompts may be used directly by creating an instance of your custom prompt class.
-
-```js
+// Use the prompt by creating an instance of your custom prompt class.
 const prompt = new HaiKarate({
   message: 'How many sprays do you want?',
   initial: 10
@@ -936,12 +964,14 @@ let answers = await enquirer.prompt([
     message: 'How many sprays do you need?',
     initial: 10,
     async onSubmit(name, value) {
-      await spritzer.activate(value); //<= activate drone 
+      await spritzer.activate(value); //<= activate drone
       return value;
     }
   }
 ]);
 ```
+
+<br>
 
 ## ❯ Key Bindings
 
@@ -1054,7 +1084,6 @@ These key combinations may be used on prompts that support _multiple_ choices, s
 | <kbd>end</kbd> | Move the pointer to the last choice in the choices array. |
 
 <br>
-<br>
 
 ## ❯ Release History
 
@@ -1112,7 +1141,7 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 
 | **Commits** | **Contributor** |  
 | --- | --- |  
-| 255 | [jonschlinkert](https://github.com/jonschlinkert) |  
+| 261 | [jonschlinkert](https://github.com/jonschlinkert) |  
 | 25  | [doowb](https://github.com/doowb) |  
 | 15  | [g-plane](https://github.com/g-plane) |  
 | 3   | [tunnckoCore](https://github.com/tunnckoCore) |  

@@ -10,6 +10,7 @@ class Prompt extends ArrayPrompt {
   constructor(options = {}) {
     super({ ...options, show: false });
   }
+  // override the render method to mute output
   render() {}
 }
 
@@ -346,9 +347,9 @@ describe('array prompt', function() {
         ...options
       });
 
-      prompt.once('run', () => {
-        onRun && onRun(prompt);
-        prompt.submit();
+      prompt.once('run', async () => {
+        onRun && await onRun(prompt);
+        await prompt.submit();
       });
 
       return prompt.run();
@@ -357,9 +358,9 @@ describe('array prompt', function() {
     describe('keypress > space', () => {
       it('should emit "alert" when options.multiple is not true', () => {
         let called = 0;
-        return create({ multiple: false }, prompt => {
+        return create({ multiple: false }, async prompt => {
           prompt.on('alert', () => (called++));
-          prompt.dispatch();
+          await prompt.dispatch();
         })
         .then(answer => {
           assert.deepStrictEqual(called, 1);
@@ -370,10 +371,10 @@ describe('array prompt', function() {
 
     describe('keypress > number', () => {
       it('should select the number pressed', () => {
-        return create({}, prompt => {
-          prompt.a();
-          prompt.a();
-          prompt.number(3);
+        return create({}, async prompt => {
+          await prompt.a();
+          await prompt.a();
+          await prompt.number(3);
         })
         .then(answer => {
           assert.deepStrictEqual(answer, ['d']);
@@ -381,10 +382,10 @@ describe('array prompt', function() {
       });
 
       it('should be a string when options.multiple is false', () => {
-        return create({ multiple: false }, prompt => {
-          prompt.a();
-          prompt.a();
-          prompt.number(3);
+        return create({ multiple: false }, async prompt => {
+          await prompt.a();
+          await prompt.a();
+          await prompt.number(3);
         })
         .then(answer => {
           assert.deepStrictEqual(answer, 'd');
@@ -392,11 +393,11 @@ describe('array prompt', function() {
       });
 
       it('should select the _last_ number pressed when options.multiple is false', () => {
-        return create({ multiple: false }, prompt => {
-          prompt.a();
-          prompt.a();
-          prompt.number(3);
-          prompt.number(2);
+        return create({ multiple: false }, async prompt => {
+          await prompt.a();
+          await prompt.a();
+          await prompt.number(3);
+          await prompt.number(2);
         })
         .then(answer => {
           assert.deepStrictEqual(answer, 'c');
@@ -404,12 +405,12 @@ describe('array prompt', function() {
       });
 
       it('should select the _all_ numbers pressed when options.multiple is true', () => {
-        return create({ multiple: true }, prompt => {
-          prompt.a();
-          prompt.a();
-          prompt.number(3);
-          prompt.number(1);
-          prompt.number(2);
+        return create({ multiple: true }, async prompt => {
+          await prompt.a();
+          await prompt.a();
+          await prompt.number(3);
+          await prompt.number(1);
+          await prompt.number(2);
         })
         .then(answer => {
           assert.deepStrictEqual(answer, ['b', 'c', 'd']);
@@ -417,12 +418,12 @@ describe('array prompt', function() {
       });
 
       it('should select numbers that are not visible', () => {
-        return create({ multiple: true, limit: 1 }, prompt => {
-          prompt.a();
-          prompt.a();
-          prompt.number(3);
-          prompt.number(1);
-          prompt.number(2);
+        return create({ multiple: true, limit: 1 }, async prompt => {
+          await prompt.a();
+          await prompt.a();
+          await prompt.number(3);
+          await prompt.number(1);
+          await prompt.number(2);
         })
         .then(answer => {
           assert.deepStrictEqual(answer, ['b', 'c', 'd']);
@@ -455,12 +456,12 @@ describe('array prompt', function() {
         });
       });
 
-      it.skip('should select the choice at the current index', () => {
-        return create({}, prompt => {
-          prompt.number(0);
-          prompt.number(1);
+      it('should select the choice at the current index', () => {
+        return create({}, async prompt => {
+          await prompt.number(0);
+          await prompt.number(1);
           prompt.index = 3;
-          prompt.space();
+          await prompt.space();
         })
         .then(answer => {
           assert.deepStrictEqual(answer, ['d']);

@@ -5,9 +5,10 @@ const { Scale } = require('enquirer');
 const prompt = new Scale({
   name: 'experience',
   message: 'Please rate your experience',
-  messageWidth: 20,
+  messageWidth: 30,
   margin: '    ',
   edgeLength: 3,
+  margin: [1, 1, 1, 0],
   styles: { primary: colors.blue },
   scale: [
     { name: '1', message: 'Strongly Disagree' },

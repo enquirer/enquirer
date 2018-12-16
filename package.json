@@ -97,6 +97,9 @@
     "plugins": [
       "gulp-format-md"
     ],
+    "helpers": [
+      "./docs/helpers.js"
+    ],
     "lint": {
       "reflinks": true
     },

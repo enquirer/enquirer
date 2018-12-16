@@ -7,7 +7,6 @@ const prompt = new Scale({
   message: 'Please rate your experience',
   scale: 5,
   symbols: { line: ' ' },
-  margin: '',
   edgeLength: 1,
   styles: {
     primary: colors.blue
@@ -23,18 +22,11 @@ const prompt = new Scale({
     let { on, disabled } = this.symbols.stars;
     if (choice.disabled) return this.styles.muted(disabled);
     if (enabled) {
-      if (this.index === i) return this.styles.warning.dim(on);
-      return this.styles.warning(on);
+      if (this.index === i) return this.styles.primary.dim(on);
+      return this.styles.primary(on);
     }
     return this.styles.dark(on);
   },
-  // choices: [
-  //   { name: 'interface', message: 'The website has a friendly interface.', initial: 2 },
-  //   { name: 'navigation', message: 'The website is easy to navigate.', initial: 2 },
-  //   { name: 'images', message: 'The website usually has good images.', initial: 2 },
-  //   { name: 'upload', message: 'The website makes it easy to upload images.', initial: 2 },
-  //   { name: 'colors', message: 'The website has a pleasing color palette.', initial: 2 }
-  // ],
   choices: [
     { name: 'shipping', message: '1. Shipping', initial: 2 },
     { name: 'price', message: '2. Price', initial: 2 },
