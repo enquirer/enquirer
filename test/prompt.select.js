@@ -149,16 +149,20 @@ describe('select', function() {
       });
 
       prompt.once('run', async() => {
-        let { state, symbols } = prompt;
-        let pointer = cyan(symbols.pointer);
-        let hint = dim('(this is a hint)');
-        let expected = `${pointer} ${cyan.underline('A')}\n  BB ${hint}\n  CCC\n  DDDD`;
-        let actual = await prompt.renderChoices();
-        assert.equal(actual, expected);
-        prompt.submit();
+        try {
+          let { state, symbols } = prompt;
+          let pointer = cyan(symbols.pointer);
+          let hint = dim('(this is a hint)');
+          let expected = `${pointer} ${cyan.underline('A')}\n  BB ${hint}\n  CCC\n  DDDD`;
+          let actual = await prompt.renderChoices();
+          assert.equal(actual, expected);
+          await prompt.submit();
+        } catch (err) {
+          cb(err);
+        }
       });
 
-      return prompt.run();
+      prompt.run().then(() => cb());
     });
 
     it('should render a list of choices with the correct styles', () => {
