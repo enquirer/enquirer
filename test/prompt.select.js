@@ -137,7 +137,7 @@ describe('select', function() {
         });
     });
 
-    it('should render a choice hint', () => {
+    it('should render a choice hint', cb => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -162,10 +162,10 @@ describe('select', function() {
         }
       });
 
-      prompt.run().then(() => cb());
+      prompt.run().then(() => cb()).catch(cb);
     });
 
-    it('should render a list of choices with the correct styles', () => {
+    it('should render a list of choices with the correct styles', cb => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -177,20 +177,24 @@ describe('select', function() {
       });
 
       prompt.once('run', async() => {
-        let { state, symbols } = prompt;
-        let pointer = cyan(symbols.pointer);
-        let expected = `${pointer} ${cyan.underline('A')}\n  BB\n  CCC\n  DDDD`;
-        let actual = await prompt.renderChoices();
-        assert.equal(actual, expected);
-        prompt.submit();
+        try {
+          let { state, symbols } = prompt;
+          let pointer = cyan(symbols.pointer);
+          let expected = `${pointer} ${cyan.underline('A')}\n  BB\n  CCC\n  DDDD`;
+          let actual = await prompt.renderChoices();
+          assert.equal(actual, expected);
+          await prompt.submit();
+        } catch (err) {
+          cb(err);
+        }
       });
 
-      return prompt.run();
+      prompt.run().then(() => cb()).catch(cb);
     });
   });
 
   describe('choice.disabled', () => {
-    it('should render disabled choices', () => {
+    it('should render disabled choices', cb => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -202,15 +206,19 @@ describe('select', function() {
       });
 
       prompt.once('run', async() => {
-        let { state, symbols } = prompt;
-        let pointer = cyan(symbols.pointer);
-        let expected = `${pointer} ${cyan.underline('A')}\n  ${gray('BB')} ${dim('(disabled)')}\n  CCC\n  DDDD`;
-        let actual = await prompt.renderChoices();
-        assert.equal(actual, expected);
-        prompt.submit();
+        try {
+          let { state, symbols } = prompt;
+          let pointer = cyan(symbols.pointer);
+          let expected = `${pointer} ${cyan.underline('A')}\n  ${gray('BB')} ${dim('(disabled)')}\n  CCC\n  DDDD`;
+          let actual = await prompt.renderChoices();
+          assert.equal(actual, expected);
+          await prompt.submit();
+        } catch (err) {
+          cb(err);
+        }
       });
 
-      return prompt.run();
+      prompt.run().then(() => cb()).catch(cb);
     });
 
     it('should not initialize on a disabled choice', () => {
