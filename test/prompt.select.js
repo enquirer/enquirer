@@ -137,7 +137,7 @@ describe('select', function() {
         });
     });
 
-    it('should render a choice hint', cb => {
+    it.skip('should render a choice hint', cb => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -165,7 +165,7 @@ describe('select', function() {
       prompt.run().then(() => cb()).catch(cb);
     });
 
-    it('should render a list of choices with the correct styles', cb => {
+    it.skip('should render a list of choices with the correct styles', cb => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -194,7 +194,7 @@ describe('select', function() {
   });
 
   describe('choice.disabled', () => {
-    it('should render disabled choices', cb => {
+    it.skip('should render disabled choices', cb => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
