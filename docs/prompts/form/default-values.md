@@ -1,4 +1,4 @@
-# How to add default values your Form prompts
+# How to add default values to Form prompts
 
 <!-- toc -->
 
