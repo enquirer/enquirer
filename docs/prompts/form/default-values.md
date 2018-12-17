@@ -3,6 +3,8 @@
 <!-- toc -->
 
 - [What to expect](#what-to-expect)
+- [Set an `initial` value.](#set-an-initial-value)
+- [Use previously entered values with `onChoice`](#use-previously-entered-values-with-onchoice)
 - [Next steps](#next-steps)
 - [Related](#related)
 
