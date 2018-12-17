@@ -26,8 +26,8 @@ We will …
 
 ## Define a `prompt`
 
-To use the form prompt you need to import `{prompt}`.  
-You can then define a prompt as usual. Let's make it a name input.
+To use the form prompt you we to import `{prompt}`.  
+We can then define a prompt as usual. We will start with a name input.
 
 ```js
 import {prompt} from "enquirer"
@@ -41,7 +41,7 @@ const results = prompt({
 
 ## Transform the prompt into a Form
   
-To transform our prompt into a form we need to add the `type: "form"` and 
+To make a form we need to add the `type: "form"` and 
 `choices: string[] | Choice[]` properties to our prompt configuration. 
 
 Let's add our field as the first choice, change the `message: string` to describe the
@@ -52,8 +52,8 @@ import { prompt } from "enquirer";
 
 const results = prompt({
   choices: [{
-    name: "firstname",
-    message: "First Name"
+    message: "First Name",
+    name: "firstname"
   }],
   message: "Please provide the following information:",
   name: "user",
@@ -63,39 +63,28 @@ const results = prompt({
 
 ## Add fields
 
-Form choices can take up several lines of code so we will move them to a new
-file.  
+We can now continue adding fields to our form.
 
-**choices.js**
-
-```js
-export default [
-  {
-    name: "firstname",
-    message: "First Name"
-  },
-  {
-    name: "lastname",
-    message: "Last Name"
-  },
-  {
-    name: "username",
-    message: "GitHub username"
-  }
-];
-```
-
-The choices can now be imported into our original file to make our prompt a
-complete form.
-
-**form.js**
+> Your form should now look like this
 
 ```js
 import { prompt } from "enquirer";
-import choices from "./choices";
 
 const results = prompt({
-  choices,
+  choices: [
+    {
+      message: "First Name",
+      name: "firstname"
+    },
+    {
+      message: "Last Name",
+      name: "lastname"
+    },
+    {
+      message: "GitHub username",
+      name: "username"
+    }
+  ],
   message: "Please provide the following information:",
   name: "user",
   type: "form"
@@ -105,28 +94,13 @@ const results = prompt({
 ## Next steps
 
 You should now be comfortable with basic form prompts. In the next steps we will
-look at some options to add some spice to your form.
+look at some options to add some spice to our form.
 
-* [Custom pointer](#next-steps)
+* [Default values][default-values]
 
 
 ## Related
 
-* [Custom pointer](#next-steps)
-* [Custom symbols](#next-steps)
-* [Hint](#next-steps)
-* [Field validation](#next-steps)
-* [Required fields](#next-steps)
-* [Default values](#next-steps)
-* [Resetting](#next-steps)
+* [Default values][default-values]
 
-**Todo**
-
-- [ ] Custom pointer
-- [ ] Custom symbols
-- [ ] Hint
-- [ ] ~~History / completion~~ (coming soon!)
-- [ ] Field validation
-- [ ] Required fields
-- [ ] Default values
-- [ ] Resetting
+[default-values] https://github.com/enquirer/enquirer/tree/master/docs/form/default-values.md
