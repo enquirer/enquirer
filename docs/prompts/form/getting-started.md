@@ -103,4 +103,4 @@ look at some options to add some spice to our form.
 
 * [Default values][default-values]
 
-[default-values] https://github.com/enquirer/enquirer/tree/master/docs/form/default-values.md
+[default-values]: https://github.com/enquirer/enquirer/tree/master/docs/form/default-values.md

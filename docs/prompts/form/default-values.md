@@ -118,4 +118,4 @@ look at some options to add some spice to your form.
 
 * ...
 
-[getting-started] https://github.com/enquirer/enquirer/tree/master/docs/form/getting-started.md
+[getting-started]: https://github.com/enquirer/enquirer/tree/master/docs/form/getting-started.md
