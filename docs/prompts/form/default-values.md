@@ -70,7 +70,7 @@ const results = prompt({
       message: "GitHub username",
       name: "username",
       onChoice(state, choice, i) {
-        const { lastname, firstname } = this.values;
+        const { firstname, lastname } = this.values;
         choice.initial = `${firstname}${lastname}`.toLowerCase();
       }
     }
@@ -102,7 +102,7 @@ const results = prompt({
       message: "GitHub username",
       name: "username",
       onChoice(state, choice, i) {
-        const { lastname, firstname } = this.values;
+        const { firstname, lastname } = this.values;
         choice.initial = `${firstname}${lastname}`.toLowerCase();
       }
     }
