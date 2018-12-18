@@ -32,8 +32,8 @@ We will …
 
 ## Define a `prompt`
 
-To use the form prompt we need to import `{prompt}`.  
-We can then define a prompt as usual. We will start with a name input.
+To use the form prompt we need to require `{prompt}` from `"enquirer"`.  
+Next we can define a prompt as usual. We will start with a name input.
 
 ```js
 const { prompt } = require("enquirer");
@@ -69,9 +69,9 @@ const results = prompt({
 
 ## Add fields
 
-We can now continue adding fields to our form.
+Now is the time to continue adding fields to our form.
 
-> Your form should now look like this
+> Your form should now look like this.
 
 ```js
 const { prompt } = require("enquirer");
