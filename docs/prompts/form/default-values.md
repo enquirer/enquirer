@@ -70,8 +70,8 @@ const results = prompt({
       message: "GitHub username",
       name: "username",
       onChoice(state, choice, i) {
-        const { name, username } = this.values;
-        choice.initial = `${username}/${name}`.toLowerCase();
+        const { lastname, firstname } = this.values;
+        choice.initial = `${firstname}${lastname}`.toLowerCase();
       }
     }
   ],
