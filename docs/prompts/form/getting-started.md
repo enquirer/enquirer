@@ -32,7 +32,7 @@ We will …
 
 ## Define a `prompt`
 
-To use the form prompt you we to import `{prompt}`.  
+To use the form prompt we need to import `{prompt}`.  
 We can then define a prompt as usual. We will start with a name input.
 
 ```js
