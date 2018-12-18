@@ -3,6 +3,7 @@
 <!-- toc -->
 
 - [What to expect](#what-to-expect)
+- [Define a `prompt`](#example)
 - [Set an `initial` value.](#set-an-initial-value)
 - [Use previously entered values with `onChoice`](#use-previously-entered-values-with-onchoice)
 - [Next steps](#next-steps)
@@ -22,6 +23,11 @@ We will …
 * … set the `initial` property.
 * … use the `onChoice` method to use previous field values.
 
+## Example
+
+[Default values example][default-values-example]
+![Default values asciicast][default-values-rec]
+
 ## Set an `initial` value.
 
 In the last step of the previous guide ([Getting started][getting-started]) we 
@@ -31,7 +37,7 @@ The easiest way to define initial values is by adding the `initial: string`
 property to our fields.
 
 ```js
-import { prompt } from "enquirer";
+const { prompt } = require("enquirer");
 
 const results = prompt({
   choices: [
@@ -55,7 +61,7 @@ Let's assume the username: `(firstname + lastname).toLowerCase()`. We can use th
 and use them for our suggestion.
 
 ```js
-import { prompt } from "enquirer";
+const { prompt } = require("enquirer");
 
 const results = prompt({
   choices: [
@@ -78,7 +84,7 @@ We now have a complete form with initial values and some logic to define them.
 > Your form should now look like this
 
 ```js
-import { prompt } from "enquirer";
+const { prompt } = require("enquirer");
 
 const results = prompt({
   choices: [
@@ -96,8 +102,8 @@ const results = prompt({
       message: "GitHub username",
       name: "username",
       onChoice(state, choice, i) {
-        const { name, username } = this.values;
-        choice.initial = `${username}/${name}`.toLowerCase();
+        const { lastname, firstname } = this.values;
+        choice.initial = `${firstname}${lastname}`.toLowerCase();
       }
     }
   ],
@@ -121,3 +127,5 @@ look at some options to add some spice to your form.
 * ...
 
 [getting-started]: https://github.com/enquirer/enquirer/tree/master/docs/form/getting-started.md
+[default-values-rec]: https://uploads.codesandbox.io/uploads/user/d4803626-4dbe-4304-b684-7d790aa169f0/RfvF-form_default_values_001.svg
+[default-values-example]: https://github.com/enquirer/enquirer/tree/master/guide/lib/prompts/form/default-values.js

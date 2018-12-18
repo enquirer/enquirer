@@ -3,7 +3,8 @@
 <!-- toc -->
 
 - [What to expect](#what-to-expect)
-- [Define a `prompt`](#define-a-prompt)
+- [Example](#what-to-expect)
+- [Define a `prompt`](#example)
 - [Transform the prompt into a Form](#transform-the-prompt-into-a-form)
 - [Add fields](#add-fields)
 - [Next steps](#next-steps)
@@ -24,13 +25,18 @@ We will …
 * … transform the prompt into a form.
 * … add fields to our form.
 
+## Example
+
+[Getting started example][getting-started-example]
+![Getting started asciicast][getting-started-rec]
+
 ## Define a `prompt`
 
 To use the form prompt you we to import `{prompt}`.  
 We can then define a prompt as usual. We will start with a name input.
 
 ```js
-import {prompt} from "enquirer"
+const { prompt } = require("enquirer");
 
 const results = prompt({
   message: "First Name:",
@@ -48,7 +54,7 @@ Let's add our field as the first choice, change the `message: string` to describ
 entire form and give our form a unique `name: string`
 
 ```js
-import { prompt } from "enquirer";
+const { prompt } = require("enquirer");
 
 const results = prompt({
   choices: [{
@@ -68,7 +74,7 @@ We can now continue adding fields to our form.
 > Your form should now look like this
 
 ```js
-import { prompt } from "enquirer";
+const { prompt } = require("enquirer");
 
 const results = prompt({
   choices: [
@@ -104,3 +110,5 @@ look at some options to add some spice to our form.
 * [Default values][default-values]
 
 [default-values]: https://github.com/enquirer/enquirer/tree/master/docs/form/default-values.md
+[getting-started-rec]: https://uploads.codesandbox.io/uploads/user/d4803626-4dbe-4304-b684-7d790aa169f0/eKw4-form_getting-started_001.svg
+[getting-started-example]: https://github.com/enquirer/enquirer/tree/master/guide/lib/prompts/form/getting-started.js

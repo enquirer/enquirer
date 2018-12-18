@@ -1,0 +1,17 @@
+{
+  "name": "enquirer-guide",
+  "version": "0.1.0",
+  "description": "Examples and guides for enquirer",
+  "main": "index.js",
+  "author": "Gregor Adams <gregr@pixelass.com>",
+  "license": "MIT",
+  "scripts": {
+    "record": "asciinema rec",
+    "convert": "svg-term --window"
+  },
+  "dependencies": {
+    "cli-highlight": "^2.0.0",
+    "enquirer": "^2.2.0",
+    "svg-term-cli": "^2.1.1"
+  }
+}
