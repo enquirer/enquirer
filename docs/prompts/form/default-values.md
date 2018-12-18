@@ -81,7 +81,7 @@ const results = prompt({
 
 We now have a complete form with initial values and some logic to define them.
 
-> Your form should now look like this
+> Your form should now look like this.
 
 ```js
 const { prompt } = require("enquirer");
@@ -119,12 +119,12 @@ const results = prompt({
 You should now be comfortable with initial values. In the next steps we will
 look at some options to add some spice to your form.
 
-* ...
+* ... tbd.
 
 
 ## Related
 
-* ...
+* [Getting started][getting-started]
 
 [getting-started]: https://github.com/enquirer/enquirer/tree/master/docs/form/getting-started.md
 [default-values-rec]: https://uploads.codesandbox.io/uploads/user/d4803626-4dbe-4304-b684-7d790aa169f0/RfvF-form_default_values_001.svg
