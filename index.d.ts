@@ -11,12 +11,6 @@ declare class BasePrompt extends EventEmitter {
   run(): Promise<any>;
 }
 
-declare class Prompt extends BasePrompt {}
-declare class ArrayPrompt extends BasePrompt {}
-declare class BooleanPrompt extends BasePrompt {}
-declare class NumberPrompt extends BasePrompt {}
-declare class StringPromp extends BasePrompt {}
-
 declare class Enquirer<T = object> extends EventEmitter {
   constructor(options?: object, answers?: T);
 
@@ -62,6 +56,12 @@ declare class Enquirer<T = object> extends EventEmitter {
 }
 
 declare namespace Enquirer {
+  class Prompt extends BasePrompt {}
+  class ArrayPrompt extends BasePrompt {}
+  class BooleanPrompt extends BasePrompt {}
+  class NumberPrompt extends BasePrompt {}
+  class StringPrompt extends BasePrompt {}
+
   function prompt<T = object>(
     questions:
       | PromptOptions
@@ -102,12 +102,12 @@ declare namespace Enquirer {
     onSubmit?(
       name: string,
       value: any,
-      prompt: Prompt
+      prompt: Enquirer.Prompt
     ): boolean | Promise<boolean>;
     onCancel?(
       name: string,
       value: any,
-      prompt: Prompt
+      prompt: Enquirer.Prompt
     ): boolean | Promise<boolean>;
     stdin?: ReadStream;
     stdout?: WriteStream;
