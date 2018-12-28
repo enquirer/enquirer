@@ -164,7 +164,6 @@ describe('Enquirer', function() {
         cb(error);
       });
     });
-
   });
 
   describe('onSubmit', () => {

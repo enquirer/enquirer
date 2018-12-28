@@ -1,14 +1,13 @@
+'use strict';
+
 const { prompt } = require('enquirer');
 
 prompt.on('cancel', () => process.exit());
 
 const contractor = async() => {
-  const register = async() => {
-    menu();
-  };
-
-  const menu = async() => {
-    const { action } = await prompt({
+  let register = async() => menu();
+  let menu = async() => {
+    let { action } = await prompt({
       type: 'select',
       name: 'action',
       message: 'what would you like to do?',
@@ -35,21 +34,20 @@ const contractor = async() => {
       }
     }
   };
-  menu();
+  return menu();
 };
 
 const client = async() => {
-  const query = async() => {
-    menu();
-  };
-  const menu = async() => {
-    const { action } = await prompt({
+  let query = async() => menu();
+  let menu = async() => {
+    let { action } = await prompt({
       type: 'select',
       name: 'action',
       message: 'what would you like to do?',
       choices: ['query', 'check'],
       initial: 'query'
     });
+
     switch (action) {
       case 'query': {
         await query();
@@ -65,11 +63,11 @@ const client = async() => {
       }
     }
   };
-  menu();
+  return menu();
 };
 
 const program = async() => {
-  const { type } = await prompt({
+  let { type } = await prompt({
     type: 'select',
     name: 'type',
     message: 'would you like to start a contractor or client?',
@@ -77,12 +75,13 @@ const program = async() => {
     initial: 'client'
   });
 
-  if (!type || type === 'contractor') {
+  if (type === 'contractor') {
     return contractor();
   }
+
   return client();
 };
 
-program().catch((err) => {
+program().catch(err => {
   console.log(err);
 });

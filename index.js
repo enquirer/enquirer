@@ -76,65 +76,68 @@ class Enquirer extends Events {
    */
 
   async prompt(questions = []) {
-    let cancel = false;
-
     for (let question of [].concat(questions)) {
-      if (typeof question === 'function') {
-        question = await question.call(this);
-      }
-
-      let opts = utils.merge({}, this.options, question);
-
-      let { type, name } = question;
-      if (typeof type === 'function') type = await type.call(this, question);
-      if (!type) continue;
-
-      assert(this.prompts[type], `Prompt "${type}" is not registered`);
-
-      let prompt = new this.prompts[type](opts);
-      let state = this.state(prompt, opts);
-      let onCancel = opts.onCancel || (() => false);
-      let value = utils.get(this.answers, name);
-
-      this.emit('prompt', prompt, this.answers);
-      prompt.state.answers = this.answers;
-
-      if (opts.autofill && value != null) {
-        prompt.value = prompt.input = value;
-        if (opts.autofill === 'show') await prompt.submit();
-        opts.onSubmit && await opts.onSubmit(name, value, prompt);
-        continue;
-      }
-
-      let skipped = typeof opts.skip === 'function'
-        ? await opts.skip(state)
-        : opts.skip === true;
-
-      if (skipped) {
-        continue;
-      }
-
-      // bubble events
-      let emit = prompt.emit;
-      prompt.emit = (...args) => {
-        this.emit(...args);
-        return emit.call(prompt, ...args);
-      };
-
       try {
-        value = await prompt.run();
-        if (name) this.answers[name] = value;
-        cancel = opts.onSubmit && await opts.onSubmit(name, value, prompt);
+        if (typeof question === 'function') question = await question.call(this);
+        await this.ask(utils.merge({}, this.options, question));
       } catch (err) {
-        cancel = !(await onCancel(name, value, prompt));
-      }
-
-      if (cancel) {
-        return this.answers;
+        return Promise.reject(err);
       }
     }
-
     return this.answers;
+  }
+
+  async ask(question) {
+    if (typeof question === 'function') {
+      question = await question.call(this);
+    }
+
+    let opts = utils.merge({}, this.options, question);
+    let { type, name } = question;
+
+    if (typeof type === 'function') {
+      type = await type.call(this, question, this.answers);
+    }
+
+    if (!type) return this.answers[name];
+
+    assert(this.prompts[type], `Prompt "${type}" is not registered`);
+
+    let prompt = new this.prompts[type](opts);
+    prompt.enquirer = this;
+
+    if (name) {
+      prompt.on('submit', value => {
+        utils.set(this.answers, name, value);
+        this.emit('answer', name, value, prompt);
+      });
+    }
+
+    // bubble events
+    let emit = prompt.emit;
+    prompt.emit = (...args) => {
+      this.emit(...args);
+      return emit.call(prompt, ...args);
+    };
+
+    let state = this.state(prompt, opts);
+    let value = utils.get(this.answers, name);
+
+    this.emit('prompt', prompt, this);
+
+    if (opts.autofill && value != null) {
+      prompt.value = prompt.input = value;
+
+      // if "autofill=show", then render actual prompt in the
+      // terminal when skipping, otherwise it's "silent"
+      if (opts.autofill === 'show') {
+        await prompt.submit();
+      }
+    } else {
+      value = prompt.value = await prompt.run();
+    }
+
+    return value;
   }
 
   /**
