@@ -1,30 +1,32 @@
-const { prompt } = require("enquirer");
-const log = require("../../utils/log");
+const { prompt } = require('enquirer');
+const highlight = require('../../utils/highlight');
 
-const results = prompt({
+const response = prompt({
+  type: 'form',
+  name: 'user',
+  message: 'Please provide the following information:',
   choices: [
     {
-      initial: "Jon",
-      message: "First Name",
-      name: "firstname"
+      name: 'firstname',
+      message: 'First Name',
+      initial: 'Jon'
     },
     {
-      initial: "Schlinkert",
-      message: "Last Name",
-      name: "lastname"
+      name: 'lastname',
+      message: 'Last Name',
+      initial: 'Schlinkert'
     },
     {
-      message: "GitHub username",
-      name: "username",
-      onChoice(state, choice, i) {
-        const { firstname, lastname } = this.values;
+      name: 'username',
+      message: 'GitHub username',
+      onChoice(state, choice) {
+        let { firstname, lastname } = this.values;
         choice.initial = `${firstname}${lastname}`.toLowerCase();
       }
     }
-  ],
-  message: "Please provide the following information:",
-  name: "user",
-  type: "form"
+  ]
 });
 
-log(results);
+response
+  .then(answers => console.log(highlight(answers)))
+  .catch(console.error);

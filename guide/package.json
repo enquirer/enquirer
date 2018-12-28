@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "cli-highlight": "^2.0.0",
-    "enquirer": "^2.2.0",
+    "enquirer": "file:..",
     "svg-term-cli": "^2.1.1"
   }
 }

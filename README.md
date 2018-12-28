@@ -274,7 +274,7 @@ const response = await enquirer.prompt({
 console.log(response);
 ```
 
-### [use](index.js#L157)
+### [use](index.js#L160)
 
 Use an enquirer plugin.
 
@@ -294,7 +294,7 @@ const plugin = enquirer => {
 enquirer.use(plugin);
 ```
 
-### [Enquirer#prompt](index.js#L213)
+### [Enquirer#prompt](index.js#L210)
 
 Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
@@ -1141,9 +1141,10 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 
 | **Commits** | **Contributor** |  
 | --- | --- |  
-| 261 | [jonschlinkert](https://github.com/jonschlinkert) |  
+| 271 | [jonschlinkert](https://github.com/jonschlinkert) |  
 | 25  | [doowb](https://github.com/doowb) |  
 | 15  | [g-plane](https://github.com/g-plane) |  
+| 12  | [pixelass](https://github.com/pixelass) |  
 | 3   | [tunnckoCore](https://github.com/tunnckoCore) |  
 | 2   | [DanielRuf](https://github.com/DanielRuf) |  
 | 1   | [gabel0287](https://github.com/gabel0287) |  
@@ -1155,6 +1156,7 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 | 1   | [renarsvilnis](https://github.com/renarsvilnis) |  
 | 1   | [sbugert](https://github.com/sbugert) |  
 | 1   | [skellock](https://github.com/skellock) |  
+| 1   | [whxaxes](https://github.com/whxaxes) |  
 
 ### Author
 
