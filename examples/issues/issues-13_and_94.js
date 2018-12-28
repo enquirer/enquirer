@@ -15,6 +15,7 @@ const contractor = async() => {
       choices: ['register', 'update', 'mine'],
       initial: 'register'
     });
+
     switch (action) {
       case 'register': {
         await register();
