@@ -94,6 +94,7 @@ class Enquirer extends Events {
 
     let opts = utils.merge({}, this.options, question);
     let { type, name } = question;
+    let { set, get } = utils;
 
     if (typeof type === 'function') {
       type = await type.call(this, question, this.answers);
@@ -104,32 +105,31 @@ class Enquirer extends Events {
     assert(this.prompts[type], `Prompt "${type}" is not registered`);
 
     let prompt = new this.prompts[type](opts);
+    let value = get(this.answers, name);
+
+    prompt.state.answers = this.answers;
     prompt.enquirer = this;
 
     if (name) {
       prompt.on('submit', value => {
-        utils.set(this.answers, name, value);
         this.emit('answer', name, value, prompt);
+        set(this.answers, name, value);
       });
     }
 
     // bubble events
-    let emit = prompt.emit;
+    let emit = prompt.emit.bind(prompt);
     prompt.emit = (...args) => {
-      this.emit(...args);
-      return emit.call(prompt, ...args);
+      this.emit.call(this, ...args);
+      return emit(...args);
     };
-
-    let state = this.state(prompt, opts);
-    let value = utils.get(this.answers, name);
 
     this.emit('prompt', prompt, this);
 
     if (opts.autofill && value != null) {
       prompt.value = prompt.input = value;
 
-      // if "autofill=show", then render actual prompt in the
-      // terminal when skipping, otherwise it's "silent"
+      // if "autofill=show" render the prompt, otherwise stay "silent"
       if (opts.autofill === 'show') {
         await prompt.submit();
       }
@@ -160,12 +160,6 @@ class Enquirer extends Events {
   use(plugin) {
     plugin.call(this, this);
     return this;
-  }
-
-  state(prompt, question) {
-    let state = { prompt, question, answers: this.answers };
-    this.emit('state', state);
-    return state;
   }
 
   set Prompt(value) {
