@@ -40,7 +40,7 @@ describe('confirm', () => {
     });
   });
 
-  describe('hint', () => {
+  describe('options.hint', () => {
     it('should show the correct hint based on options.initial', () => {
       prompt = new Prompt({ message: 'foo', initial: true });
       assert.equal(prompt.default, '(Y/n)');
@@ -50,7 +50,54 @@ describe('confirm', () => {
     });
   });
 
+  describe('options.default', () => {
+    it('should support a custom default value', () => {
+      prompt = new Prompt({
+        name: 'really',
+        message: 'Wirklich?',
+        initial: 'y',
+        default: '[Y(es)|N(o)]'
+      });
+
+      prompt.once('run', async() => {
+        assert(prompt.state.buffer.includes('[Y(es)|N(o)]'));
+        await prompt.keypress('y');
+        assert(prompt.state.buffer.includes('[Y(es)|N(o)]'));
+      });
+
+      return prompt.run()
+        .then(answer => {
+          assert.equal(answer, true);
+        });
+    });
+  });
+
+  describe('options.isTrue and options.isFalse', () => {
+    it('should support custom functions for true and false', () => {
+      prompt = new Prompt({
+        name: 'really',
+        message: 'Wirklich?',
+        initial: 'j',
+        default: '(J/n)',
+        isTrue(input) {
+          return String(input).toLowerCase() === 'j';
+        },
+        isFalse(input) {
+          return String(input).toLowerCase() === 'n';
+        }
+      });
+
+      prompt.once('run', async() => await prompt.keypress('j'));
+
+      return prompt.run()
+        .then(answer => {
+          assert.equal(answer, true);
+        });
+    });
+  });
+
   describe('keypresses', () => {
+
     it('should confirm with a truthy value', () => {
       prompt = new Prompt({ message: 'Are you sure?' });
 

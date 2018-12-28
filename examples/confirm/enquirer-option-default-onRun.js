@@ -8,11 +8,9 @@ prompt({
   message: 'Wirklich?',
   initial: 'j',
   default: '(J/n)',
-  isTrue(input) {
-    return input.toLowerCase() === 'j';
-  },
-  isFalse(input) {
-    return input.toLowerCase() === 'n';
+  onRun() {
+    this.isTrue = input => input === 'j';
+    this.isFalse = input => input === 'n';
   }
 })
   .then(console.log)
