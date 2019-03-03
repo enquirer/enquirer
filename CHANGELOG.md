@@ -32,13 +32,52 @@ Changelog entries are classified using the following labels _(from [keep-a-chang
 
 </details>
 
-## 2.1.0 - 2018-11-29
+
+## [3.0.0] - 2018-11-14
+
+### Fixed
+
+- `validate` function now properly accepts `false` as a return value, thanks to [@g-plane](https://github.com/g-plane).
+
+### Removed
+
+- `hSelect` and `hMultiSelect` (horizontal select and multiselect) have been removed and moved over to the [recipes](recipes) folder. If you need these prompts and want to see how to re-create the functionality, you will find examples in [recipes/examples](recipes/examples).
+
+### Changed
+
+- `ctrl+d` is now mapped to `deleteForward` instead of `cancel`. 
+- When using the `Enquirer.prompt()` method, the `answers` object is now on `prompt.answers`.
+
+## [2.2.0] - 2018-12-16
+
+### Fixed
+
+Numerous bugfixes and optimizations:
+
+- fixes #90, a bug that was preventing non-string values from being defined on `choice.value`
+- fixes #91, a bug on boolean prompts where the `value` getter was ignoring falsey user-defined values. Bug was introduced in dda5993.
+- the `placeholder` now fully supports Enquirer's semantic styling system. has more consistent behavior when an empty string is passed.
+- minor improvements to the scale prompt.
+
+### Added
+
+- Adds a Toggle prompt. Closes #89.
+- Adds support for "options.margin", which allows implementors to define the amount of whitespace padding to use around various prompt elements. Margin may be a number indicating the number of spaces to use, a string - spaces or newlines, or an array of numbers or strings. Similar to CSS, the array `[0, 0, 1, 0]` would define margins in the following order: top, right, bottom, left. More specifically, top (newlines), right (spaces), bottom (newlines), and left (spaces of indentation). A few of the higher level prompts, like select, have already added support for margin, but it will need to be added to the others before support is consistent.
+- Adds support for `maxSelected` on any array prompt that allows multiple choices to be selected. Closes #92
+- Adds a `loading` property to the state to provide an easy way of showing loading indicators or progress bars while choices are loading asynchronously
+- Adds support for disabling choices by setting `choice.readonly` to true.
+- Adds support for customizing the "drag" symbol   on sort prompts. This symbol is used to indicate that a choice is being sorted.
+- Adds a few other useful unicode symbols related to editing and sorting.
+- Adds setters to the styles object, to allow styles to be directly updated using `prompt.styles.foo = bar`.
+- Also adds a number of unit tests, more docs, and some new examples.
+
+## [2.1.0] - 2018-11-29
 
 ### Fixed
 
 - Several improvements were made for handling custom `format`, `result` and `initial` functions defined on the options. 
 
-## 2.0.7 - 2018-11-14
+## [2.0.7] - 2018-11-14
 
 ### Fixed
 
@@ -54,7 +93,7 @@ Changelog entries are classified using the following labels _(from [keep-a-chang
 - Adds support for `options.term` to set the terminal, thanks to [@tunnckoCore](https://github.com/tunnckoCore). At the moment this is only used in a couple of edge cases with the `Survey` and `Scale` prompts to check if the terminal is Hyper.
 - `options.skip` may now be a Boolean, thanks to [@tunnckoCore](https://github.com/tunnckoCore)
 
-## 2.0.0 - 2018-11-07
+## [2.0.0] - 2018-11-07
 
 ### Changed
 
@@ -70,6 +109,11 @@ Enquire 2.0 is a bottom-up complete re-write:
 
 - Many prompts that were previously separate packages are now bundled into Enquirer itself. 
 
+### [0.1.0] - 2016-08-28
 
+First release.
+
+
+[0.2.0]: https://github.com/jonschlinkert/micromatch/compare/0.1.0...0.2.0
 [Unreleased]: https://github.com/enquirer/enquirer/compare/2.0.2...HEAD
 [keep-a-changelog]: https://github.com/olivierlacan/keep-a-changelog

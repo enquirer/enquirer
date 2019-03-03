@@ -40,17 +40,15 @@ describe('confirm', () => {
     });
   });
 
-  describe('options.hint', () => {
-    it('should show the correct hint based on options.initial', () => {
+  describe('default', () => {
+    it('should show the correct default hint based on options.initial', () => {
       prompt = new Prompt({ message: 'foo', initial: true });
       assert.equal(prompt.default, '(Y/n)');
 
       prompt = new Prompt({ message: 'foo', initial: false });
       assert.equal(prompt.default, '(y/N)');
     });
-  });
 
-  describe('options.default', () => {
     it('should support a custom default value', () => {
       prompt = new Prompt({
         name: 'really',
@@ -97,7 +95,6 @@ describe('confirm', () => {
   });
 
   describe('keypresses', () => {
-
     it('should confirm with a truthy value', () => {
       prompt = new Prompt({ message: 'Are you sure?' });
 

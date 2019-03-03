@@ -167,7 +167,7 @@ describe('Enquirer', function() {
   });
 
   describe('onSubmit', () => {
-    it('should call onSubmit when a prompt is submitted before without initializing', cb => {
+    it('should call onSubmit when a prompt is submitted without initializing', cb => {
       let called = 0;
       enquirer = new Enquirer({
         show: false,
@@ -198,15 +198,14 @@ describe('Enquirer', function() {
       enquirer = new Enquirer({
         show: false,
         onSubmit(name, value) {
-          this.value = 'orange';
+          assert.equal(value, 'orange');
           called++;
         }
       });
 
       enquirer.on('prompt', prompt => {
-        prompt.on('run', async() => {
-          await prompt.submit();
-        });
+        prompt.value = 'orange';
+        prompt.submit();
       });
 
       enquirer.prompt({
@@ -214,9 +213,8 @@ describe('Enquirer', function() {
         name: 'color',
         message: 'Favorite color?'
       })
-      .then(answers => {
+      .then(() => {
         assert.equal(called, 1);
-        assert.equal(answers.color, 'orange');
         cb();
       })
     });

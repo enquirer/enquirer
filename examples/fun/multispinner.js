@@ -19,10 +19,10 @@ const prompt = new MultiSelect({
     prefix: 120
   },
   prefix(state) {
-    return frame(rhythm, state.timer.tick)('❤');
+    return frame(rhythm, state.timers.prefix.tick)('❤');
   },
   separator(state) {
-    return frame(rhythm, state.timer.tick)('❤');
+    return frame(rhythm, state.timers.separator.tick)('❤');
   }
 });
 
