@@ -34,3 +34,26 @@ The MultiSelect prompt allows the user to select multiple items from a list of o
 - [Select](#select-prompt)
 - [AutoComplete](#autocomplete-prompt)
 - [Survey](#survey-prompt)
+
+
+<!-- Example: Select favorite colors -->
+
+```js
+const { prompt } = require('enquirer');
+
+const questions = [
+  {
+    type: 'multiselect',
+    name: 'colors',
+    message: 'Favorite colors?',
+    choices: [
+      { name: 'red', message: 'red', value: '#ff0000' }, //<= choice object
+      { name: 'green', message: 'Green', value: '#00ff00' }, //<= choice object
+      { name: 'blue', message: 'Blue', value: '#0000ff' } //<= choice object
+    ]
+  }
+];
+
+let answers = await prompt(questions);
+console.log('Answer:', answers.colors);
+```

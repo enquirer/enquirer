@@ -5,7 +5,7 @@ const { NumberPrompt } = require('enquirer');
 const prompt = new NumberPrompt({
   name: 'number',
   message: 'Please enter a number',
-  initial: 2
+  initial: 2000
 });
 
 prompt.run()

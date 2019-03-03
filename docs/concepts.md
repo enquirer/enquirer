@@ -19,7 +19,7 @@ High level concepts in Enquirer.
 - [Styling prompts](#rendering-prompts)
 
 ## ❯ Enquirer
-
+{%= include("./overview.md") %}
 
 ## ❯ Prompts
 
@@ -49,3 +49,9 @@ High level concepts in Enquirer.
 ## ❯ Plugins
 
 
+
+
+[issue]: https://github.com/enquirer/enquirer/issues/new
+[pulls]: https://github.com/enquirer/enquirer/pulls
+[jon]: https://github.com/jonschlinkert
+[brian]: https://github.com/doowb

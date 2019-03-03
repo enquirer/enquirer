@@ -10,8 +10,8 @@ const prompt = new Snippet({
   format() {
     return '';
   },
-  validate(value) {
-    return !this.isValue(value.values.appname) ? 'Please enter a value' : true;
+  validate(state) {
+    return !this.isValue(state.values.appname) ? 'Please enter a value' : true;
   },
   result(value) {
     value.result = path.join(os.homedir(), value.result.replace(/^~/, ''));

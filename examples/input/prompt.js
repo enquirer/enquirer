@@ -2,10 +2,9 @@
 
 const { Input } = require('enquirer');
 const prompt = new Input({
-  message: 'What is your username?',
-  initial: 'jonschlinkert'
+  message: 'What is your username?'
 });
 
 prompt.run()
-  .then(answer => console.log('ANSWER:', answer))
+  .then(answer => console.log('Username:', answer))
   .catch(console.log);

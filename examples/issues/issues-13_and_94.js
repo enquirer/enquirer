@@ -6,6 +6,7 @@ prompt.on('cancel', () => process.exit());
 
 const contractor = async() => {
   let register = async() => menu();
+
   let menu = async() => {
     let { action } = await prompt({
       type: 'select',

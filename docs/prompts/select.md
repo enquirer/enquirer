@@ -27,7 +27,11 @@ Todo
 
 By default, select prompt returns the `name` property from the choice that was submitted by the user. If you need something different, you can a custom `result` function to the options ("question" object) to format the returned value however you want. 
 
+<!-- Example: Select favorite color -->
+
 ```js
+const { prompt } = require('enquirer');
+
 const questions = [
   {
     type: 'select',
@@ -43,6 +47,9 @@ const questions = [
     }
   }
 ];
+
+let answers = await prompt(questions);
+console.log('Answers:', answers);
 ```
 
 When [multiple](#optionsmultiple) is `true`, the returned value is an array of names. We'll cover that below as well.

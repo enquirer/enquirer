@@ -1,18 +1,22 @@
 const fs = require('fs');
 const vm = require('vm');
 const path = require('path');
+const colors = require('ansi-colors');
 const tokenize = require('tokenize-comment');
-const filepath = name => path.join(__dirname, name);
+const resolve = name => path.join(__dirname, name);
 const { prompt } = require('..');
 
-function blocks(filepath) {
-  let str = fs.readFileSync(filepath);
+const wrap = str => {
+  return `(function (exports, console, require, module, __filename, __dirname) { ${str}\n});`
+};
+
+function blocks(file) {
+  let { choices, comment } = file;
+
   return new Promise(async(resolve, reject) => {
-    let comment = tokenize(str.toString(), { stripStars: false });
-    let choices = toChoices(comment.examples);
     let example;
 
-    if (choices.length > 1) {
+    if (comment.examples.length > 1) {
       let answers = await prompt({
         name: 'example',
         type: 'select',
@@ -27,38 +31,55 @@ function blocks(filepath) {
       });
 
       example = comment.examples[Number(answers.example)];
-    } else if (comment.examples.length === 0) {
-      console.log('There are no examples to run in: ', filepath);
-      return;
-    } else {
+    } else if (choices.length === 1) {
       example = comment.examples[0];
+    } else {
+      console.log('There are no examples to run in: ', file.path);
+      resolve();
+      return;
     }
 
-    const wrap = str => {
-      return `(function (exports, console, require, module, __filename, __dirname) { ${str}\n});`
-    };
-    let fn = vm.runInNewContext(wrap(example.value));
-    Promise.resolve(fn(exports, console, require, module, __filename, __dirname))
+    Promise.resolve(run(example.value))
       .then(() => resolve)
       .catch(reject);
-
   });
 }
 
+function run(str) {
+  let fn = vm.runInNewContext(wrap(fixRequires(str)));
+  return fn(exports, console, require, module, __filename, __dirname);
+}
+
 function toChoices(examples) {
+  if (examples.length === 0) return [];
+
   let choices = [];
   for (let i = 0; i < examples.length; i++) {
     let example = examples[i];
+    let prop = example.value ? 'value' : 'val';
     let n = `${i + 1}. `;
-    example.value = example.value.replace(/require\('enquirer'\)/g, `require('..')`);
-    let desc = example.description;
-    if (desc) {
-      choices.push({ name: String(i), message: n + stripMarkdown(desc) });
-    } else {
-      choices.push({ name: String(i), message: 'Example #' + i });
+
+    if (!hasPrompt(example[prop])) {
+      continue;
     }
+
+    example[prop] = fixAsyncAwait(example[prop]);
+    example[prop] = fixRequires(example[prop]);
+    let choice = { name: String(i) };
+    let desc = example.description;
+
+    if (desc) {
+      choice.message = n + stripMarkdown(desc);
+    } else {
+      choice.message = `Example #${i}`;
+    }
+    choices.push(choice);
   }
   return choices;
+}
+
+function hasPrompt(str) {
+  return /(\.run\(\)|await prompt\()/.test(str);
 }
 
 function stripMarkdown(str) {
@@ -68,32 +89,78 @@ function stripMarkdown(str) {
 function readFiles(dir) {
   let files = fs.readdirSync(dir, { withFileTypes: true });
   let choices = [];
-
-  for (let file of files) {
-    if (file.name === 'support') continue;
-    let choice = { name: file.name, value: path.join(dir, file.name) };
-    if (file.isDirectory()) {
+  for (let obj of files) {
+    if (obj.name === 'support' || obj.name === 'node_modules') continue;
+    let choice = { name: obj.name, value: path.join(dir, obj.name) };
+    if (obj.isDirectory()) {
       choice.role = 'heading';
-      choice.choices = readFiles(choice.value);
-    } else if (!choice.name.endsWith('.md')) {
-      continue;
+      choice.name = colors.dim(choice.name + '/');
+      let res = readFiles(choice.value);
+      if (res.length) {
+        choice.choices = res;
+        choices.push(choice);
+      }
+    } else if (choice.name.endsWith('.md')) {
+      let buf = fs.readFileSync(choice.value);
+      let file = { ...obj };
+      file.contents = buf;
+      file.comment = tokenize(buf.toString(), { stripStars: false });
+      file.comment.examples = file.comment.examples
+        .filter(e => hasPrompt(e.value))
+        .filter(e => /^(\*\*|<!--\s*Example)/.test(e.description))
+        .map(e => {
+          e.description = fixDescriptions(e.description);
+          return e;
+        });
+
+      file.choices = toChoices(file.comment.examples);
+      if (file.choices.length) {
+        choice.file = file;
+        // choice.choices = file.choices;
+        choices.push(choice);
+      }
     }
-    choices.push(choice);
   }
   return choices;
 }
 
+function fixAsyncAwait(str) {
+  if (!/await prompt/.test(str)) return str;
+  return`(async() => {${str}})().catch(console.error)`;
+}
+
+function fixDescriptions(input = '') {
+  let str = input.split('\n')[0].trim();
+  return str.replace(/<!--\s*Example:?(.*?)-->/g, (m, $1) => $1.trim());
+}
+
+function fixRequires(str) {
+  return str.replace(/require\('(.*?)'\)/g, (m, name) => {
+    let idx = name.indexOf('./lib/');
+    if (idx !== -1) {
+      return `require('${resolve('..', name.slice(idx))}')`;
+    }
+    if (name === 'enquirer') {
+      return `require('${resolve('..')}')`;
+    }
+    return m;
+  });
+}
+
 prompt({
-  name: 'file',
+  name: 'filename',
   type: 'select',
   message: 'Which file do you want to run?',
-  choices: readFiles(__dirname),
-  heading(str) {
-    return this.styles.dim(str + '/');
-  },
+  choices: [
+    {
+      role: 'heading',
+      message: colors.dim('docs/'),
+      choices: readFiles(__dirname)
+    }
+  ],
   result() {
-    return this.focused.value;
+    return this.focused.file;
   }
 })
-  .then(answers => blocks(answers.file))
+  .then(answers => blocks(answers.filename))
   .catch(console.error);

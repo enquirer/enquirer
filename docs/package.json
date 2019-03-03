@@ -1,0 +1,16 @@
+{
+  "name": "enquirer-docs",
+  "private": true,
+  "devDependencies": {
+    "tokenize-comment": "^3.0.0"
+  },
+  "lintDeps": {
+    "devDependencies": {
+      "files": {
+        "patterns": [
+          "run.js"
+        ]
+      }
+    }
+  }
+}
