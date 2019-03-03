@@ -178,13 +178,13 @@ describe('Input Prompt', function() {
         pos.push(prompt.state.cursor);
         await prompt.keypress('e');
         pos.push(prompt.state.cursor);
-        await prompt.keypress('x', { ctrl: true });
+        await prompt.keypress('t', { ctrl: true });
         pos.push(prompt.state.cursor);
-        await prompt.keypress('x', { ctrl: true });
+        await prompt.keypress('t', { ctrl: true });
         pos.push(prompt.state.cursor);
-        await prompt.keypress('x', { ctrl: true });
+        await prompt.keypress('t', { ctrl: true });
         pos.push(prompt.state.cursor);
-        await prompt.keypress('x', { ctrl: true });
+        await prompt.keypress('t', { ctrl: true });
         pos.push(prompt.state.cursor);
         prompt.submit();
       });
