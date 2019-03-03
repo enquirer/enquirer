@@ -27,17 +27,17 @@
     "cover": "nyc --reporter=text --reporter=html mocha"
   },
   "dependencies": {
-    "ansi-colors": "^3.2.1"
+    "ansi-colors": "^3.2.4"
   },
   "devDependencies": {
-    "@types/node": "^8",
+    "@types/node": "^11.10.4",
     "gulp-format-md": "^2.0.0",
-    "inquirer": "^6.2.0",
-    "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
-    "prompts": "^1.2.1",
+    "inquirer": "^6.2.2",
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0",
+    "prompts": "^2.0.3",
     "time-require": "github:jonschlinkert/time-require",
-    "typescript": "^3.1.6"
+    "typescript": "^3.3.3333"
   },
   "keywords": [
     "answer",

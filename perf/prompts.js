@@ -5,4 +5,6 @@ console.timeEnd('prompts');
 // prompts: 25.653ms (first run)
 // prompts: 12.642ms (second run)
 // prompts: 12.736ms (third run)
-// avg: 17.010ms
+// prompts: 28.526ms (forth run)
+// total: 79.557ms
+// avg: 19.88925ms
