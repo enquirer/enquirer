@@ -57,16 +57,26 @@ describe('confirm', () => {
         default: '[Y(es)|N(o)]'
       });
 
-      prompt.once('run', async() => {
-        assert(prompt.state.buffer.includes('[Y(es)|N(o)]'));
-        await prompt.keypress('y');
-        assert(prompt.state.buffer.includes('[Y(es)|N(o)]'));
+      let resolved = false;
+
+      return new Promise((resolve, reject) => {
+        prompt.once('run', async() => {
+          try {
+            assert(prompt.state.buffer.includes('[Y(es)|N(o)]'));
+            await prompt.keypress('y');
+            assert(prompt.state.buffer.includes('[Y(es)|N(o)]'));
+            resolve();
+          } catch (err) {
+            reject(err);
+          }
+        });
+
+        return prompt.run()
+          .then(answer => {
+            assert.equal(answer, true);
+          });
       });
 
-      return prompt.run()
-        .then(answer => {
-          assert.equal(answer, true);
-        });
     });
   });
 

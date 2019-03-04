@@ -39,14 +39,21 @@ Changelog entries are classified using the following labels _(from [keep-a-chang
 
 - `validate` function now properly accepts `false` as a return value, thanks to [@g-plane](https://github.com/g-plane).
 
+### Added
+
+- Adds support for <kbd>shift+left</kbd> and <kbd>shift+right</kbd> for cut and paste functionality in string prompts.
+
 ### Removed
 
 - `hSelect` and `hMultiSelect` (horizontal select and multiselect) have been removed and moved over to the [recipes](recipes) folder. If you need these prompts and want to see how to re-create the functionality, you will find examples in [recipes/examples](recipes/examples).
 
 ### Changed
 
+- `ctrl+x` (`toggleCursor`) has been changed to `ctrl+t`
 - `ctrl+d` is now mapped to `deleteForward` instead of `cancel`. 
 - When using the `Enquirer.prompt()` method, the `answers` object is now on `prompt.answers`.
+- `toggleCursor` is now mapped to <kbd>ctrl</kbd>+<kbd>t</kbd> instead of <kbd>ctrl</kbd>+<kbd>x</kbd>
+- `cut` is now mapped to <kbd>ctrl</kbd>+<kbd>x</kbd>
 
 ## [2.2.0] - 2018-12-16
 

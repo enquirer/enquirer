@@ -104,13 +104,13 @@ class Enquirer extends Events {
     assert(this.prompts[type], `Prompt "${type}" is not registered`);
 
     let prompt = new this.prompts[type](opts);
-    this.constructor.emit('prompt', prompt);
     prompt.enquirer = this;
 
     if (name) {
       prompt.on('submit', value => {
         utils.set(this.answers, name, value);
-        this.emit('answer', name, value, prompt);
+        this.emit('answer', name, value, prompt, this);
+        this.constructor.emit('answer', name, value, prompt, this);
       });
     }
 
@@ -124,6 +124,7 @@ class Enquirer extends Events {
     let state = this.state(prompt, opts);
     let value = utils.get(this.answers, name);
 
+    this.constructor.emit('prompt', prompt, this);
     this.emit('prompt', prompt, this);
 
     if (opts.autofill && value != null) {
