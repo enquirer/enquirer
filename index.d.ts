@@ -5,10 +5,7 @@
 
 export = EnquirerStatic;
 
-declare class EnquirerStatic<
-  R = any,
-  N extends string = string
-> extends NodeJS.EventEmitter {
+declare class EnquirerStatic<R = any, N extends string = string> extends NodeJS.EventEmitter {
   // TODO: update object options
   constructor(options?: object, answers?: object);
 
@@ -26,9 +23,7 @@ declare class EnquirerStatic<
    *
    * @param question Array of question for prompts to run.
    */
-  prompt(
-    questions: Array<EnquirerStatic.PromptOptions<N>>
-  ): Promise<EnquirerStatic.PromptType.Answers<N, R>>;
+  prompt(questions: Array<EnquirerStatic.PromptOptions<N>>): Promise<EnquirerStatic.PromptType.Answers<N, R>>;
 
   /**
    * Prompt function that takes a "question" object or array of question objects,
@@ -43,20 +38,18 @@ declare class EnquirerStatic<
    *
    * @param plugin Plugin function that takes an instance of Enquirer.
    */
-  use(plugin: EnquirerStatic.Caller.BindOneParam<this, this, void>): this;
+  use(plugin: EnquirerStatic.TypeUtils.BindOneParam<this, this, void>): this;
 }
 
 declare namespace EnquirerStatic {
-  namespace Caller {
+  namespace TypeUtils {
     type NoParam<R> = () => R;
     type OneParam<T, R = T> = (value: T) => R;
 
     type BindNoParam<B, R> = (this: B) => R;
     type BindOneParam<B, T, R> = (this: B, value: T) => R;
-  }
 
-  namespace UnionType {
-    type ValueOrFunc<T, R = T> = R | Caller.OneParam<T, R>;
+    type ValueOrFunc<T, R = T> = R | OneParam<T, R>;
 
     type ValueOrArray<T> = T | T[];
 
@@ -67,28 +60,22 @@ declare namespace EnquirerStatic {
     type Answers<T extends string, R = any> = { [id in T]: R };
 
     interface BaseOptions<N extends string> {
-      name: UnionType.ValueOrFunc<N>;
-      message: UnionType.ValueOrFunc<N, UnionType.ValueOrPromise<string>>; // async
+      name: TypeUtils.ValueOrFunc<N>;
+      message: TypeUtils.ValueOrFunc<N, TypeUtils.ValueOrPromise<string>>; // async
 
       // TODO: What type of Skip parameters method.
-      skip?: UnionType.ValueOrFunc<
-        Answers<N> | string,
-        UnionType.ValueOrPromise<boolean>
-      >; // async
+      skip?: TypeUtils.ValueOrFunc<Answers<N> | string, TypeUtils.ValueOrPromise<boolean>>; // async
 
-      format?: Caller.OneParam<string, UnionType.ValueOrPromise<string>>; // async
-      result?: Caller.OneParam<string, UnionType.ValueOrPromise<string>>; // async
-      validate?: Caller.OneParam<
-        string,
-        UnionType.ValueOrPromise<string | boolean>
-      >; // async
+      format?: TypeUtils.OneParam<string, TypeUtils.ValueOrPromise<string>>; // async
+      result?: TypeUtils.OneParam<string, TypeUtils.ValueOrPromise<string>>; // async
+      validate?: TypeUtils.OneParam<string, TypeUtils.ValueOrPromise<string | boolean>>; // async
 
       stdin?: NodeJS.ReadStream;
       stdout?: NodeJS.WriteStream;
     }
 
     interface BaseTypeOptions<T extends string> {
-      type: UnionType.ValueOrFunc<T>;
+      type: TypeUtils.ValueOrFunc<T>;
     }
 
     interface Choice {
@@ -109,15 +96,7 @@ declare namespace EnquirerStatic {
 
     type BooleanType = "confirm";
 
-    type ArrayType =
-      | "autocomplete"
-      | "editable"
-      | "form"
-      | "multiselect"
-      | "select"
-      | "survey"
-      | "list"
-      | "scale"; // TODO: This support Falsy value ???
+    type ArrayType = "autocomplete" | "editable" | "form" | "multiselect" | "select" | "survey" | "list" | "scale"; // TODO: This support Falsy value ???
 
     interface ArrayOptions<N extends string = string> extends BaseOptions<N> {
       choices: string[] | Choice[];
@@ -163,29 +142,17 @@ declare namespace EnquirerStatic {
       initial?: boolean;
     }
 
-    interface SnippetTypeOptions<N extends string>
-      extends BaseTypeOptions<SnippetType>,
-        SnippetOptions<N> {}
+    interface SnippetTypeOptions<N extends string> extends BaseTypeOptions<SnippetType>, SnippetOptions<N> {}
 
-    interface SortTypeOptions<N extends string>
-      extends BaseTypeOptions<SortType>,
-        SortOptions<N> {}
+    interface SortTypeOptions<N extends string> extends BaseTypeOptions<SortType>, SortOptions<N> {}
 
-    interface StringTypeOptions<N extends string>
-      extends BaseTypeOptions<StringType>,
-        StringOptions<N> {}
+    interface StringTypeOptions<N extends string> extends BaseTypeOptions<StringType>, StringOptions<N> {}
 
-    interface ArrayTypeOptions<N extends string>
-      extends BaseTypeOptions<ArrayType>,
-        ArrayOptions<N> {}
+    interface ArrayTypeOptions<N extends string> extends BaseTypeOptions<ArrayType>, ArrayOptions<N> {}
 
-    interface BooleanTypeOptions<N extends string>
-      extends BaseTypeOptions<BooleanType>,
-        BooleanOptions<N> {}
+    interface BooleanTypeOptions<N extends string> extends BaseTypeOptions<BooleanType>, BooleanOptions<N> {}
 
-    interface NumberTypeOptions<N extends string>
-      extends BaseTypeOptions<NumberType>,
-        NumberOptions<N> {}
+    interface NumberTypeOptions<N extends string> extends BaseTypeOptions<NumberType>, NumberOptions<N> {}
   }
 
   type PromptOptions<N extends string> =
@@ -204,18 +171,13 @@ declare namespace EnquirerStatic {
     questions: Array<PromptOptions<N>>
   ): Promise<PromptType.Answers<N, R>>;
 
-  export function prompt<R = string, N extends string = string>(
-    questions: PromptOptions<N>
-  ): Promise<R>;
+  export function prompt<R = string, N extends string = string>(questions: PromptOptions<N>): Promise<R>;
 
   // ################################# //
   // Individual Prompts class          //
   // ################################# //
 
-  class BasePrompt<
-    R,
-    O extends PromptType.BaseOptions<string> = PromptType.BaseOptions<string>
-  > extends Prompt<R> {
+  class BasePrompt<R, O extends PromptType.BaseOptions<string> = PromptType.BaseOptions<string>> extends Prompt<R> {
     constructor(option?: O);
   }
 
@@ -302,12 +264,7 @@ declare namespace EnquirerStatic {
     run(this: this): Promise<R>;
 
     // TODO: Recheck is method
-    element(
-      this: this,
-      name: string,
-      choice?: object,
-      i?: number
-    ): Promise<any>;
+    element(this: this, name: string, choice?: object, i?: number): Promise<any>;
 
     prefix(this: this): Promise<any>;
 
