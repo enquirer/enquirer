@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2017",
+    "types" : ["node"],
     "module": "commonjs",
     "noEmit": true,
     "strict": true

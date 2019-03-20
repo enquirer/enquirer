@@ -13,9 +13,25 @@ declare class EnquirerStatic<R = any, N extends string = string> extends NodeJS.
    * Register a custom prompt type.
    *
    * @param type
-   * @param fn `Prompt` class, or a function that returns a `Prompt` class.
+   * @param prompt class
    */
-  register(type: string): this;
+  register(type: string, prompt: typeof EnquirerStatic.Prompt): this;
+
+  /**
+   * Register a custom prompt type.
+   *
+   * @param type
+   * @param prompt a function that returns a `Prompt` class.
+   */
+  register(type: string, prompt: EnquirerStatic.TypeUtils.NoParam<typeof EnquirerStatic.Prompt>): this;
+
+  /**
+   * Register a custom prompt type.
+   *
+   * @param type
+   * @param obj `Prompt`
+   */
+  register(obj: { [key: string]: EnquirerStatic.TypeUtils.ValueOrFunc<undefined, typeof EnquirerStatic.Prompt> }): this;
 
   /**
    * Prompt function that takes a "question" object or array of question objects,
@@ -72,6 +88,11 @@ declare namespace EnquirerStatic {
 
       stdin?: NodeJS.ReadStream;
       stdout?: NodeJS.WriteStream;
+
+      required?: boolean; // TODO: this should be here ?
+
+      onSubmit?: (name: N, value: N, prompt: EnquirerStatic.Prompt<N>) => TypeUtils.ValueOrPromise<boolean>;
+      onCancel?: (name: N, value: N, prompt: EnquirerStatic.Prompt<N>) => TypeUtils.ValueOrPromise<boolean>;
     }
 
     interface BaseTypeOptions<T extends string> {
@@ -170,11 +191,13 @@ declare namespace EnquirerStatic {
   // Prompts utils method              //
   // ################################# //
 
+  export function prompt<R = string, N extends string = string>(questions: PromptOptions<N>): Promise<R>; // input as a object
+  export function prompt<R = string, N extends string = string>(
+    questions: TypeUtils.NoParam<PromptOptions<N>>
+  ): Promise<R>; // input as a function
   export function prompt<R = any, N extends string = string>(
-    questions: Array<PromptOptions<N>>
-  ): Promise<PromptType.Answers<N, R>>;
-
-  export function prompt<R = string, N extends string = string>(questions: PromptOptions<N>): Promise<R>;
+    questions: Array<TypeUtils.ValueOrFunc<undefined, PromptOptions<N>>>
+  ): Promise<PromptType.Answers<N, R>>; // input as a array of value or function
 
   // ################################# //
   // Individual Prompts class          //
