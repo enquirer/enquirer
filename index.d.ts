@@ -156,12 +156,14 @@ declare namespace EnquirerStatic {
   }
 
   type PromptOptions<N extends string> =
+    | PromptType.BaseOptions<N>
+    | PromptType.BaseTypeOptions<N>
     | PromptType.StringTypeOptions<N>
     | PromptType.NumberTypeOptions<N>
     | PromptType.ArrayTypeOptions<N>
     | PromptType.BooleanTypeOptions<N>
     | PromptType.SortTypeOptions<N>
-    | PromptType.SnippetTypeOptions<N>; // | PromptType.BaseTypeOptions<N, string>
+    | PromptType.SnippetTypeOptions<N>; //
 
   // ################################# //
   // Prompts utils method              //
