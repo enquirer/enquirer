@@ -142,6 +142,8 @@ declare namespace EnquirerStatic {
       initial?: boolean;
     }
 
+    interface AbstactTypeOptions<N extends string> extends BaseTypeOptions<N>, BaseOptions<N> {}
+
     interface SnippetTypeOptions<N extends string> extends BaseTypeOptions<SnippetType>, SnippetOptions<N> {}
 
     interface SortTypeOptions<N extends string> extends BaseTypeOptions<SortType>, SortOptions<N> {}
@@ -156,8 +158,7 @@ declare namespace EnquirerStatic {
   }
 
   type PromptOptions<N extends string> =
-    | PromptType.BaseOptions<N>
-    | PromptType.BaseTypeOptions<N>
+    | PromptType.AbstactTypeOptions<N>
     | PromptType.StringTypeOptions<N>
     | PromptType.NumberTypeOptions<N>
     | PromptType.ArrayTypeOptions<N>
