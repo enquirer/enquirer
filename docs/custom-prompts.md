@@ -9,12 +9,12 @@ Custom prompts are created by extending either:
 - one of the built-in [prompts](#-prompts), or 
 - low-level [types](#-types).
 
-<!-- Example: MyCustomPrompt Custom Prompt -->
+<!-- Example: HaiKarate Custom Prompt -->
 
 ```js
 const { Prompt } = require('enquirer');
 
-class MyCustomPrompt extends Prompt {
+class HaiKarate extends Prompt {
   constructor(options = {}) {
     super(options);
     this.value = options.initial || 0;
@@ -35,7 +35,7 @@ class MyCustomPrompt extends Prompt {
 }
 
 // Use the prompt by creating an instance of your custom prompt class.
-const prompt = new MyCustomPrompt({
+const prompt = new HaiKarate({
   message: 'How many sprays do you want?',
   initial: 10
 });
@@ -55,7 +55,7 @@ const enquirer = new Enquirer();
 Then use the `.register()` method to add your custom prompt.
 
 ```js
-enquirer.register('custom-prompt', MyCustomPrompt);
+enquirer.register('haikarate', HaiKarate);
 ```
 
 Now you can do the following when defining "questions".
@@ -64,7 +64,7 @@ Now you can do the following when defining "questions".
 let spritzer = require('cologne-drone');
 let answers = await enquirer.prompt([
   {
-    type: 'custom-prompt',
+    type: 'haikarate',
     name: 'cologne',
     message: 'How many sprays do you need?',
     initial: 10,
