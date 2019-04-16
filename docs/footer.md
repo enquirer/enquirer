@@ -4,6 +4,8 @@ Please see [CHANGELOG.md](CHANGELOG.md).
 
 ## ❯ Performance
 
+### System under Test
+
 MacBook Pro, Intel Core i7, 2.5 GHz, 16 GB.
 
 ### Load time

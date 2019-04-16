@@ -4,14 +4,17 @@ With Enquirer 2.0, custom prompts are easier than ever to create and use.
 
 **How do I create a custom prompt?**
 
-Custom prompts are created by extending Enquirer's `Prompt` class, or one of the built-in [prompts](#-prompts) or low-level [types](#-types).
+Custom prompts are created by extending either:
+- Enquirer's `Prompt` class
+- one of the built-in [prompts](#-prompts), or 
+- low-level [types](#-types).
 
-<!-- Example: HaiKarate Custom Prompt -->
+<!-- Example: MyCustomPrompt Custom Prompt -->
 
 ```js
 const { Prompt } = require('enquirer');
 
-class HaiKarate extends Prompt {
+class MyCustomPrompt extends Prompt {
   constructor(options = {}) {
     super(options);
     this.value = options.initial || 0;
@@ -32,7 +35,7 @@ class HaiKarate extends Prompt {
 }
 
 // Use the prompt by creating an instance of your custom prompt class.
-const prompt = new HaiKarate({
+const prompt = new MyCustomPrompt({
   message: 'How many sprays do you want?',
   initial: 10
 });
@@ -52,7 +55,7 @@ const enquirer = new Enquirer();
 Then use the `.register()` method to add your custom prompt.
 
 ```js
-enquirer.register('haikarate', HaiKarate);
+enquirer.register('custom-prompt', MyCustomPrompt);
 ```
 
 Now you can do the following when defining "questions".
@@ -61,7 +64,7 @@ Now you can do the following when defining "questions".
 let spritzer = require('cologne-drone');
 let answers = await enquirer.prompt([
   {
-    type: 'haikarate',
+    type: 'custom-prompt',
     name: 'cologne',
     message: 'How many sprays do you need?',
     initial: 10,
