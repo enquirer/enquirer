@@ -107,8 +107,10 @@ class Enquirer extends Events {
     let prompt = new this.prompts[type](opts);
 
     if (await prompt.skip()) {
-      // Don't emit anything and return nothing if the question should be skipped
-      // XXX: Maybe we should emit a "skip" event?
+      // Emit "skipped" and return nothing if the question should be skipped
+      if (name) {
+        this.emit('skipped', name, prompt);
+      }
       return;
     }
 
