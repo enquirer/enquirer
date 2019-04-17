@@ -1,13 +1,15 @@
 # Enquirer's Prompts
 
-In this section you'll learn about Enquirer's prompts: what they look like, how they work, how to run them, available options, and how to customize the prompts or create your own prompt concept.
+This section is about Enquirer's prompts: what they look like, how they work, how to run them, available options, and how to customize the prompts or create your own prompt concept.
 
 **Getting started with Enquirer's prompts**
 
 - [Prompt](#prompt) - The base `Prompt` class used by other prompts
-  * [Prompt Options](#prompt-options)
-  * [Prompt Types](#prompt-types) - The base `Prompt` class used by other prompts
+  - [Prompt Options](#prompt-options)
 - [Built-in prompts](#built-in-prompts)
+- [Prompt Types](#prompt-types) - The base `Prompt` class used by other prompts 
+- [Custom prompts](#%E2%9D%AF-custom-prompts) - Enquirer 2.0 introduced the concept of prompt "types", with the goal of making custom prompts easier than ever to create and use.
+
 
 ## Prompt
 
@@ -39,10 +41,7 @@ Each prompt takes an options object (aka "question" object), that implements the
   validate: function | async function,
 }
 ```
-
-### General options
-
-All prompts take the following properties.
+Each property of the interface is described below:
 
 | **Property** | **Required?** | **Type**           | **Description**                                                                                                                                                                         |
 | ------------ | ------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -75,11 +74,6 @@ prompt(question)
 
 ## Built-in prompts
 
-- [Enquirer's Prompts](#enquirers-prompts)
-  - [Prompt](#prompt)
-    - [Prompt Options](#prompt-options)
-    - [General options](#general-options)
-  - [Built-in prompts](#built-in-prompts)
   - [AutoComplete Prompt](#autocomplete-prompt)
   - [Confirm Prompt](#confirm-prompt)
   - [Form Prompt](#form-prompt)
@@ -89,25 +83,12 @@ prompt(question)
   - [MultiSelect Prompt](#multiselect-prompt)
   - [Numeral Prompt](#numeral-prompt)
   - [Password Prompt](#password-prompt)
+  - [Survey Prompt](#survey-prompt)
   - [Scale Prompt](#scale-prompt)
   - [Select Prompt](#select-prompt)
   - [Sort Prompt](#sort-prompt)
   - [Snippet Prompt](#snippet-prompt)
-  - [Survey Prompt](#survey-prompt)
   - [Toggle Prompt](#toggle-prompt)
-- [❯ Prompt Types](#%E2%9D%AF-prompt-types)
-  - [ArrayPrompt](#arrayprompt)
-    - [Options](#options)
-    - [Properties](#properties)
-    - [Methods](#methods)
-    - [Choices](#choices)
-    - [Defining choices](#defining-choices)
-    - [Choice properties](#choice-properties)
-    - [Related prompts](#related-prompts)
-  - [BooleanPrompt](#booleanprompt)
-  - [NumberPrompt](#numberprompt)
-  - [StringPrompt](#stringprompt)
-- [❯ Custom prompts](#%E2%9D%AF-custom-prompts)
 
 ## AutoComplete Prompt
 
@@ -117,30 +98,38 @@ Prompt that auto-completes as the user types, and returns the selected value as 
   <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/autocomplete-prompt.gif" alt="Enquirer AutoComplete Prompt" width="750">
 </p>
 
-**Related prompts**
-
-- [Select](#select-prompt)
-- [MultiSelect](#multiselect-prompt)
-- [Survey](#survey-prompt)
-
 **Example Usage**
 
 ```js
 const question = {
   type: 'autocomplete',
-  name: 'country',
-  message: 'Where to?',
-  limit: 5,
+  name: 'flavor',
+  message: 'Pick your favorite flavor',
+  limit: 10,
   suggest(input, choices) {
     return choices.filter(choice => choice.message.startsWith(input));
   },
   choices: [
-    'Afghanistan',
-    'Albania',
-    'Algeria',
-    'Andorra',
-    'Angola',
-    ...
+    'Almond',
+    'Apple',
+    'Banana',
+    'Blackberry',
+    'Blueberry',
+    'Cherry',
+    'Chocolate',
+    'Cinnamon',
+    'Coconut',
+    'Cranberry',
+    'Grape',
+    'Nougat',
+    'Orange',
+    'Pear',
+    'Pineapple',
+    'Raspberry',
+    'Strawberry',
+    'Vanilla',
+    'Watermelon',
+    'Wintergreen'
   ]
 };
 ```
@@ -152,6 +141,12 @@ const question = {
 | `highlight` | `function` | `dim` version of primary style                                      | The color to use when "highlighting" characters in the list that match user input.                           |
 | `multiple`  | `boolean`  | `false`                                                             | Allow multiple choices to be selected.                                                                       |
 | `suggest`   | `function` | Greedy match, returns true if choice message contains input string. | Function that filters choices. Takes user input and a choices array, and returns a list of matching choices. |
+
+**Related prompts**
+
+- [Select](#select-prompt)
+- [MultiSelect](#multiselect-prompt)
+- [Survey](#survey-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -315,6 +310,23 @@ Prompt that takes user input and masks it in the terminal. Also see the [invisib
 <br>
 <br>
 
+## Survey Prompt
+
+Prompt that allows the user to provide feedback for a list of questions.
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/survey-prompt.gif" alt="Enquirer Survey Prompt" width="750">
+</p>
+
+**Related prompts**
+
+- [Scale](#scale-prompt)
+- [Snippet](#snippet-prompt)
+- [Select](#select-prompt)
+
+<br>
+<br>
+
 ## Scale Prompt
 
 A more compact version of the [Survey prompt](#survey-prompt), the Scale prompt allows the user to quickly provide feedback using a [Likert Scale](https://en.wikipedia.org/wiki/Likert_scale).
@@ -392,23 +404,6 @@ Prompt that allows the user to replace placeholders in a snippet of code or text
 <br>
 <br>
 
-## Survey Prompt
-
-Prompt that allows the user to provide feedback for a list of questions.
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/survey-prompt.gif" alt="Enquirer Survey Prompt" width="750">
-</p>
-
-**Related prompts**
-
-- [Scale](#scale-prompt)
-- [Snippet](#snippet-prompt)
-- [Select](#select-prompt)
-
-<br>
-<br>
-
 ## Toggle Prompt
 
 Prompt that allows the user to toggle between two values then returns `true` or `false`.
@@ -430,11 +425,16 @@ As with the other prompts, all parts of this prompt are customizable.
 <br>
 <br>
 
-# ❯ Prompt Types
-
-Enquirer 2.0 introduced the concept of prompt "types", with the goal of making custom prompts easier than ever to create and use. There are 4 (soon to be 5!) type classes:
-
+## Prompt Types
+There are 4 (soon to be 5!) type classes:
 * [ArrayPrompt](#arrayprompt)
+    - [Options](#options)
+    - [Properties](#properties)
+    - [Methods](#methods)
+    - [Choices](#choices)
+    - [Defining choices](#defining-choices)
+    - [Choice properties](#choice-properties)
+    - [Related prompts](#related-prompts)
 * [BooleanPrompt](#booleanprompt)
 * DatePrompt (Coming Soon!)
 * [NumberPrompt](#numberprompt)
@@ -450,18 +450,12 @@ The `ArrayPrompt` class is used for creating prompts that display a list of choi
 
 In addition to the [options](#options) available to all prompts, Array prompts also support the following options.
 
-| **Option**  | **Required?** | **Type**          | **Description**                                                                                                                                                                         |
-| ----------- | ------------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`      | `yes`         | `string|function` | Enquirer uses this value to determine the type of prompt to run, but it's optional when prompts are run directly.                                                                       |
-| `name`      | `yes`         | `string|function` | Used as the key for the answer on the returned values (answers) object.                                                                                                                 |
-| `message`   | `yes`         | `string|function` | The message to display when the prompt is rendered in the terminal.                                                                                                                     |
-| `autofocus` | `no`          | `string|number`   | The index or name of the choice that should have focus when the prompt loads. Only one choice may have focus at a time.                                                                 |
-| `initial`   | `no`          | `string|function` | The default value to return when the user does not supply a value.                                                                                                                      |
-| `format`    | `no`          | `function`        | Function to format user input in the terminal.                                                                                                                                          |
-| `result`    | `no`          | `function`        | Function to format the final submitted value before it's returned.                                                                                                                      |
-| `stdin`     | `no`          | `stream`          | The input stream to use for emitting keypress events. Defaults to `process.stdin`.                                                                                                      |
-| `stdout`    | `no`          | `stream`          | The output stream to use for writing the prompt to the terminal. Defaults to `process.stdout`.                                                                                          |
-| `validate`  | `no`          | `function`        | Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message. |
+| **Option**  | **Required?** | **Type**        | **Description**                                                                                                         |
+| ----------- | ------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `autofocus` | `no`          | `string|number` | The index or name of the choice that should have focus when the prompt loads. Only one choice may have focus at a time. |  |
+| `stdin`     | `no`          | `stream`        | The input stream to use for emitting keypress events. Defaults to `process.stdin`.                                      |
+| `stdout`    | `no`          | `stream`        | The output stream to use for writing the prompt to the terminal. Defaults to `process.stdout`.                          |
+|             |
 
 ### Properties
 

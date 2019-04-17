@@ -37,8 +37,7 @@ const response = await prompt([
   }
 ]);
 
-console.log(response);
-//=> { name: 'Edward Chan', username: 'edwardmchan' }
+console.log(response); // { name: 'Edward Chan', username: 'edwardmchan' }
 ```
 
 **Jump to**: [Getting Started](#-getting-started) · [Prompts](#-prompts) · [Options](#-options) · [Key Bindings](#-key-bindings)
