@@ -41,7 +41,7 @@ Each prompt takes an options object (aka "question" object), that implements the
   validate: function | async function,
 }
 ```
-Each property of the interface is described below:
+Each property of the options object is described below:
 
 | **Property** | **Required?** | **Type**           | **Description**                                                                                                                                                                         |
 | ------------ | ------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -152,8 +152,7 @@ prompt.run()
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
-<br>
-<br>
+***
 
 ## Confirm Prompt
 
@@ -186,8 +185,7 @@ prompt.run()
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
-<br>
-<br>
+***
 
 ## Form Prompt
 
@@ -224,8 +222,7 @@ prompt.run()
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
-<br>
-<br>
+***
 
 ## Input Prompt
 
@@ -257,8 +254,7 @@ prompt.run()
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
-<br>
-<br>
+***
 
 ## Invisible Prompt
 
@@ -289,8 +285,7 @@ prompt.run()
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
-<br>
-<br>
+***
 
 ## List Prompt
 
@@ -321,8 +316,7 @@ prompt.run()
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
-<br>
-<br>
+***
 
 ## MultiSelect Prompt
 
@@ -374,8 +368,7 @@ prompt.run()
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
-<br>
-<br>
+***
 
 ## Numeral Prompt
 
@@ -407,8 +400,7 @@ prompt.run()
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
-<br>
-<br>
+***
 
 ## Password Prompt
 
@@ -440,8 +432,7 @@ prompt.run()
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
-<br>
-<br>
+***
 
 ## Survey Prompt
 
@@ -502,8 +493,7 @@ prompt.run()
 - [Snippet](#snippet-prompt)
 - [Select](#select-prompt)
 
-<br>
-<br>
+***
 
 ## Scale Prompt
 
@@ -570,8 +560,7 @@ prompt.run()
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
-<br>
-<br>
+***
 
 ## Select Prompt
 
@@ -604,8 +593,7 @@ prompt.run()
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
-<br>
-<br>
+***
 
 ## Sort Prompt
 
@@ -651,8 +639,7 @@ prompt.run()
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
-<br>
-<br>
+***
 
 ## Snippet Prompt
 
@@ -710,8 +697,7 @@ prompt.run()
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
-<br>
-<br>
+***
 
 ## Toggle Prompt
 
@@ -745,8 +731,7 @@ prompt.run()
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
-<br>
-<br>
+***
 
 ## Prompt Types
 There are 4 (soon to be 5!) type classes:
@@ -895,6 +880,7 @@ The following properties are supported on `choice` objects.
 - [Select](#select-prompt)
 - [Survey](#survey-prompt)
 
+***
 
 ## BooleanPrompt
 
@@ -902,12 +888,15 @@ The `BooleanPrompt` class is used for creating prompts that display and return a
 
 **Returns**: `boolean`
 
+*** 
+
 ## NumberPrompt
 
 The `NumberPrompt` class is used for creating prompts that display and return a numerical value.
 
 **Returns**: `string|number` (number, or number formatted as a string)
 
+*** 
 
 ## StringPrompt
 
