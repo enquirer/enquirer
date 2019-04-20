@@ -7,18 +7,18 @@ These key combinations may be used with all prompts.
 | **command**                      | **description**                        |
 | -------------------------------- | -------------------------------------- |
 | <kbd>ctrl</kbd>  +  <kbd>c</kbd> | Cancel the prompt.                     |
-| <kbd>ctrl</kbd> + <kbd>g</kdb>   | Reset the prompt to its initial state. |
+| <kbd>ctrl</kbd> + <kbd>g</kbd>   | Reset the prompt to its initial state. |
 
 <br>
 
 ## Move cursor
 
-These combinations may be used on prompts that support user input, such as the [input prompt](#input-prompt), [password prompt](#password-prompt), and [invisible prompt](#invisible-prompt)).
+These combinations may be used on prompts that support user input (eg. [input prompt](#input-prompt), [password prompt](#password-prompt), and [invisible prompt](#invisible-prompt)).
 
 | **command**                    | **description**                          |
 | ------------------------------ | ---------------------------------------- |
-| <kbd>left</kbd>                | Move the cursor forward one character.   |
-| <kbd>right</kbd>               | Move the cursor back one character.      |
+| <kbd>left</kbd>                | Move the cursor back one character.      |
+| <kbd>right</kbd>               | Move the cursor forward one character.   |
 | <kbd>ctrl</kbd> + <kbd>a</kbd> | Move cursor to the start of the line     |
 | <kbd>ctrl</kbd> + <kbd>e</kbd> | Move cursor to the end of the line       |
 | <kbd>ctrl</kbd> + <kbd>b</kbd> | Move cursor back one character           |
@@ -29,7 +29,7 @@ These combinations may be used on prompts that support user input, such as the [
 
 ## Edit Input
 
-These key combinations may be used on prompts that support user input, such as the [input prompt](#input-prompt), [password prompt](#password-prompt), and [invisible prompt](#invisible-prompt)).
+These key combinations may be used on prompts that support user input (eg. [input prompt](#input-prompt), [password prompt](#password-prompt), and [invisible prompt](#invisible-prompt)).
 
 | **command**                    | **description**                          |
 | ------------------------------ | ---------------------------------------- |
@@ -39,25 +39,15 @@ These key combinations may be used on prompts that support user input, such as t
 | <kbd>ctrl</kbd> + <kbd>f</kbd> | Move cursor forward one character        |
 | <kbd>ctrl</kbd> + <kbd>x</kbd> | Toggle between first and cursor position |
 
-### Mac
-
-| **command**                         | **description**                                                                                                                           |
-| ----------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| <kbd>delete</kbd>                   | Delete one character to the left.                                                                                                         |
-| <kbd>fn</kbd> + <kbd>delete</kbd>   | Delete one character to the right.                                                                                                        |
-| <kbd>option</kbd> + <kbd>up</kbd>   | Scroll to the previous item in history ([Input prompt](#input-prompt) only, when [history is enabled](examples/input/option-history.js)). |
-| <kbd>option</kbd> + <kbd>down</kbd> | Scroll to the next item in history ([Input prompt](#input-prompt) only, when [history is enabled](examples/input/option-history.js)).     |
-
-### Windows
-
-| **command**                      | **description**                                                                                                                           |
-| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
-| <kbd>backspace</kbd>             | Delete one character to the left.                                                                                                         |
-| <kbd>delete</kbd>                | Delete one character to the right (forward).                                                                                              |
-| <kbd>alt</kbd> + <kbd>up</kbd>   | Scroll to the previous item in history ([Input prompt](#input-prompt) only, when [history is enabled](examples/input/option-history.js)). |
-| <kbd>alt</kbd> + <kbd>down</kbd> | Scroll to the next item in history ([Input prompt](#input-prompt) only, when [history is enabled](examples/input/option-history.js)).     |
-
 <br>
+
+
+| **command (Mac)**                   | **command (Windows)**            | **description**                                                                                                                           |
+| ----------------------------------- | -------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| <kbd>delete</kbd>                   | <kbd>backspace</kbd>             | Delete one character to the left.                                                                                                         |
+| <kbd>fn</kbd> + <kbd>delete</kbd>   | <kbd>delete</kbd>                | Delete one character to the right.                                                                                                        |
+| <kbd>option</kbd> + <kbd>up</kbd>   | <kbd>alt</kbd> + <kbd>up</kbd>   | Scroll to the previous item in history ([Input prompt](#input-prompt) only, when [history is enabled](examples/input/option-history.js)). |
+| <kbd>option</kbd> + <kbd>down</kbd> | <kbd>alt</kbd> + <kbd>down</kbd> | Scroll to the next item in history ([Input prompt](#input-prompt) only, when [history is enabled](examples/input/option-history.js)).     |
 
 ## Select choices
 
@@ -94,16 +84,9 @@ These key combinations may be used on prompts that support _multiple_ choices, s
 | <kbd>shift</kbd> + <kbd>up</kbd>   | Scroll up one choice without changing pointer position (locks the pointer while scrolling).                          |
 | <kbd>shift</kbd> + <kbd>down</kbd> | Scroll down one choice without changing pointer position (locks the pointer while scrolling).                        |
 
-### Mac
+<br>
 
-| **command**                      | **description**                                            |
-| -------------------------------- | ---------------------------------------------------------- |
-| <kbd>fn</kbd> + <kbd>left</kbd>  | Move the pointer to the first choice in the choices array. |
-| <kbd>fn</kbd> + <kbd>right</kbd> | Move the pointer to the last choice in the choices array.  |
-
-### Windows
-
-| **command**     | **description**                                            |
-| --------------- | ---------------------------------------------------------- |
-| <kbd>home</kbd> | Move the pointer to the first choice in the choices array. |
-| <kbd>end</kbd>  | Move the pointer to the last choice in the choices array.  |
+| **command (Mac)**                | **command (Windows)** | **description**                                            |
+| -------------------------------- | --------------------- | ---------------------------------------------------------- |
+| <kbd>fn</kbd> + <kbd>left</kbd>  | <kbd>home</kbd>       | Move the pointer to the first choice in the choices array. |
+| <kbd>fn</kbd> + <kbd>right</kbd> | <kbd>end</kbd>        | Move the pointer to the last choice in the choices array.  |
