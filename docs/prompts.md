@@ -101,14 +101,12 @@ Prompt that auto-completes as the user types, and returns the selected value as 
 **Example Usage**
 
 ```js
-const question = {
-  type: 'autocomplete',
+const { AutoComplete } = require('enquirer');
+
+const prompt = new AutoComplete({
   name: 'flavor',
   message: 'Pick your favorite flavor',
   limit: 10,
-  suggest(input, choices) {
-    return choices.filter(choice => choice.message.startsWith(input));
-  },
   choices: [
     'Almond',
     'Apple',
@@ -131,7 +129,11 @@ const question = {
     'Watermelon',
     'Wintergreen'
   ]
-};
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
 ```
 
 **AutoComplete Options**
@@ -161,6 +163,21 @@ Prompt that returns `true` or `false`.
   <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/confirm-prompt.gif" alt="Enquirer Confirm Prompt" width="750">
 </p>
 
+**Example Usage**
+
+```js
+const { Confirm } = require('enquirer');
+
+const prompt = new Confirm({
+  name: 'question',
+  message: 'Want to answer?'
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
+```
+
 **Related prompts**
 
 - [Input](#input-prompt)
@@ -179,6 +196,26 @@ Prompt that allows the user to enter and submit multiple values on a single term
 <p align="center">
   <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/form-prompt.gif" alt="Enquirer Form Prompt" width="750">
 </p>
+
+**Example Usage**
+
+```js
+const { Form } = require('enquirer');
+
+const prompt = new Form({
+  name: 'user',
+  message: 'Please provide the following information:',
+  choices: [
+    { name: 'firstname', message: 'First Name', initial: 'Jon' },
+    { name: 'lastname', message: 'Last Name', initial: 'Schlinkert' },
+    { name: 'username', message: 'GitHub username', initial: 'jonschlinkert' }
+  ]
+});
+
+prompt.run()
+  .then(value => console.log('Answer:', value))
+  .catch(console.error);
+```
 
 **Related prompts**
 
@@ -201,11 +238,15 @@ Prompt that takes user input and returns a string.
 **Example Usage**
 
 ```js
-const question = {
-  type: 'input',
-  name: 'username',
-  message: 'What is your username?'
-};
+const { Input } = require('enquirer');
+const prompt = new Input({
+  message: 'What is your username?',
+  initial: 'jonschlinkert'
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.log);
 ```
 
 **Related prompts**
@@ -227,6 +268,20 @@ Prompt that takes user input, hides it from the terminal, and returns a string.
   <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/invisible-prompt.gif" alt="Enquirer Invisible Prompt" width="750">
 </p>
 
+**Example Usage**
+
+```js
+const { Invisible } = require('enquirer');
+const prompt = new Invisible({
+  name: 'secret',
+  message: 'What is your secret?'
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', { secret: answer }))
+  .catch(console.error);
+```
+
 **Related prompts**
 
 - [Password](#password-prompt)
@@ -245,6 +300,20 @@ Prompt that returns a list of values, created by splitting the user input. The d
   <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/list-prompt.gif" alt="Enquirer List Prompt" width="750">
 </p>
 
+**Example Usage**
+
+```js
+const { List } = require('enquirer');
+const prompt = new List({
+  name: 'keywords',
+  message: 'Type comma-separated keywords'
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
+```
+
 **Related prompts**
 
 - [Sort](#sort-prompt)
@@ -262,6 +331,40 @@ Prompt that allows the user to select multiple items from a list of options.
 <p align="center">
   <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/multiselect-prompt.gif" alt="Enquirer MultiSelect Prompt" width="750">
 </p>
+
+**Example Usage**
+
+```js
+const { MultiSelect } = require('enquirer');
+
+const prompt = new MultiSelect({
+  name: 'value',
+  message: 'Pick your favorite colors',
+  limit: 7,
+  choices: [
+    { name: 'aqua', value: '#00ffff' },
+    { name: 'black', value: '#000000' },
+    { name: 'blue', value: '#0000ff' },
+    { name: 'fuchsia', value: '#ff00ff' },
+    { name: 'gray', value: '#808080' },
+    { name: 'green', value: '#008000' },
+    { name: 'lime', value: '#00ff00' },
+    { name: 'maroon', value: '#800000' },
+    { name: 'navy', value: '#000080' },
+    { name: 'olive', value: '#808000' },
+    { name: 'purple', value: '#800080' },
+    { name: 'red', value: '#ff0000' },
+    { name: 'silver', value: '#c0c0c0' },
+    { name: 'teal', value: '#008080' },
+    { name: 'white', value: '#ffffff' },
+    { name: 'yellow', value: '#ffff00' }
+  ]
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
+```
 
 **Related prompts**
 
@@ -282,6 +385,21 @@ Prompt that takes a number as input.
   <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/numeral-prompt.gif" alt="Enquirer Numeral Prompt" width="750">
 </p>
 
+**Example Usage**
+
+```js
+const { NumberPrompt } = require('enquirer');
+
+const prompt = new NumberPrompt({
+  name: 'number',
+  message: 'Please enter a number'
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
+```
+
 **Related prompts**
 
 - [Input](#input-prompt)
@@ -299,6 +417,21 @@ Prompt that takes user input and masks it in the terminal. Also see the [invisib
 <p align="center">
   <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/password-prompt.gif" alt="Enquirer Password Prompt" width="750">
 </p>
+
+**Example Usage**
+
+```js
+const { Password } = require('enquirer');
+
+const prompt = new Password({
+  name: 'password',
+  message: 'What is your password?'
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
+```
 
 **Related prompts**
 
@@ -318,6 +451,51 @@ Prompt that allows the user to provide feedback for a list of questions.
   <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/survey-prompt.gif" alt="Enquirer Survey Prompt" width="750">
 </p>
 
+**Example Usage**
+
+```js
+const { Survey } = require('enquirer');
+
+const prompt = new Survey({
+  name: 'experience',
+  message: 'Please rate your experience',
+   scale: [
+    { name: '1', message: 'Strongly Disagree' },
+    { name: '2', message: 'Disagree' },
+    { name: '3', message: 'Neutral' },
+    { name: '4', message: 'Agree' },
+    { name: '5', message: 'Strongly Agree' }
+  ],
+  margin: [0, 0, 2, 1],
+  choices: [
+    {
+      name: 'interface',
+      message: 'The website has a friendly interface.'
+    },
+    {
+      name: 'navigation',
+      message: 'The website is easy to navigate.'
+    },
+    {
+      name: 'images',
+      message: 'The website usually has good images.'
+    },
+    {
+      name: 'upload',
+      message: 'The website makes it easy to upload images.'
+    },
+    {
+      name: 'colors',
+      message: 'The website has a pleasing color palette.'
+    }
+  ]
+});
+
+prompt.run()
+  .then(value => console.log('ANSWERS:', value))
+  .catch(console.error);
+```
+
 **Related prompts**
 
 - [Scale](#scale-prompt)
@@ -334,6 +512,55 @@ A more compact version of the [Survey prompt](#survey-prompt), the Scale prompt 
 <p align="center">
   <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/scale-prompt.gif" alt="Enquirer Scale Prompt" width="750">
 </p>
+
+**Example Usage**
+
+```js
+const { Scale } = require('enquirer');
+const prompt = new Scale({
+  name: 'experience',
+  message: 'Please rate your experience',
+  scale: [
+    { name: '1', message: 'Strongly Disagree' },
+    { name: '2', message: 'Disagree' },
+    { name: '3', message: 'Neutral' },
+    { name: '4', message: 'Agree' },
+    { name: '5', message: 'Strongly Agree' }
+  ],
+  margin: [0, 0, 2, 1],
+  choices: [
+    {
+      name: 'interface',
+      message: 'The website has a friendly interface.',
+      initial: 2
+    },
+    {
+      name: 'navigation',
+      message: 'The website is easy to navigate.',
+      initial: 2
+    },
+    {
+      name: 'images',
+      message: 'The website usually has good images.',
+      initial: 2
+    },
+    {
+      name: 'upload',
+      message: 'The website makes it easy to upload images.',
+      initial: 2
+    },
+    {
+      name: 'colors',
+      message: 'The website has a pleasing color palette.',
+      initial: 2
+    }
+  ]
+});
+
+prompt.run()
+  .then(value => console.log('ANSWERS:', value))
+  .catch(console.error);
+```
 
 **Related prompts**
 
@@ -353,6 +580,22 @@ Prompt that allows the user to select from a list of options.
 <p align="center">
   <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/select-prompt.gif" alt="Enquirer Select Prompt" width="750">
 </p>
+
+**Example Usage**
+
+```js
+const { Select } = require('enquirer');
+
+const prompt = new Select({
+  name: 'color',
+  message: 'Pick a flavor',
+  choices: ['apple', 'grape', 'watermelon', 'cherry', 'orange']
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
+```
 
 **Related prompts**
 
@@ -376,6 +619,31 @@ In this [example](https://github.com/enquirer/enquirer/raw/master/examples/sort/
   <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/sort-prompt.gif" alt="Enquirer Sort Prompt" width="750">
 </p>
 
+**Example Usage**
+
+```js
+const colors = require('ansi-colors');
+const { Sort } = require('enquirer');
+const prompt = new Sort({
+  name: 'colors',
+  message: 'Sort the colors in order of preference',
+  hint: 'Top is best, bottom is worst',
+  numbered: true,
+  choices: ['red', 'white', 'green', 'cyan', 'yellow'].map(n => ({
+    name: n,
+    message: colors[n](n)
+  }))
+});
+
+prompt.run()
+  .then(function(answer = []) {
+    console.log(answer);
+    console.log('Your preferred order of colors is:');
+    console.log(answer.map(key => colors[key](key)).join('\n'));
+  })
+  .catch(console.error);
+```
+
 **Related prompts**
 
 - [List](#list-prompt)
@@ -393,6 +661,47 @@ Prompt that allows the user to replace placeholders in a snippet of code or text
 <p align="center">
   <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/snippet-prompt.gif" alt="Prompts" width="750">
 </p>
+
+**Example Usage**
+
+```js
+const semver = require('semver');
+const { Snippet } = require('enquirer');
+const prompt = new Snippet({
+  name: 'username',
+  message: 'Fill out the fields in package.json',
+  required: true,
+  fields: [
+    {
+      name: 'author_name',
+      message: 'Author Name'
+    },
+    {
+      name: 'version',
+      validate(value, state, item, index) {
+        if (item && item.name === 'version' && !semver.valid(value)) {
+          return prompt.styles.danger('version should be a valid semver value');
+        }
+        return true;
+      }
+    }
+  ],
+  template: `{
+  "name": "\${name}",
+  "description": "\${description}",
+  "version": "\${version}",
+  "homepage": "https://github.com/\${username}/\${name}",
+  "author": "\${author_name} (https://github.com/\${username})",
+  "repository": "\${username}/\${name}",
+  "license": "\${license:ISC}"
+}
+`
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer.result))
+  .catch(console.error);
+```
 
 **Related prompts**
 
@@ -412,7 +721,21 @@ Prompt that allows the user to toggle between two values then returns `true` or 
   <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/toggle-prompt.gif" alt="Enquirer Toggle Prompt" width="750">
 </p>
 
-As with the other prompts, all parts of this prompt are customizable. 
+**Example Usage**
+
+```js
+const { Toggle } = require('enquirer');
+
+const prompt = new Toggle({
+  message: 'Want to answer?',
+  enabled: 'Yep',
+  disabled: 'Nope'
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
+```
 
 **Related prompts**
 
