@@ -1,14 +1,12 @@
 # Enquirer Overview
 
+**Enquirer is a prompt runner**
+
 Add Enquirer to your JavaScript project with following line of code.
 
 ```js
 const Enquirer = require('enquirer');
 ```
-
-## How does Enquirer work?
-
-**Enquirer is a prompt runner**
 
 The main export of this library is the `Enquirer` class, which has methods and features designed to simplify running prompts.
 
@@ -39,7 +37,7 @@ Each individual prompt is a class with special features and functionality for re
 
 Below in this guide you will find information about creating [custom prompts](#-custom-prompts). For now, we'll focus on how to customize an existing prompt.
 
-All of the individual [prompt classes](#built-in-prompts) in this library are exposed as static properties on Enquirer. This allows them to be used directly (without using `enquirer.prompt()`.
+All of the individual [prompt classes](#built-in-prompts) in this library are exposed as static properties on Enquirer. This allows them to be used directly without using `enquirer.prompt()`.
 
 Use this approach if you need to modify a prompt instance, or listen for events on the prompt.
 

@@ -13,8 +13,7 @@ const response = await prompt({
   message: 'What is your username?'
 });
 
-console.log(response);
-//=> { username: 'jonschlinkert' }
+console.log(response); // { username: 'jonschlinkert' }
 ```
 
 _(Examples with `await` need to be run inside an `async` function)_
@@ -38,8 +37,7 @@ const response = await prompt([
   }
 ]);
 
-console.log(response);
-//=> { name: 'Edward Chan', username: 'edwardmchan' }
+console.log(response); // { name: 'Edward Chan', username: 'edwardmchan' }
 ```
 
 **Jump to**: [Getting Started](#-getting-started) · [Prompts](#-prompts) · [Options](#-options) · [Key Bindings](#-key-bindings)

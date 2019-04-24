@@ -13,7 +13,7 @@ Created by [jonschlinkert][jon] and [doowb][brian], Enquirer is fast, easy to us
 - **Pluggable** - Add advanced features to Enquirer using plugins.
 - **Validation** - Optionally validate user input with any prompt.
 - **Well tested** - All prompts are well-tested, and tests are easy to create without having to use brittle, hacky solutions to spy on prompts or "inject" values.
-- **Examples** - There are numerous [examples](examples) and [examples](examples) available to help you get started.
+- **Examples** - There are numerous [examples](examples) available to help you get started.
 
 If you like Enquirer, please consider starring or tweeting about this project to show your support. Thanks!
 
