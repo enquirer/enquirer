@@ -59,7 +59,8 @@ prompt({
   ]
 })
   .then(value => {
-    console.log('author:', value.author);
-    console.log('colors:', value.colors);
+    console.log('Author: ', value.user.author);
+    console.log('Colors: ', value.user.colors);
+
   })
   .catch(console.error);
