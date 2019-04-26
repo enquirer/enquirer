@@ -7,8 +7,8 @@ const prompt = new Select({
   name: 'color',
   message: 'Pick a flavor',
   choices: ['apple', 'grape', 'watermelon', 'cherry', 'orange'],
-  pointer(state, choice, i) {
-    return state.index === i ? colors.green('→') : ' ';
+  pointer(choice, i) {
+    return this.state.index === i ? colors.green('→') : ' ';
   }
 });
 
