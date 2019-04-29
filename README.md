@@ -139,25 +139,36 @@ const response = await prompt([
 console.log(response); // { name: 'Edward Chan', username: 'edwardmchan' }
 ```
 
+### Different ways to run enquirer
+
+#### 1. By importing the specific `built-in prompt`
+
+```js
+const { Confirm } = require('enquirer');
+
+const prompt = new Confirm({
+  name: 'question',
+  message: 'Did you like enquirer?'
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer));
+```
+
+#### 2. By passing the options to `prompt`
+
+```js
+const { prompt } = require('enquirer');
+
+prompt({
+  type: 'confirm',
+  name: 'question',
+  message: 'Did you like enquirer?'
+})
+  .then(answer => console.log('Answer:', answer));
+```
+
 **Jump to**: [Getting Started](#-getting-started) · [Prompts](#-prompts) · [Options](#-options) · [Key Bindings](#-key-bindings)
-
-<br>
-
-## Todo
-
-We're currently working on documentation for the following items. Please star and watch the repository for updates!
-
-* [ ] Customizing symbols
-* [ ] Customizing styles (palette)
-* [ ] Customizing rendered input
-* [ ] Customizing returned values
-* [ ] Customizing key bindings
-* [ ] Question validation
-* [ ] Choice validation
-* [ ] Skipping questions
-* [ ] Async choices
-* [ ] Async timers: loaders, spinners and other animations
-* [ ] Links to examples
 
 <br>
 
@@ -234,7 +245,7 @@ const Enquirer = require('enquirer');
 const enquirer = new Enquirer();
 ```
 
-### [register](index.js#L42)
+### [Enquirer.register()](index.js#L42)
 
 Register a custom prompt type.
 
@@ -252,7 +263,7 @@ const enquirer = new Enquirer();
 enquirer.register('customType', require('./custom-prompt'));
 ```
 
-### [prompt](index.js#L78)
+### [Enquirer.prompt()](index.js#L78)
 
 Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
@@ -275,7 +286,7 @@ const response = await enquirer.prompt({
 console.log(response);
 ```
 
-### [use](index.js#L160)
+### [Enquirer.use()](index.js#L160)
 
 Use an enquirer plugin.
 
@@ -362,16 +373,16 @@ Each prompt takes an options object (aka "question" object), that implements the
 ```
 Each property of the options object is described below:
 
-| **Property** | **Required?** | **Type**           | **Description**                                                                                                                                                                         |
-| ------------ | ------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Property** | **Required?** | **Type**            | **Description**                                                                                                                                                                         |
+| ------------ | ------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type`       | yes           | `string\|function`  | Enquirer uses this value to determine the type of prompt to run, but it's optional when prompts are run directly.                                                                       |
 | `name`       | yes           | `string\|function`  | Used as the key for the answer on the returned values (answers) object.                                                                                                                 |
 | `message`    | yes           | `string\|function`  | The message to display when the prompt is rendered in the terminal.                                                                                                                     |
 | `skip`       | no            | `boolean\|function` | If `true` it will not ask that prompt.                                                                                                                                                  |
 | `initial`    | no            | `string\|function`  | The default value to return if the user does not supply a value.                                                                                                                        |
-| `format`     | no            | `function`         | Function to format user input in the terminal.                                                                                                                                          |
-| `result`     | no            | `function`         | Function to format the final submitted value before it's returned.                                                                                                                      |
-| `validate`   | no            | `function`         | Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message. |
+| `format`     | no            | `function`          | Function to format user input in the terminal.                                                                                                                                          |
+| `result`     | no            | `function`          | Function to format the final submitted value before it's returned.                                                                                                                      |
+| `validate`   | no            | `function`          | Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message. |
 
 **Example usage**
 
@@ -393,7 +404,7 @@ prompt(question)
 
 ### Built-in prompts
 
-* [AutoComplete Prompt](#autocomplete-prompt)
+  - [AutoComplete Prompt](#autocomplete-prompt)
   - [Confirm Prompt](#confirm-prompt)
   - [Form Prompt](#form-prompt)
   - [Input Prompt](#input-prompt)
@@ -1079,11 +1090,11 @@ The `ArrayPrompt` class is used for creating prompts that display a list of choi
 
 In addition to the [options](#options) available to all prompts, Array prompts also support the following options.
 
-| **Option**  | **Required?** | **Type**        | **Description**                                                                                                         |
-| ----------- | ------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| **Option**  | **Required?** | **Type**         | **Description**                                                                                                         |
+| ----------- | ------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------- |
 | `autofocus` | `no`          | `string\|number` | The index or name of the choice that should have focus when the prompt loads. Only one choice may have focus at a time. |  |
-| `stdin`     | `no`          | `stream`        | The input stream to use for emitting keypress events. Defaults to `process.stdin`.                                      |
-| `stdout`    | `no`          | `stream`        | The output stream to use for writing the prompt to the terminal. Defaults to `process.stdout`.                          |
+| `stdin`     | `no`          | `stream`         | The input stream to use for emitting keypress events. Defaults to `process.stdin`.                                      |
+| `stdout`    | `no`          | `stream`         | The output stream to use for writing the prompt to the terminal. Defaults to `process.stdout`.                          |
 |             |
 
 #### Properties
@@ -1179,15 +1190,15 @@ const question = {
 
 The following properties are supported on `choice` objects.
 
-| **Option**  | **Type**          | **Description**                                                                                                                                                                                     |
-| ----------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`      | `string`          | The unique key to identify a choice                                                                                                                                                                 |
-| `message`   | `string`          | The message to display in the terminal. `name` is used when this is undefined.                                                                                                                      |
-| `value`     | `string`          | Value to associate with the choice. Useful for creating key-value pairs from user choices. `name` is used when this is undefined.                                                                   |
-| `choices`   | `array`           | Array of "child" choices.                                                                                                                                                                           |
-| `hint`      | `string`          | Help message to display next to a choice.                                                                                                                                                           |
-| `role`      | `string`          | Determines how the choice will be displayed. Currently the only role supported is `separator`. Additional roles may be added in the future (like `heading`, etc). Please create a [feature request] |
-| `enabled`   | `boolean`         | Enabled a choice by default. This is only supported when `options.multiple` is true or on prompts that support multiple choices, like [MultiSelect](#-multiselect).                                 |
+| **Option**  | **Type**           | **Description**                                                                                                                                                                                     |
+| ----------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `name`      | `string`           | The unique key to identify a choice                                                                                                                                                                 |
+| `message`   | `string`           | The message to display in the terminal. `name` is used when this is undefined.                                                                                                                      |
+| `value`     | `string`           | Value to associate with the choice. Useful for creating key-value pairs from user choices. `name` is used when this is undefined.                                                                   |
+| `choices`   | `array`            | Array of "child" choices.                                                                                                                                                                           |
+| `hint`      | `string`           | Help message to display next to a choice.                                                                                                                                                           |
+| `role`      | `string`           | Determines how the choice will be displayed. Currently the only role supported is `separator`. Additional roles may be added in the future (like `heading`, etc). Please create a [feature request] |
+| `enabled`   | `boolean`          | Enabled a choice by default. This is only supported when `options.multiple` is true or on prompts that support multiple choices, like [MultiSelect](#-multiselect).                                 |
 | `disabled`  | `boolean\|string`  | Disable a choice so that it cannot be selected. This value may either be `true`, `false`, or a message to display.                                                                                  |
 | `indicator` | `string\|function` | Custom indicator to render for a choice (like a check or radio button).                                                                                                                             |
 
@@ -1426,6 +1437,21 @@ inquirer: 286.717ms
 
 Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new).
 
+### Todo
+
+We're currently working on documentation for the following items. Please star and watch the repository for updates!
+
+* Customizing symbols
+* Customizing styles (palette)
+* Customizing rendered input
+* Customizing returned values
+* Customizing key bindings
+* Question validation
+* Choice validation
+* Skipping questions
+* Async choices
+* Async timers: loaders, spinners and other animations
+* Links to examples
 </details>
 
 <details>
@@ -1435,6 +1461,9 @@ Running and reviewing unit tests is a great way to get familiarized with a libra
 
 ```sh
 $ npm install && npm test
+```
+```sh
+$ yarn && yarn test
 ```
 
 </details>
@@ -1452,28 +1481,29 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 
 </details>
 
-### Contributors
+#### Contributors
 
-| **Commits** | **Contributor** |  
-| --- | --- |  
-| 279 | [jonschlinkert](https://github.com/jonschlinkert) |  
-| 26  | [doowb](https://github.com/doowb) |  
-| 15  | [g-plane](https://github.com/g-plane) |  
-| 12  | [pixelass](https://github.com/pixelass) |  
-| 3   | [tunnckoCore](https://github.com/tunnckoCore) |  
-| 2   | [DanielRuf](https://github.com/DanielRuf) |  
-| 2   | [gabel0287](https://github.com/gabel0287) |  
-| 1   | [ImgBotApp](https://github.com/ImgBotApp) |  
-| 1   | [jsonkao](https://github.com/jsonkao) |  
-| 1   | [knpwrs](https://github.com/knpwrs) |  
-| 1   | [yeskunall](https://github.com/yeskunall) |  
-| 1   | [mischah](https://github.com/mischah) |  
-| 1   | [renarsvilnis](https://github.com/renarsvilnis) |  
-| 1   | [sbugert](https://github.com/sbugert) |  
-| 1   | [skellock](https://github.com/skellock) |  
-| 1   | [whxaxes](https://github.com/whxaxes) |  
+| **Commits** | **Contributor**                                   |
+| ----------- | ------------------------------------------------- |
+| 279         | [jonschlinkert](https://github.com/jonschlinkert) |
+| 30          | [doowb](https://github.com/doowb)                 |
+| 15          | [g-plane](https://github.com/g-plane)             |
+| 12          | [pixelass](https://github.com/pixelass)           |
+| 9           | [318097](https://github.com/318097)               |
+| 3           | [tunnckoCore](https://github.com/tunnckoCore)     |
+| 2           | [DanielRuf](https://github.com/DanielRuf)         |
+| 2           | [gabel0287](https://github.com/gabel0287)         |
+| 1           | [ImgBotApp](https://github.com/ImgBotApp)         |
+| 1           | [jsonkao](https://github.com/jsonkao)             |
+| 1           | [knpwrs](https://github.com/knpwrs)               |
+| 1           | [yeskunall](https://github.com/yeskunall)         |
+| 1           | [mischah](https://github.com/mischah)             |
+| 1           | [renarsvilnis](https://github.com/renarsvilnis)   |
+| 1           | [sbugert](https://github.com/sbugert)             |
+| 1           | [skellock](https://github.com/skellock)           |
+| 1           | [whxaxes](https://github.com/whxaxes)             |
 
-### Author
+#### Author
 
 **Jon Schlinkert**
 
@@ -1481,11 +1511,11 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 * [Twitter Profile](https://twitter.com/jonschlinkert)
 * [LinkedIn Profile](https://linkedin.com/in/jonschlinkert)
 
-### Credit
+#### Credit
 
 Thanks to [derhuerst](https://github.com/derhuerst), creator of prompt libraries such as [prompt-skeleton](https://github.com/derhuerst/prompt-skeleton), which influenced some of the concepts we used in our prompts.
 
-### License
+#### License
 
 Copyright © 2018-present, [Jon Schlinkert](https://github.com/jonschlinkert).
 Released under the [MIT License](LICENSE).
