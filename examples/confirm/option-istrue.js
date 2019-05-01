@@ -2,11 +2,11 @@ const { Confirm } = require('enquirer');
 
 const prompt = new Confirm({
   name: 'apples',
-  message: 'Do you like apples?',
+  message: 'How to you like these apples?',
   default: '(t/F)',
   onRun() {
-    this.isTrue = value => value === 'f';
-    this.isFalse = value => value === 't';
+    this.isTrue = value => value === 't';
+    this.isFalse = value => value === 'f';
   }
 });
 
