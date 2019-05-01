@@ -245,7 +245,7 @@ const Enquirer = require('enquirer');
 const enquirer = new Enquirer();
 ```
 
-### [Enquirer.register()](index.js#L42)
+### [register()](index.js#L42)
 
 Register a custom prompt type.
 
@@ -263,7 +263,7 @@ const enquirer = new Enquirer();
 enquirer.register('customType', require('./custom-prompt'));
 ```
 
-### [Enquirer.prompt()](index.js#L78)
+### [prompt()](index.js#L78)
 
 Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
@@ -286,7 +286,7 @@ const response = await enquirer.prompt({
 console.log(response);
 ```
 
-### [Enquirer.use()](index.js#L160)
+### [use()](index.js#L160)
 
 Use an enquirer plugin.
 
@@ -1441,17 +1441,17 @@ Pull requests and stars are always welcome. For bugs and feature requests, [plea
 
 We're currently working on documentation for the following items. Please star and watch the repository for updates!
 
-* Customizing symbols
-* Customizing styles (palette)
-* Customizing rendered input
-* Customizing returned values
-* Customizing key bindings
-* Question validation
-* Choice validation
-* Skipping questions
-* Async choices
-* Async timers: loaders, spinners and other animations
-* Links to examples
+* [ ] Customizing symbols
+* [ ] Customizing styles (palette)
+* [ ] Customizing rendered input
+* [ ] Customizing returned values
+* [ ] Customizing key bindings
+* [ ] Question validation
+* [ ] Choice validation
+* [ ] Skipping questions
+* [ ] Async choices
+* [ ] Async timers: loaders, spinners and other animations
+* [ ] Links to examples
 </details>
 
 <details>
