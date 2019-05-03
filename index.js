@@ -32,7 +32,7 @@ class Enquirer extends Events {
    * const enquirer = new Enquirer();
    * enquirer.register('customType', require('./custom-prompt'));
    * ```
-   * @name register
+   * @name register()
    * @param {String} `type`
    * @param {Function|Prompt} `fn` `Prompt` class, or a function that returns a `Prompt` class.
    * @return {Object} Returns the Enquirer instance
@@ -69,7 +69,7 @@ class Enquirer extends Events {
    * });
    * console.log(response);
    * ```
-   * @name prompt
+   * @name prompt()
    * @param {Array|Object} `questions` Options objects for one or more prompts to run.
    * @return {Promise} Promise that returns an "answers" object with the user's responses.
    * @api public
@@ -151,7 +151,7 @@ class Enquirer extends Events {
    * };
    * enquirer.use(plugin);
    * ```
-   * @name use
+   * @name use()
    * @param {Function} `plugin` Plugin function that takes an instance of Enquirer.
    * @return {Object} Returns the Enquirer instance.
    * @api public

@@ -139,25 +139,36 @@ const response = await prompt([
 console.log(response); // { name: 'Edward Chan', username: 'edwardmchan' }
 ```
 
+### Different ways to run enquirer
+
+#### 1. By importing the specific `built-in prompt`
+
+```js
+const { Confirm } = require('enquirer');
+
+const prompt = new Confirm({
+  name: 'question',
+  message: 'Did you like enquirer?'
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer));
+```
+
+#### 2. By passing the options to `prompt`
+
+```js
+const { prompt } = require('enquirer');
+
+prompt({
+  type: 'confirm',
+  name: 'question',
+  message: 'Did you like enquirer?'
+})
+  .then(answer => console.log('Answer:', answer));
+```
+
 **Jump to**: [Getting Started](#-getting-started) · [Prompts](#-prompts) · [Options](#-options) · [Key Bindings](#-key-bindings)
-
-<br>
-
-## Todo
-
-We're currently working on documentation for the following items. Please star and watch the repository for updates!
-
-* [ ] Customizing symbols
-* [ ] Customizing styles (palette)
-* [ ] Customizing rendered input
-* [ ] Customizing returned values
-* [ ] Customizing key bindings
-* [ ] Question validation
-* [ ] Choice validation
-* [ ] Skipping questions
-* [ ] Async choices
-* [ ] Async timers: loaders, spinners and other animations
-* [ ] Links to examples
 
 <br>
 
@@ -234,7 +245,7 @@ const Enquirer = require('enquirer');
 const enquirer = new Enquirer();
 ```
 
-### [register](index.js#L42)
+### [register()](index.js#L42)
 
 Register a custom prompt type.
 
@@ -252,7 +263,7 @@ const enquirer = new Enquirer();
 enquirer.register('customType', require('./custom-prompt'));
 ```
 
-### [prompt](index.js#L78)
+### [prompt()](index.js#L78)
 
 Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
@@ -275,7 +286,7 @@ const response = await enquirer.prompt({
 console.log(response);
 ```
 
-### [use](index.js#L160)
+### [use()](index.js#L160)
 
 Use an enquirer plugin.
 
@@ -394,20 +405,20 @@ prompt(question)
 ### Built-in prompts
 
 * [AutoComplete Prompt](#autocomplete-prompt)
-  - [Confirm Prompt](#confirm-prompt)
-  - [Form Prompt](#form-prompt)
-  - [Input Prompt](#input-prompt)
-  - [Invisible Prompt](#invisible-prompt)
-  - [List Prompt](#list-prompt)
-  - [MultiSelect Prompt](#multiselect-prompt)
-  - [Numeral Prompt](#numeral-prompt)
-  - [Password Prompt](#password-prompt)
-  - [Survey Prompt](#survey-prompt)
-  - [Scale Prompt](#scale-prompt)
-  - [Select Prompt](#select-prompt)
-  - [Sort Prompt](#sort-prompt)
-  - [Snippet Prompt](#snippet-prompt)
-  - [Toggle Prompt](#toggle-prompt)
+* [Confirm Prompt](#confirm-prompt)
+* [Form Prompt](#form-prompt)
+* [Input Prompt](#input-prompt)
+* [Invisible Prompt](#invisible-prompt)
+* [List Prompt](#list-prompt)
+* [MultiSelect Prompt](#multiselect-prompt)
+* [Numeral Prompt](#numeral-prompt)
+* [Password Prompt](#password-prompt)
+* [Survey Prompt](#survey-prompt)
+* [Scale Prompt](#scale-prompt)
+* [Select Prompt](#select-prompt)
+* [Sort Prompt](#sort-prompt)
+* [Snippet Prompt](#snippet-prompt)
+* [Toggle Prompt](#toggle-prompt)
 
 ### AutoComplete Prompt
 
@@ -1426,6 +1437,21 @@ inquirer: 286.717ms
 
 Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new).
 
+### Todo
+
+We're currently working on documentation for the following items. Please star and watch the repository for updates!
+
+* [ ] Customizing symbols
+* [ ] Customizing styles (palette)
+* [ ] Customizing rendered input
+* [ ] Customizing returned values
+* [ ] Customizing key bindings
+* [ ] Question validation
+* [ ] Choice validation
+* [ ] Skipping questions
+* [ ] Async choices
+* [ ] Async timers: loaders, spinners and other animations
+* [ ] Links to examples
 </details>
 
 <details>
@@ -1435,6 +1461,9 @@ Running and reviewing unit tests is a great way to get familiarized with a libra
 
 ```sh
 $ npm install && npm test
+```
+```sh
+$ yarn && yarn test
 ```
 
 </details>
@@ -1452,14 +1481,15 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 
 </details>
 
-### Contributors
+#### Contributors
 
 | **Commits** | **Contributor** |  
 | --- | --- |  
 | 279 | [jonschlinkert](https://github.com/jonschlinkert) |  
-| 26  | [doowb](https://github.com/doowb) |  
+| 30  | [doowb](https://github.com/doowb) |  
 | 15  | [g-plane](https://github.com/g-plane) |  
 | 12  | [pixelass](https://github.com/pixelass) |  
+| 9   | [318097](https://github.com/318097) |  
 | 3   | [tunnckoCore](https://github.com/tunnckoCore) |  
 | 2   | [DanielRuf](https://github.com/DanielRuf) |  
 | 2   | [gabel0287](https://github.com/gabel0287) |  
@@ -1473,7 +1503,7 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 | 1   | [skellock](https://github.com/skellock) |  
 | 1   | [whxaxes](https://github.com/whxaxes) |  
 
-### Author
+#### Author
 
 **Jon Schlinkert**
 
@@ -1481,11 +1511,11 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 * [Twitter Profile](https://twitter.com/jonschlinkert)
 * [LinkedIn Profile](https://linkedin.com/in/jonschlinkert)
 
-### Credit
+#### Credit
 
 Thanks to [derhuerst](https://github.com/derhuerst), creator of prompt libraries such as [prompt-skeleton](https://github.com/derhuerst/prompt-skeleton), which influenced some of the concepts we used in our prompts.
 
-### License
+#### License
 
 Copyright © 2018-present, [Jon Schlinkert](https://github.com/jonschlinkert).
 Released under the [MIT License](LICENSE).

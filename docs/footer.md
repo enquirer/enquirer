@@ -26,6 +26,9 @@ inquirer: 286.717ms
 
 Pull requests and stars are always welcome. For bugs and feature requests, [please create an issue](../../issues/new).
 
+### Todo
+
+{%= format(include('docs/todo.md')) %}
 </details>
 
 <details>
@@ -35,6 +38,9 @@ Running and reviewing unit tests is a great way to get familiarized with a libra
 
 ```sh
 $ npm install && npm test
+```
+```sh
+$ yarn && yarn test
 ```
 
 </details>
@@ -52,10 +58,10 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 
 </details>
 
-### Contributors
+#### Contributors
 {%= ghContributors() %}
 
-### Author
+#### Author
 
 **Jon Schlinkert**
 
@@ -63,11 +69,11 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 * [Twitter Profile](https://twitter.com/jonschlinkert)
 * [LinkedIn Profile](https://linkedin.com/in/jonschlinkert)
 
-### Credit
+#### Credit
 
 Thanks to [derhuerst](https://github.com/derhuerst), creator of prompt libraries such as [prompt-skeleton](https://github.com/derhuerst/prompt-skeleton), which influenced some of the concepts we used in our prompts.
 
-### License
+#### License
 
 Copyright © 2018-present, [Jon Schlinkert](https://github.com/jonschlinkert).
 Released under the [MIT License](LICENSE).
