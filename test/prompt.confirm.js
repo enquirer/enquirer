@@ -40,17 +40,15 @@ describe('confirm', () => {
     });
   });
 
-  describe('options.hint', () => {
-    it('should show the correct hint based on options.initial', () => {
+  describe('default', () => {
+    it('should show the correct default hint based on options.initial', () => {
       prompt = new Prompt({ message: 'foo', initial: true });
       assert.equal(prompt.default, '(Y/n)');
 
       prompt = new Prompt({ message: 'foo', initial: false });
       assert.equal(prompt.default, '(y/N)');
     });
-  });
 
-  describe('options.default', () => {
     it('should support a custom default value', () => {
       prompt = new Prompt({
         name: 'really',
@@ -59,16 +57,26 @@ describe('confirm', () => {
         default: '[Y(es)|N(o)]'
       });
 
-      prompt.once('run', async() => {
-        assert(prompt.state.buffer.includes('[Y(es)|N(o)]'));
-        await prompt.keypress('y');
-        assert(prompt.state.buffer.includes('[Y(es)|N(o)]'));
+      let resolved = false;
+
+      return new Promise((resolve, reject) => {
+        prompt.once('run', async() => {
+          try {
+            assert(prompt.state.buffer.includes('[Y(es)|N(o)]'));
+            await prompt.keypress('y');
+            assert(prompt.state.buffer.includes('[Y(es)|N(o)]'));
+            resolve();
+          } catch (err) {
+            reject(err);
+          }
+        });
+
+        return prompt.run()
+          .then(answer => {
+            assert.equal(answer, true);
+          });
       });
 
-      return prompt.run()
-        .then(answer => {
-          assert.equal(answer, true);
-        });
     });
   });
 
@@ -97,7 +105,6 @@ describe('confirm', () => {
   });
 
   describe('keypresses', () => {
-
     it('should confirm with a truthy value', () => {
       prompt = new Prompt({ message: 'Are you sure?' });
 

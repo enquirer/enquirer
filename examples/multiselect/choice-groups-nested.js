@@ -22,7 +22,6 @@ const prompt = new MultiSelect({
   ]
 });
 
-prompt
-  .run()
+prompt.run()
   .then(answer => console.log('Answer:', answer))
   .catch(console.error);

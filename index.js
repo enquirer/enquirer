@@ -94,7 +94,6 @@ class Enquirer extends Events {
 
     let opts = utils.merge({}, this.options, question);
     let { type, name } = question;
-    let { set, get } = utils;
 
     if (typeof type === 'function') {
       type = await type.call(this, question, this.answers);
@@ -105,31 +104,34 @@ class Enquirer extends Events {
     assert(this.prompts[type], `Prompt "${type}" is not registered`);
 
     let prompt = new this.prompts[type](opts);
-    let value = get(this.answers, name);
-
-    prompt.state.answers = this.answers;
     prompt.enquirer = this;
 
     if (name) {
       prompt.on('submit', value => {
-        this.emit('answer', name, value, prompt);
-        set(this.answers, name, value);
+        utils.set(this.answers, name, value);
+        this.emit('answer', name, value, prompt, this);
+        this.constructor.emit('answer', name, value, prompt, this);
       });
     }
 
     // bubble events
-    let emit = prompt.emit.bind(prompt);
+    let emit = prompt.emit;
     prompt.emit = (...args) => {
-      this.emit.call(this, ...args);
-      return emit(...args);
+      this.emit(...args);
+      return emit.call(prompt, ...args);
     };
 
+    let state = this.state(prompt, opts);
+    let value = utils.get(this.answers, name);
+
+    this.constructor.emit('prompt', prompt, this);
     this.emit('prompt', prompt, this);
 
     if (opts.autofill && value != null) {
       prompt.value = prompt.input = value;
 
-      // if "autofill=show" render the prompt, otherwise stay "silent"
+      // if "autofill=show", then render actual prompt in the
+      // terminal when skipping, otherwise it's "silent"
       if (opts.autofill === 'show') {
         await prompt.submit();
       }
@@ -160,6 +162,23 @@ class Enquirer extends Events {
   use(plugin) {
     plugin.call(this, this);
     return this;
+  }
+
+  submit(value, state) {
+    this.submitted = true;
+    this.emit('submit', value, state);
+    this.emit('answer', state.prompt.name, value, state);
+  }
+
+  cancel(error, state) {
+    this.cancelled = true;
+    this.emit('cancel', error, state);
+  }
+
+  state(prompt, question) {
+    let state = { prompt, question, answers: this.answers };
+    this.emit('state', state);
+    return state;
   }
 
   set Prompt(value) {

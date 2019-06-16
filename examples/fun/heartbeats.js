@@ -13,10 +13,10 @@ const prompt = new MultiSelect({
   name: 'example-groups',
   message: 'What are your favorite colors?',
   timers: { separator: 250, prefix: 120, pointer: 300 },
-  prefix: state => frame(colors, state.timer.tick),
-  separator: state => frame(colors, state.timer.tick),
+  prefix: state => frame(colors, state.timers.prefix.tick),
+  separator: state => frame(colors, state.timers.separator.tick),
   pointer(state, choice, i) {
-    return state.index === i ? frame(colors, state.timer.tick) + ' ' : '  ';
+    return state.index === i ? frame(colors, state.timers.pointer.tick) + ' ' : '  ';
   },
   choices: ['Foo', 'Bar', 'Baz']
 });

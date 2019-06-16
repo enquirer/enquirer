@@ -13,7 +13,9 @@ const prompt = new Select({
   name: 'fruit',
   message: 'Favorite fruit?',
   timers: { prefix: 250 },
-  prefix: state => color(colors, state.timer.tick)(prompt.symbols.heart),
+  prefix(state) {
+    return color(colors, state.timers.prefix.tick)(prompt.symbols.heart);
+  },
   choices: ['Apple', 'Cherry', 'Grape', 'Orange', 'Strawberry', 'Watermelon']
 });
 

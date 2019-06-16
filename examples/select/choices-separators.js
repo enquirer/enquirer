@@ -1,6 +1,5 @@
 'use strict';
 
-const colors = require('ansi-colors');
 const { Select } = require('enquirer');
 
 const prompt = new Select({
@@ -9,11 +8,11 @@ const prompt = new Select({
   choices: [
     'apple',
     'grape',
-    { role: 'separator', value: colors.dim('────') },
+    { role: 'separator' },
     'watermelon',
     'cherry',
     'strawberry',
-    { role: 'separator', value: colors.dim('────') },
+    { role: 'separator' },
     'lemon',
     'orange'
   ]

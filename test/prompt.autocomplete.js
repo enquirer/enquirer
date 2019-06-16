@@ -234,11 +234,11 @@ describe('prompt-autocomplete', () => {
         message: 'Favorite flavor?',
         choices: fixtures.slice(),
         format(value) {
-          values.push(value);
+          if (value) values.push(value);
           return value.toUpperCase();
         },
         result(value) {
-          results.push(value);
+          if (value) results.push(value);
           return value.toUpperCase();
         }
       });
@@ -254,7 +254,7 @@ describe('prompt-autocomplete', () => {
 
       return prompt.run()
         .then(answer => {
-          assert.deepEqual(values, ['', 'b', 'be', 'ber', 'berr', 'berry', 'strawberry']);
+          assert.deepEqual(values, ['b', 'be', 'ber', 'berr', 'berry', 'strawberry']);
           assert.deepEqual(results, ['strawberry']);
           assert.equal(answer, 'STRAWBERRY');
         });
