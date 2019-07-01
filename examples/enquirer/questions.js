@@ -91,7 +91,7 @@ module.exports = [
     choices: colors.map(color => ({ ...color }))
   },
   {
-    type: 'number',
+    type: 'numeral',
     name: 'age',
     message: 'How old are you?',
     float: true
