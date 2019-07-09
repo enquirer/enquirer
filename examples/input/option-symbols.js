@@ -9,7 +9,7 @@ const prompt = new Input({
   styles: {
     primary: colors.yellow,
     get submitted() {
-      return this.complementary(this.primary);
+      return this.complement;
     }
   }
 });
