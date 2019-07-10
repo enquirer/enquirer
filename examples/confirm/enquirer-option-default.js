@@ -9,10 +9,10 @@ prompt({
   initial: 'j',
   default: '(J/n)',
   isTrue(input) {
-    return input.toLowerCase() === 'j';
+    return typeof input === 'boolean' ? input : input.toLowerCase() === 'j';
   },
   isFalse(input) {
-    return input.toLowerCase() === 'n';
+    return typeof input === 'boolean' ? !input : input.toLowerCase() === 'n';
   }
 })
   .then(console.log)

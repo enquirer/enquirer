@@ -9,7 +9,7 @@ const { prompt } = require('enquirer');
     type: 'autocomplete',
     name: 'flavor',
     message: 'Pick your favorite flavor',
-    highlight: colors.green,
+    highlight: str => colors.green(str),
     choices: [
       'almond',
       'apple',
