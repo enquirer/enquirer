@@ -16,18 +16,21 @@ const { Prompt } = require('enquirer');
 class CustomPrompt extends Prompt {
   dispatch(ch) {
     if (!ch) return this.alert();
-    this.value += ch;
+    this.value = (this.value || '') + ch;
     this.cursor += 1;
     this.render();
   }
   delete() {
-    this.value = this.value.slice(0, -1);
-    this.cursor = this.value.length;
+    let value = this.value || '';
+    this.value = value ? value.slice(0, -1) : '';
+    this.cursor = value.length;
     this.render();
   }
-  render() {
+  async render() {
     this.clear();
-    this.write(this.renderMessage(this.value));
+    let value = this.value || '';
+    let message = await this.message();
+    this.write(`${message} ${value}`);
   }
 }
 
