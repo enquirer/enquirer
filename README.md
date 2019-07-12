@@ -1485,11 +1485,12 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 
 | **Commits** | **Contributor** |  
 | --- | --- |  
-| 279 | [jonschlinkert](https://github.com/jonschlinkert) |  
-| 30  | [doowb](https://github.com/doowb) |  
+| 281 | [jonschlinkert](https://github.com/jonschlinkert) |  
+| 43  | [doowb](https://github.com/doowb) |  
+| 20  | [318097](https://github.com/318097) |  
 | 15  | [g-plane](https://github.com/g-plane) |  
+| 13  | [rajat-sr](https://github.com/rajat-sr) |  
 | 12  | [pixelass](https://github.com/pixelass) |  
-| 9   | [318097](https://github.com/318097) |  
 | 3   | [tunnckoCore](https://github.com/tunnckoCore) |  
 | 2   | [DanielRuf](https://github.com/DanielRuf) |  
 | 2   | [gabel0287](https://github.com/gabel0287) |  

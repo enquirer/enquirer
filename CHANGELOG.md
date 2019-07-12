@@ -32,6 +32,14 @@ Changelog entries are classified using the following labels _(from [keep-a-chang
 
 </details>
 
+## 2.3.1 - 2019-07-12
+
+### Fixed
+
+- Several examples were updated to align with latest code changes and to fix small bugs found in the implementation of the example.
+- Some bugs found from updating examples were fixed.
+- Updates to documentation to provide more information on how to use prompts and the options available.
+
 ## 2.1.0 - 2018-11-29
 
 ### Fixed
