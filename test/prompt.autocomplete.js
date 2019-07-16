@@ -29,9 +29,9 @@ describe('prompt-autocomplete', () => {
       });
 
       prompt.once('run', async() => {
-        await prompt.keypress(1);
-        await prompt.keypress(3);
-        await prompt.keypress(2);
+        await prompt.keypress('1');
+        await prompt.keypress('3');
+        await prompt.keypress('2');
         await prompt.submit();
       });
 
