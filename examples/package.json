@@ -8,6 +8,7 @@
     "data-store": "^3.1.0",
     "enquirer": "file:..",
     "hi-base32": "^0.5.0",
+    "qrcode-terminal": "^0.12.0",
     "semver": "^5.6.0",
     "yosay": "^2.0.2"
   }
