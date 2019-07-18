@@ -12,10 +12,10 @@ const prompt = new Quiz({
 prompt
   .run()
   .then(answer => {
-    if (answer.selected) {
+    if (answer.correct) {
       console.log('Correct!');
     } else {
-      console.log(`Wrong! Correct answer is ${answer.correct}`);
+      console.log(`Wrong! Correct answer is ${answer.correctAnswer}`);
     }
   })
   .catch(console.error);
