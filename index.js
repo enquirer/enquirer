@@ -242,6 +242,7 @@ const exp = name => {
 };
 
 exp('ArrayPrompt');
+exp('AuthPrompt');
 exp('BooleanPrompt');
 exp('NumberPrompt');
 exp('StringPrompt');
