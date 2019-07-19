@@ -75,6 +75,7 @@ prompt(question)
 ## Built-in prompts
 
 - [AutoComplete Prompt](#autocomplete-prompt)
+- [BasicAuth Prompt](#basicauth-prompt)
 - [Confirm Prompt](#confirm-prompt)
 - [Form Prompt](#form-prompt)
 - [Input Prompt](#input-prompt)
@@ -149,6 +150,37 @@ prompt.run()
 - [Select](#select-prompt)
 - [MultiSelect](#multiselect-prompt)
 - [Survey](#survey-prompt)
+
+**↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
+
+***
+
+## BasicAuth Prompt
+
+Prompt that asks for username and password to authenticate the user. The default implementation of `authenticate` function in `BasicAuth` prompt is to compare the username and password with the values supplied while running the prompt. The implementer is expected to override the `authenticate` function with a custom logic such as making an API request to a server to authenticate the username and password entered and expect a token back.
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/13731210/61570485-7ffd9c00-aaaa-11e9-857a-d47dc7008284.gif" alt="Enquirer BasicAuth Prompt" width="750">
+</p>
+
+**Example Usage**
+
+```js
+const { BasicAuth } = require('enquirer');
+
+ const prompt = new BasicAuth({
+  name: 'password',
+  message: 'Please enter your password',
+  username: 'rajat-sr',
+  password: '123',
+  showPassword: true
+});
+
+ prompt
+  .run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
+```
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -734,7 +766,7 @@ prompt.run()
 ***
 
 ## Prompt Types
-There are 4 (soon to be 5!) type classes:
+There are 5 (soon to be 6!) type classes:
 * [ArrayPrompt](#arrayprompt)
     - [Options](#options)
     - [Properties](#properties)
@@ -743,6 +775,7 @@ There are 4 (soon to be 5!) type classes:
     - [Defining choices](#defining-choices)
     - [Choice properties](#choice-properties)
     - [Related prompts](#related-prompts)
+* [AuthPrompt](#authprompt)
 * [BooleanPrompt](#booleanprompt)
 * DatePrompt (Coming Soon!)
 * [NumberPrompt](#numberprompt)
@@ -879,6 +912,59 @@ The following properties are supported on `choice` objects.
 - [MultiSelect](#multiselect-prompt)
 - [Select](#select-prompt)
 - [Survey](#survey-prompt)
+
+***
+
+## AuthPrompt
+
+The `AuthPrompt` is used to create prompts to log in user using any authentication method. For example, Enquirer uses this class as the basis for the [BasicAuth Prompt](#basicauth-prompt). You can also find prompt examples in `examples/auth/` folder that utilizes `AuthPrompt` to create OAuth based authentication prompt or a prompt that authenticates using time-based OTP, among others.
+
+`AuthPrompt` has a factory function that creates an instance of `AuthPrompt` class and it expects an `authenticate` function, as an argument, which overrides the `authenticate` function of the `AuthPrompt` class.
+
+### Methods
+
+| **Method**         | **Description**                                                                                                                                                                                          |
+| -------------      | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `authenticate()`   | Contain all the authentication logic. This function should be overridden to implement custom authentication logic. The default `authenticate` function throws an error if no other function is provided. |
+
+### Choices
+
+Auth prompt supports the `choices` option, which is the similar to the choices used in [Form Prompt](#form-prompt).
+
+**Example**
+
+```js
+const { AuthPrompt } = require('enquirer');
+
+function authenticate(value, state) {
+  if (value.username === this.options.username && value.password === this.options.password) {
+    return true;
+  }
+  return false;
+}
+
+const CustomAuthPrompt = AuthPrompt.create(authenticate);
+
+const prompt = new CustomAuthPrompt({
+  name: 'password',
+  message: 'Please enter your password',
+  username: 'rajat-sr',
+  password: '1234567',
+  choices: [
+    { name: 'username', message: 'username' },
+    { name: 'password', message: 'password' }
+  ]
+});
+
+prompt
+  .run()
+  .then(answer => console.log('Authenticated?', answer))
+  .catch(console.error);
+```
+
+### Related prompts
+
+- [BasicAuth Prompt](#basicauth-prompt)
 
 ***
 
