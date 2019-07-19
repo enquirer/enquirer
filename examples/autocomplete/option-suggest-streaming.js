@@ -37,6 +37,11 @@ const { prompt } = require('enquirer');
       // since the results are handled in the `data` event handler above, just return an empty array
       return [];
     },
+    hint() {
+      if (!this.visible.length && !this.input) {
+        return 'Start typing to search';
+      }
+    },
     choices: []
   });
 
@@ -47,7 +52,7 @@ const { prompt } = require('enquirer');
 function createSearchClient() {
   /**
    * Imagine this class does a search against an external api that returns a stream
-   * of results. The results are used in the aotocomplete suggest function below.
+   * of results. The results are used in the autocomplete suggest function below.
    */
 
   class SearchApi {
