@@ -51,12 +51,12 @@ class OAuthServer {
   }
 }
 
-async function verify() {
+async function authenticate() {
   await this.server.stop();
   return this.server.token; // token received from Github
 }
 
-class OAuth extends AuthPrompt.create(verify) {
+class OAuth extends AuthPrompt.create(authenticate) {
   constructor(options = {}) {
     super({ ...options, choices });
     this.value = options.initial || 0;
