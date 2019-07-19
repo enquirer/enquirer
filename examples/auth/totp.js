@@ -4,14 +4,14 @@ const crypto = require('crypto');
 const base32 = require('hi-base32');
 const AuthPrompt = require('../../lib/types/auth');
 
-async function verify(value, state) {
+async function authenticate(value, state) {
   let secret = await this.resolve(this.options.secret, this);
   return this.verifyTotp(value.otp, secret);
 }
 
 const choices = [{ name: 'otp', message: 'OTP from Authenticator app' }];
 
-class TotpAuthPrompt extends AuthPrompt.create(verify) {
+class TotpAuthPrompt extends AuthPrompt.create(authenticate) {
   constructor(options) {
     super({ ...options, choices });
     this.otpLength = this.options.otpLength || 6;
