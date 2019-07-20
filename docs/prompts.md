@@ -83,6 +83,7 @@ prompt(question)
 - [MultiSelect Prompt](#multiselect-prompt)
 - [Numeral Prompt](#numeral-prompt)
 - [Password Prompt](#password-prompt)
+- [Quiz Prompt](#quiz-prompt)
 - [Survey Prompt](#survey-prompt)
 - [Scale Prompt](#scale-prompt)
 - [Select Prompt](#select-prompt)
@@ -429,6 +430,49 @@ prompt.run()
 
 - [Input](#input-prompt)
 - [Invisible](#invisible-prompt)
+
+**↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
+
+***
+
+## Quiz Prompt
+
+Prompt that allows the user to play multiple-choice quiz questions.
+
+<p align="center">
+  <img src="https://user-images.githubusercontent.com/13731210/61567561-891d4780-aa6f-11e9-9b09-3d504abd24ed.gif" alt="Enquirer Quiz Prompt" width="750">
+</p>
+
+**Example Usage**
+
+```js
+const { Quiz } = require('enquirer');
+
+ const prompt = new Quiz({
+  name: 'countries',
+  message: 'How many countries are there in the world?',
+  choices: ['165', '175', '185', '195', '205'],
+  correctChoice: 3
+});
+
+ prompt
+  .run()
+  .then(answer => {
+    if (answer.correct) {
+      console.log('Correct!');
+    } else {
+      console.log(`Wrong! Correct answer is ${answer.correctAnswer}`);
+    }
+  })
+  .catch(console.error);
+```
+
+**Quiz Options**
+
+| Option         | Type        | Required    | Description                                                                                                  |
+| -----------    | ----------  | ----------  | ------------------------------------------------------------------------------------------------------------ |
+| `choices`      | `array`     | Yes         | The list of possible answers to the quiz question.                                                           |
+| `correctChoice`| `number`    | Yes         | Index of the correct choice from the `choices` array.                                                        |
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
