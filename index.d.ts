@@ -32,7 +32,7 @@ interface ArrayPromptOptions extends BasePromptOptions {
     | 'survey'
     | 'list'
     | 'scale'
-  choices: string[] | Choice[]
+  choices: (string | Choice)[]
   maxChoices?: number
   muliple?: boolean
   initial?: number
