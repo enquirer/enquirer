@@ -140,7 +140,7 @@ declare namespace Enquirer {
       | PromptOptions
       | ((this: Enquirer) => PromptOptions)
       | (PromptOptions | ((this: Enquirer) => PromptOptions))[]
-  ): Promise<{ [key: string]: string }>;
+  ): Promise<{ [key: string]: any }>;
 
   class Prompt extends BasePrompt {}
 }
