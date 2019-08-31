@@ -577,6 +577,8 @@ prompt.run()
   .catch(console.log);
 ```
 
+You can use [data-store](https://github.com/jonschlinkert/data-store) to store [input history](https://github.com/enquirer/enquirer/blob/master/examples/input/option-history.js) that the user can cycle through (see [source](https://github.com/enquirer/enquirer/blob/8407dc3579123df5e6e20215078e33bb605b0c37/lib/prompts/input.js)).
+
 **Related prompts**
 
 * [Confirm](#confirm-prompt)
