@@ -32,6 +32,21 @@ Changelog entries are classified using the following labels _(from [keep-a-chang
 
 </details>
 
+## 2.3.2 - 2019-09-17
+
+### Added
+
+- `AuthPrompt` type for creating authentication based prompts.
+- `BasicAuth` prompt as an example of creating an authentication prompt using basic username/password authentication
+- Examples for different authentication prompts.
+- `QuizPrompt`
+
+### Fixed
+
+- More examples were updated to fix any known bugs.
+- Couple of fixes to the editable and autocomplete prompts.
+- Documentation updates to highlight options available to some prompts.
+
 ## 2.3.1 - 2019-07-12
 
 ### Fixed
