@@ -1,7 +1,7 @@
 {
   "name": "enquirer",
   "description": "Stylish, intuitive and user-friendly prompt system. Fast and lightweight enough for small projects, powerful and extensible enough for the most advanced use cases.",
-  "version": "2.3.1",
+  "version": "2.3.2",
   "homepage": "https://github.com/enquirer/enquirer",
   "author": "Jon Schlinkert (https://github.com/jonschlinkert)",
   "contributors": [
