@@ -145,6 +145,7 @@ prompt.run()
 | `highlight` | `function` | `dim` version of primary style                                      | The color to use when "highlighting" characters in the list that match user input.                           |
 | `multiple`  | `boolean`  | `false`                                                             | Allow multiple choices to be selected.                                                                       |
 | `suggest`   | `function` | Greedy match, returns true if choice message contains input string. | Function that filters choices. Takes user input and a choices array, and returns a list of matching choices. |
+| `footer`   | `function` | None | Function that displays [footer text](https://github.com/enquirer/enquirer/blob/6c2819518a1e2ed284242a99a685655fbaabfa28/examples/autocomplete/option-footer.js#L10) |
 
 **Related prompts**
 
@@ -278,6 +279,8 @@ prompt.run()
   .then(answer => console.log('Answer:', answer))
   .catch(console.log);
 ```
+
+You can use [data-store](https://github.com/jonschlinkert/data-store) to store [input history](https://github.com/enquirer/enquirer/blob/master/examples/input/option-history.js) that the user can cycle through (see [source](https://github.com/enquirer/enquirer/blob/8407dc3579123df5e6e20215078e33bb605b0c37/lib/prompts/input.js)).
 
 **Related prompts**
 
