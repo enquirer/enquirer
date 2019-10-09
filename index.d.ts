@@ -56,6 +56,13 @@ interface StringPromptOptions extends BasePromptOptions {
   multiline?: boolean
 }
 
+interface TogglePromptOptions extends BasePromptOptions {
+  type: 'toggle'
+  initial?: boolean
+  enabled?: string
+  disabled?: string
+}
+
 interface NumberPromptOptions extends BasePromptOptions {
   type: 'numeral'
   min?: number
@@ -84,6 +91,7 @@ type PromptOptions =
   | ArrayPromptOptions
   | BooleanPromptOptions
   | StringPromptOptions
+  | TogglePromptOptions
   | NumberPromptOptions
   | SnippetPromptOptions
   | SortPromptOptions
