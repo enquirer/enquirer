@@ -5,7 +5,7 @@ let time = 5;
 let int;
 
 /**
- * This example shows how to create a "countdown" effect. Tou can
+ * This example shows how to create a "countdown" effect. You can
  * put the countdown timer in the prefix, footer, header, separator,
  * or whatever prompt position makes sense for your goal.
  */
