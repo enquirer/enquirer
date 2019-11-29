@@ -477,6 +477,82 @@ prompt.run()
 | `suggest`   | `function` | Greedy match, returns true if choice message contains input string. | Function that filters choices. Takes user input and a choices array, and returns a list of matching choices. |
 | `footer`   | `function` | None | Function that displays [footer text](https://github.com/enquirer/enquirer/blob/6c2819518a1e2ed284242a99a685655fbaabfa28/examples/autocomplete/option-footer.js#L10) |
 
+**Customizing suggest Function and Highlighting**
+
+When connecting `suggest` function to fuzzy search packages, you may want to highlight characters in the list with the match result provided by the package. Or maybe you want to create a highlighting algorithm yourself. Anyway you want to control which character to highlight. You can do that by setting the `highlightIndices` properties of choice objects in the array that `suggest` function are going to return. 
+
+You should set the `highlightIndices` property to an array consists of value pairs like `[starting_index, ending_index]`. For example, if the property is set to: 
+
+```js
+[[1,3],[5,9]]
+```
+
+The highlighted string will look like: e**xam**p**lestr**ing
+
+Note that the values should always be sorted in ascending order. 
+
+**Example Usage with Fuse.js**
+
+```js
+const { AutoComplete } = require('enquirer');
+const Fuse = require('fuse.js');
+
+const fuseOptions = {
+  shouldSort: true,
+  includeMatches: true,
+  tokenize: true,
+  threshold: 0.6,
+  location: 0,
+  distance: 100,
+  maxPatternLength: 32,
+  minMatchCharLength: 1,
+  keys: ['message']
+};
+
+const prompt = new AutoComplete({
+  name: 'flavor',
+  message: 'Pick your favorite flavor',
+  choices: [
+    'Almond',
+    'Apple',
+    'Banana',
+    'Blackberry',
+    'Blueberry',
+    'Cherry',
+    'Chocolate',
+    'Cinnamon',
+    'Coconut',
+    'Cranberry',
+    'Grape',
+    'Nougat',
+    'Orange',
+    'Pear',
+    'Pineapple',
+    'Raspberry',
+    'Strawberry',
+    'Vanilla',
+    'Watermelon',
+    'Wintergreen'
+  ],
+  suggest: (input,list) => {
+    if (input == '') return list;
+    let fuse = new Fuse(list, fuseOptions); 
+    return fuse.search(input)
+      .map(r => {
+        let r1 = r.item;
+        r1.highlightIndices = r.matches[0].indices;
+        //Fuse.js's indices property is an array of value pairs that meets the requirement for highlightIndices property here. 
+        //So we can assign the value to it directly. 
+        return r1;
+      });
+  }
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
+```
+
 **Related prompts**
 
 * [Select](#select-prompt)
