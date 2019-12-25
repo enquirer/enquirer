@@ -1247,7 +1247,7 @@ Whether defined as a string or object, choices are normalized to the following i
 ```js
 const question = {
   name: 'fruit',
-  message: 'Favorite fruit?'
+  message: 'Favorite fruit?',
   choices: ['Apple', 'Orange', 'Raspberry']
 };
 ```
@@ -1257,7 +1257,7 @@ Normalizes to the following when the prompt is run:
 ```js
 const question = {
   name: 'fruit',
-  message: 'Favorite fruit?'
+  message: 'Favorite fruit?',
   choices: [
     { name: 'Apple', message: 'Apple', value: 'Apple' },
     { name: 'Orange', message: 'Orange', value: 'Orange' },
@@ -1349,6 +1349,20 @@ prompt
 
 The `BooleanPrompt` class is used for creating prompts that display and return a boolean value.
 
+```js
+const { BooleanPrompt } = require('enquirer');
+
+const  prompt = new  BooleanPrompt({
+  header:  '========================',
+  message:  'Do you love enquirer?',
+  footer:  '========================',
+});
+
+prompt.run()
+  .then(answer  =>  console.log('Selected:', answer))
+  .catch(console.error);
+```
+
 **Returns**: `boolean`
 
 ***
@@ -1357,7 +1371,21 @@ The `BooleanPrompt` class is used for creating prompts that display and return a
 
 The `NumberPrompt` class is used for creating prompts that display and return a numerical value.
 
-**Returns**: `string|number` (number, or number formatted as a string)
+```js
+const { NumberPrompt } = require('enquirer');
+
+const  prompt = new  NumberPrompt({
+  header:  '************************',
+  message:  'Input the Numbers:',
+  footer:  '************************',
+});
+
+prompt.run()
+  .then(answer  =>  console.log('Numbers are:', answer))
+  .catch(console.error);
+```
+
+**Returns**: `number` 
 
 ***
 
@@ -1365,6 +1393,21 @@ The `NumberPrompt` class is used for creating prompts that display and return a 
 
 The `StringPrompt` class is used for creating prompts that display and return a string value.
 
+```js
+const { StringPrompt } = require('enquirer');
+
+const prompt = new StringPrompt({
+  header: '************************',
+  message: 'Input the String:',
+  footer: '************************'
+});
+
+prompt.run()
+  .then(answer => console.log('String is:', answer))
+  .catch(console.error);
+```
+
+**Returns**: `string|number` (number, or number formatted as a string)
 <br>
 
 ## ❯ Custom prompts
