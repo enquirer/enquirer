@@ -1,29 +1,11 @@
-"use strict";
-const scrapeForm = require("google-form-terminal");
-const { Form } = require('enquirer');
+const GoogleFormPrompt = require('../../lib/prompts/google');
 
-let questions = [];
-let enqQuestions = [];
-
-const generateQuestion = async () => {
-  questions = await scrapeForm();
-
-  questions.forEach(question => {
-    let choices = {};
-    choices.name = question.trim();
-    choices.message = `${question}:`;
-    enqQuestions.push(choices);
-  });
-
-  return enqQuestions;
-};
-
-const GoogleFormPrompt = new Form({
-  name: 'Google Form',
-  message: 'Please provide the information:',
-  choices: generateQuestion()
+const prompt = new GoogleFormPrompt({
+    name: "Google Form",
+    message: "Please provide the information:",
+    form_id: process.argv[2],
 });
 
-GoogleFormPrompt.run()
-  .then(value => console.log('Answers:', value))
-  .catch(console.error);
+prompt.run()
+.then(res => console.log(res))
+.catch(err => console.log(err));

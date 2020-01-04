@@ -5,6 +5,8 @@
   "devDependencies": {
     "ansi-colors": "^3.2.1",
     "axios": "^0.19.0",
+    "begoo": "^1.1.2",
+    "cheerio": "^1.0.0-rc.3",
     "cli-spinners": "^1.3.1",
     "data-store": "^3.1.0",
     "enquirer": "file:..",
@@ -12,9 +14,8 @@
     "hi-base32": "^0.5.0",
     "open": "^6.4.0",
     "qrcode-terminal": "^0.12.0",
+    "request": "^2.88.0",
     "semver": "^5.6.0",
-    "yosay": "^2.0.2",
-    "begoo": "^1.1.2",
-    "google-form-terminal": "^1.0.3"
+    "yosay": "^2.0.2"
   }
 }
