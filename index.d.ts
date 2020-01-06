@@ -1,3 +1,5 @@
+import { EventEmitter } from "events";
+
 interface BasePromptOptions {
   name: string | (() => string)
   type: string | (() => string)
@@ -89,7 +91,7 @@ type PromptOptions =
   | SortPromptOptions
   | BasePromptOptions
 
-declare class BasePrompt extends NodeJS.EventEmitter {
+declare class BasePrompt extends EventEmitter {
     constructor(options?: PromptOptions);
 
     render(): void;
@@ -97,7 +99,7 @@ declare class BasePrompt extends NodeJS.EventEmitter {
     run(): Promise<any>;
   }
 
-declare class Enquirer<T = object> extends NodeJS.EventEmitter {
+declare class Enquirer<T = object> extends EventEmitter {
   constructor(options?: object, answers?: T);
 
   /**
