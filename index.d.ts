@@ -2,8 +2,8 @@ import { EventEmitter } from 'events';
 import { ReadStream, WriteStream } from 'tty';
 import { SymbolsType } from 'ansi-colors'
 
-declare class Enquirer<T = any> extends EventEmitter {
-  constructor(options?: any, answers?: T);
+declare class Enquirer extends EventEmitter {
+  constructor(options?: any, answers?: Enquirer.Answers);
 
   /**
    * Register a custom prompt type.
@@ -28,10 +28,10 @@ declare class Enquirer<T = any> extends EventEmitter {
    * @param questions Options objects for one or more prompts to run.
    */
   prompt(
-    questions: Enquirer.Prompt.Question
-      | ((this: Enquirer) => Enquirer.Prompt.Question)
-      | (Enquirer.Prompt.Question | ((this: Enquirer) => Enquirer.Prompt.Question))[]
-  ): Promise<T>;
+    questions: Enquirer.Question
+      | ((this: Enquirer) => Enquirer.Question)
+      | (Enquirer.Question | ((this: Enquirer) => Enquirer.Question))[]
+  ): Promise<Enquirer.Answers>;
 
   /**
    * Use an enquirer plugin.
@@ -44,11 +44,32 @@ declare class Enquirer<T = any> extends EventEmitter {
 declare namespace Enquirer {
   export type Constructor<T> = new (...args: ConstructorParameters<new (...args: any) => T>) => T
 
-  export function prompt<T = any>(questions:
-    | Prompt.Question
-    | ((this: Enquirer) => Prompt.Question)
-    | (Prompt.Question | ((this: Enquirer) => Prompt.Question))[]
-  ): Promise<T>
+  export function prompt(questions:
+    | Question
+    | ((this: Enquirer) => Question)
+    | (Question | ((this: Enquirer) => Question))[]
+  ): Promise<Answers>
+
+  export type Answers = Record<string, Answer>
+  export type Answer = string | boolean | number
+
+  export type Question<T extends PromptValue = PromptValue> = {
+    name?: string | (() => string),
+    type?: string | (() => string),
+    message: string | (() => string | Promise<string>),
+    hint?: string
+    timers?: Record<string, number | { interval?: number, frames: any[] }>,
+    initial?: T | (() => Promise<T> | T),
+    default?: T,
+    // TODO: test is the function style needed
+    skip?: boolean | ((this: Prompt, name: string | undefined, value: string | undefined) => boolean | Promise<boolean>)
+    show?: boolean
+    symbols?: Partial<Symbols>
+    value?: T,
+    format?: (this: Prompt, value: T) => any,
+    result?: (this: Prompt, value: T) => any,
+    validate?: (value: T) => boolean
+  }
 
   export namespace prompt {
     export function on(type: PromptType, handler: (p: any) => void): void
@@ -61,12 +82,12 @@ declare namespace Enquirer {
   export class Prompt<T extends PromptValue = PromptValue> extends EventEmitter {
     name: string | undefined
     type: string | undefined
-    options: Prompt.Question<T>
+    options: Question<T>
     symbols: Symbols
     styles: any
     timers: any
     state: State
-    initial?: any
+    initial?: T | (() => T | Promise<T>)
 
     readonly base: Prompt
     readonly style: any
@@ -77,7 +98,7 @@ declare namespace Enquirer {
     input: string
     value: T
 
-    constructor(options?: Prompt.Question<T>)
+    constructor(options?: Question<T>)
     alert(): void
 
     body(): null | string
@@ -125,7 +146,7 @@ declare namespace Enquirer {
 
     result(value: T): string
 
-    run(): Promise<any>;
+    run(): Promise<T>;
 
     sections(): { header: string, prompt: string, after: string, rest: string[], last: string };
 
@@ -143,24 +164,8 @@ declare namespace Enquirer {
   }
 
   export namespace Prompt {
-    export type Question<T extends PromptValue = PromptValue> = {
-      name?: string | (() => string),
-      type?: string | (() => string),
-      message: string | (() => string | Promise<string>),
-      timers?: Record<string, number | { interval?: number, frames: any[] }>,
-      initial?: string,
-      default?: string,
-      // TODO: test is the function style needed
-      skip?: boolean | ((this: Prompt, name: string | undefined, value: string | undefined) => boolean | Promise<boolean>)
-      show?: boolean
-      symbols?: Partial<Symbols>
-      value?: T,
-      format?: (this: Prompt, value: T) => any,
-      result?: (this: Prompt, value: T) => any,
-      validate?: (value: T) => boolean
-    }
 
-    export function prompt<T extends PromptValue = PromptValue>(): (options: Prompt.Question<T>) => Promise<any>;
+    export function prompt<T extends PromptValue = PromptValue>(): (options: Question<T>) => Promise<any>;
   }
 
   export class State {
@@ -227,7 +232,9 @@ declare namespace Enquirer {
   export namespace types {
     export class ArrayPrompt extends Prompt { }
     export class AuthPrompt extends Prompt { }
-    export class BooleanPrompt extends Prompt { }
+    export class BooleanPrompt extends Prompt<boolean> {
+      constructor(question: Question<boolean>)
+    }
     export class NumberPrompt extends Prompt { }
     export class StringPrompt extends Prompt { }
   }

@@ -1,12 +1,12 @@
 import 'mocha'
 import assert from 'assert'
 import colors from 'ansi-colors'
-import { Prompt as PromptBase } from '..'
+import { Prompt, Question } from '..'
 
-let prompt: Prompt;
+let prompt: TestPrompt;
 
-class Prompt extends PromptBase {
-  constructor(options: PromptBase.Question) {
+class TestPrompt extends Prompt {
+  constructor(options: Question) {
     super({ ...options, show: false });
   }
   render() { }
@@ -15,13 +15,13 @@ class Prompt extends PromptBase {
 describe('Prompt', function () {
   describe('.keypress()', () => {
     it('should emit a keypress for each character', cb => {
-      prompt = new Prompt({ message: 'Example Prompt' });
+      prompt = new TestPrompt({ message: 'Example Prompt' });
       const keypresses: string[] = [];
       prompt.keypress = async (str: any, key) => {
         if (str && str.length > 1) {
           return [...str].forEach(async ch => await prompt.keypress(ch, key));
         }
-        Prompt.prototype.keypress.call(prompt, str, key);
+        TestPrompt.prototype.keypress.call(prompt, str, key);
       };
 
       prompt.on('state', state => {
@@ -47,7 +47,7 @@ describe('Prompt', function () {
 
   describe('options.initial', () => {
     it('should use options.initial', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt',
         initial: 'woohooo!'
       });
@@ -61,7 +61,7 @@ describe('Prompt', function () {
     });
 
     it('should submit from listener when options.initial is defined', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt',
         initial: 'woohooo!'
       });
@@ -79,14 +79,14 @@ describe('Prompt', function () {
 
   describe('options.message', () => {
     it('should set the `message` to use', () => {
-      prompt = new Prompt({ message: 'Enter something' });
+      prompt = new TestPrompt({ message: 'Enter something' });
       assert.equal(prompt.options.message, 'Enter something');
     });
   });
 
   describe('options.format', () => {
     it('should format the rendered value using a custom function', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt',
         value: 2,
         format(value) {
@@ -104,7 +104,7 @@ describe('Prompt', function () {
 
   describe('options.transform', () => {
     it('should transform the returned value using a custom function', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt',
         value: 'foo',
         result(value) {
@@ -124,7 +124,7 @@ describe('Prompt', function () {
     it('should use a custom `validate` function', () => {
       let count = 0;
 
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt',
         value: 'bar',
         validate(value) {
@@ -142,7 +142,7 @@ describe('Prompt', function () {
 
   describe('options.symbols', () => {
     it('should use custom symbols', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt',
         symbols: {
           indicator: 'X',

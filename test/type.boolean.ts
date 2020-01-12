@@ -1,27 +1,27 @@
-'use strict';
+import 'mocha'
+import assert from 'assert'
+import colors from 'ansi-colors'
+import { types, Question } from '..'
 
 require('mocha');
-const colors = require('ansi-colors');
-const assert = require('assert');
-const BooleanPrompt = require('../lib/types/boolean');
-let prompt;
+let prompt: TestPrompt;
 
-class Prompt extends BooleanPrompt {
-  constructor(options) {
+class TestPrompt extends types.BooleanPrompt {
+  constructor(options: Question<boolean>) {
     super({ ...options, show: false });
   }
 }
 
-describe('boolean prompt', function() {
+describe('boolean prompt', function () {
   describe('options.initial', () => {
     it('should use options.initial when true', () => {
-      prompt = new Prompt({ message: 'foo', initial: true });
+      prompt = new TestPrompt({ message: 'foo', initial: true });
       prompt.once('run', () => prompt.submit());
       return prompt.run().then(answer => assert.equal(answer, true));
     });
 
     it('should use options.initial when false', () => {
-      prompt = new Prompt({ message: 'foo', initial: false });
+      prompt = new TestPrompt({ message: 'foo', initial: false });
       prompt.once('run', () => prompt.submit());
       return prompt.run()
         .then(answer => {
@@ -30,7 +30,7 @@ describe('boolean prompt', function() {
     });
 
     it('should call options.initial when a function', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'foo',
         initial: () => true
       });
@@ -43,10 +43,10 @@ describe('boolean prompt', function() {
     });
 
     it('should call options.initial when a async function', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'foo',
         async initial() {
-          return new Promise(resolve => {
+          return new Promise<boolean>(resolve => {
             setTimeout(() => resolve(true), 10);
           });
         }
@@ -61,14 +61,14 @@ describe('boolean prompt', function() {
 
   describe('options.hint', () => {
     it('should render a hint', () => {
-      let buffer;
+      let buffer: string;
 
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'boolean',
         hint: 'This is a hint'
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.render();
         buffer = prompt.state.buffer;
         await prompt.submit();
@@ -81,14 +81,14 @@ describe('boolean prompt', function() {
     });
 
     it('should not duplicate hint', () => {
-      let buffer;
+      let buffer: string;
 
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'This is a hint',
         hint: 'This is a hint'
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.render();
         buffer = prompt.state.buffer;
         await prompt.submit();
@@ -102,14 +102,14 @@ describe('boolean prompt', function() {
 
     it('should not recolor hint', () => {
       let hint = colors.yellow('This is a hint');
-      let buffer;
+      let buffer: string;
 
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'boolean',
         hint
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.render();
         buffer = prompt.state.buffer;
         await prompt.submit();
@@ -124,13 +124,13 @@ describe('boolean prompt', function() {
 
   describe('keypresses', () => {
     it('should alert when keypress is invalid', cb => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'boolean'
       });
 
       prompt.once('alert', cb);
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('a');
       });
 
