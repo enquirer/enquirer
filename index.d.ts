@@ -166,7 +166,17 @@ declare namespace Enquirer {
     value?: T,
     format?: (this: Prompt, value: T) => any,
     result?: (this: Prompt, value: T) => any,
-    validate?: (value: T) => boolean
+    validate?: (value: T) => boolean,
+  }
+
+  export type NumericQuestion = Question<number> & {
+    min?: number,
+    max?: number,
+    delay?: number
+    float?: boolean
+    round?: boolean
+    major?: number
+    minor?: number
   }
 
   export namespace prompt {
@@ -208,6 +218,7 @@ declare namespace Enquirer {
     close(): void;
 
     cursorHide(): void
+
     cursorShow(): void
 
     element(name: string, choice: string[] | undefined, i: number): Promise<string>
@@ -228,7 +239,7 @@ declare namespace Enquirer {
 
     isValue(value: any): boolean
 
-    keypress(input: string | number, event?: object): Promise<void>
+    keypress(input: string | number | null, modifiers?: Key): Promise<void>
 
     message(): Promise<string>;
 
@@ -330,11 +341,44 @@ declare namespace Enquirer {
   export namespace types {
     export class ArrayPrompt extends Prompt { }
     export class AuthPrompt extends Prompt { }
-    export class BooleanPrompt extends Prompt<boolean> {
-      constructor(question: Question<boolean>)
+    export class BooleanPrompt extends Prompt<boolean> { }
+    export class NumberPrompt extends Prompt<number> {
+      min: number
+      max: number
+      delay: number
+      float: boolean
+      round: boolean
+      major: number
+      minor: number
+      constructor(question: NumericQuestion)
     }
-    export class NumberPrompt extends Prompt { }
-    export class StringPrompt extends Prompt { }
+    export class StringPrompt extends Prompt<string> {
+      moveCursor(n: number): void
+      reset(): Promise<any>
+      dispatch(ch: string, key: Key): void
+      append(ch: string): void
+      insert(str: string): void
+      delete(): void
+      deleteForward(): void
+      cutForward(): void
+      cutLeft(): void
+      paste(): void
+      toggleCursor(): void
+      first(): void
+      last(): void
+      next(): void
+      prev(): void
+      backward(): void
+      forward(): void
+      right(): void
+      left(): void
+    }
+  }
+
+  export type Key = {
+    ctrl?: boolean
+    code?: number
+    name?: string
   }
 
 

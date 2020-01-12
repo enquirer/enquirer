@@ -3,7 +3,6 @@ import assert from 'assert'
 import colors from 'ansi-colors'
 import { types, Question } from '..'
 
-require('mocha');
 let prompt: TestPrompt;
 
 class TestPrompt extends types.BooleanPrompt {
@@ -14,6 +13,13 @@ class TestPrompt extends types.BooleanPrompt {
 
 describe('boolean prompt', function () {
   describe('options.initial', () => {
+    it('should enforce return type as boolean', () => {
+      new types.BooleanPrompt({
+        message: '',
+        initial() { return false }
+      })
+    });
+
     it('should use options.initial when true', () => {
       prompt = new TestPrompt({ message: 'foo', initial: true });
       prompt.once('run', () => prompt.submit());
