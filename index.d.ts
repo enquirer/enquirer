@@ -109,12 +109,15 @@ declare class Enquirer<T = object> extends EventEmitter {
    * @param type
    * @param fn `Prompt` class, or a function that returns a `Prompt` class.
    */
-  register(type: string, fn: typeof Enquirer.BasePrompt | (() => typeof Enquirer.BasePrompt)): this;
+  register(
+    type: string,
+    fn: Enquirer.Constructor<Enquirer.Prompt> | (() => Enquirer.Constructor<Enquirer.Prompt>)
+  ): this;
 
   /**
    * Register a custom prompt type.
    */
-  register(type: { [key: string]: typeof Enquirer.BasePrompt | (() => typeof Enquirer.BasePrompt) }): this;
+  register(type: Record<string, Enquirer.Constructor<Enquirer.Prompt> | (() => Enquirer.Constructor<Enquirer.Prompt>)>): this;
 
   /**
    * Prompt function that takes a "question" object or array of question objects,
@@ -123,10 +126,9 @@ declare class Enquirer<T = object> extends EventEmitter {
    * @param questions Options objects for one or more prompts to run.
    */
   prompt(
-    questions:
-      | Enquirer.PromptOptions
-      | ((this: Enquirer) => Enquirer.PromptOptions)
-      | (Enquirer.PromptOptions | ((this: Enquirer) => Enquirer.PromptOptions))[]
+    questions: Enquirer.Prompt.Question
+      | ((this: Enquirer) => Enquirer.Prompt.Question)
+      | (Enquirer.Prompt.Question | ((this: Enquirer) => Enquirer.Prompt.Question))[]
   ): Promise<T>;
 
   /**
@@ -138,15 +140,27 @@ declare class Enquirer<T = object> extends EventEmitter {
 }
 
 declare namespace Enquirer {
+  export type Constructor<T> = new (...args: ConstructorParameters<new (...args: any) => T>) => T
+
+  export function prompt<T = any>(questions:
+    | Prompt.Question
+    | ((this: Enquirer) => Prompt.Question)
+    | (Prompt.Question | ((this: Enquirer) => Prompt.Question))[]
+  ): Promise<T>
+
+  export namespace prompt {
+    export function on(type: PromptType, handler: (p: any) => void): void
+  }
+
   export type PromptType = string
 
   export type PromptValue = string | boolean | number
 
-  export class Prompt extends EventEmitter {
+  export class Prompt<T extends PromptValue = PromptValue> extends EventEmitter {
     name: string | undefined
     type: string | undefined
-    options: Prompt.Options
-    symbols: any
+    options: Prompt.Question<T>
+    symbols: Symbols
     styles: any
     timers: any
     state: State
@@ -159,9 +173,9 @@ declare namespace Enquirer {
     readonly size: number
     cursor: number
     input: string
-    value: string
+    value: T
 
-    constructor(options?: Prompt.Options)
+    constructor(options?: Prompt.Question<T>)
     alert(): void
 
     body(): null | string
@@ -181,7 +195,7 @@ declare namespace Enquirer {
 
     footer(): Promise<string>
 
-    format(value: string): string
+    format(value: T): string
 
     header(): Promise<string>
 
@@ -207,7 +221,7 @@ declare namespace Enquirer {
 
     restore(): void;
 
-    result(value: string): string
+    result(value: T): string
 
     run(): Promise<any>;
 
@@ -221,37 +235,30 @@ declare namespace Enquirer {
 
     submit(value?: any): void;
 
-    validate(value: any): boolean
+    validate(value: T): boolean
 
     write(string: string): void;
   }
 
   export namespace Prompt {
-    export type Options = {
-      name?: string,
-      type?: string,
+    export type Question<T extends PromptValue = PromptValue> = {
+      name?: string | (() => string),
+      type?: string | (() => string),
+      message: string | (() => string | Promise<string>),
       timers?: Record<string, number | { interval?: number, frames: any[] }>,
       initial?: string,
       default?: string,
-      skip?: boolean | ((this: Prompt, name: string | undefined, value: string | undefined) => boolean)
+      // TODO: test is the function style needed
+      skip?: boolean | ((this: Prompt, name: string | undefined, value: string | undefined) => boolean | Promise<boolean>)
       show?: boolean
-      message?: string,
       symbols?: Partial<Symbols>
-      value?: PromptValue,
-      format?: (value: PromptValue) => any,
-      result?: (value: PromptValue) => any,
-      validate?: (value: PromptValue) => boolean
+      value?: T,
+      format?: (this: Prompt, value: T) => any,
+      result?: (this: Prompt, value: T) => any,
+      validate?: (value: T) => boolean
     }
 
-    export function prompt(): (options: Prompt.Options) => Promise<any>;
-
-    export type Symbols = {
-      indicator: string,
-      check: string,
-      prefix: string,
-      separator: string,
-      [k: string]: string
-    }
+    export function prompt<T extends PromptValue = PromptValue>(): (options: Prompt.Question<T>) => Promise<any>;
   }
 
   export class State {
@@ -283,118 +290,149 @@ declare namespace Enquirer {
     color: Function | any
   }
 
-  export function prompt<T = any>(questions:
-    | PromptOptions
-    | ((this: Enquirer) => PromptOptions)
-    | (PromptOptions | ((this: Enquirer) => PromptOptions))[]
-  ): Promise<T>
+  export type Symbols = {
+    indicator: string,
+    check: string,
+    prefix: string,
+    separator: string,
+    [k: string]: string
+  } & SymbolsType
 
-  export namespace prompt {
-    export function on(type: PromptType, handler: (p: any) => void): void
+  export class Input extends Prompt { }
+
+  export namespace prompts {
+    export class AutoComplete extends Prompt { }
+    export class BasicAuth extends Prompt { }
+    export class Confirm extends Prompt { }
+    export class Editable extends Prompt { }
+    export class Form extends Prompt { }
+    export class Input extends Prompt { }
+    export class Invisible extends Prompt { }
+    export class List extends Prompt { }
+    export class MultiSelect extends Prompt { }
+    export const Numeral: typeof types.NumberPrompt
+    export class Password extends Prompt { }
+    export class Quiz extends Prompt { }
+    export class Scale extends Prompt { }
+    export class Select extends Prompt { }
+    export class Snippet extends Prompt { }
+    export class Sort extends Prompt { }
+    export class Survey extends Prompt { }
+    export const Text: typeof Input
+    export class Toggle extends Prompt { }
   }
 
-  export class PromptOld extends BasePrompt { }
-
-  export interface BasePromptOptions {
-    name: string | (() => string)
-    type: string | (() => string)
-    message: string | (() => string) | (() => Promise<string>)
-    initial?: any
-    required?: boolean
-    format?(value: string): string | Promise<string>
-    result?(value: string): string | Promise<string>
-    skip?: ((state: object) => boolean | Promise<boolean>) | boolean
-    validate?(value: string): boolean | Promise<boolean> | string | Promise<string>
-    onSubmit?(name: string, value: any, prompt: Enquirer.PromptOld): boolean | Promise<boolean>
-    onCancel?(name: string, value: any, prompt: Enquirer.PromptOld): boolean | Promise<boolean>
-    stdin?: ReadStream
-    stdout?: WriteStream
+  export namespace types {
+    export class ArrayPrompt extends Prompt { }
+    export class AuthPrompt extends Prompt { }
+    export class BooleanPrompt extends Prompt { }
+    export class NumberPrompt extends Prompt { }
+    export class StringPrompt extends Prompt { }
   }
 
-  export interface ChoiceOld {
-    name: string
-    message?: string
-    value?: string
-    hint?: string
-    disabled?: boolean | string
-  }
 
-  export interface ArrayPromptOptions extends BasePromptOptions {
-    type:
-    | 'autocomplete'
-    | 'editable'
-    | 'form'
-    | 'multiselect'
-    | 'select'
-    | 'survey'
-    | 'list'
-    | 'scale'
-    choices: string[] | ChoiceOld[]
-    maxChoices?: number
-    muliple?: boolean
-    initial?: number
-    delay?: number
-    separator?: boolean
-    sort?: boolean
-    linebreak?: boolean
-    edgeLength?: number
-    align?: 'left' | 'right'
-    scroll?: boolean
-  }
+  // export class PromptOld extends BasePrompt { }
 
-  export interface BooleanPromptOptions extends BasePromptOptions {
-    type: 'confirm'
-    initial?: boolean
-  }
+  // export interface BasePromptOptions {
+  //   name: string | (() => string)
+  //   type: string | (() => string)
+  //   message: string | (() => string) | (() => Promise<string>)
+  //   initial?: any
+  //   required?: boolean
+  //   format?(value: string): string | Promise<string>
+  //   result?(value: string): string | Promise<string>
+  //   skip?: ((state: object) => boolean | Promise<boolean>) | boolean
+  //   validate?(value: string): boolean | Promise<boolean> | string | Promise<string>
+  //   onSubmit?(name: string, value: any, prompt: Enquirer.PromptOld): boolean | Promise<boolean>
+  //   onCancel?(name: string, value: any, prompt: Enquirer.PromptOld): boolean | Promise<boolean>
+  //   stdin?: ReadStream
+  //   stdout?: WriteStream
+  // }
 
-  export interface StringPromptOptions extends BasePromptOptions {
-    type: 'input' | 'invisible' | 'list' | 'password' | 'text'
-    initial?: string
-    multiline?: boolean,
-    show?: boolean
-  }
+  // export interface ChoiceOld {
+  //   name: string
+  //   message?: string
+  //   value?: string
+  //   hint?: string
+  //   disabled?: boolean | string
+  // }
 
-  export interface NumberPromptOptions extends BasePromptOptions {
-    type: 'numeral'
-    min?: number
-    max?: number
-    delay?: number
-    float?: boolean
-    round?: boolean
-    major?: number
-    minor?: number
-    initial?: number
-  }
+  // export interface ArrayPromptOptions extends BasePromptOptions {
+  //   type:
+  //   | 'autocomplete'
+  //   | 'editable'
+  //   | 'form'
+  //   | 'multiselect'
+  //   | 'select'
+  //   | 'survey'
+  //   | 'list'
+  //   | 'scale'
+  //   choices: string[] | ChoiceOld[]
+  //   maxChoices?: number
+  //   muliple?: boolean
+  //   initial?: number
+  //   delay?: number
+  //   separator?: boolean
+  //   sort?: boolean
+  //   linebreak?: boolean
+  //   edgeLength?: number
+  //   align?: 'left' | 'right'
+  //   scroll?: boolean
+  // }
 
-  export interface SnippetPromptOptions extends BasePromptOptions {
-    type: 'snippet'
-    newline?: string
-  }
+  // export interface BooleanPromptOptions extends BasePromptOptions {
+  //   type: 'confirm'
+  //   initial?: boolean
+  // }
 
-  export interface SortPromptOptions extends BasePromptOptions {
-    type: 'sort'
-    hint?: string
-    drag?: boolean
-    numbered?: boolean
-  }
+  // export interface StringPromptOptions extends BasePromptOptions {
+  //   type: 'input' | 'invisible' | 'list' | 'password' | 'text'
+  //   initial?: string
+  //   multiline?: boolean,
+  //   show?: boolean
+  // }
 
-  export type PromptOptions =
-    | ArrayPromptOptions
-    | BooleanPromptOptions
-    | StringPromptOptions
-    | NumberPromptOptions
-    | SnippetPromptOptions
-    | SortPromptOptions
-    | BasePromptOptions
+  // export interface NumberPromptOptions extends BasePromptOptions {
+  //   type: 'numeral'
+  //   min?: number
+  //   max?: number
+  //   delay?: number
+  //   float?: boolean
+  //   round?: boolean
+  //   major?: number
+  //   minor?: number
+  //   initial?: number
+  // }
 
-  export class BasePrompt extends EventEmitter {
-    constructor(options?: PromptOptions);
+  // export interface SnippetPromptOptions extends BasePromptOptions {
+  //   type: 'snippet'
+  //   newline?: string
+  // }
 
-    render(): void;
+  // export interface SortPromptOptions extends BasePromptOptions {
+  //   type: 'sort'
+  //   hint?: string
+  //   drag?: boolean
+  //   numbered?: boolean
+  // }
 
-    run(): Promise<any>;
-  }
-  export class Input extends BasePrompt { }
+  // export type PromptOptions =
+  //   | ArrayPromptOptions
+  //   | BooleanPromptOptions
+  //   | StringPromptOptions
+  //   | NumberPromptOptions
+  //   | SnippetPromptOptions
+  //   | SortPromptOptions
+  //   | BasePromptOptions
+
+  // export class BasePrompt extends EventEmitter {
+  //   constructor(options?: PromptOptions);
+
+  //   render(): void;
+
+  //   run(): Promise<any>;
+  // }
+  // export class Input extends BasePrompt { }
 
 }
 

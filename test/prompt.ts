@@ -6,7 +6,7 @@ import { Prompt as PromptBase } from '..'
 let prompt: Prompt;
 
 class Prompt extends PromptBase {
-  constructor(options: PromptBase.Options = {}) {
+  constructor(options: PromptBase.Question) {
     super({ ...options, show: false });
   }
   render() { }
@@ -15,7 +15,7 @@ class Prompt extends PromptBase {
 describe('Prompt', function () {
   describe('.keypress()', () => {
     it('should emit a keypress for each character', cb => {
-      prompt = new Prompt({ message: 'Example prompt' });
+      prompt = new Prompt({ message: 'Example Prompt' });
       const keypresses: string[] = [];
       prompt.keypress = async (str: any, key) => {
         if (str && str.length > 1) {
@@ -85,10 +85,7 @@ describe('Prompt', function () {
   });
 
   describe('options.format', () => {
-    it.only('should format the rendered value using a custom function', () => {
-      let count = 0;
-      let actual;
-
+    it('should format the rendered value using a custom function', () => {
       prompt = new Prompt({
         message: 'prompt',
         value: 2,
@@ -107,8 +104,6 @@ describe('Prompt', function () {
 
   describe('options.transform', () => {
     it('should transform the returned value using a custom function', () => {
-      let count = 0;
-
       prompt = new Prompt({
         message: 'prompt',
         value: 'foo',
