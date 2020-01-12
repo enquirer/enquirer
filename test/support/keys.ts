@@ -1,4 +1,4 @@
-module.exports = {
+const keys = {
   'ctrl+`': {
     name: '`',
     ctrl: true,
@@ -680,3 +680,5 @@ module.exports = {
     press: 'shift+z'
   }
 };
+
+export default keys

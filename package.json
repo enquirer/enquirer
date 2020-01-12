@@ -24,7 +24,7 @@
     "node": ">=8.6"
   },
   "scripts": {
-    "test": "mocha -r ts-node/register test/**/*.ts",
+    "test": "mocha -r ts-node/register test/*.ts",
     "cover": "nyc --reporter=text --reporter=html mocha"
   },
   "dependencies": {
