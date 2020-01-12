@@ -1,6 +1,5 @@
+import { SymbolsType } from 'ansi-colors';
 import { EventEmitter } from 'events';
-import { ReadStream, WriteStream } from 'tty';
-import { SymbolsType } from 'ansi-colors'
 
 declare class Enquirer extends EventEmitter {
   constructor(options?: any, answers?: Enquirer.Answers);
@@ -219,14 +218,28 @@ declare namespace Enquirer {
   }
 
   export type Symbols = {
-    indicator: string,
-    check: string,
-    prefix: string,
-    separator: string,
-    [k: string]: string
-  } & SymbolsType
+    indicator: string;
+    check: string;
+    prefix: string;
+    separator: string;
+    [k: string]: string;
+  } & SymbolsType;
 
-  export class Input extends Prompt { }
+  export class Input extends StringPrompt {
+    altDown(): Promise<void>;
+
+    altUp(): Promise<void>;
+
+    completion(action: Action): Promise<void>;
+
+    prev(): void;
+
+    save(): void;
+
+    submit(): Promise<void>;
+  }
+
+  export type Action = 'prev' | 'undo' | 'next' | 'redo' | 'save' | 'remove'
 
   export namespace prompts {
     export class AutoComplete extends Prompt { }
@@ -307,7 +320,7 @@ declare namespace Enquirer {
 
       isEnabled(choice?: Choice): boolean;
 
-      isSelected(choice: Choice): boolean
+      isSelected(choice: Choice): boolean;
 
       last(): Promise<void>;
 
@@ -372,43 +385,46 @@ declare namespace Enquirer {
       constructor(question: NumericQuestion)
     }
     export class StringPrompt extends Prompt<string> {
-      moveCursor(n: number): void
-      reset(): Promise<any>
-      dispatch(ch?: string, key?: Key): void
-      append(ch: string): void
-      insert(str: string): void
-      delete(): void
-      deleteForward(): void
-      cutForward(): void
-      cutLeft(): void
-      paste(): void
-      toggleCursor(): void
-      first(): void
-      last(): void
-      next(): void
-      prev(): void
-      backward(): void
-      forward(): void
-      right(): void
-      left(): void
+      constructor(question: Question<string> & { multiline?: boolean })
+      moveCursor(n: number): void;
+      reset(): Promise<any>;
+      dispatch(ch?: string, key?: Key): void;
+      append(ch: string): void;
+      insert(str: string): void;
+      delete(): void;
+      deleteForward(): void;
+      cutForward(): void;
+      cutLeft(): void;
+      paste(): void;
+      toggleCursor(): void;
+      first(): void;
+      last(): void;
+      next(): void;
+      prev(): void;
+      backward(): void;
+      forward(): void;
+      right(): void;
+      left(): void;
     }
   }
 
-  export const ArrayPrompt: typeof types.ArrayPrompt
-  export type ArrayPrompt = types.ArrayPrompt
-  export const StringPrompt: typeof types.StringPrompt
-  export type StringPrompt = types.StringPrompt
-  export const NumberPrompt: typeof types.NumberPrompt
-  export type NumberPrompt = types.NumberPrompt
-  export const BooleanPrompt: typeof types.BooleanPrompt
-  export type BooleanPrompt = types.BooleanPrompt
-  export const AuthPrompt: typeof types.AuthPrompt
-  export type AuthPrompt = types.AuthPrompt
+  export const ArrayPrompt: typeof types.ArrayPrompt;
+  export type ArrayPrompt = types.ArrayPrompt;
+  export const StringPrompt: typeof types.StringPrompt;
+  export type StringPrompt = types.StringPrompt;
+  export const NumberPrompt: typeof types.NumberPrompt;
+  export type NumberPrompt = types.NumberPrompt;
+  export const BooleanPrompt: typeof types.BooleanPrompt;
+  export type BooleanPrompt = types.BooleanPrompt;
+  export const AuthPrompt: typeof types.AuthPrompt;
+  export type AuthPrompt = types.AuthPrompt;
 
   export type Key = {
-    ctrl?: boolean
-    code?: number
-    name?: string
+    ctrl?: boolean;
+    code?: number;
+    name?: string;
+    shift?: boolean;
+    fn?: boolean;
   }
 
 
