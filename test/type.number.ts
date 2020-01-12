@@ -1,24 +1,26 @@
-'use strict';
+import 'mocha'
+import assert from 'assert'
+import { types, Question, NumericQuestion } from '..'
 
 require('mocha');
-const assert = require('assert');
-const NumberPrompt = require('../lib/types/number');
 const { immediate } = require('./support')(assert);
+
 const reset = { name: 'g', ctrl: true };
 const down = { name: 'down' };
 const up = { name: 'up' };
-let prompt;
 
-class Prompt extends NumberPrompt {
-  constructor(options) {
+let prompt: TestPrompt;
+
+class TestPrompt extends types.NumberPrompt {
+  constructor(options: NumericQuestion) {
     super({ ...options, show: false });
   }
 }
 
-describe('number prompt', function() {
+describe('number prompt', function () {
   describe('options.min', () => {
     it('should set prompt.min with options.min', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt-number',
         initial: 15,
         min: 10
@@ -36,7 +38,7 @@ describe('number prompt', function() {
 
   describe('options.max', () => {
     it('should set prompt.max with options.max', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt-number',
         max: 10,
         initial: 5
@@ -54,7 +56,7 @@ describe('number prompt', function() {
 
   describe('options.float', () => {
     it('should allow floats when options.float is true', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt-number',
         float: true,
         initial: 42.42
@@ -70,14 +72,14 @@ describe('number prompt', function() {
     });
 
     it('should round when options.float is false', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt-number',
         float: false
       });
 
       assert.equal(prompt.float, false);
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('4');
         await assert.equal(prompt.input, '4');
         await prompt.keypress('2');
@@ -102,13 +104,13 @@ describe('number prompt', function() {
 
   describe('options.minor', () => {
     it('should increment using options.minor', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt-number',
         minor: 5
       });
 
       assert.equal(prompt.minor, 5);
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress(null, up);
         await prompt.submit();
       });
@@ -120,7 +122,7 @@ describe('number prompt', function() {
     });
 
     it('should return zero when submitted with no val and options.minor', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt-number',
         minor: 5
       });
@@ -135,7 +137,7 @@ describe('number prompt', function() {
     });
 
     it('should increment and decrement by options.step', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt-number',
         initial: 37,
         minor: 5
@@ -143,7 +145,7 @@ describe('number prompt', function() {
 
       assert.equal(prompt.minor, 5);
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await immediate(() => prompt.keypress(null, up));
         await immediate(() => prompt.keypress(null, up));
         await immediate(() => prompt.keypress(null, up));
@@ -158,7 +160,7 @@ describe('number prompt', function() {
     });
 
     it('should increment and decrement floats', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt-number',
         minor: 5,
         initial: 37.2
@@ -166,7 +168,7 @@ describe('number prompt', function() {
 
       assert.equal(prompt.minor, 5);
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress(null, up);
         await prompt.keypress(null, up);
         await prompt.keypress(null, up);
@@ -181,7 +183,7 @@ describe('number prompt', function() {
     });
 
     it('should increment and decrement and round floats when disabled', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt-number',
         minor: 5,
         initial: 37.6,
@@ -190,7 +192,7 @@ describe('number prompt', function() {
 
       assert.equal(prompt.minor, 5);
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress(null, up);
         await prompt.keypress(null, up);
         await prompt.keypress(null, up);
@@ -207,7 +209,7 @@ describe('number prompt', function() {
 
   describe('options.initial', () => {
     it('should use options.initial when 0', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt-number',
         initial: 0
       });
@@ -222,7 +224,7 @@ describe('number prompt', function() {
     });
 
     it('should use options.initial', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt-number',
         initial: 42
       });
@@ -239,7 +241,7 @@ describe('number prompt', function() {
 
   describe('prompt.reset', () => {
     it('should reset the prompt to options.initial', () => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'prompt-number',
         minor: 5,
         initial: 37.6
@@ -247,7 +249,7 @@ describe('number prompt', function() {
 
       assert.equal(prompt.minor, 5);
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress(null, up);
         await assert.equal(prompt.input, 42.6);
         await prompt.keypress(null, up);
@@ -271,14 +273,14 @@ describe('number prompt', function() {
 
   describe('keypresses', () => {
     it('should alert when keypress is invalid', cb => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'number',
         initial: 100
       });
 
       prompt.once('alert', cb);
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('a');
       });
 
@@ -286,14 +288,14 @@ describe('number prompt', function() {
     });
 
     it('should support <next>', cb => {
-      prompt = new Prompt({
+      prompt = new TestPrompt({
         message: 'number',
         initial: 100
       });
 
       prompt.once('alert', cb);
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress(null, { name: 'tab' });
       });
 
