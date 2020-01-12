@@ -1,11 +1,8 @@
-'use strict';
-
 import Enquirer from '..'
-import Events from 'events'
+import 'mocha'
+import assert from 'assert'
+import colors from 'ansi-colors'
 
-require('mocha');
-const assert = require('assert');
-const colors = require('ansi-colors');
 const { Input } = Enquirer;
 let enquirer: Enquirer;
 
