@@ -1,16 +1,13 @@
-'use strict';
+import 'mocha'
+import assert from 'assert'
+import { Input as InputPrompt } from '..'
 
-require('mocha');
-const assert = require('assert');
-const colors = require('ansi-colors');
-const Prompt = require('../lib/prompts/input');
-const { kepresses } = require('./support')(assert);
-let prompt;
+let prompt: InputPrompt;
 
-describe('Input Prompt', function() {
+describe('Input Prompt', function () {
   describe('options.initial', () => {
     it('should use value defined on options.initial', () => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         initial: 'blue',
         show: false
@@ -27,7 +24,7 @@ describe('Input Prompt', function() {
 
   describe('options.result', () => {
     it('should support options.result', () => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         show: false,
         initial: 'blue',
@@ -47,8 +44,8 @@ describe('Input Prompt', function() {
 
   describe('options.hint', () => {
     it('should render a hint', () => {
-      let buffer;
-      prompt = new Prompt({
+      let buffer: string;
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         hint: 'Start typing',
         show: false
@@ -68,13 +65,13 @@ describe('Input Prompt', function() {
 
   describe('keypresses', () => {
     it('should take user input', () => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         initial: 'green',
         show: false
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         assert.equal(prompt.initial, 'green');
         await prompt.keypress('b');
         await prompt.keypress('l');
@@ -97,13 +94,13 @@ describe('Input Prompt', function() {
     });
 
     it('should support backspace', () => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         initial: 'green',
         show: false
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('b');
         await prompt.keypress('l');
         await prompt.keypress('u');
@@ -130,13 +127,13 @@ describe('Input Prompt', function() {
     });
 
     it('should support <left>', () => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         initial: 'green',
         show: false
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('b');
         await prompt.keypress('l');
         await prompt.keypress('u');
@@ -161,14 +158,14 @@ describe('Input Prompt', function() {
     });
 
     it('should support <toggleCursor>', () => {
-      let pos = [];
-      prompt = new Prompt({
+      let pos: number[] = [];
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         initial: 'green',
         show: false
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         pos.push(prompt.state.cursor);
         await prompt.keypress('b');
         pos.push(prompt.state.cursor);
@@ -196,13 +193,13 @@ describe('Input Prompt', function() {
     });
 
     it('should support <left>', () => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         initial: 'green',
         show: false
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('b');
         await prompt.keypress('l');
         await prompt.keypress('u');
@@ -227,13 +224,13 @@ describe('Input Prompt', function() {
     });
 
     it('should support <right>', () => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         initial: 'green',
         show: false
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('b');
         await prompt.keypress('l');
         await prompt.keypress('u');
@@ -262,7 +259,7 @@ describe('Input Prompt', function() {
     });
 
     it('should alert when <left> is used and cursor is zero', cb => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         initial: 'green',
         show: false
@@ -273,7 +270,7 @@ describe('Input Prompt', function() {
         cb();
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress(null, { name: `left` });
       });
 
@@ -281,7 +278,7 @@ describe('Input Prompt', function() {
     });
 
     it('should alert when <right> is used and cursor is at EOS', cb => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         initial: 'green',
         show: false
@@ -292,7 +289,7 @@ describe('Input Prompt', function() {
         cb();
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress(null, { name: 'right' });
       });
 
@@ -300,14 +297,14 @@ describe('Input Prompt', function() {
     });
 
     it('should support <next>', () => {
-      let input = [];
-      prompt = new Prompt({
+      let input: string[] = [];
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         initial: 'doowb',
         show: false
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         input.push(prompt.input);
         await prompt.keypress(null, { name: 'tab' });
         input.push(prompt.input);
@@ -321,14 +318,14 @@ describe('Input Prompt', function() {
     });
 
     it('should support <prev>', () => {
-      let input = [];
-      prompt = new Prompt({
+      let input: string[] = [];
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         initial: 'doowb',
         show: false
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         input.push(prompt.input);
         await prompt.keypress(null, { name: 'tab' });
         input.push(prompt.input);
@@ -344,7 +341,7 @@ describe('Input Prompt', function() {
     });
 
     it('should alert when <next> is used and cursor is at EOS', cb => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         show: false
       });
@@ -354,7 +351,7 @@ describe('Input Prompt', function() {
         cb();
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress(null, { name: 'tab' });
       });
 
@@ -362,7 +359,7 @@ describe('Input Prompt', function() {
     });
 
     it('should alert when <prev> is used and cursor is at EOS', cb => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         show: false
       });
@@ -372,7 +369,7 @@ describe('Input Prompt', function() {
         cb();
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress(null, { name: 'tab', shift: true });
       });
 
@@ -380,7 +377,7 @@ describe('Input Prompt', function() {
     });
 
     it('should alert when <backspace> is used and cursor is at BOS', cb => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         show: false
       });
@@ -390,7 +387,7 @@ describe('Input Prompt', function() {
         cb();
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress(null, { name: 'backspace' });
       });
 
@@ -398,12 +395,12 @@ describe('Input Prompt', function() {
     });
 
     it('should support <deleteForward>', () => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         show: false
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('a');
         await prompt.keypress('b');
         await prompt.keypress('c');
@@ -419,7 +416,7 @@ describe('Input Prompt', function() {
     });
 
     it('should alert when <deleteForward> is used and cursor is at BOS', cb => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         show: false
       });
@@ -429,7 +426,7 @@ describe('Input Prompt', function() {
         cb();
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress(null, { name: 'delete', fn: true });
       });
 
@@ -437,12 +434,12 @@ describe('Input Prompt', function() {
     });
 
     it('should support <cutForward>', () => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         show: false
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('a');
         await prompt.keypress('b');
         await prompt.keypress('c');
@@ -463,7 +460,7 @@ describe('Input Prompt', function() {
     });
 
     it('should alert when <cutForward> is used at EOS', cb => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         show: false
       });
@@ -473,7 +470,7 @@ describe('Input Prompt', function() {
         cb();
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('k', { ctrl: true });
       });
 
@@ -481,12 +478,12 @@ describe('Input Prompt', function() {
     });
 
     it('should support <paste>', () => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         show: false
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('a');
         await prompt.keypress('b');
         await prompt.keypress('c');
@@ -511,12 +508,12 @@ describe('Input Prompt', function() {
     });
 
     it('should support <cutLeft>', () => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         show: false
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('a');
         await prompt.keypress('b');
         await prompt.keypress('c');
@@ -535,7 +532,7 @@ describe('Input Prompt', function() {
     });
 
     it('should alert when <paste> is used and is empty', cb => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         show: false
       });
@@ -545,7 +542,7 @@ describe('Input Prompt', function() {
         cb();
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('v', { ctrl: true });
       });
 
@@ -553,7 +550,7 @@ describe('Input Prompt', function() {
     });
 
     it('should alert when <cutLeft> is used at BOS', cb => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         show: false
       });
@@ -563,7 +560,7 @@ describe('Input Prompt', function() {
         cb();
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('w', { ctrl: true });
       });
 
@@ -571,13 +568,13 @@ describe('Input Prompt', function() {
     });
 
     it('should support <first>', () => {
-      let pos;
-      prompt = new Prompt({
+      let pos: number;
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         show: false
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('a');
         await prompt.keypress('b');
         await prompt.keypress('c');
@@ -593,13 +590,13 @@ describe('Input Prompt', function() {
     });
 
     it('should support <last>', () => {
-      let pos;
-      prompt = new Prompt({
+      let pos: number;
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         show: false
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('a');
         await prompt.keypress('b');
         await prompt.keypress('c');
@@ -618,13 +615,13 @@ describe('Input Prompt', function() {
     });
 
     it('should reset to initial value', () => {
-      prompt = new Prompt({
+      prompt = new InputPrompt({
         message: 'Favorite color?',
         initial: 'green',
         show: false
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('b');
         await prompt.keypress('l');
         await prompt.keypress('u');
@@ -656,8 +653,8 @@ describe('Input Prompt', function() {
     it('should allow return without submitting', () => {
       let buffer = [];
 
-      prompt = new Prompt({ show: false, message: 'foo', multiline: true });
-      prompt.once('run', async() => {
+      prompt = new InputPrompt({ show: false, message: 'foo', multiline: true });
+      prompt.once('run', async () => {
         await prompt.keypress('a');
         await prompt.keypress(null, { name: 'return' });
         await prompt.keypress('b');
@@ -675,8 +672,8 @@ describe('Input Prompt', function() {
     it('should submit when return is pressed twice in a row', () => {
       let buffer = [];
 
-      prompt = new Prompt({ show: false, message: 'foo', multiline: true });
-      prompt.once('run', async() => {
+      prompt = new InputPrompt({ show: false, message: 'foo', multiline: true });
+      prompt.once('run', async () => {
         await prompt.keypress('a');
         await prompt.keypress(null, { name: 'return' });
         await prompt.keypress(null, { name: 'return' });
