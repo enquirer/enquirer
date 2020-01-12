@@ -1,25 +1,23 @@
-'use strict';
+import 'mocha'
+import assert from 'assert'
+import colors from 'ansi-colors'
+import { Prompt as PromptBase } from '..'
 
-require('mocha');
-const colors = require('ansi-colors');
-const assert = require('assert');
-const PromptBase = require('../lib/prompt');
-const { timeout } = require('./support')(assert);
-let prompt;
+let prompt: Prompt;
 
 class Prompt extends PromptBase {
-  constructor(options = {}) {
+  constructor(options: PromptBase.Options = {}) {
     super({ ...options, show: false });
   }
-  render() {}
+  render() { }
 }
 
-describe('Prompt', function() {
+describe('Prompt', function () {
   describe('.keypress()', () => {
     it('should emit a keypress for each character', cb => {
       prompt = new Prompt({ message: 'Example prompt' });
-      const keypresses = [];
-      prompt.keypress =  async(str, key) => {
+      const keypresses: string[] = [];
+      prompt.keypress = async (str: any, key) => {
         if (str && str.length > 1) {
           return [...str].forEach(async ch => await prompt.keypress(ch, key));
         }
@@ -35,7 +33,7 @@ describe('Prompt', function() {
         cb();
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress(1);
         await prompt.keypress(2);
         await prompt.keypress(3);
@@ -87,7 +85,7 @@ describe('Prompt', function() {
   });
 
   describe('options.format', () => {
-    it('should format the rendered value using a custom function', () => {
+    it.only('should format the rendered value using a custom function', () => {
       let count = 0;
       let actual;
 

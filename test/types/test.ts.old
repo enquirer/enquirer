@@ -1,4 +1,4 @@
-import * as Enquirer from '../..';
+import Enquirer from '../..';
 
 new Enquirer();
 new Enquirer.Prompt();
@@ -195,15 +195,15 @@ Enquirer.prompt({
     return true;
   }
 });
-Enquirer.prompt({
-  name: 'test',
-  type: 'text',
-  message: '',
-  stdin: process.stdin
-});
-Enquirer.prompt({
-  name: 'test',
-  type: 'text',
-  message: '',
-  stdout: process.stdout
-});
+// Enquirer.prompt({
+//   name: 'test',
+//   type: 'text',
+//   message: '',
+//   stdin: process.stdin
+// });
+// Enquirer.prompt({
+//   name: 'test',
+//   type: 'text',
+//   message: '',
+//   stdout: process.stdout
+// });
