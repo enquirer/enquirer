@@ -371,6 +371,7 @@ Each prompt takes an options object (aka "question" object), that implements the
   validate: function | async function,
 }
 ```
+
 Each property of the options object is described below:
 
 | **Property** | **Required?** | **Type**           | **Description**                                                                                                                                                                         |
