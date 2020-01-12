@@ -1,9 +1,6 @@
 import 'mocha'
 import assert from 'assert'
-import { types } from '..'
-
-const StringPrompt = types.StringPrompt
-type StringPrompt = types.StringPrompt
+import { StringPrompt } from '..'
 
 let prompt: StringPrompt;
 

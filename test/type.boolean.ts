@@ -1,23 +1,27 @@
 import 'mocha'
 import assert from 'assert'
 import colors from 'ansi-colors'
-import { types, Question } from '..'
+import { BooleanPrompt, Question, types } from '..'
 
 let prompt: TestPrompt;
 
-class TestPrompt extends types.BooleanPrompt {
+class TestPrompt extends BooleanPrompt {
   constructor(options: Question<boolean>) {
     super({ ...options, show: false });
   }
 }
 
 describe('boolean prompt', function () {
+  it('should be exposed under Enquirer and types', () => {
+    assert.strictEqual(BooleanPrompt, types.BooleanPrompt);
+  });
+
   describe('options.initial', () => {
     it('should enforce return type as boolean', () => {
-      new types.BooleanPrompt({
+      new BooleanPrompt({
         message: '',
         initial() { return false }
-      })
+      });
     });
 
     it('should use options.initial when true', () => {

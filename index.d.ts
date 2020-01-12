@@ -172,12 +172,22 @@ declare namespace Enquirer {
   export type NumericQuestion = Question<number> & {
     min?: number,
     max?: number,
-    delay?: number
-    float?: boolean
-    round?: boolean
-    major?: number
-    minor?: number
+    delay?: number,
+    float?: boolean,
+    round?: boolean,
+    major?: number,
+    minor?: number,
   }
+
+  export type ArrayQuestion = Question<any> & {
+    choices: ChoiceInput[],
+    autofocus?: number | string,
+    multiple?: boolean,
+  }
+
+  export type ChoiceInput = string | Promise<string> | Choice | (() => string | Promise<string>)
+
+  export type Choice = { name: string, message?: string, value?: PromptValue }
 
   export namespace prompt {
     export function on(type: PromptType, handler: (p: any) => void): void
@@ -327,6 +337,7 @@ declare namespace Enquirer {
     export class List extends Prompt { }
     export class MultiSelect extends Prompt { }
     export const Numeral: typeof types.NumberPrompt
+    export type Numeral = types.NumberPrompt
     export class Password extends Prompt { }
     export class Quiz extends Prompt { }
     export class Scale extends Prompt { }
@@ -335,11 +346,117 @@ declare namespace Enquirer {
     export class Sort extends Prompt { }
     export class Survey extends Prompt { }
     export const Text: typeof Input
+    export type Text = Input
     export class Toggle extends Prompt { }
   }
 
   export namespace types {
-    export class ArrayPrompt extends Prompt { }
+    export class ArrayPrompt extends Prompt {
+      choices: Choice[]
+      readonly enabled: Choice[]
+      readonly focused: Choice | undefined
+      index: number
+      limit: number
+      readonly selectable: Choice[]
+      readonly selected: Choice | Choice[]
+      visible: Choice
+      a(): Promise<void>
+
+      addChoice(element: string |
+        ((this: ArrayPrompt, arg: ArrayPrompt) => Promise<Choice>) |
+        Promise<Choice> |
+        Choice, i: number, parent: Choice): Promise<Choice>;
+
+      disable(choice: Choice): Choice;
+
+      dispatch(ch?: string, key?: Key): void
+
+      down(): Promise<void>;
+
+      enable(choice: Choice): Choice | undefined;
+
+      end(): Promise<void>;
+
+      filter(value: string | number | ((choice: Choice) => boolean)): Choice;
+      filter<P extends keyof Choice>(value: string | number | ((choice: Choice) => boolean), prop: P): Choice[P];
+
+      find(value: string | number | ((choice: Choice) => boolean)): Choice;
+      find<P extends keyof Choice>(value: string | number | ((choice: Choice) => boolean), prop: P): Choice[P];
+
+      findIndex(value: string | number | ((choice: Choice) => boolean)): number;
+
+      first(): Promise<void>;
+
+      focus(choice: Choice, enabled?: boolean): Choice;
+
+      g(choice?: Choice): Promise<void>;
+
+      home(): Promise<void>;
+
+      i(): Promise<void>;
+
+      indent(choice: Choice): string;
+
+      initialize(): Promise<void>;
+
+      isChoice(choice: Choice, value: string | number): boolean;
+
+      isDisabled(choice?: Choice): boolean;
+
+      isEnabled(choice?: Choice): boolean;
+
+      isSelected(choice: Choice): boolean
+
+      last(): Promise<void>;
+
+      left(): Promise<void>;
+
+      map<P extends keyof Choice = 'value'>(names?: string[], prop?: P): Record<string, Choice[P]>
+
+      newItem(element: Partial<Choice>, i: number, parent: Choice): Promise<void>;
+
+      next(): Promise<void>;
+
+      number(n: string | number): Promise<number | undefined>;
+
+      onChoice(choice: Choice, i: number): Promise<void>;
+
+      pageDown(): Promise<void>;
+
+      pageUp(): Promise<void>;
+
+      prev(): Promise<void>;
+
+      reset(): Promise<void>;
+
+      right(): Promise<void>;
+
+      scrollDown(i?: number): Promise<void>;
+
+      scrollUp(i?: number): Promise<void>;
+
+      shiftDown(): Promise<void>;
+
+      shiftUp(): Promise<void>;
+
+      space(): Promise<void>;
+
+      submit(): Promise<void>;
+
+      swap(pos: number): void;
+
+      toChoice(element: string |
+        ((this: ArrayPrompt, arg: ArrayPrompt) => Promise<Choice>) |
+        Promise<Choice> |
+        Choice, i: number, parent: Choice): Promise<Choice>;
+
+      toChoices(value: any, parent: any): Promise<Choice>
+
+      toggle(choice: Choice, enabled: boolean): Choice | undefined;
+
+      up(): Promise<void>;
+    }
+
     export class AuthPrompt extends Prompt { }
     export class BooleanPrompt extends Prompt<boolean> { }
     export class NumberPrompt extends Prompt<number> {
@@ -355,7 +472,7 @@ declare namespace Enquirer {
     export class StringPrompt extends Prompt<string> {
       moveCursor(n: number): void
       reset(): Promise<any>
-      dispatch(ch: string, key: Key): void
+      dispatch(ch?: string, key?: Key): void
       append(ch: string): void
       insert(str: string): void
       delete(): void
@@ -374,6 +491,17 @@ declare namespace Enquirer {
       left(): void
     }
   }
+
+  export const ArrayPrompt: typeof types.ArrayPrompt
+  export type ArrayPrompt = types.ArrayPrompt
+  export const StringPrompt: typeof types.StringPrompt
+  export type StringPrompt = types.StringPrompt
+  export const NumberPrompt: typeof types.NumberPrompt
+  export type NumberPrompt = types.NumberPrompt
+  export const BooleanPrompt: typeof types.BooleanPrompt
+  export type BooleanPrompt = types.BooleanPrompt
+  export const AuthPrompt: typeof types.AuthPrompt
+  export type AuthPrompt = types.AuthPrompt
 
   export type Key = {
     ctrl?: boolean

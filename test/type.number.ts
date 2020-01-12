@@ -1,9 +1,10 @@
 import 'mocha'
 import assert from 'assert'
-import { types, Question, NumericQuestion } from '..'
+import support from './support'
+import { types, NumericQuestion, NumberPrompt } from '..'
 
-require('mocha');
-const { immediate } = require('./support')(assert);
+
+const { immediate } = support(assert);
 
 const reset = { name: 'g', ctrl: true };
 const down = { name: 'down' };
@@ -18,6 +19,10 @@ class TestPrompt extends types.NumberPrompt {
 }
 
 describe('number prompt', function () {
+  it('should be exposed under Enquirer and types', () => {
+    assert.strictEqual(NumberPrompt, types.NumberPrompt);
+  });
+
   describe('options.min', () => {
     it('should set prompt.min with options.min', () => {
       prompt = new TestPrompt({
@@ -150,7 +155,8 @@ describe('number prompt', function () {
         await immediate(() => prompt.keypress(null, up));
         await immediate(() => prompt.keypress(null, up));
         await immediate(() => prompt.keypress(null, down));
-        await immediate(() => prompt.submit());
+        // TODO: fix type
+        await immediate(() => prompt.submit() as any);
       });
 
       return prompt.run()
