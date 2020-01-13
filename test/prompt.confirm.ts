@@ -1,14 +1,13 @@
-'use strict';
+import 'mocha'
+import assert from 'assert'
+import { Confirm } from '..'
+import support from './support'
 
-require('mocha');
-const assert = require('assert');
-const support = require('./support');
 const { timeout } = support(assert);
-const Confirm = require('../lib/prompts/confirm');
-let prompt;
+let prompt: Prompt;
 
 class Prompt extends Confirm {
-  constructor(options) {
+  constructor(options: ConstructorParameters<typeof Confirm>[0]) {
     super({ ...options, show: false });
   }
 }
@@ -59,7 +58,7 @@ describe('confirm', () => {
         default: '[Y(es)|N(o)]'
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         assert(prompt.state.buffer.includes('[Y(es)|N(o)]'));
         await prompt.keypress('y');
         assert(prompt.state.buffer.includes('[Y(es)|N(o)]'));
@@ -87,7 +86,7 @@ describe('confirm', () => {
         }
       });
 
-      prompt.once('run', async() => await prompt.keypress('j'));
+      prompt.once('run', async () => await prompt.keypress('j'));
 
       return prompt.run()
         .then(answer => {
@@ -112,9 +111,9 @@ describe('confirm', () => {
     it('should confirm with a falsey value', () => {
       prompt = new Prompt({ message: 'Are you sure?' });
 
-      prompt.once('run', async() => {
-        await timeout(async() => prompt.keypress('n'));
-        await timeout(async() => prompt.submit());
+      prompt.once('run', async () => {
+        await timeout(async () => prompt.keypress('n'));
+        await timeout(async () => prompt.submit());
       });
 
       return prompt.run().then(answer => assert.equal(answer, false));
