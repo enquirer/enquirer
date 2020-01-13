@@ -2,7 +2,6 @@ import 'mocha'
 import assert from 'assert'
 import { Password as PasswordPrompt } from '..'
 import support from './support'
-import { cyan, dim, gray } from 'ansi-colors'
 
 const { nextTick } = support(assert);
 

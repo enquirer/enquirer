@@ -6,7 +6,7 @@ import { BooleanPrompt, Question, types } from '..'
 let prompt: TestPrompt;
 
 class TestPrompt extends BooleanPrompt {
-  constructor(options: Question<boolean>) {
+  constructor(options: ConstructorParameters<typeof BooleanPrompt>[0]) {
     super({ ...options, show: false });
   }
 }

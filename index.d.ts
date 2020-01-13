@@ -339,7 +339,7 @@ declare namespace Enquirer {
   export namespace prompts {
     export class AutoComplete extends Prompt { }
     export class BasicAuth extends Prompt { }
-    export class Confirm extends Prompt { }
+    export class Confirm extends BooleanPrompt { }
     export class Editable extends Prompt { }
     export class Form extends Prompt { }
     export class Input extends StringPrompt {
@@ -558,7 +558,18 @@ declare namespace Enquirer {
     }
 
     export class AuthPrompt extends Prompt { }
-    export class BooleanPrompt extends Prompt<boolean> { }
+    export class BooleanPrompt extends Prompt<boolean> {
+      default: string
+      constructor(question: Omit<Question<boolean>, 'initial' | 'default'> & {
+        initial?: string | boolean | (() => string | boolean | Promise<string | boolean>);
+        default?: string;
+        isTrue?: (input: boolean | string) => boolean;
+        isFalse?: (input: boolean | string) => boolean;
+      })
+
+      isTrue(input: boolean | string): boolean;
+      isFalse(input: boolean | string): boolean;
+    }
     export class NumberPrompt extends Prompt<number> {
       min: number
       max: number
