@@ -156,22 +156,28 @@ declare namespace Enquirer {
   export type Answers = Record<string, Answer>
   export type Answer = string | boolean | number | string[]
 
-  export type Question<T extends Answer = Answer, P extends Prompt<T> = Prompt<T>> = {
-    name?: string | (() => string),
-    type?: string | (() => string),
-    message: string | (() => string | Promise<string>),
-    hint?: string
-    timers?: Record<string, number | { interval?: number, frames: any[] }>,
+  export type Question<T extends Answer = Answer, P extends Prompt<T> = Prompt<T>> = Question.Base &
+  {
     initial?: T | (() => Promise<T> | T),
     default?: T,
     // TODO: test is the function style needed
     skip?: boolean | ((this: P, name: string | undefined, value: string | undefined) => boolean | Promise<boolean>)
-    show?: boolean
-    symbols?: Partial<Symbols>
     value?: T,
     format?: (this: P, value: T) => any,
     result?: (this: P, value: T) => any,
     validate?: (value: T) => boolean,
+  }
+
+  export namespace Question {
+    export type Base = {
+      name?: string | (() => string);
+      type?: string | (() => string);
+      message: string | (() => string | Promise<string>);
+      hint?: string;
+      timers?: Record<string, number | { interval?: number, frames: any[] }>;
+      show?: boolean;
+      symbols?: Partial<Symbols>;
+    }
   }
 
   export type NumericQuestion = Question<number> & {
@@ -358,10 +364,10 @@ declare namespace Enquirer {
       space(ch?: string | undefined): Promise<void>;
       suggest(input?: string, choices?: Choice[]): Choice[];
     }
-    export class BasicAuth extends Prompt { }
+    export class BasicAuth extends AuthPrompt { }
     export class Confirm extends BooleanPrompt { }
-    export class Editable extends Prompt { }
-    export class Form extends Prompt { }
+    export class Editable extends Select { }
+    export class Form extends Select { }
     export class Input extends StringPrompt {
       altDown(): Promise<void>;
 
@@ -393,8 +399,8 @@ declare namespace Enquirer {
     export const Numeral: typeof types.NumberPrompt
     export type Numeral = types.NumberPrompt
     export class Password extends StringPrompt { }
-    export class Quiz extends Prompt { }
-    export class Scale extends Prompt { }
+    export class Quiz extends Select { }
+    export class Scale extends ArrayPrompt { }
     export class Select extends ArrayPrompt {
       dispatch(ch?: string, key?: Key): Promise<void>;
 
@@ -405,7 +411,7 @@ declare namespace Enquirer {
     }
     export class Snippet extends Prompt { }
     export class Sort extends Prompt { }
-    export class Survey extends Prompt { }
+    export class Survey extends ArrayPrompt { }
     export const Text: typeof Input
     export type Text = Input
     export class Toggle extends BooleanPrompt { }
