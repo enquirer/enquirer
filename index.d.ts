@@ -251,7 +251,9 @@ declare namespace Enquirer {
 
       submit(): Promise<void>;
     }
-    export class Invisible extends Prompt { }
+    export class Invisible extends StringPrompt {
+      format(): string;
+    }
     export class List extends Prompt<string[]> {
       constructor(question: Omit<Question<string[]>, 'initial'> & {
         initial?: string,
@@ -478,25 +480,26 @@ declare namespace Enquirer {
     }
     export class StringPrompt extends Prompt<string> {
       constructor(question: Question<string> & { multiline?: boolean })
-      moveCursor(n: number): void;
-      reset(): Promise<any>;
-      dispatch(ch?: string, key?: Key): void;
       append(ch: string): void;
-      insert(str: string): void;
-      delete(): void;
-      deleteForward(): void;
+      backward(): void;
       cutForward(): void;
       cutLeft(): void;
-      paste(): void;
-      toggleCursor(): void;
+      delete(): void;
+      deleteForward(): void;
+      dispatch(ch?: string, key?: Key): void;
       first(): void;
-      last(): void;
-      next(): void;
-      prev(): void;
-      backward(): void;
       forward(): void;
-      right(): void;
+      format(value?: string): string;
+      insert(str: string): void;
+      last(): void;
       left(): void;
+      moveCursor(n: number): void;
+      next(): void;
+      paste(): void;
+      prev(): void;
+      reset(): Promise<any>;
+      right(): void;
+      toggleCursor(): void;
     }
   }
 
