@@ -1,12 +1,10 @@
 import 'mocha'
 import assert from 'assert'
 import colors from 'ansi-colors'
-import { Prompt } from '..'
+import { Prompt, Answer } from '..'
 
-let prompt: TestPrompt;
-
-class TestPrompt extends Prompt {
-  constructor(options: Prompt.Question) {
+class TestPrompt<T extends Answer = string> extends Prompt<T> {
+  constructor(options: Prompt.Question<T>) {
     super({ ...options, show: false });
   }
   render() { }
@@ -15,7 +13,7 @@ class TestPrompt extends Prompt {
 describe('Prompt', function () {
   describe('.keypress()', () => {
     it('should emit a keypress for each character', cb => {
-      prompt = new TestPrompt({ message: 'Example Prompt' });
+      const prompt = new TestPrompt({ message: 'Example Prompt' });
       const keypresses: string[] = [];
       prompt.keypress = async (str: any, key) => {
         if (str && str.length > 1) {
@@ -47,7 +45,7 @@ describe('Prompt', function () {
 
   describe('options.initial', () => {
     it('should use options.initial', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt',
         initial: 'woohooo!'
       });
@@ -61,7 +59,7 @@ describe('Prompt', function () {
     });
 
     it('should submit from listener when options.initial is defined', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt',
         initial: 'woohooo!'
       });
@@ -79,14 +77,14 @@ describe('Prompt', function () {
 
   describe('options.message', () => {
     it('should set the `message` to use', () => {
-      prompt = new TestPrompt({ message: 'Enter something' });
+      const prompt = new TestPrompt({ message: 'Enter something' });
       assert.equal(prompt.options.message, 'Enter something');
     });
   });
 
   describe('options.format', () => {
     it('should format the rendered value using a custom function', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt',
         value: 2,
         format(value) {
@@ -104,7 +102,7 @@ describe('Prompt', function () {
 
   describe('options.transform', () => {
     it('should transform the returned value using a custom function', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt',
         value: 'foo',
         result(value) {
@@ -124,7 +122,7 @@ describe('Prompt', function () {
     it('should use a custom `validate` function', () => {
       let count = 0;
 
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt',
         value: 'bar',
         validate(value) {
@@ -142,7 +140,7 @@ describe('Prompt', function () {
 
   describe('options.symbols', () => {
     it('should use custom symbols', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt',
         symbols: {
           indicator: 'X',

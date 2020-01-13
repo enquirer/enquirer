@@ -25,7 +25,7 @@
   },
   "scripts": {
     "test": "mocha -r ts-node/register test/*.ts",
-    "cover": "nyc --reporter=text --reporter=html mocha"
+    "cover": "nyc --reporter=text --reporter=html mocha -r ts-node/register test/*.ts"
   },
   "dependencies": {
     "ansi-colors": "^3.2.1"
