@@ -41,7 +41,7 @@ declare class Enquirer extends EventEmitter {
 }
 
 declare namespace Enquirer {
-  export type Constructor<T extends Prompt> = new (...args: any[]) => T
+  export type Constructor<T extends Prompt> = new (...args: ConstructorParameters<new (...args: any) => T>) => T
 
   export function prompt(questions:
     | Question
@@ -264,7 +264,7 @@ declare namespace Enquirer {
     export class MultiSelect extends Prompt { }
     export const Numeral: typeof types.NumberPrompt
     export type Numeral = types.NumberPrompt
-    export class Password extends Prompt { }
+    export class Password extends StringPrompt { }
     export class Quiz extends Prompt { }
     export class Scale extends Prompt { }
     export class Select extends ArrayPrompt {
