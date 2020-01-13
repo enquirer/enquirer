@@ -1,9 +1,9 @@
-import Enquirer from '..'
-import 'mocha'
-import assert from 'assert'
-import colors from 'ansi-colors'
+import colors from 'ansi-colors';
+import assert from 'assert';
+import 'mocha';
+import Enquirer from '..';
 
-const { Input } = Enquirer;
+const { Input, Prompt } = Enquirer;
 let enquirer: Enquirer;
 
 describe('Enquirer', function () {
@@ -265,7 +265,7 @@ describe('Enquirer', function () {
 
     it('should register a custom prompt type as a class', () => {
       class Foo extends Input { }
-      enquirer.register('foo', Foo);
+      enquirer.register('foo', Enquirer.StringPrompt);
       enquirer = new Enquirer({
         show: false,
         autofill: true

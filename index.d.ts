@@ -12,13 +12,13 @@ declare class Enquirer extends EventEmitter {
    */
   register(
     type: string,
-    fn: Enquirer.Constructor<Enquirer.Prompt> | (() => Enquirer.Constructor<Enquirer.Prompt>)
+    fn: Enquirer.Constructor<Enquirer.Prompt<any>> | (() => Enquirer.Constructor<Enquirer.Prompt<any>>),
   ): this;
 
   /**
    * Register a custom prompt type.
    */
-  register(type: Record<string, Enquirer.Constructor<Enquirer.Prompt> | (() => Enquirer.Constructor<Enquirer.Prompt>)>): this;
+  register(type: Record<string, Enquirer.Constructor<Enquirer.Prompt<any>> | (() => Enquirer.Constructor<Enquirer.Prompt<any>>)>): this;
 
   /**
    * Prompt function that takes a "question" object or array of question objects,
@@ -41,7 +41,7 @@ declare class Enquirer extends EventEmitter {
 }
 
 declare namespace Enquirer {
-  export type Constructor<T> = new (...args: ConstructorParameters<new (...args: any) => T>) => T
+  export type Constructor<T extends Prompt> = new (...args: any[]) => T
 
   export function prompt(questions:
     | Question
@@ -50,9 +50,9 @@ declare namespace Enquirer {
   ): Promise<Answers>
 
   export type Answers = Record<string, Answer>
-  export type Answer = string | boolean | number
+  export type Answer = string | boolean | number | string[]
 
-  export type Question<T extends PromptValue = PromptValue> = {
+  export type Question<T extends Answer = Answer> = {
     name?: string | (() => string),
     type?: string | (() => string),
     message: string | (() => string | Promise<string>),
@@ -65,8 +65,8 @@ declare namespace Enquirer {
     show?: boolean
     symbols?: Partial<Symbols>
     value?: T,
-    format?: (this: Prompt, value: T) => any,
-    result?: (this: Prompt, value: T) => any,
+    format?: (this: Prompt<T>, value: T) => any,
+    result?: (this: Prompt<T>, value: T) => any,
     validate?: (value: T) => boolean,
   }
 
@@ -81,14 +81,20 @@ declare namespace Enquirer {
   }
 
   export type ArrayQuestion = Question<any> & {
-    choices: ChoiceInput[],
-    autofocus?: number | string,
-    multiple?: boolean,
+    choices: ChoiceInput[] | Promise<ChoiceInput[]>;
+    autofocus?: number | string;
+    multiple?: boolean;
   }
 
   export type ChoiceInput = string | Promise<string> | Choice | (() => string | Promise<string>)
 
-  export type Choice = { name: string, message?: string, value?: PromptValue }
+  export type Choice = {
+    name: string;
+    message?: string;
+    hint?: string;
+    disabled?: boolean;
+    value?: Answer;
+  }
 
   export namespace prompt {
     export function on(type: PromptType, handler: (p: any) => void): void
@@ -96,9 +102,7 @@ declare namespace Enquirer {
 
   export type PromptType = string
 
-  export type PromptValue = string | boolean | number
-
-  export class Prompt<T extends PromptValue = PromptValue> extends EventEmitter {
+  export class Prompt<T extends Answer = Answer> extends EventEmitter {
     name: string | undefined
     type: string | undefined
     options: Question<T>
@@ -117,7 +121,8 @@ declare namespace Enquirer {
     input: string
     value: T
 
-    constructor(options?: Question<T>)
+    constructor(options: Question<T>)
+
     alert(): void
 
     body(): null | string
@@ -176,7 +181,7 @@ declare namespace Enquirer {
 
     start(): void;
 
-    submit(value?: any): void;
+    submit(value?: any): Promise<void>;
 
     validate(value: T): boolean
 
@@ -185,7 +190,7 @@ declare namespace Enquirer {
 
   export namespace Prompt {
 
-    export function prompt<T extends PromptValue = PromptValue>(): (options: Question<T>) => Promise<any>;
+    export function prompt<T extends Answer = Answer>(): (options: Question<T>) => Promise<any>;
   }
 
   export class State {
@@ -225,20 +230,6 @@ declare namespace Enquirer {
     [k: string]: string;
   } & SymbolsType;
 
-  export class Input extends StringPrompt {
-    altDown(): Promise<void>;
-
-    altUp(): Promise<void>;
-
-    completion(action: Action): Promise<void>;
-
-    prev(): void;
-
-    save(): void;
-
-    submit(): Promise<void>;
-  }
-
   export type Action = 'prev' | 'undo' | 'next' | 'redo' | 'save' | 'remove'
 
   export namespace prompts {
@@ -247,16 +238,43 @@ declare namespace Enquirer {
     export class Confirm extends Prompt { }
     export class Editable extends Prompt { }
     export class Form extends Prompt { }
-    export class Input extends Prompt { }
+    export class Input extends StringPrompt {
+      altDown(): Promise<void>;
+
+      altUp(): Promise<void>;
+
+      completion(action: Action): Promise<void>;
+
+      prev(): void;
+
+      save(): void;
+
+      submit(): Promise<void>;
+    }
     export class Invisible extends Prompt { }
-    export class List extends Prompt { }
+    export class List extends Prompt<string[]> {
+      constructor(question: Omit<Question<string[]>, 'initial'> & {
+        initial?: string,
+        separator?: string | RegExp
+      })
+      format(): string;
+      split(input?: string): string[];
+      submit(): Promise<void>;
+    }
     export class MultiSelect extends Prompt { }
     export const Numeral: typeof types.NumberPrompt
     export type Numeral = types.NumberPrompt
     export class Password extends Prompt { }
     export class Quiz extends Prompt { }
     export class Scale extends Prompt { }
-    export class Select extends Prompt { }
+    export class Select extends ArrayPrompt {
+      dispatch(ch?: string, key?: Key): Promise<void>;
+
+      choiceMessage(choice: Choice, i: number): string;
+      choiceSeparator(): string;
+      renderChoice(choice: Choice, i: number): Promise<string>;
+      renderChoices(): Promise<string>
+    }
     export class Snippet extends Prompt { }
     export class Sort extends Prompt { }
     export class Survey extends Prompt { }
@@ -264,6 +282,66 @@ declare namespace Enquirer {
     export type Text = Input
     export class Toggle extends Prompt { }
   }
+
+  export const AutoComplete: typeof prompts.AutoComplete
+  export const BasicAuth: typeof prompts.BasicAuth
+  export const Confirm: typeof prompts.Confirm
+  export const Editable: typeof prompts.Editable
+  export const Form: typeof prompts.Form
+  export const Input: typeof prompts.Input
+  export const Invisible: typeof prompts.Invisible
+  export const List: typeof prompts.List
+  export const MultiSelect: typeof prompts.MultiSelect
+  export const Numeral: typeof prompts.Numeral
+  export const Password: typeof prompts.Password
+  export const Quiz: typeof prompts.Quiz
+  export const Scale: typeof prompts.Scale
+  export const Select: typeof prompts.Select
+  export const Snippet: typeof prompts.Snippet
+  export const Sort: typeof prompts.Sort
+  export const Survey: typeof prompts.Survey
+  export const Text: typeof prompts.Text
+  export const Toggle: typeof prompts.Toggle
+
+  export type AutoComplete = prompts.AutoComplete
+  export type BasicAuth = prompts.BasicAuth
+  export type Confirm = prompts.Confirm
+  export type Editable = prompts.Editable
+  export type Form = prompts.Form
+  export type Input = prompts.Input
+  export type Invisible = prompts.Invisible
+  export type List = prompts.List
+  export type MultiSelect = prompts.MultiSelect
+  export type Numeral = prompts.Numeral
+  export type Password = prompts.Password
+  export type Quiz = prompts.Quiz
+  export type Scale = prompts.Scale
+  export type Select = prompts.Select
+  export type Snippet = prompts.Snippet
+  export type Sort = prompts.Sort
+  export type Survey = prompts.Survey
+  export type Text = prompts.Text
+  export type Toggle = prompts.Toggle
+
+  export const autocomplete: AutoComplete
+  export const basicauth: BasicAuth
+  export const confirm: Confirm
+  export const editable: Editable
+  export const form: Form
+  export const input: Input
+  export const invisible: Invisible
+  export const list: List
+  export const multiselect: MultiSelect
+  export const numeral: Numeral
+  export const password: Password
+  export const quiz: Quiz
+  export const scale: Scale
+  export const select: Select
+  export const snippet: Snippet
+  export const sort: Sort
+  export const survey: Survey
+  export const text: Text
+  export const toggle: Toggle
 
   export namespace types {
     export class ArrayPrompt extends Prompt {
@@ -275,6 +353,9 @@ declare namespace Enquirer {
       readonly selectable: Choice[]
       readonly selected: Choice | Choice[]
       visible: Choice
+
+      constructor(question: ArrayQuestion)
+
       a(): Promise<void>
 
       addChoice(element: string |
@@ -420,9 +501,10 @@ declare namespace Enquirer {
   export type AuthPrompt = types.AuthPrompt;
 
   export type Key = {
-    ctrl?: boolean;
-    code?: number;
     name?: string;
+    code?: string;
+    sequence?: string;
+    ctrl?: boolean;
     shift?: boolean;
     fn?: boolean;
   }

@@ -1,19 +1,18 @@
-'use strict';
+import 'mocha'
+import assert from 'assert'
+import { List as ListPrompt } from '..'
+import support from './support'
 
-require('mocha');
-const assert = require('assert');
-const support = require('./support');
 const { timeout, keypresses } = support(assert);
-const ListPrompt = require('../lib/prompts/list');
-let prompt;
+let prompt: ListPrompt;
 
 class Prompt extends ListPrompt {
-  constructor(options) {
+  constructor(options: ConstructorParameters<typeof ListPrompt>[0]) {
     super({ ...options, show: false });
   }
 }
 
-describe('list', function() {
+describe('list', function () {
   describe('options.initial', () => {
     it('should return early when options.initial is defined', () => {
       prompt = new Prompt({
@@ -36,7 +35,6 @@ describe('list', function() {
       });
 
       prompt.on('run', () => prompt.submit());
-
       return prompt.run()
         .then(answer => {
           assert.deepEqual(answer, []);
@@ -64,7 +62,7 @@ describe('list', function() {
   describe('usage', () => {
     it('should get a list of keywords', () => {
       prompt = new Prompt({ message: 'Enter a list of comma separated keywords:' });
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await keypresses(prompt, 'foo, bar, baz, qux');
         await timeout(() => prompt.submit());
       });
@@ -84,7 +82,7 @@ describe('list', function() {
         }
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         prompt.state.input = 'brian.woodward@gmail.com;doowb@example.com,jon@example.com;';
         prompt.submit();
       });

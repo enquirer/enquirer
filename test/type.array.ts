@@ -7,7 +7,7 @@ const { timeout } = support(assert);
 let prompt: ArrayPrompt;
 
 class TestPrompt extends ArrayPrompt {
-  constructor(options: ArrayQuestion) {
+  constructor(options: ConstructorParameters<typeof ArrayPrompt>[0]) {
     super({ ...options, show: false });
   }
   // override the render method to mute output

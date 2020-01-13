@@ -43,12 +43,12 @@ export default function support(assert: typeof nodeAssert) {
         setImmediate(() => fn().then(resolve).catch(reject));
       });
     },
-    timeout: <T>(fn: () => Promise<T>, ms = 0) => {
+    timeout: <T = void>(fn: () => Promise<T>, ms = 0) => {
       return new Promise<T>((resolve, reject) => {
         setTimeout(() => fn().then(resolve).catch(reject), ms);
       });
     },
-    keypresses: async (prompt: any, chars: string[]) => {
+    keypresses: async (prompt: any, chars: string) => {
       for (const ch of chars) {
         await utils.timeout(() => prompt.keypress(ch));
       }
