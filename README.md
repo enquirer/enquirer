@@ -1385,7 +1385,7 @@ prompt.run()
   .catch(console.error);
 ```
 
-**Returns**: `number` 
+**Returns**: `string|number` (number, or number formatted as a string)
 
 ***
 
@@ -1407,7 +1407,8 @@ prompt.run()
   .catch(console.error);
 ```
 
-**Returns**: `string|number` (number, or number formatted as a string)
+**Returns**: `string`
+
 <br>
 
 ## ❯ Custom prompts
@@ -1661,13 +1662,15 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 
 | **Commits** | **Contributor** |  
 | --- | --- |  
-| 281 | [jonschlinkert](https://github.com/jonschlinkert) |  
-| 60  | [doowb](https://github.com/doowb) |  
+| 283 | [jonschlinkert](https://github.com/jonschlinkert) |  
+| 66  | [doowb](https://github.com/doowb) |  
 | 32  | [rajat-sr](https://github.com/rajat-sr) |  
 | 20  | [318097](https://github.com/318097) |  
 | 15  | [g-plane](https://github.com/g-plane) |  
 | 12  | [pixelass](https://github.com/pixelass) |  
+| 5   | [satotake](https://github.com/satotake) |  
 | 3   | [tunnckoCore](https://github.com/tunnckoCore) |  
+| 2   | [adityavyas611](https://github.com/adityavyas611) |  
 | 2   | [DanielRuf](https://github.com/DanielRuf) |  
 | 2   | [gabel0287](https://github.com/gabel0287) |  
 | 2   | [sw-yx](https://github.com/sw-yx) |  
@@ -1678,6 +1681,7 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 | 1   | [mischah](https://github.com/mischah) |  
 | 1   | [renarsvilnis](https://github.com/renarsvilnis) |  
 | 1   | [sbugert](https://github.com/sbugert) |  
+| 1   | [stephencweiss](https://github.com/stephencweiss) |  
 | 1   | [skellock](https://github.com/skellock) |  
 | 1   | [whxaxes](https://github.com/whxaxes) |  
 
