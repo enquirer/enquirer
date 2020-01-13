@@ -1,23 +1,22 @@
-'use strict';
+import 'mocha'
+import assert from 'assert'
+import { Select as SelectPrompt } from '..'
+import support from './support'
+import { cyan, dim, gray } from 'ansi-colors'
 
-require('mocha');
-const assert = require('assert');
-const { cyan, dim, gray } = require('ansi-colors');
-const support = require('./support');
-const { nextTick, expect, immediate } = support(assert);
-const PromptSelect = require('../lib/prompts/select');
-let prompt;
+const { expect, immediate } = support(assert);
+let prompt: Prompt;
 
 const up = { sequence: '\u001b[A', name: 'up', code: '[A' };
 const down = { sequence: '\u001b[B', name: 'down', code: '[B' };
 
-class Prompt extends PromptSelect {
-  constructor(options) {
+class Prompt extends SelectPrompt {
+  constructor(options: ConstructorParameters<typeof SelectPrompt>[0]) {
     super({ ...options, show: false });
   }
 }
 
-describe('select', function() {
+describe('select', function () {
   describe('options.choices', () => {
     it('should support choices as an array', cb => {
       prompt = new Prompt({
@@ -59,7 +58,7 @@ describe('select', function() {
         ])
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress(null, { name: 'down' });
         await prompt.keypress(null, { name: 'down' });
         await prompt.keypress(null, { name: 'down' });
@@ -148,7 +147,7 @@ describe('select', function() {
         ]
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         try {
           let { state, symbols } = prompt;
           let pointer = cyan(symbols.pointer);
@@ -176,7 +175,7 @@ describe('select', function() {
         ]
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         try {
           let { state, symbols } = prompt;
           let pointer = cyan(symbols.pointer);
@@ -205,7 +204,7 @@ describe('select', function() {
         ]
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         try {
           let { state, symbols } = prompt;
           let pointer = cyan(symbols.pointer);
@@ -280,7 +279,7 @@ describe('select', function() {
         ]
       });
 
-      prompt.on('run', async() => {
+      prompt.on('run', async () => {
         await immediate(() => prompt.keypress(null, down)); // down to 'b'
         await immediate(() => prompt.keypress(null, down)); // down to 'c'
         await immediate(() => prompt.keypress(null, up)); // back up to 'b'
@@ -302,7 +301,7 @@ describe('select', function() {
         ]
       });
 
-      prompt.on('run', async() => {
+      prompt.on('run', async () => {
         await immediate(() => prompt.keypress(0));
         await immediate(() => prompt.keypress(3));
         await immediate(() => prompt.keypress(4));
