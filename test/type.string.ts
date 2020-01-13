@@ -22,6 +22,7 @@ describe('string prompt', function () {
     it('should use options.initial when submitted without changes', () => {
       prompt = new StringPrompt({ show: false, message: 'foo', initial: 'true' });
       prompt.on('run', () => prompt.submit());
+
       return prompt.run()
         .then(value => {
           assert.equal(value, 'true');
