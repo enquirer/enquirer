@@ -199,7 +199,7 @@ describe('prompt-autocomplete', () => {
   });
 
   describe('options.format', () => {
-    it.only('should support a custom format function', () => {
+    it('should support a custom format function', () => {
       let buffer = [];
       prompt = new Prompt({
         message: 'Favorite flavor?',

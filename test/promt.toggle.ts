@@ -1,10 +1,8 @@
-'use strict';
+import 'mocha'
+import assert from 'assert'
+import { Toggle } from '..'
 
-require('mocha');
-const assert = require('assert');
-const Toggle = require('../lib/prompts/toggle');
-const support = require('./support');
-let prompt;
+let prompt: Toggle;
 
 const up = { sequence: '\u001b[A', name: 'up', code: '[A' };
 const down = { sequence: '\u001b[B', name: 'down', code: '[B' };
@@ -12,12 +10,12 @@ const right = { sequence: '\u001b[C', name: 'right', code: '[C' };
 const left = { sequence: '\u001b[D', name: 'left', code: '[D' };
 
 class Prompt extends Toggle {
-  constructor(options) {
+  constructor(options: ConstructorParameters<typeof Toggle>[0]) {
     super({ ...options, show: false });
   }
 }
 
-describe('toggle', function() {
+describe('toggle', function () {
   describe('options.initial', () => {
     it('should use options.initial when submitted', () => {
       prompt = new Prompt({
@@ -25,7 +23,7 @@ describe('toggle', function() {
         initial: true
       });
 
-      prompt.once('run', async() => await prompt.submit());
+      prompt.once('run', async () => await prompt.submit());
 
       return prompt.run()
         .then(answer => {
@@ -40,7 +38,7 @@ describe('toggle', function() {
         message: 'prompt-toggle'
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress(' ');
         await prompt.submit();
       });
@@ -54,7 +52,7 @@ describe('toggle', function() {
     it('should handle enabling and disabling with arrow keys', () => {
       prompt = new Prompt({ message: 'prompt-toggle' });
       return new Promise((resolve, reject) => {
-        prompt.once('run', async() => {
+        prompt.once('run', async () => {
           try {
             assert.equal(prompt.value, false);
 
@@ -86,10 +84,10 @@ describe('toggle', function() {
     });
 
     it('should handle toggling with special keys (0, 1, y, n)', () => {
-      prompt = new Prompt({message: 'prompt-toggle'});
+      prompt = new Prompt({ message: 'prompt-toggle' });
 
       return new Promise((resolve, reject) => {
-        prompt.once('run', async() => {
+        prompt.once('run', async () => {
           try {
             assert.equal(prompt.value, false);
 
