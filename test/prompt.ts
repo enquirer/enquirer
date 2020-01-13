@@ -1,12 +1,12 @@
 import 'mocha'
 import assert from 'assert'
 import colors from 'ansi-colors'
-import { Prompt, Question } from '..'
+import { Prompt } from '..'
 
 let prompt: TestPrompt;
 
 class TestPrompt extends Prompt {
-  constructor(options: Question) {
+  constructor(options: Prompt.Question) {
     super({ ...options, show: false });
   }
   render() { }
