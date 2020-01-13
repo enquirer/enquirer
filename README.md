@@ -719,6 +719,12 @@ const prompt = new MultiSelect({
     { name: 'white', value: '#ffffff' },
     { name: 'yellow', value: '#ffff00' }
   ]
+  // // AutoComplete prompt returns array of selected names by default
+  // // use the result() and .map() method to get at associated values
+  // // returns key-value dictionary of selected names and values
+  // , result(names) {
+  //  return this.map(names); // so we can actually get at the value
+  // }
 });
 
 prompt.run()
