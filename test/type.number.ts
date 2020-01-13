@@ -10,8 +10,6 @@ const reset = { name: 'g', ctrl: true };
 const down = { name: 'down' };
 const up = { name: 'up' };
 
-let prompt: TestPrompt;
-
 class TestPrompt extends NumberPrompt {
   constructor(options: NumberPrompt.Question) {
     super({ ...options, show: false });
@@ -23,9 +21,19 @@ describe('number prompt', function () {
     assert.strictEqual(NumberPrompt, types.NumberPrompt);
   });
 
+  describe('messages', () => {
+    it('should allow using header/message/footer to config display', () => {
+      new TestPrompt({
+        header: '************************',
+        message: 'Input the Numbers:',
+        footer: '************************',
+      })
+    })
+  })
+
   describe('options.min', () => {
     it('should set prompt.min with options.min', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt-number',
         initial: 15,
         min: 10
@@ -43,7 +51,7 @@ describe('number prompt', function () {
 
   describe('options.max', () => {
     it('should set prompt.max with options.max', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt-number',
         max: 10,
         initial: 5
@@ -61,7 +69,7 @@ describe('number prompt', function () {
 
   describe('options.float', () => {
     it('should allow floats when options.float is true', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt-number',
         float: true,
         initial: 42.42
@@ -77,7 +85,7 @@ describe('number prompt', function () {
     });
 
     it('should round when options.float is false', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt-number',
         float: false
       });
@@ -109,7 +117,7 @@ describe('number prompt', function () {
 
   describe('options.minor', () => {
     it('should increment using options.minor', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt-number',
         minor: 5
       });
@@ -127,7 +135,7 @@ describe('number prompt', function () {
     });
 
     it('should return zero when submitted with no val and options.minor', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt-number',
         minor: 5
       });
@@ -142,7 +150,7 @@ describe('number prompt', function () {
     });
 
     it('should increment and decrement by options.step', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt-number',
         initial: 37,
         minor: 5
@@ -166,7 +174,7 @@ describe('number prompt', function () {
     });
 
     it('should increment and decrement floats', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt-number',
         minor: 5,
         initial: 37.2
@@ -189,7 +197,7 @@ describe('number prompt', function () {
     });
 
     it('should increment and decrement and round floats when disabled', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt-number',
         minor: 5,
         initial: 37.6,
@@ -215,7 +223,7 @@ describe('number prompt', function () {
 
   describe('options.initial', () => {
     it('should use options.initial when 0', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt-number',
         initial: 0
       });
@@ -230,7 +238,7 @@ describe('number prompt', function () {
     });
 
     it('should use options.initial', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt-number',
         initial: 42
       });
@@ -247,7 +255,7 @@ describe('number prompt', function () {
 
   describe('prompt.reset', () => {
     it('should reset the prompt to options.initial', () => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'prompt-number',
         minor: 5,
         initial: 37.6
@@ -279,7 +287,7 @@ describe('number prompt', function () {
 
   describe('keypresses', () => {
     it('should alert when keypress is invalid', cb => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'number',
         initial: 100
       });
@@ -294,7 +302,7 @@ describe('number prompt', function () {
     });
 
     it('should support <next>', cb => {
-      prompt = new TestPrompt({
+      const prompt = new TestPrompt({
         message: 'number',
         initial: 100
       });

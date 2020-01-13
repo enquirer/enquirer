@@ -231,7 +231,7 @@ declare namespace Enquirer {
 
   //#region Basic prompt types
 
-  export class Prompt<T extends Answer = Answer> extends EventEmitter {
+  export class Prompt<T extends Answer = string> extends EventEmitter {
     name: string | undefined
     type: string | undefined
     options: Prompt.Question<T>
@@ -318,9 +318,9 @@ declare namespace Enquirer {
   }
 
   export namespace Prompt {
-    export function prompt<T extends Answer = Answer>(): (options: Question<T>) => Promise<any>;
+    export function prompt<T extends Answer = string>(): (options: Question<T>) => Promise<any>;
 
-    export type Question<T extends Answer = Answer, P extends Prompt<T> = Prompt<T>> = Question.Base &
+    export type Question<T extends Answer = string, P extends Prompt<T> = Prompt<T>> = Question.Base &
     {
       initial?: T | (() => Promise<T> | T);
       default?: T;
@@ -336,7 +336,9 @@ declare namespace Enquirer {
       export type Base = {
         name?: string | (() => string);
         type?: string | (() => string);
+        header?: string;
         message: string | (() => string | Promise<string>);
+        footer?: string;
         hint?: string;
         timers?: Record<string, number | { interval?: number, frames: any[] }>;
         show?: boolean;
@@ -348,7 +350,6 @@ declare namespace Enquirer {
   export class BooleanPrompt extends Prompt<boolean> {
     default: string
     constructor(question: BooleanPrompt.Question)
-
     isTrue(input: boolean | string): boolean;
     isFalse(input: boolean | string): boolean;
   }
