@@ -1,13 +1,13 @@
 import assert from 'assert'
-import { ArrayPrompt, ArrayQuestion } from '..'
+import { ArrayPrompt, Answer } from '..'
 import support from './support'
 
 const { timeout } = support(assert);
 
 let prompt: ArrayPrompt;
 
-class TestPrompt extends ArrayPrompt {
-  constructor(options: ConstructorParameters<typeof ArrayPrompt>[0]) {
+class TestPrompt<T extends Answer> extends ArrayPrompt<T> {
+  constructor(options: ArrayPrompt.Question<T>) {
     super({ ...options, show: false });
   }
   // override the render method to mute output
@@ -187,10 +187,34 @@ describe('array prompt', function () {
       });
 
       return prompt.run()
-        .then(answer => {
+        .then(_ => {
           assert.deepEqual(prompt.enabled.map(ch => ch.value), ['A', 'BB', 'CCC']);
         });
     });
+
+    it('should', () => {
+      prompt = new TestPrompt({
+        message: 'prompt-array',
+        initial: [1, 2],
+        choices: [
+          { name: 'a', value: 'A' },
+          { name: 'b', value: 'BB' },
+          { name: 'c', value: 'CCC' },
+          { name: 'd', value: 'DDDD' }
+        ]
+      });
+
+      prompt.once('run', () => {
+        assert.equal(prompt.index, 0);
+        prompt.submit();
+      });
+
+      return prompt.run()
+        .then(_ => {
+          assert.deepEqual(prompt.enabled.map(ch => ch.value), ['BB', 'CCC']);
+        });
+    })
+
 
     it('should support options.initial as an object', () => {
       prompt = new TestPrompt({

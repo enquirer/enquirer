@@ -131,9 +131,9 @@ declare class Enquirer<T = object> extends EventEmitter {
    * @param questions Options objects for one or more prompts to run.
    */
   prompt(
-    questions: Enquirer.Question
-      | ((this: Enquirer) => Enquirer.Question)
-      | (Enquirer.Question | ((this: Enquirer) => Enquirer.Question))[]
+    questions: Enquirer.Prompt.Question
+      | ((this: Enquirer) => Enquirer.Prompt.Question)
+      | (Enquirer.Prompt.Question | ((this: Enquirer) => Enquirer.Prompt.Question))[]
   ): Promise<Enquirer.Answers>;
 
   /**
@@ -148,52 +148,25 @@ declare namespace Enquirer {
   export type Constructor<T extends Prompt> = new (...args: ConstructorParameters<new (...args: any) => T>) => T
 
   export function prompt(questions:
-    | Question
-    | ((this: Enquirer) => Question)
-    | (Question | ((this: Enquirer) => Question))[]
+    | Prompt.Question
+    | ((this: Enquirer) => Prompt.Question)
+    | (Prompt.Question | ((this: Enquirer) => Prompt.Question))[]
   ): Promise<Answers>
+
+  export namespace prompt {
+    export function on(type: PromptType, handler: (p: any) => void): void
+  }
 
   export type Answers = Record<string, Answer>
   export type Answer = string | boolean | number | string[]
 
-  export type Question<T extends Answer = Answer, P extends Prompt<T> = Prompt<T>> = Question.Base &
-  {
-    initial?: T | (() => Promise<T> | T),
-    default?: T,
-    // TODO: test is the function style needed
-    skip?: boolean | ((this: P, name: string | undefined, value: string | undefined) => boolean | Promise<boolean>)
-    value?: T,
-    format?: (this: P, value: T) => any,
-    result?: (this: P, value: T) => any,
-    validate?: (value: T) => boolean,
-  }
-
-  export namespace Question {
-    export type Base = {
-      name?: string | (() => string);
-      type?: string | (() => string);
-      message: string | (() => string | Promise<string>);
-      hint?: string;
-      timers?: Record<string, number | { interval?: number, frames: any[] }>;
-      show?: boolean;
-      symbols?: Partial<Symbols>;
-    }
-  }
-
-  export type NumericQuestion = Question<number> & {
-    min?: number,
-    max?: number,
-    delay?: number,
-    float?: boolean,
-    round?: boolean,
-    major?: number,
-    minor?: number,
-  }
-
-  export type ArrayQuestion<T extends Answer, P extends Prompt<T>> = Question<any, P> & {
-    choices: (() => ChoiceInput[] | Promise<ChoiceInput[]>) | ChoiceInput[] | Promise<ChoiceInput[]>;
-    autofocus?: number | string;
-    multiple?: boolean;
+  export type Key = {
+    name?: string;
+    code?: string;
+    sequence?: string;
+    ctrl?: boolean;
+    shift?: boolean;
+    fn?: boolean;
   }
 
   export type ChoiceInput = string | Promise<string> | ChoiceOptions | (() => string | Promise<string>)
@@ -214,16 +187,54 @@ declare namespace Enquirer {
     value?: Answer;
   }
 
-  export namespace prompt {
-    export function on(type: PromptType, handler: (p: any) => void): void
+  export type PromptType = string
+
+  export class State {
+    type: string
+    name: string
+    message: string
+    header: string
+    footer: string
+    error: string
+    hint: string
+    input: string
+    cursor: number
+    index: number
+    lines: number
+    tick: number
+    prompt: string
+    buffer: string
+    width: number
+    symbols: any
+    styles: any
+    required: typeof Set
+    cancelled: boolean
+    submitted: boolean
+    loading: boolean | 'choices'
+    readonly status: 'pending' | 'cancelled' | 'submitted'
+    _choices: Choice[]
+
+    clone(): Omit<State, 'clone' | 'buffer'> & { buffer: Buffer }
+
+    color: Function | any
   }
 
-  export type PromptType = string
+  export type Symbols = {
+    indicator: string;
+    check: string;
+    prefix: string;
+    separator: string;
+    [k: string]: string;
+  } & SymbolsType;
+
+  export type Action = 'prev' | 'undo' | 'next' | 'redo' | 'save' | 'remove'
+
+  //#region Basic prompt types
 
   export class Prompt<T extends Answer = Answer> extends EventEmitter {
     name: string | undefined
     type: string | undefined
-    options: Question<T>
+    options: Prompt.Question<T>
     symbols: Symbols
     styles: any
     timers: any
@@ -239,7 +250,7 @@ declare namespace Enquirer {
     input: string
     value: T
 
-    constructor(options: Question<T>)
+    constructor(options: Prompt.Question<T>)
 
     alert(): void
 
@@ -307,353 +318,417 @@ declare namespace Enquirer {
   }
 
   export namespace Prompt {
-
     export function prompt<T extends Answer = Answer>(): (options: Question<T>) => Promise<any>;
+
+    export type Question<T extends Answer = Answer, P extends Prompt<T> = Prompt<T>> = Question.Base &
+    {
+      initial?: T | (() => Promise<T> | T);
+      default?: T;
+      // TODO: test is the function style needed
+      skip?: boolean | ((this: P, name: string | undefined, value: string | undefined) => boolean | Promise<boolean>);
+      value?: T;
+      format?: (this: P, value: T) => any;
+      result?: (this: P, value: T) => any;
+      validate?: (value: T) => boolean;
+    }
+
+    export namespace Question {
+      export type Base = {
+        name?: string | (() => string);
+        type?: string | (() => string);
+        message: string | (() => string | Promise<string>);
+        hint?: string;
+        timers?: Record<string, number | { interval?: number, frames: any[] }>;
+        show?: boolean;
+        symbols?: Partial<Symbols>;
+      }
+    }
   }
 
-  export class State {
-    type: string
-    name: string
-    message: string
-    header: string
-    footer: string
-    error: string
-    hint: string
-    input: string
-    cursor: number
+  export class BooleanPrompt extends Prompt<boolean> {
+    default: string
+    constructor(question: BooleanPrompt.Question)
+
+    isTrue(input: boolean | string): boolean;
+    isFalse(input: boolean | string): boolean;
+  }
+
+  export namespace BooleanPrompt {
+    export type Question = Omit<Prompt.Question<boolean>, 'initial' | 'default'> & {
+      initial?: string | boolean | (() => string | boolean | Promise<string | boolean>);
+      default?: string;
+      isTrue?: (input: boolean | string) => boolean;
+      isFalse?: (input: boolean | string) => boolean;
+    }
+  }
+
+  export class NumberPrompt extends Prompt<number> {
+    min: number
+    max: number
+    delay: number
+    float: boolean
+    round: boolean
+    major: number
+    minor: number
+    constructor(question: NumberPrompt.Question)
+  }
+
+  export namespace NumberPrompt {
+    export type Question = Prompt.Question<number> & {
+      min?: number,
+      max?: number,
+      delay?: number,
+      float?: boolean,
+      round?: boolean,
+      major?: number,
+      minor?: number,
+    }
+  }
+
+  export class StringPrompt extends Prompt<string> {
+    constructor(question: StringPrompt.Question)
+    append(ch: string): void;
+    backward(): void;
+    cutForward(): void;
+    cutLeft(): void;
+    delete(): void;
+    deleteForward(): void;
+    dispatch(ch?: string, key?: Key): void;
+    first(): void;
+    forward(): void;
+    format(value?: string): string;
+    insert(str: string): void;
+    last(): void;
+    left(): void;
+    moveCursor(n: number): void;
+    next(): void;
+    paste(): void;
+    prev(): void;
+    reset(): Promise<any>;
+    right(): void;
+    toggleCursor(): void;
+  }
+
+  export namespace StringPrompt {
+    export type Question = Prompt.Question<string> & { multiline?: boolean }
+  }
+
+  export class AuthPrompt extends Prompt<string> { }
+
+  export class ArrayPrompt<T extends Answer = string> extends Prompt {
+    choices: Choice[]
+    readonly enabled: Choice[]
+    readonly focused: Choice | undefined
     index: number
-    lines: number
-    tick: number
-    prompt: string
-    buffer: string
-    width: number
-    symbols: any
-    styles: any
-    required: typeof Set
-    cancelled: boolean
-    submitted: boolean
-    loading: boolean | 'choices'
-    readonly status: 'pending' | 'cancelled' | 'submitted'
-    _choices: Choice[]
+    limit: number
+    readonly selectable: Choice[]
+    readonly selected: Choice | Choice[]
+    visible: Choice
 
-    clone(): Omit<State, 'clone' | 'buffer'> & { buffer: Buffer }
+    constructor(question: ArrayPrompt.Question<T, ArrayPrompt>)
 
-    color: Function | any
+    a(): Promise<void>
+
+    addChoice(element: string |
+      ((this: ArrayPrompt<T>, arg: ArrayPrompt<T>) => Promise<Choice>) |
+      Promise<Choice> |
+      Choice, i: number, parent: Choice): Promise<Choice>;
+
+    disable(choice: Choice): Choice;
+
+    dispatch(ch?: string, key?: Key): void
+
+    down(): Promise<void>;
+
+    enable(choice: Choice): Choice | undefined;
+
+    end(): Promise<void>;
+
+    filter(value: string | number | ((choice: Choice) => boolean)): Choice;
+    filter<P extends keyof Choice>(value: string | number | ((choice: Choice) => boolean), prop: P): Choice[P];
+
+    find(value: string | number | ((choice: Choice) => boolean)): Choice;
+    find<P extends keyof Choice>(value: string | number | ((choice: Choice) => boolean), prop: P): Choice[P];
+
+    findIndex(value: string | number | ((choice: Choice) => boolean)): number;
+
+    first(): Promise<void>;
+
+    focus(choice: Choice, enabled?: boolean): Choice;
+
+    g(choice?: Choice): Promise<void>;
+
+    home(): Promise<void>;
+
+    i(): Promise<void>;
+
+    indent(choice: Choice): string;
+
+    initialize(): Promise<void>;
+
+    isChoice(choice: Choice, value: string | number): boolean;
+
+    isDisabled(choice?: Choice): boolean;
+
+    isEnabled(choice?: Choice): boolean;
+
+    isSelected(choice: Choice): boolean;
+
+    last(): Promise<void>;
+
+    left(): Promise<void>;
+
+    map<P extends keyof Choice = 'value'>(names?: string[], prop?: P): Record<string, Choice[P]>
+
+    newItem(element: Partial<Choice>, i: number, parent: Choice): Promise<void>;
+
+    next(): Promise<void>;
+
+    number(n: string | number): Promise<number | undefined>;
+
+    onChoice(choice: Choice, i: number): Promise<void>;
+
+    pageDown(): Promise<void>;
+
+    pageUp(): Promise<void>;
+
+    prev(): Promise<void>;
+
+    reset(): Promise<void>;
+
+    right(): Promise<void>;
+
+    scrollDown(i?: number): Promise<void>;
+
+    scrollUp(i?: number): Promise<void>;
+
+    shiftDown(): Promise<void>;
+
+    shiftUp(): Promise<void>;
+
+    space(): Promise<void>;
+
+    submit(): Promise<void>;
+
+    swap(pos: number): void;
+
+    toChoice(element: string |
+      ((this: ArrayPrompt, arg: ArrayPrompt) => Promise<Choice>) |
+      Promise<Choice> |
+      Choice, i: number, parent?: Choice): Promise<Choice>;
+
+    toChoices(value: any, parent?: any): Promise<Choice[]>
+
+    toggle(choice: Choice, enabled: boolean): Choice | undefined;
+
+    up(): Promise<void>;
   }
 
-  export type Symbols = {
-    indicator: string;
-    check: string;
-    prefix: string;
-    separator: string;
-    [k: string]: string;
-  } & SymbolsType;
-
-  export type Action = 'prev' | 'undo' | 'next' | 'redo' | 'save' | 'remove'
-
-  export namespace prompts {
-    export class AutoComplete<T extends Answer = Answer> extends Select {
-      constructor(question: ArrayQuestion<T, any> & {
-        suggest?: (this: AutoComplete, input: string, choices: Choice[]) => Choice[] | Promise<Choice[]>;
-      })
-      complete(): Promise<void>;
-      delete(): Promise<void>;
-      deleteForward(): Promise<void>;
-      // TODO: fix this
-      // pointer(): string;
-      space(ch?: string | undefined): Promise<void>;
-      suggest(input?: string, choices?: Choice[]): Choice[];
+  export namespace ArrayPrompt {
+    export type Question<T extends Answer, P extends ArrayPrompt<T> = ArrayPrompt<T>> = Prompt.Question.Base &
+    {
+      choices: (() => ChoiceInput[] | Promise<ChoiceInput[]>) | ChoiceInput[] | Promise<ChoiceInput[]>;
+      initial?: string | number | Array<string | number> | Record<string, any>;
+      autofocus?: number | string;
+      multiple?: boolean;
+      format?: (this: P, value: T) => any,
+      result?: (this: P, value: T) => any,
     }
-    export class BasicAuth extends AuthPrompt { }
-    export class Confirm extends BooleanPrompt { }
-    export class Editable extends Select { }
-    export class Form extends Select { }
-    export class Input extends StringPrompt {
-      altDown(): Promise<void>;
-
-      altUp(): Promise<void>;
-
-      completion(action: Action): Promise<void>;
-
-      prev(): void;
-
-      save(): void;
-
-      submit(): Promise<void>;
-    }
-    export class Invisible extends StringPrompt {
-      format(): string;
-    }
-    export class List extends Prompt<string[]> {
-      constructor(question: Omit<Question<string[]>, 'initial'> & {
-        initial?: string,
-        separator?: string | RegExp
-      })
-      format(): string;
-      split(input?: string): string[];
-      submit(): Promise<void>;
-    }
-    export class MultiSelect extends Select {
-      constructor(question: ArrayQuestion<any, MultiSelect> & { maxSelected?: number })
-    }
-    export const Numeral: typeof types.NumberPrompt
-    export type Numeral = types.NumberPrompt
-    export class Password extends StringPrompt { }
-    export class Quiz extends Select { }
-    export class Scale extends ArrayPrompt { }
-    export class Select extends ArrayPrompt {
-      dispatch(ch?: string, key?: Key): Promise<void>;
-
-      choiceMessage(choice: Choice, i: number): string;
-      choiceSeparator(): string;
-      renderChoice(choice: Choice, i: number): Promise<string>;
-      renderChoices(): Promise<string>
-    }
-    export class Snippet extends Prompt { }
-    export class Sort extends Prompt { }
-    export class Survey extends ArrayPrompt { }
-    export const Text: typeof Input
-    export type Text = Input
-    export class Toggle extends BooleanPrompt { }
   }
-
-  export const AutoComplete: typeof prompts.AutoComplete
-  export const BasicAuth: typeof prompts.BasicAuth
-  export const Confirm: typeof prompts.Confirm
-  export const Editable: typeof prompts.Editable
-  export const Form: typeof prompts.Form
-  export const Input: typeof prompts.Input
-  export const Invisible: typeof prompts.Invisible
-  export const List: typeof prompts.List
-  export const MultiSelect: typeof prompts.MultiSelect
-  export const Numeral: typeof prompts.Numeral
-  export const Password: typeof prompts.Password
-  export const Quiz: typeof prompts.Quiz
-  export const Scale: typeof prompts.Scale
-  export const Select: typeof prompts.Select
-  export const Snippet: typeof prompts.Snippet
-  export const Sort: typeof prompts.Sort
-  export const Survey: typeof prompts.Survey
-  export const Text: typeof prompts.Text
-  export const Toggle: typeof prompts.Toggle
-
-  export type AutoComplete = prompts.AutoComplete
-  export type BasicAuth = prompts.BasicAuth
-  export type Confirm = prompts.Confirm
-  export type Editable = prompts.Editable
-  export type Form = prompts.Form
-  export type Input = prompts.Input
-  export type Invisible = prompts.Invisible
-  export type List = prompts.List
-  export type MultiSelect = prompts.MultiSelect
-  export type Numeral = prompts.Numeral
-  export type Password = prompts.Password
-  export type Quiz = prompts.Quiz
-  export type Scale = prompts.Scale
-  export type Select = prompts.Select
-  export type Snippet = prompts.Snippet
-  export type Sort = prompts.Sort
-  export type Survey = prompts.Survey
-  export type Text = prompts.Text
-  export type Toggle = prompts.Toggle
-
-  export const autocomplete: AutoComplete
-  export const basicauth: BasicAuth
-  export const confirm: Confirm
-  export const editable: Editable
-  export const form: Form
-  export const input: Input
-  export const invisible: Invisible
-  export const list: List
-  export const multiselect: MultiSelect
-  export const numeral: Numeral
-  export const password: Password
-  export const quiz: Quiz
-  export const scale: Scale
-  export const select: Select
-  export const snippet: Snippet
-  export const sort: Sort
-  export const survey: Survey
-  export const text: Text
-  export const toggle: Toggle
 
   export namespace types {
-    export class ArrayPrompt extends Prompt {
-      choices: Choice[]
-      readonly enabled: Choice[]
-      readonly focused: Choice | undefined
-      index: number
-      limit: number
-      readonly selectable: Choice[]
-      readonly selected: Choice | Choice[]
-      visible: Choice
+    export const BooleanPrompt: typeof Enquirer.BooleanPrompt;
+    export type BooleanPrompt = Enquirer.BooleanPrompt;
 
-      constructor(question: ArrayQuestion<any, ArrayPrompt>)
+    export const NumberPrompt: typeof Enquirer.NumberPrompt;
+    export type NumberPrompt = Enquirer.NumberPrompt;
 
-      a(): Promise<void>
+    export const StringPrompt: typeof Enquirer.StringPrompt;
+    export type StringPrompt = Enquirer.StringPrompt;
 
-      addChoice(element: string |
-        ((this: ArrayPrompt, arg: ArrayPrompt) => Promise<Choice>) |
-        Promise<Choice> |
-        Choice, i: number, parent: Choice): Promise<Choice>;
+    export const AuthPrompt: typeof Enquirer.AuthPrompt;
+    export type AuthPrompt = Enquirer.AuthPrompt;
 
-      disable(choice: Choice): Choice;
-
-      dispatch(ch?: string, key?: Key): void
-
-      down(): Promise<void>;
-
-      enable(choice: Choice): Choice | undefined;
-
-      end(): Promise<void>;
-
-      filter(value: string | number | ((choice: Choice) => boolean)): Choice;
-      filter<P extends keyof Choice>(value: string | number | ((choice: Choice) => boolean), prop: P): Choice[P];
-
-      find(value: string | number | ((choice: Choice) => boolean)): Choice;
-      find<P extends keyof Choice>(value: string | number | ((choice: Choice) => boolean), prop: P): Choice[P];
-
-      findIndex(value: string | number | ((choice: Choice) => boolean)): number;
-
-      first(): Promise<void>;
-
-      focus(choice: Choice, enabled?: boolean): Choice;
-
-      g(choice?: Choice): Promise<void>;
-
-      home(): Promise<void>;
-
-      i(): Promise<void>;
-
-      indent(choice: Choice): string;
-
-      initialize(): Promise<void>;
-
-      isChoice(choice: Choice, value: string | number): boolean;
-
-      isDisabled(choice?: Choice): boolean;
-
-      isEnabled(choice?: Choice): boolean;
-
-      isSelected(choice: Choice): boolean;
-
-      last(): Promise<void>;
-
-      left(): Promise<void>;
-
-      map<P extends keyof Choice = 'value'>(names?: string[], prop?: P): Record<string, Choice[P]>
-
-      newItem(element: Partial<Choice>, i: number, parent: Choice): Promise<void>;
-
-      next(): Promise<void>;
-
-      number(n: string | number): Promise<number | undefined>;
-
-      onChoice(choice: Choice, i: number): Promise<void>;
-
-      pageDown(): Promise<void>;
-
-      pageUp(): Promise<void>;
-
-      prev(): Promise<void>;
-
-      reset(): Promise<void>;
-
-      right(): Promise<void>;
-
-      scrollDown(i?: number): Promise<void>;
-
-      scrollUp(i?: number): Promise<void>;
-
-      shiftDown(): Promise<void>;
-
-      shiftUp(): Promise<void>;
-
-      space(): Promise<void>;
-
-      submit(): Promise<void>;
-
-      swap(pos: number): void;
-
-      toChoice(element: string |
-        ((this: ArrayPrompt, arg: ArrayPrompt) => Promise<Choice>) |
-        Promise<Choice> |
-        Choice, i: number, parent?: Choice): Promise<Choice>;
-
-      toChoices(value: any, parent?: any): Promise<Choice[]>
-
-      toggle(choice: Choice, enabled: boolean): Choice | undefined;
-
-      up(): Promise<void>;
-    }
-
-    export class AuthPrompt extends Prompt { }
-    export class BooleanPrompt extends Prompt<boolean> {
-      default: string
-      constructor(question: Omit<Question<boolean>, 'initial' | 'default'> & {
-        initial?: string | boolean | (() => string | boolean | Promise<string | boolean>);
-        default?: string;
-        isTrue?: (input: boolean | string) => boolean;
-        isFalse?: (input: boolean | string) => boolean;
-      })
-
-      isTrue(input: boolean | string): boolean;
-      isFalse(input: boolean | string): boolean;
-    }
-    export class NumberPrompt extends Prompt<number> {
-      min: number
-      max: number
-      delay: number
-      float: boolean
-      round: boolean
-      major: number
-      minor: number
-      constructor(question: NumericQuestion)
-    }
-    export class StringPrompt extends Prompt<string> {
-      constructor(question: Question<string> & { multiline?: boolean })
-      append(ch: string): void;
-      backward(): void;
-      cutForward(): void;
-      cutLeft(): void;
-      delete(): void;
-      deleteForward(): void;
-      dispatch(ch?: string, key?: Key): void;
-      first(): void;
-      forward(): void;
-      format(value?: string): string;
-      insert(str: string): void;
-      last(): void;
-      left(): void;
-      moveCursor(n: number): void;
-      next(): void;
-      paste(): void;
-      prev(): void;
-      reset(): Promise<any>;
-      right(): void;
-      toggleCursor(): void;
-    }
+    export const ArrayPrompt: typeof Enquirer.ArrayPrompt;
+    export type ArrayPrompt<T extends Answer> = Enquirer.ArrayPrompt<T>;
   }
 
-  export const ArrayPrompt: typeof types.ArrayPrompt;
-  export type ArrayPrompt = types.ArrayPrompt;
-  export const StringPrompt: typeof types.StringPrompt;
-  export type StringPrompt = types.StringPrompt;
-  export const NumberPrompt: typeof types.NumberPrompt;
-  export type NumberPrompt = types.NumberPrompt;
-  export const BooleanPrompt: typeof types.BooleanPrompt;
-  export type BooleanPrompt = types.BooleanPrompt;
-  export const AuthPrompt: typeof types.AuthPrompt;
-  export type AuthPrompt = types.AuthPrompt;
+  //#endregion
 
-  export type Key = {
-    name?: string;
-    code?: string;
-    sequence?: string;
-    ctrl?: boolean;
-    shift?: boolean;
-    fn?: boolean;
+  //#region Build-in prompts
+
+  export class AutoComplete<T extends Answer = string> extends Select {
+    constructor(question: AutoComplete.Question<T>)
+    complete(): Promise<void>;
+    delete(): Promise<void>;
+    deleteForward(): Promise<void>;
+    // TODO: fix this
+    // pointer(): string;
+    space(ch?: string | undefined): Promise<void>;
+    suggest(input?: string, choices?: Choice[]): Choice[];
   }
+  export namespace AutoComplete {
+    export type Question<
+      T extends Answer,
+      P extends AutoComplete = AutoComplete
+      > = ArrayPrompt.Question<T, P> & {
+        suggest?: (this: AutoComplete, input: string, choices: Choice[]) => Choice[] | Promise<Choice[]>;
+      }
+  }
+  export const autocomplete: AutoComplete
+
+  export class BasicAuth extends AuthPrompt { }
+  export const basicauth: BasicAuth
+
+  export class Confirm extends BooleanPrompt { }
+  export const confirm: Confirm
+
+  export class Editable extends Select { }
+  export const editable: Editable
+
+  export class Form extends Select { }
+  export const form: Form
+
+  export class Input extends StringPrompt {
+    altDown(): Promise<void>;
+
+    altUp(): Promise<void>;
+
+    completion(action: Action): Promise<void>;
+
+    prev(): void;
+
+    save(): void;
+
+    submit(): Promise<void>;
+  }
+  export const input: Input
+
+  export class Invisible extends StringPrompt {
+    format(): string;
+  }
+  export const invisible: Invisible
+
+  export class List extends Prompt<string[]> {
+    constructor(question: List.Question)
+    format(): string;
+    split(input?: string): string[];
+    submit(): Promise<void>;
+  }
+  export namespace List {
+    export type Question = Omit<Prompt.Question<string[]>, 'initial'> & {
+      initial?: string,
+      separator?: string | RegExp
+    }
+  }
+  export const list: List
+
+  export class MultiSelect extends Select {
+    constructor(question: MultiSelect.Question)
+  }
+  export namespace MultiSelect {
+    export type Question = ArrayPrompt.Question<any, MultiSelect> & { maxSelected?: number };
+  }
+  export const multiselect: MultiSelect
+
+  export const Numeral: typeof types.NumberPrompt
+  export type Numeral = types.NumberPrompt
+  export const numeral: Numeral
+
+  export class Password extends StringPrompt { }
+  export const password: Password
+
+  export class Quiz extends Select { }
+  export const quiz: Quiz
+
+  export class Scale extends ArrayPrompt { }
+  export const scale: Scale
+
+  export class Select extends ArrayPrompt {
+    dispatch(ch?: string, key?: Key): Promise<void>;
+
+    choiceMessage(choice: Choice, i: number): string;
+    choiceSeparator(): string;
+    renderChoice(choice: Choice, i: number): Promise<string>;
+    renderChoices(): Promise<string>
+  }
+  export const select: Select
+
+  export class Snippet extends Prompt { }
+  export const snippet: Snippet
+
+  export class Sort extends Prompt { }
+  export const sort: Sort
+
+  export class Survey extends ArrayPrompt { }
+  export const survey: Survey
+
+  export const Text: typeof Input
+  export type Text = Input
+  export const text: Text
+
+  export class Toggle extends BooleanPrompt { }
+  export const toggle: Toggle
+
+  export namespace prompts {
+    export type AutoComplete = Enquirer.AutoComplete
+    export const AutoComplete: typeof Enquirer.AutoComplete
+
+    export type BasicAuth = Enquirer.BasicAuth
+    export const BasicAuth: typeof Enquirer.BasicAuth
+
+    export type Confirm = Enquirer.Confirm
+    export const Confirm: typeof Enquirer.Confirm
+
+    export type Editable = Enquirer.Editable
+    export const Editable: typeof Enquirer.Editable
+
+    export type Form = Enquirer.Form
+    export const Form: typeof Enquirer.Form
+
+    export type Input = Enquirer.Input
+    export const Input: typeof Enquirer.Input
+
+    export type Invisible = Enquirer.Invisible
+    export const Invisible: typeof Enquirer.Invisible
+
+    export type List = Enquirer.List
+    export const List: typeof Enquirer.List
+
+    export type MultiSelect = Enquirer.MultiSelect
+    export const MultiSelect: typeof Enquirer.MultiSelect
+
+    export type Numeral = Enquirer.Numeral
+    export const Numeral: typeof Enquirer.Numeral
+
+    export type Password = Enquirer.Password
+    export const Password: typeof Enquirer.Password
+
+    export type Quiz = Enquirer.Quiz
+    export const Quiz: typeof Enquirer.Quiz
+
+    export type Scale = Enquirer.Scale
+    export const Scale: typeof Enquirer.Scale
+
+    export type Select = Enquirer.Select
+    export const Select: typeof Enquirer.Select
+
+    export type Snippet = Enquirer.Snippet
+    export const Snippet: typeof Enquirer.Snippet
+
+    export type Sort = Enquirer.Sort
+    export const Sort: typeof Enquirer.Sort
+
+    export type Survey = Enquirer.Survey
+    export const Survey: typeof Enquirer.Survey
+
+    export type Text = Enquirer.Text
+    export const Text: typeof Enquirer.Text
+
+    export type Toggle = Enquirer.Toggle
+    export const Toggle: typeof Enquirer.Toggle
+  }
+  //#endregion
 
 
   // export class PromptOld extends BasePrompt { }

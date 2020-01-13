@@ -1,12 +1,12 @@
 import 'mocha'
 import assert from 'assert'
 import colors from 'ansi-colors'
-import { BooleanPrompt, Question, types } from '..'
+import { BooleanPrompt, types } from '..'
 
 let prompt: TestPrompt;
 
 class TestPrompt extends BooleanPrompt {
-  constructor(options: ConstructorParameters<typeof BooleanPrompt>[0]) {
+  constructor(options: BooleanPrompt.Question) {
     super({ ...options, show: false });
   }
 }

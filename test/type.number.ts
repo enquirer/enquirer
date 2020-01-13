@@ -1,7 +1,7 @@
 import 'mocha'
 import assert from 'assert'
 import support from './support'
-import { types, NumericQuestion, NumberPrompt } from '..'
+import { NumberPrompt, types } from '..'
 
 
 const { immediate } = support(assert);
@@ -12,8 +12,8 @@ const up = { name: 'up' };
 
 let prompt: TestPrompt;
 
-class TestPrompt extends types.NumberPrompt {
-  constructor(options: NumericQuestion) {
+class TestPrompt extends NumberPrompt {
+  constructor(options: NumberPrompt.Question) {
     super({ ...options, show: false });
   }
 }
