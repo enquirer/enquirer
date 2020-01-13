@@ -406,7 +406,7 @@ declare namespace Enquirer {
     export class Survey extends Prompt { }
     export const Text: typeof Input
     export type Text = Input
-    export class Toggle extends Prompt { }
+    export class Toggle extends BooleanPrompt { }
   }
 
   export const AutoComplete: typeof prompts.AutoComplete
