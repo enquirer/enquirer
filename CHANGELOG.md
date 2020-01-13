@@ -45,6 +45,16 @@ Changelog entries are classified using the following labels _(from [keep-a-chang
 - Typos in some documentation and example comments.
 - Syntax errors in example code on the README.md.
 
+## 2.3.4 - 2020-01-13
+
+### Added
+
+- `MultiSelectPrompt` new example for `result` option.
+
+### Fixed
+
+- Updated typings to use `EventEmitter` class from `events` directly due to changes in `@types/node`.
+
 ## 2.3.2 - 2019-09-17
 
 ### Added
