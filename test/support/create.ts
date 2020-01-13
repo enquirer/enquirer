@@ -1,5 +1,7 @@
+import { Key } from '../..';
+
 let memo = new Map();
-let keys = [
+let keys: any[] = [
   {
     name: '_',
     ctrl: false,
@@ -1136,12 +1138,13 @@ for (let i = 0; i < keys.length; i++) {
   let str = '';
   if (key.ctrl) str += 'ctrl+';
   if (key.shift) str += 'shift+';
-  str += /^\w+/.test(key.value) ? String(key.value).toLowerCase() : key.name;
+  const strValue = String(key.value)
+  str += /^\w+/.test(strValue) ? strValue.toLowerCase() : key.name;
   key.press = str;
 }
 
 const sorted = keys.sort((a, b) => a.press.localeCompare(b.press));
-const res = {};
+const res: Record<string, Key> = {};
 
 for (const k of sorted) {
   if (memo.has(k.press)) continue;

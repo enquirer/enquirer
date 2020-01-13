@@ -52,7 +52,7 @@ declare namespace Enquirer {
   export type Answers = Record<string, Answer>
   export type Answer = string | boolean | number | string[]
 
-  export type Question<T extends Answer = Answer> = {
+  export type Question<T extends Answer = Answer, P extends Prompt<T> = Prompt<T>> = {
     name?: string | (() => string),
     type?: string | (() => string),
     message: string | (() => string | Promise<string>),
@@ -61,12 +61,12 @@ declare namespace Enquirer {
     initial?: T | (() => Promise<T> | T),
     default?: T,
     // TODO: test is the function style needed
-    skip?: boolean | ((this: Prompt, name: string | undefined, value: string | undefined) => boolean | Promise<boolean>)
+    skip?: boolean | ((this: P, name: string | undefined, value: string | undefined) => boolean | Promise<boolean>)
     show?: boolean
     symbols?: Partial<Symbols>
     value?: T,
-    format?: (this: Prompt<T>, value: T) => any,
-    result?: (this: Prompt<T>, value: T) => any,
+    format?: (this: P, value: T) => any,
+    result?: (this: P, value: T) => any,
     validate?: (value: T) => boolean,
   }
 
@@ -80,7 +80,7 @@ declare namespace Enquirer {
     minor?: number,
   }
 
-  export type ArrayQuestion = Question<any> & {
+  export type ArrayQuestion<T extends Answer, P extends Prompt<T>> = Question<any, P> & {
     choices: (() => ChoiceInput[] | Promise<ChoiceInput[]>) | ChoiceInput[] | Promise<ChoiceInput[]>;
     autofocus?: number | string;
     multiple?: boolean;
@@ -242,8 +242,8 @@ declare namespace Enquirer {
   export type Action = 'prev' | 'undo' | 'next' | 'redo' | 'save' | 'remove'
 
   export namespace prompts {
-    export class AutoComplete extends Select {
-      constructor(question: ArrayQuestion & {
+    export class AutoComplete<T extends Answer = Answer> extends Select {
+      constructor(question: ArrayQuestion<T, any> & {
         suggest?: (this: AutoComplete, input: string, choices: Choice[]) => Choice[] | Promise<Choice[]>;
       })
       complete(): Promise<void>;
@@ -283,7 +283,9 @@ declare namespace Enquirer {
       split(input?: string): string[];
       submit(): Promise<void>;
     }
-    export class MultiSelect extends Prompt { }
+    export class MultiSelect extends Select {
+      constructor(question: ArrayQuestion<any, MultiSelect> & { maxSelected?: number })
+    }
     export const Numeral: typeof types.NumberPrompt
     export type Numeral = types.NumberPrompt
     export class Password extends StringPrompt { }
@@ -376,7 +378,7 @@ declare namespace Enquirer {
       readonly selected: Choice | Choice[]
       visible: Choice
 
-      constructor(question: ArrayQuestion)
+      constructor(question: ArrayQuestion<any, ArrayPrompt>)
 
       a(): Promise<void>
 
