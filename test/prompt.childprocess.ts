@@ -1,10 +1,8 @@
-'use strict';
+import path from 'path'
+import assert from 'assert'
+import { fork } from 'child_process'
 
-const path = require('path');
-const assert = require('assert');
-const { fork } = require('child_process');
-
-describe('child_process', function() {
+describe('child_process', function () {
   it('should works in child_process', cb => {
     let cmd = fork(path.resolve(__dirname, './support/child_process.js'), [], {
       silent: true,

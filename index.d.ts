@@ -81,16 +81,24 @@ declare namespace Enquirer {
   }
 
   export type ArrayQuestion = Question<any> & {
-    choices: ChoiceInput[] | Promise<ChoiceInput[]>;
+    choices: (() => ChoiceInput[] | Promise<ChoiceInput[]>) | ChoiceInput[] | Promise<ChoiceInput[]>;
     autofocus?: number | string;
     multiple?: boolean;
   }
 
-  export type ChoiceInput = string | Promise<string> | Choice | (() => string | Promise<string>)
+  export type ChoiceInput = string | Promise<string> | ChoiceOptions | (() => string | Promise<string>)
+
+  export type ChoiceOptions = {
+    name?: string;
+    message?: string;
+    hint?: string;
+    disabled?: boolean;
+    value?: Answer;
+  }
 
   export type Choice = {
     name: string;
-    message?: string;
+    message: string;
     hint?: string;
     disabled?: boolean;
     value?: Answer;
@@ -216,6 +224,7 @@ declare namespace Enquirer {
     submitted: boolean
     loading: boolean | 'choices'
     readonly status: 'pending' | 'cancelled' | 'submitted'
+    _choices: Choice[]
 
     clone(): Omit<State, 'clone' | 'buffer'> & { buffer: Buffer }
 
@@ -233,7 +242,18 @@ declare namespace Enquirer {
   export type Action = 'prev' | 'undo' | 'next' | 'redo' | 'save' | 'remove'
 
   export namespace prompts {
-    export class AutoComplete extends Prompt { }
+    export class AutoComplete extends Select {
+      constructor(question: ArrayQuestion & {
+        suggest?: (this: AutoComplete, input: string, choices: Choice[]) => Choice[] | Promise<Choice[]>;
+      })
+      complete(): Promise<void>;
+      delete(): Promise<void>;
+      deleteForward(): Promise<void>;
+      // TODO: fix this
+      // pointer(): string;
+      space(ch?: string | undefined): Promise<void>;
+      suggest(input?: string, choices?: Choice[]): Choice[];
+    }
     export class BasicAuth extends Prompt { }
     export class Confirm extends BooleanPrompt { }
     export class Editable extends Prompt { }
@@ -446,9 +466,9 @@ declare namespace Enquirer {
       toChoice(element: string |
         ((this: ArrayPrompt, arg: ArrayPrompt) => Promise<Choice>) |
         Promise<Choice> |
-        Choice, i: number, parent: Choice): Promise<Choice>;
+        Choice, i: number, parent?: Choice): Promise<Choice>;
 
-      toChoices(value: any, parent: any): Promise<Choice>
+      toChoices(value: any, parent?: any): Promise<Choice[]>
 
       toggle(choice: Choice, enabled: boolean): Choice | undefined;
 
