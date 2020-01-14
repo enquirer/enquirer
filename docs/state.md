@@ -14,7 +14,6 @@
 | `hint` | It will contain the hint specified by the user in prompt, by default `''` |
 | `input` | It will contain the `stdin` if given, by default `''` |
 | `cursor` | The position of the console cursor to print |
-| `index` | The index value given to the prompt, by default `0` |
 | `lines` | The number of lines given in the prompt, by default `0` |
 | `prompt` | The prompt value in the console. |
 | `width` | The width size of the prompt in console. |
