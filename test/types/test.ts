@@ -1,4 +1,4 @@
-import * as Enquirer from '../..';
+import Enquirer, { PromptOptions, prompt } from '../..';
 
 new Enquirer();
 new Enquirer.Prompt();
@@ -207,3 +207,8 @@ Enquirer.prompt({
   message: '',
   stdout: process.stdout
 });
+
+async function main() {
+  let question: PromptOptions = { name: 'test', type: 'text', message: '' };
+  let result = await prompt(question);
+}
