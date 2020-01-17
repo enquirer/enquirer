@@ -1,7 +1,7 @@
 'use strict';
 
 const Enquirer = require('enquirer');
-const GoogleFormPrompt = require('..');
+const GoogleFormPrompt = require('prompt-google-form');
 
 const enquirer = new Enquirer();
 enquirer.register('google', GoogleFormPrompt);

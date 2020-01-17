@@ -1,6 +1,6 @@
 'use strict';
 
-const GoogleFormPrompt = require('..');
+const GoogleFormPrompt = require('prompt-google-form');
 const { FORM_ID } = require('./constants');
 
 const prompt = new GoogleFormPrompt({
