@@ -82,7 +82,7 @@ interface SortPromptOptions extends BasePromptOptions {
   numbered?: boolean
 }
 
-type PromptOptions =
+export type PromptOptions =
   | ArrayPromptOptions
   | BooleanPromptOptions
   | StringPromptOptions
@@ -147,4 +147,11 @@ declare namespace Enquirer {
   class Prompt extends BasePrompt {}
 }
 
-export = Enquirer;
+export default Enquirer;
+
+export function prompt<T = object>(
+  questions:
+    | PromptOptions
+    | ((this: Enquirer) => PromptOptions)
+    | (PromptOptions | ((this: Enquirer) => PromptOptions))[]
+): Promise<T>;
