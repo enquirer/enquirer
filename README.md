@@ -1544,18 +1544,18 @@ Custom prompts are created by extending either:
 <!-- Example: Google Form Prompt -->
 
 ```js
-const Enquirer = require("enquirer");
-const GoogleFormPrompt = require("../index.js");
+const Enquirer = require('enquirer');
+const GoogleFormPrompt = require('prompt-google-form');
 
 const enquirer = new Enquirer();
-enquirer.register("google", GoogleFormPrompt);
+enquirer.register('google', GoogleFormPrompt);
 
 enquirer
   .prompt([
     {
-      type: "select",
-      name: "form",
-      message: "Which Form Would you like to fill out?",
+      type: 'select',
+      name: 'form',
+      message: 'Which Form Would you like to fill out?',
       choices: [{
         value: '1FAIpQLSdniaX5nAjywbvnT9tQp1OTryh7148Lkl5LnvJV1mBOy1QXdA',
         message: 'Contact Form'
@@ -1568,12 +1568,12 @@ enquirer
       }]
     },
     {
-      name: "Google Form",
-      message: "Please provide the information:",
+      name: 'Google Form',
+      message: 'Please provide the information:',
       formId(state){
         return state.answers.form;
       },
-      type: "google"
+      type: 'google'
     }
   ])
   .then(res => console.log(res))
@@ -1593,15 +1593,15 @@ Then use the `.register()` method to add your custom prompt.
 enquirer.register('google', GoogleFormPrompt);
 ```
 
-Now you can do the following when defining "**formId**".
+Now you can do the following when defining '**formId**'.
 Here we are taking **formId** through Command Line Arguments
 
 ```js
 const GoogleFormPrompt = require('./index.js');
 
 const prompt = new GoogleFormPrompt({
-    name: "Google Form",
-    message: "Please provide the information:",
+    name: 'Google Form',
+    message: 'Please provide the information:',
     formId: process.argv[2],
 });
 
