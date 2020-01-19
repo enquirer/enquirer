@@ -191,7 +191,6 @@ declare namespace Enquirer {
       internalTypes.Validator<boolean, boolean> &
       internalTypes.ResultTransformer<boolean, boolean>
 
-
     export type QuizQuestion = {
       type: 'quiz',
       choices: QuizChoice[],
@@ -212,6 +211,19 @@ declare namespace Enquirer {
     }
 
     export type QuizAnswer = { selectedAnswer: string, correctAnswer: string, correct: boolean }
+
+    // SurveyPrompt is too alpha to be typed
+    // export type SurveyQuestion = {
+    //   type: 'survey',
+    //   scale: { value: number, message?: string }[],
+    //   margin: [number, number, number, number],
+    //   choices: QuizChoice[],
+    //   // initial?: number | (() => number | Promise<number>);
+    // } & internalTypes.QuestionBase
+    // // internalTypes.Formatter<boolean, QuizAnswer> &
+    // // internalTypes.Initializer<number, QuizAnswer>
+
+
 
     export namespace internalTypes {
       export type Value = string | boolean | number
