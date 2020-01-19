@@ -1,5 +1,7 @@
 import nodeAssert from 'assert'
 
+export * from './testType'
+
 declare module 'assert' {
   export function has(
     a: string | Array<any> | Record<string, any>,

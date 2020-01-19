@@ -1,7 +1,7 @@
-import 'mocha'
-import assert from 'assert'
-import colors from 'ansi-colors'
-import { Prompt, Answer } from '..'
+import colors from 'ansi-colors';
+import assert from 'assert';
+import 'mocha';
+import { Answer, Prompt } from '..';
 
 class TestPrompt<T extends Answer = string> extends Prompt<T> {
   constructor(options: Prompt.Question<T>) {
@@ -156,3 +156,4 @@ describe('Prompt', function () {
     });
   });
 });
+

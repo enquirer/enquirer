@@ -43,14 +43,64 @@ declare class Enquirer extends EventEmitter {
 declare namespace Enquirer {
   export type Constructor<T extends Prompt> = new (...args: ConstructorParameters<new (...args: any) => T>) => T
 
-  export function prompt(questions:
-    | Prompt.Question
-    | ((this: Enquirer) => Prompt.Question)
-    | (Prompt.Question | ((this: Enquirer) => Prompt.Question))[]
+  export function prompt(questions: prompt.Question
+    // | ((this: Enquirer) => Prompt.Question)
+    // | (Prompt.Question | ((this: Enquirer) => Prompt.Question))[]
   ): Promise<Answers>
 
   export namespace prompt {
     export function on(type: PromptType, handler: (p: any) => void): void
+
+    export type Question = InputQuestion | ConfirmQuestion | NumeralQuestion |
+      PasswordQuestion | InvisibleQuestion | ToggleQuestion | BasicAuthQuestion
+
+    export type InputQuestion = {
+      type: 'input',
+    } & TypedQuestionWithInitial<string>
+
+    export type ConfirmQuestion = {
+      type: 'confirm'
+    } & TypedQuestionWithInitial<boolean>
+
+    export type NumeralQuestion = {
+      type: 'numeral'
+    } & TypedQuestionWithInitial<number>
+
+    export type PasswordQuestion = {
+      type: 'password',
+    } & TypedQuestionWithInitial<string>
+
+    export type InvisibleQuestion = {
+      type: 'invisible',
+    } & TypedQuestionWithInitial<string>
+
+    export type ToggleQuestion = {
+      type: 'toggle',
+      enabled?: string,
+      disabled?: string,
+    } & TypedQuestionWithInitial<boolean>
+
+    export type BasicAuthQuestion = {
+      type: 'basicauth',
+      username: string,
+      password: string,
+      showPassword?: boolean,
+    } & TypedQuestion<boolean>
+
+    export type TypedQuestionWithInitial<T extends Answer> = TypedQuestion<T> & {
+      initial?: T | (() => T | Promise<T>);
+    }
+
+    export type TypedQuestion<T extends Answer> = {
+      name: string | (() => string);
+      message: string | (() => string | Promise<string>);
+
+      skip?: boolean | (() => boolean | Promise<boolean>);
+      format?: (this: Prompt<T>, value: T) => string | Promise<string>;
+      result?: (this: Prompt<T>, value: T) => T | Promise<T>;
+      validate?: (this: Prompt<T>, value: T) => boolean | string | Promise<boolean | string>;
+      show?: boolean;
+    }
   }
 
   export type Answers = Record<string, Answer>

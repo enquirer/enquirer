@@ -79,51 +79,51 @@ describe('Enquirer', function () {
   });
 
   describe('static .prompt()', () => {
-    it('should run a single question object', cb => {
-      const { prompt } = Enquirer;
+    // it('should run a single question object', cb => {
+    //   const { prompt } = Enquirer;
 
-      prompt.on('prompt', prompt => {
-        prompt.value = 'orange';
-        prompt.submit();
-      });
+    //   prompt.on('prompt', prompt => {
+    //     prompt.value = 'orange';
+    //     prompt.submit();
+    //   });
 
-      prompt({
-        type: 'input',
-        name: 'color',
-        message: 'Favorite color?',
-        show: false
-      })
-        .then(answers => {
-          assert.equal(answers.color, 'orange');
-          cb();
-        });
-    });
+    //   prompt({
+    //     type: 'input',
+    //     name: 'color',
+    //     message: 'Favorite color?',
+    //     show: false
+    //   })
+    //     .then(answers => {
+    //       assert.equal(answers.color, 'orange');
+    //       cb();
+    //     });
+    // });
 
-    it('should run an array of questions', cb => {
-      const { prompt } = Enquirer;
-      prompt.on('prompt', prompt => {
-        prompt.value = prompt.name === 'color' ? 'blue' : 'Brian';
-        prompt.submit();
-      });
+    // it('should run an array of questions', cb => {
+    //   const { prompt } = Enquirer;
+    //   prompt.on('prompt', prompt => {
+    //     prompt.value = prompt.name === 'color' ? 'blue' : 'Brian';
+    //     prompt.submit();
+    //   });
 
-      prompt([{
-        type: 'input',
-        name: 'color',
-        message: 'Favorite color?',
-        show: false
-      },
-      {
-        type: 'input',
-        name: 'name',
-        message: 'What is your name?',
-        show: false
-      }])
-        .then(answers => {
-          assert.equal(answers.color, 'blue');
-          assert.equal(answers.name, 'Brian');
-          cb();
-        });
-    });
+    //   prompt([{
+    //     type: 'input',
+    //     name: 'color',
+    //     message: 'Favorite color?',
+    //     show: false
+    //   },
+    //   {
+    //     type: 'input',
+    //     name: 'name',
+    //     message: 'What is your name?',
+    //     show: false
+    //   }])
+    //     .then(answers => {
+    //       assert.equal(answers.color, 'blue');
+    //       assert.equal(answers.name, 'Brian');
+    //       cb();
+    //     });
+    // });
   });
 
   describe('options', () => {
