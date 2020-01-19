@@ -1,12 +1,11 @@
 import assert from 'assert'
 import { assertType } from 'type-plus'
-import Enquirer, { Prompt } from '..'
+import Enquirer, { Prompt, prompt } from '..'
 import { testType } from './support'
-
-const { prompt } = Enquirer
 
 describe('input prompt', () => {
   it('prompt with mininum option', () => {
+    const { prompt } = Enquirer
     testType(() => prompt({
       type: 'input',
       name: 'color',
@@ -15,6 +14,7 @@ describe('input prompt', () => {
   })
 
   it('skip will skip the prompt', async () => {
+    const { prompt } = Enquirer
     const answer = await prompt({
       type: 'input',
       name: 'color',
@@ -26,6 +26,7 @@ describe('input prompt', () => {
   })
 
   it('skip with function', async () => {
+    const { prompt } = Enquirer
     const answer = await prompt({
       type: 'input',
       name: 'color',
@@ -37,6 +38,7 @@ describe('input prompt', () => {
   })
 
   it('skip with async function', async () => {
+    const { prompt } = Enquirer
     const answer = await prompt({
       type: 'input',
       name: 'color',
@@ -48,6 +50,7 @@ describe('input prompt', () => {
   })
 
   it('skip with delayed async function', async () => {
+    const { prompt } = Enquirer
     const answer = await prompt({
       type: 'input',
       name: 'color',
@@ -59,75 +62,90 @@ describe('input prompt', () => {
   })
 
   it('specify initial value', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'input',
       name: 'color',
       message: 'Favorite color?',
-      skip: true,
-      initial: 'blue'
+      initial: 'blue',
+      show: false
     })
 
     assert.deepEqual(answer, { color: 'blue' })
   })
 
-  it.skip('initial with function', async () => {
+  it('initial with function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'input',
       name: 'color',
       message: 'Favorite color?',
-      skip: true,
-      initial: () => 'blue'
+      initial: () => 'blue',
+      show: false
     })
 
     assert.deepEqual(answer, { color: 'blue' })
   })
 
-  it.skip('initial with async function', async () => {
+  it('initial with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'input',
       name: 'color',
       message: 'Favorite color?',
-      skip: true,
-      initial: () => Promise.resolve('blue')
+      initial: () => Promise.resolve('blue'),
+      show: false
     })
 
     assert.deepEqual(answer, { color: 'blue' })
   })
 
-  it.skip('initial with async function', async () => {
+  it.skip('initial with delayed async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'input',
       name: 'color',
       message: 'Favorite color?',
-      skip: true,
-      initial: () => new Promise(a => setImmediate(() => a('blue')))
+      initial: () => new Promise(a => setImmediate(() => a('blue'))),
+      show: false
     })
 
     assert.deepEqual(answer, { color: 'blue' })
   })
 
   it('specify format function', async () => {
+    let called = false
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'input',
       name: 'color',
       message: 'Favorite color?',
-      skip: true,
       initial: 'blue',
       format(value) {
+        called = true
         assertType.isString(value)
         return value
-      }
+      },
+      show: false
     })
 
     assert.deepEqual(answer, { color: 'blue' })
+    assert.ok(called)
   })
 
   it('specify format async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'input',
       name: 'color',
       message: 'Favorite color?',
-      skip: true,
+      show: false,
       initial: 'blue',
       format(value) {
         assertType.isString(value)
@@ -139,11 +157,13 @@ describe('input prompt', () => {
   })
 
   it(`format function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'input',
       name: 'color',
       message: 'Favorite color?',
-      skip: true,
+      show: false,
       initial: 'blue',
       format(value) {
         assertType<Prompt<string>>(this)
@@ -155,11 +175,13 @@ describe('input prompt', () => {
   })
 
   it('specify result function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'input',
       name: 'color',
       message: 'Favorite color?',
-      skip: true,
+      show: false,
       initial: 'blue',
       result(value) {
         assertType.isString(value)
@@ -171,11 +193,13 @@ describe('input prompt', () => {
   })
 
   it('specify result async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'input',
       name: 'color',
       message: 'Favorite color?',
-      skip: true,
+      show: false,
       initial: 'blue',
       result(value) {
         assertType.isString(value)
@@ -187,11 +211,13 @@ describe('input prompt', () => {
   })
 
   it(`result function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'input',
       name: 'color',
       message: 'Favorite color?',
-      skip: true,
+      show: false,
       initial: 'blue',
       result(value) {
         assertType<Prompt<string>>(this)
@@ -204,11 +230,13 @@ describe('input prompt', () => {
   })
 
   it.skip('specify validate function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'input',
       name: 'color',
       message: 'Favorite color?',
-      skip: true,
+      show: false,
       initial: 'blue',
       validate(value) {
         assertType.isString(value)
@@ -220,11 +248,13 @@ describe('input prompt', () => {
   })
 
   it('specify validate with boolean function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'input',
       name: 'color',
       message: 'Favorite color?',
-      skip: true,
+      show: false,
       initial: 'blue',
       validate(value) {
         assertType.isString(value)
@@ -236,11 +266,13 @@ describe('input prompt', () => {
   })
 
   it('specify validate async boolean function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'input',
       name: 'color',
       message: 'Favorite color?',
-      skip: true,
+      show: false,
       initial: 'blue',
       validate(value) {
         assertType.isString(value)
@@ -252,11 +284,13 @@ describe('input prompt', () => {
   })
 
   it(`validate function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'input',
       name: 'color',
       message: 'Favorite color?',
-      skip: true,
+      show: false,
       initial: 'blue',
       validate() {
         assertType<Prompt<string>>(this)
@@ -271,6 +305,7 @@ describe('input prompt', () => {
 
 describe('confirm prompt', () => {
   it('prompt with mininum option', () => {
+    const { prompt } = Enquirer
     testType(() => prompt({
       type: 'confirm',
       name: 'question',
@@ -279,6 +314,8 @@ describe('confirm prompt', () => {
   })
 
   it('skip will skip the prompt', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
@@ -290,6 +327,8 @@ describe('confirm prompt', () => {
   })
 
   it('skip with function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
@@ -301,6 +340,8 @@ describe('confirm prompt', () => {
   })
 
   it('skip with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
@@ -312,6 +353,8 @@ describe('confirm prompt', () => {
   })
 
   it('skip with delayed async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
@@ -323,11 +366,13 @@ describe('confirm prompt', () => {
   })
 
   it('specify initial value', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
       message: 'Want to answer?',
-      skip: true,
+      show: false,
       initial: true
     })
 
@@ -335,11 +380,13 @@ describe('confirm prompt', () => {
   })
 
   it.skip('initial with function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
       message: 'Want to answer?',
-      skip: true,
+      show: false,
       initial: () => true
     })
 
@@ -347,11 +394,13 @@ describe('confirm prompt', () => {
   })
 
   it.skip('initial with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
       message: 'Want to answer?',
-      skip: true,
+      show: false,
       initial: () => Promise.resolve(true)
     })
 
@@ -359,11 +408,13 @@ describe('confirm prompt', () => {
   })
 
   it.skip('initial with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
       message: 'Want to answer?',
-      skip: true,
+      show: false,
       initial: () => new Promise(a => setImmediate(() => a(true)))
     })
 
@@ -371,11 +422,13 @@ describe('confirm prompt', () => {
   })
 
   it('specify format function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
       message: 'Want to answer?',
-      skip: true,
+      show: false,
       initial: true,
       format(value) {
         assertType.isBoolean(value)
@@ -387,11 +440,13 @@ describe('confirm prompt', () => {
   })
 
   it('specify format async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
       message: 'Want to answer?',
-      skip: true,
+      show: false,
       initial: true,
       format(value) {
         assertType.isBoolean(value)
@@ -403,11 +458,13 @@ describe('confirm prompt', () => {
   })
 
   it(`format function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
       message: 'Want to answer?',
-      skip: true,
+      show: false,
       initial: true,
       format(value) {
         assertType<Prompt<boolean>>(this)
@@ -419,11 +476,13 @@ describe('confirm prompt', () => {
   })
 
   it('specify result function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
       message: 'Want to answer?',
-      skip: true,
+      show: false,
       initial: true,
       result(value) {
         assertType.isBoolean(value)
@@ -435,11 +494,13 @@ describe('confirm prompt', () => {
   })
 
   it('specify result async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
       message: 'Want to answer?',
-      skip: true,
+      show: false,
       initial: true,
       result(value) {
         assertType.isBoolean(value)
@@ -451,11 +512,13 @@ describe('confirm prompt', () => {
   })
 
   it(`result function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
       message: 'Want to answer?',
-      skip: true,
+      show: false,
       initial: true,
       result(value) {
         assertType<Prompt<boolean>>(this)
@@ -468,11 +531,13 @@ describe('confirm prompt', () => {
   })
 
   it.skip('specify validate function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
       message: 'Want to answer?',
-      skip: true,
+      show: false,
       initial: true,
       validate(value) {
         assertType.isBoolean(value)
@@ -484,11 +549,13 @@ describe('confirm prompt', () => {
   })
 
   it('specify validate with boolean function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
       message: 'Want to answer?',
-      skip: true,
+      show: false,
       initial: true,
       validate(value) {
         assertType.isBoolean(value)
@@ -500,11 +567,13 @@ describe('confirm prompt', () => {
   })
 
   it('specify validate async boolean function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
       message: 'Want to answer?',
-      skip: true,
+      show: false,
       initial: true,
       validate(value) {
         assertType.isBoolean(value)
@@ -516,11 +585,13 @@ describe('confirm prompt', () => {
   })
 
   it(`validate function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'confirm',
       name: 'question',
       message: 'Want to answer?',
-      skip: true,
+      show: false,
       initial: true,
       validate() {
         assertType<Prompt<boolean>>(this)
@@ -535,6 +606,7 @@ describe('confirm prompt', () => {
 
 describe('numeral prompt', () => {
   it('prompt with mininum option', () => {
+    const { prompt } = Enquirer
     testType(() => prompt({
       type: 'numeral',
       name: 'number',
@@ -543,6 +615,8 @@ describe('numeral prompt', () => {
   })
 
   it('skip will skip the prompt', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
@@ -554,6 +628,8 @@ describe('numeral prompt', () => {
   })
 
   it('skip with function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
@@ -565,6 +641,8 @@ describe('numeral prompt', () => {
   })
 
   it('skip with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
@@ -576,6 +654,8 @@ describe('numeral prompt', () => {
   })
 
   it('skip with delayed async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
@@ -587,11 +667,13 @@ describe('numeral prompt', () => {
   })
 
   it('specify initial value', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
       message: 'Please enter a number',
-      skip: true,
+      show: false,
       initial: 123
     })
 
@@ -599,11 +681,13 @@ describe('numeral prompt', () => {
   })
 
   it.skip('initial with function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
       message: 'Please enter a number',
-      skip: true,
+      show: false,
       initial: () => 123
     })
 
@@ -611,11 +695,13 @@ describe('numeral prompt', () => {
   })
 
   it.skip('initial with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
       message: 'Please enter a number',
-      skip: true,
+      show: false,
       initial: () => Promise.resolve(123)
     })
 
@@ -623,11 +709,13 @@ describe('numeral prompt', () => {
   })
 
   it.skip('initial with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
       message: 'Please enter a number',
-      skip: true,
+      show: false,
       initial: () => new Promise(a => setImmediate(() => a(123)))
     })
 
@@ -635,11 +723,13 @@ describe('numeral prompt', () => {
   })
 
   it('specify format function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
       message: 'Please enter a number',
-      skip: true,
+      show: false,
       initial: 123,
       format(value) {
         assertType.isNumber(value)
@@ -651,11 +741,13 @@ describe('numeral prompt', () => {
   })
 
   it('specify format async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
       message: 'Please enter a number',
-      skip: true,
+      show: false,
       initial: 123,
       format(value) {
         assertType.isNumber(value)
@@ -667,11 +759,13 @@ describe('numeral prompt', () => {
   })
 
   it(`format function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
       message: 'Please enter a number',
-      skip: true,
+      show: false,
       initial: 123,
       format(value) {
         assertType<Prompt<number>>(this)
@@ -683,11 +777,13 @@ describe('numeral prompt', () => {
   })
 
   it('specify result function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
       message: 'Please enter a number',
-      skip: true,
+      show: false,
       initial: 123,
       result(value) {
         assertType.isNumber(value)
@@ -699,11 +795,13 @@ describe('numeral prompt', () => {
   })
 
   it('specify result async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
       message: 'Please enter a number',
-      skip: true,
+      show: false,
       initial: 123,
       result(value) {
         assertType.isNumber(value)
@@ -715,11 +813,13 @@ describe('numeral prompt', () => {
   })
 
   it(`result function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
       message: 'Please enter a number',
-      skip: true,
+      show: false,
       initial: 123,
       result(value) {
         assertType<Prompt<number>>(this)
@@ -732,11 +832,13 @@ describe('numeral prompt', () => {
   })
 
   it.skip('specify validate function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
       message: 'Please enter a number',
-      skip: true,
+      show: false,
       initial: 123,
       validate(value) {
         assertType.isNumber(value)
@@ -748,11 +850,13 @@ describe('numeral prompt', () => {
   })
 
   it('specify validate with boolean function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
       message: 'Please enter a number',
-      skip: true,
+      show: false,
       initial: 123,
       validate(value) {
         assertType.isNumber(value)
@@ -764,11 +868,13 @@ describe('numeral prompt', () => {
   })
 
   it('specify validate async boolean function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
       message: 'Please enter a number',
-      skip: true,
+      show: false,
       initial: 123,
       validate(value) {
         assertType.isNumber(value)
@@ -780,11 +886,13 @@ describe('numeral prompt', () => {
   })
 
   it(`validate function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'numeral',
       name: 'number',
       message: 'Please enter a number',
-      skip: true,
+      show: false,
       initial: 123,
       validate() {
         assertType<Prompt<number>>(this)
@@ -799,6 +907,7 @@ describe('numeral prompt', () => {
 
 describe('password prompt', () => {
   it('prompt with mininum option', () => {
+    const { prompt } = Enquirer
     testType(() => prompt({
       type: 'password',
       name: 'password',
@@ -807,6 +916,8 @@ describe('password prompt', () => {
   })
 
   it('skip will skip the prompt', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
@@ -818,6 +929,8 @@ describe('password prompt', () => {
   })
 
   it('skip with function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
@@ -829,6 +942,8 @@ describe('password prompt', () => {
   })
 
   it('skip with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
@@ -840,6 +955,8 @@ describe('password prompt', () => {
   })
 
   it('skip with delayed async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
@@ -851,11 +968,13 @@ describe('password prompt', () => {
   })
 
   it('specify initial value', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
       message: 'What is your password?',
-      skip: true,
+      show: false,
       initial: 'blue'
     })
 
@@ -863,11 +982,13 @@ describe('password prompt', () => {
   })
 
   it.skip('initial with function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
       message: 'What is your password?',
-      skip: true,
+      show: false,
       initial: () => 'blue'
     })
 
@@ -875,11 +996,13 @@ describe('password prompt', () => {
   })
 
   it.skip('initial with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
       message: 'What is your password?',
-      skip: true,
+      show: false,
       initial: () => Promise.resolve('blue')
     })
 
@@ -887,11 +1010,13 @@ describe('password prompt', () => {
   })
 
   it.skip('initial with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
       message: 'What is your password?',
-      skip: true,
+      show: false,
       initial: () => new Promise(a => setImmediate(() => a('blue')))
     })
 
@@ -899,11 +1024,13 @@ describe('password prompt', () => {
   })
 
   it('specify format function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
       message: 'What is your password?',
-      skip: true,
+      show: false,
       initial: 'blue',
       format(value) {
         assertType.isString(value)
@@ -915,11 +1042,13 @@ describe('password prompt', () => {
   })
 
   it('specify format async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
       message: 'What is your password?',
-      skip: true,
+      show: false,
       initial: 'blue',
       format(value) {
         assertType.isString(value)
@@ -931,11 +1060,13 @@ describe('password prompt', () => {
   })
 
   it(`format function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
       message: 'What is your password?',
-      skip: true,
+      show: false,
       initial: 'blue',
       format(value) {
         assertType<Prompt<string>>(this)
@@ -947,11 +1078,13 @@ describe('password prompt', () => {
   })
 
   it('specify result function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
       message: 'What is your password?',
-      skip: true,
+      show: false,
       initial: 'blue',
       result(value) {
         assertType.isString(value)
@@ -963,11 +1096,13 @@ describe('password prompt', () => {
   })
 
   it('specify result async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
       message: 'What is your password?',
-      skip: true,
+      show: false,
       initial: 'blue',
       result(value) {
         assertType.isString(value)
@@ -979,11 +1114,13 @@ describe('password prompt', () => {
   })
 
   it(`result function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
       message: 'What is your password?',
-      skip: true,
+      show: false,
       initial: 'blue',
       result(value) {
         assertType<Prompt<string>>(this)
@@ -996,11 +1133,13 @@ describe('password prompt', () => {
   })
 
   it.skip('specify validate function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
       message: 'What is your password?',
-      skip: true,
+      show: false,
       initial: 'blue',
       validate(value) {
         assertType.isString(value)
@@ -1012,11 +1151,13 @@ describe('password prompt', () => {
   })
 
   it('specify validate with boolean function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
       message: 'What is your password?',
-      skip: true,
+      show: false,
       initial: 'blue',
       validate(value) {
         assertType.isString(value)
@@ -1028,11 +1169,13 @@ describe('password prompt', () => {
   })
 
   it('specify validate async boolean function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
       message: 'What is your password?',
-      skip: true,
+      show: false,
       initial: 'blue',
       validate(value) {
         assertType.isString(value)
@@ -1044,11 +1187,13 @@ describe('password prompt', () => {
   })
 
   it(`validate function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'password',
       name: 'password',
       message: 'What is your password?',
-      skip: true,
+      show: false,
       initial: 'blue',
       validate() {
         assertType<Prompt<string>>(this)
@@ -1063,6 +1208,7 @@ describe('password prompt', () => {
 
 describe('invisible prompt', () => {
   it('prompt with mininum option', () => {
+    const { prompt } = Enquirer
     testType(() => prompt({
       type: 'invisible',
       name: 'secret',
@@ -1071,6 +1217,8 @@ describe('invisible prompt', () => {
   })
 
   it('skip will skip the prompt', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
@@ -1082,6 +1230,8 @@ describe('invisible prompt', () => {
   })
 
   it('skip with function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
@@ -1093,6 +1243,8 @@ describe('invisible prompt', () => {
   })
 
   it('skip with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
@@ -1104,6 +1256,8 @@ describe('invisible prompt', () => {
   })
 
   it('skip with delayed async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
@@ -1115,11 +1269,13 @@ describe('invisible prompt', () => {
   })
 
   it('specify initial value', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
       message: 'What is your secret?',
-      skip: true,
+      show: false,
       initial: 'blue'
     })
 
@@ -1127,11 +1283,13 @@ describe('invisible prompt', () => {
   })
 
   it.skip('initial with function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
       message: 'What is your secret?',
-      skip: true,
+      show: false,
       initial: () => 'blue'
     })
 
@@ -1139,11 +1297,13 @@ describe('invisible prompt', () => {
   })
 
   it.skip('initial with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
       message: 'What is your secret?',
-      skip: true,
+      show: false,
       initial: () => Promise.resolve('blue')
     })
 
@@ -1151,11 +1311,13 @@ describe('invisible prompt', () => {
   })
 
   it.skip('initial with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
       message: 'What is your secret?',
-      skip: true,
+      show: false,
       initial: () => new Promise(a => setImmediate(() => a('blue')))
     })
 
@@ -1163,11 +1325,13 @@ describe('invisible prompt', () => {
   })
 
   it('specify format function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
       message: 'What is your secret?',
-      skip: true,
+      show: false,
       initial: 'blue',
       format(value) {
         assertType.isString(value)
@@ -1179,11 +1343,13 @@ describe('invisible prompt', () => {
   })
 
   it('specify format async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
       message: 'What is your secret?',
-      skip: true,
+      show: false,
       initial: 'blue',
       format(value) {
         assertType.isString(value)
@@ -1195,11 +1361,13 @@ describe('invisible prompt', () => {
   })
 
   it(`format function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
       message: 'What is your secret?',
-      skip: true,
+      show: false,
       initial: 'blue',
       format(value) {
         assertType<Prompt<string>>(this)
@@ -1211,11 +1379,13 @@ describe('invisible prompt', () => {
   })
 
   it('specify result function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
       message: 'What is your secret?',
-      skip: true,
+      show: false,
       initial: 'blue',
       result(value) {
         assertType.isString(value)
@@ -1227,11 +1397,13 @@ describe('invisible prompt', () => {
   })
 
   it('specify result async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
       message: 'What is your secret?',
-      skip: true,
+      show: false,
       initial: 'blue',
       result(value) {
         assertType.isString(value)
@@ -1243,11 +1415,13 @@ describe('invisible prompt', () => {
   })
 
   it(`result function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
       message: 'What is your secret?',
-      skip: true,
+      show: false,
       initial: 'blue',
       result(value) {
         assertType<Prompt<string>>(this)
@@ -1260,11 +1434,13 @@ describe('invisible prompt', () => {
   })
 
   it.skip('specify validate function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
       message: 'What is your secret?',
-      skip: true,
+      show: false,
       initial: 'blue',
       validate(value) {
         assertType.isString(value)
@@ -1276,11 +1452,13 @@ describe('invisible prompt', () => {
   })
 
   it('specify validate with boolean function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
       message: 'What is your secret?',
-      skip: true,
+      show: false,
       initial: 'blue',
       validate(value) {
         assertType.isString(value)
@@ -1292,11 +1470,13 @@ describe('invisible prompt', () => {
   })
 
   it('specify validate async boolean function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
       message: 'What is your secret?',
-      skip: true,
+      show: false,
       initial: 'blue',
       validate(value) {
         assertType.isString(value)
@@ -1308,11 +1488,13 @@ describe('invisible prompt', () => {
   })
 
   it(`validate function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'invisible',
       name: 'secret',
       message: 'What is your secret?',
-      skip: true,
+      show: false,
       initial: 'blue',
       validate() {
         assertType<Prompt<string>>(this)
@@ -1327,6 +1509,7 @@ describe('invisible prompt', () => {
 
 describe('toggle prompt', () => {
   it('prompt with mininum option', () => {
+    const { prompt } = Enquirer
     testType(() => prompt({
       type: 'toggle',
       name: 'question',
@@ -1337,6 +1520,8 @@ describe('toggle prompt', () => {
   })
 
   it('skip will skip the prompt', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
@@ -1350,6 +1535,8 @@ describe('toggle prompt', () => {
   })
 
   it('skip with function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
@@ -1363,6 +1550,8 @@ describe('toggle prompt', () => {
   })
 
   it('skip with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
@@ -1376,6 +1565,8 @@ describe('toggle prompt', () => {
   })
 
   it('skip with delayed async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
@@ -1389,13 +1580,15 @@ describe('toggle prompt', () => {
   })
 
   it('specify initial value', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
       message: 'Want to answer?',
       enabled: 'Yep',
       disabled: 'Nope',
-      skip: true,
+      show: false,
       initial: true
     })
 
@@ -1403,13 +1596,15 @@ describe('toggle prompt', () => {
   })
 
   it.skip('initial with function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
       message: 'Want to answer?',
       enabled: 'Yep',
       disabled: 'Nope',
-      skip: true,
+      show: false,
       initial: () => true
     })
 
@@ -1417,13 +1612,15 @@ describe('toggle prompt', () => {
   })
 
   it.skip('initial with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
       message: 'Want to answer?',
       enabled: 'Yep',
       disabled: 'Nope',
-      skip: true,
+      show: false,
       initial: () => Promise.resolve(true)
     })
 
@@ -1431,13 +1628,15 @@ describe('toggle prompt', () => {
   })
 
   it.skip('initial with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
       message: 'Want to answer?',
       enabled: 'Yep',
       disabled: 'Nope',
-      skip: true,
+      show: false,
       initial: () => new Promise(a => setImmediate(() => a(true)))
     })
 
@@ -1445,13 +1644,15 @@ describe('toggle prompt', () => {
   })
 
   it('specify format function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
       message: 'Want to answer?',
       enabled: 'Yep',
       disabled: 'Nope',
-      skip: true,
+      show: false,
       initial: true,
       format(value) {
         assertType.isBoolean(value)
@@ -1463,13 +1664,15 @@ describe('toggle prompt', () => {
   })
 
   it('specify format async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
       message: 'Want to answer?',
       enabled: 'Yep',
       disabled: 'Nope',
-      skip: true,
+      show: false,
       initial: true,
       format(value) {
         assertType.isBoolean(value)
@@ -1481,13 +1684,15 @@ describe('toggle prompt', () => {
   })
 
   it(`format function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
       message: 'Want to answer?',
       enabled: 'Yep',
       disabled: 'Nope',
-      skip: true,
+      show: false,
       initial: true,
       format(value) {
         assertType<Prompt<boolean>>(this)
@@ -1499,13 +1704,15 @@ describe('toggle prompt', () => {
   })
 
   it('specify result function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
       message: 'Want to answer?',
       enabled: 'Yep',
       disabled: 'Nope',
-      skip: true,
+      show: false,
       initial: true,
       result(value) {
         assertType.isBoolean(value)
@@ -1517,13 +1724,15 @@ describe('toggle prompt', () => {
   })
 
   it('specify result async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
       message: 'Want to answer?',
       enabled: 'Yep',
       disabled: 'Nope',
-      skip: true,
+      show: false,
       initial: true,
       result(value) {
         assertType.isBoolean(value)
@@ -1535,13 +1744,15 @@ describe('toggle prompt', () => {
   })
 
   it(`result function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
       message: 'Want to answer?',
       enabled: 'Yep',
       disabled: 'Nope',
-      skip: true,
+      show: false,
       initial: true,
       result(value) {
         assertType<Prompt<boolean>>(this)
@@ -1554,13 +1765,15 @@ describe('toggle prompt', () => {
   })
 
   it.skip('specify validate function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
       message: 'Want to answer?',
       enabled: 'Yep',
       disabled: 'Nope',
-      skip: true,
+      show: false,
       initial: true,
       validate(value) {
         assertType.isBoolean(value)
@@ -1572,13 +1785,15 @@ describe('toggle prompt', () => {
   })
 
   it('specify validate with boolean function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
       message: 'Want to answer?',
       enabled: 'Yep',
       disabled: 'Nope',
-      skip: true,
+      show: false,
       initial: true,
       validate(value) {
         assertType.isBoolean(value)
@@ -1590,13 +1805,15 @@ describe('toggle prompt', () => {
   })
 
   it('specify validate async boolean function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
       message: 'Want to answer?',
       enabled: 'Yep',
       disabled: 'Nope',
-      skip: true,
+      show: false,
       initial: true,
       validate(value) {
         assertType.isBoolean(value)
@@ -1608,13 +1825,15 @@ describe('toggle prompt', () => {
   })
 
   it(`validate function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'toggle',
       name: 'question',
       message: 'Want to answer?',
       enabled: 'Yep',
       disabled: 'Nope',
-      skip: true,
+      show: false,
       initial: true,
       validate() {
         assertType<Prompt<boolean>>(this)
@@ -1629,6 +1848,7 @@ describe('toggle prompt', () => {
 
 describe('basicauth prompt', () => {
   it('prompt with mininum option', () => {
+    const { prompt } = Enquirer
     testType(() => prompt({
       type: 'basicauth',
       name: 'authenticated',
@@ -1640,6 +1860,8 @@ describe('basicauth prompt', () => {
   })
 
   it('skip will skip the prompt', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'basicauth',
       name: 'authenticated',
@@ -1654,6 +1876,8 @@ describe('basicauth prompt', () => {
   })
 
   it('skip with function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'basicauth',
       name: 'authenticated',
@@ -1668,6 +1892,8 @@ describe('basicauth prompt', () => {
   })
 
   it('skip with async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'basicauth',
       name: 'authenticated',
@@ -1682,6 +1908,8 @@ describe('basicauth prompt', () => {
   })
 
   it('skip with delayed async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'basicauth',
       name: 'authenticated',
@@ -1696,6 +1924,8 @@ describe('basicauth prompt', () => {
   })
 
   it('specify format function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'basicauth',
       name: 'authenticated',
@@ -1703,7 +1933,7 @@ describe('basicauth prompt', () => {
       username: 'rajat-sr',
       password: '123',
       showPassword: false,
-      skip: true,
+      show: false,
       format(value) {
         assertType.isBoolean(value)
         return `(${value})`
@@ -1714,6 +1944,8 @@ describe('basicauth prompt', () => {
   })
 
   it('specify format async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'basicauth',
       name: 'authenticated',
@@ -1721,7 +1953,7 @@ describe('basicauth prompt', () => {
       username: 'rajat-sr',
       password: '123',
       showPassword: false,
-      skip: true,
+      show: false,
       format(value) {
         assertType.isBoolean(value)
         return Promise.resolve(`(${value})`)
@@ -1732,6 +1964,8 @@ describe('basicauth prompt', () => {
   })
 
   it(`format function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'basicauth',
       name: 'authenticated',
@@ -1739,7 +1973,7 @@ describe('basicauth prompt', () => {
       username: 'rajat-sr',
       password: '123',
       showPassword: false,
-      skip: true,
+      show: false,
       format(value) {
         assertType<Prompt<boolean>>(this)
         return `(${value})`
@@ -1750,6 +1984,8 @@ describe('basicauth prompt', () => {
   })
 
   it('specify result function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'basicauth',
       name: 'authenticated',
@@ -1757,7 +1993,7 @@ describe('basicauth prompt', () => {
       username: 'rajat-sr',
       password: '123',
       showPassword: false,
-      skip: true,
+      show: false,
       result(value) {
         assertType.isBoolean(value)
         return value
@@ -1768,6 +2004,8 @@ describe('basicauth prompt', () => {
   })
 
   it('specify result async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'basicauth',
       name: 'authenticated',
@@ -1775,7 +2013,7 @@ describe('basicauth prompt', () => {
       username: 'rajat-sr',
       password: '123',
       showPassword: false,
-      skip: true,
+      show: false,
       result(value) {
         assertType.isBoolean(value)
         return Promise.resolve(value)
@@ -1786,6 +2024,8 @@ describe('basicauth prompt', () => {
   })
 
   it(`result function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'basicauth',
       name: 'authenticated',
@@ -1793,7 +2033,7 @@ describe('basicauth prompt', () => {
       username: 'rajat-sr',
       password: '123',
       showPassword: false,
-      skip: true,
+      show: false,
       result(value) {
         assertType<Prompt<boolean>>(this)
         assert(this instanceof Enquirer.Prompt)
@@ -1805,6 +2045,8 @@ describe('basicauth prompt', () => {
   })
 
   it.skip('specify validate function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'basicauth',
       name: 'authenticated',
@@ -1812,7 +2054,7 @@ describe('basicauth prompt', () => {
       username: 'rajat-sr',
       password: '123',
       showPassword: false,
-      skip: true,
+      show: false,
       validate(value) {
         assertType.isBoolean(value)
         return ''
@@ -1823,6 +2065,8 @@ describe('basicauth prompt', () => {
   })
 
   it('specify validate with boolean function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'basicauth',
       name: 'authenticated',
@@ -1830,7 +2074,7 @@ describe('basicauth prompt', () => {
       username: 'rajat-sr',
       password: '123',
       showPassword: false,
-      skip: true,
+      show: false,
       validate(value) {
         assertType.isBoolean(value)
         return true
@@ -1841,6 +2085,8 @@ describe('basicauth prompt', () => {
   })
 
   it('specify validate async boolean function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'basicauth',
       name: 'authenticated',
@@ -1848,7 +2094,7 @@ describe('basicauth prompt', () => {
       username: 'rajat-sr',
       password: '123',
       showPassword: false,
-      skip: true,
+      show: false,
       validate(value) {
         assertType.isBoolean(value)
         return Promise.resolve(true)
@@ -1859,6 +2105,8 @@ describe('basicauth prompt', () => {
   })
 
   it(`validate function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
     const answer = await prompt({
       type: 'basicauth',
       name: 'authenticated',
@@ -1866,7 +2114,7 @@ describe('basicauth prompt', () => {
       username: 'rajat-sr',
       password: '123',
       showPassword: false,
-      skip: true,
+      show: false,
       validate() {
         assertType<Prompt<boolean>>(this)
         assert(this instanceof Enquirer.Prompt)
@@ -1876,4 +2124,246 @@ describe('basicauth prompt', () => {
 
     assert.deepEqual(answer, { authenticated: false })
   })
+});
+
+describe('quiz prompt', () => {
+  it('prompt with mininum option', () => {
+    const { prompt } = Enquirer
+    testType(() => prompt({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', '185', '195', '205'],
+      correctChoice: 3,
+    }))
+  })
+
+  it.skip('skip will skip the prompt', async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', '185', '195', '205'],
+      correctChoice: 3,
+      initial: 1,
+      skip: true
+    })
+  })
+
+  it.skip('skip with function', async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', '185', '195', '205'],
+      correctChoice: 3,
+      skip: () => true
+    })
+  })
+
+  it.skip('skip with async function', async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', '185', '195', '205'],
+      correctChoice: 3,
+      skip: () => Promise.resolve(true)
+    })
+  })
+
+  it.skip('skip with delayed async function', async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', '185', '195', '205'],
+      correctChoice: 3,
+      skip: () => new Promise(a => setImmediate(() => a(true)))
+    })
+  })
+
+  it('specify initial value (cannot validate as initial only affects ui)', async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', '185', '195', '205'],
+      correctChoice: 3,
+      initial: 1,
+      show: false
+    })
+  })
+
+  it('initial with function (cannot validate as initial only affects ui)', async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', '185', '195', '205'],
+      correctChoice: 3,
+      show: false,
+      initial: () => 1
+    })
+  })
+
+  it('initial with async function (cannot validate as initial only affects ui)', async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', '185', '195', '205'],
+      correctChoice: 3,
+      show: false,
+      initial: () => Promise.resolve(1)
+    })
+  })
+
+  it('initial with async function', async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', '185', '195', '205'],
+      correctChoice: 3,
+      show: false,
+      initial: () => new Promise(a => setImmediate(() => a(1)))
+    })
+  });
+
+  it('choice can be promise', async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', Promise.resolve('185'), '195', '205'],
+      correctChoice: 3,
+      initial: 1,
+      show: false,
+    })
+  });
+
+  it('choice can be () => string', async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', () => '185', '195', '205'],
+      correctChoice: 3,
+      initial: 1,
+      show: false,
+    })
+  });
+
+  it('choice can be () => Promise<string>', async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', () => Promise.resolve('185'), '195', '205'],
+      correctChoice: 3,
+      initial: 1,
+      show: false,
+    })
+  });
+
+  it('choice can be () => Promise<string>', async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', () => Promise.resolve('185'), '195', '205'],
+      correctChoice: 3,
+      initial: 1,
+      show: false,
+    })
+  });
+
+  it('choice can be choice options', async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: [
+        { value: '165' },
+        { value: '175', message: 'abc 175' },
+        { value: '185', hint: 'choose this' },
+        { value: '195', disabled: true },
+        { value: '205', disabled: false },
+        { value: '1', message: 'a1', hint: 'not right' },
+        { value: '2', hint: 'not right', disabled: true },
+        { value: '3', message: 'a3', disabled: true },
+        { value: '4', message: 'a4', hint: 'not right', disabled: true },
+      ],
+      correctChoice: 3,
+      initial: 1,
+      show: false,
+    })
+  });
+
+  it('specify format function', async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', '185', '195', '205'],
+      correctChoice: 3,
+      show: false,
+      initial: 1,
+      format(value) {
+        assertType.isBoolean(value)
+        return `(${value})`
+      }
+    })
+  });
+
+  it('specify format async function', async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', '185', '195', '205'],
+      correctChoice: 3,
+      show: false,
+      initial: 1,
+      format(value) {
+        assertType.isBoolean(value)
+        return `(${value})`
+      }
+    })
+  });
+
+  it(`format function receives Prompt as 'this'`, async () => {
+    testQuizPromptQuestionType({
+      type: 'quiz',
+      name: 'countries',
+      message: 'How many countries are there in the world?',
+      choices: ['165', '175', '185', '195', '205'],
+      correctChoice: 3,
+      show: false,
+      initial: 1,
+      format(value) {
+        assertType<Prompt<Enquirer.prompt.QuizAnswer>>(this)
+        assertType.isBoolean(value)
+        return `(${value})`
+      }
+    })
+  });
+
+  async function testQuizPromptQuestionType(question: prompt.QuizQuestion) {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => {
+      prompt.input = '165'
+      prompt.submit()
+    })
+    const answer = await prompt(question)
+
+    assert.deepEqual(answer, {
+      countries: {
+        correct: false,
+        correctAnswer: '195',
+        selectedAnswer: '165',
+      }
+    })
+  }
 });

@@ -153,62 +153,104 @@ declare namespace Enquirer {
   ): Promise<Answers>
 
   export namespace prompt {
-    export function on(type: PromptType, handler: (p: any) => void): void
+    export function on(type: PromptType, handler: (p: Prompt<any>) => void): void
 
     export type Question = InputQuestion | ConfirmQuestion | NumeralQuestion |
-      PasswordQuestion | InvisibleQuestion | ToggleQuestion | BasicAuthQuestion
+      PasswordQuestion | InvisibleQuestion | ToggleQuestion | BasicAuthQuestion |
+      QuizQuestion
 
-    export type InputQuestion = {
-      type: 'input',
-    } & TypedQuestionWithInitial<string>
+    export type InputQuestion = { type: 'input' } &
+      internalTypes.CommonQuestion<string, string>
 
-    export type ConfirmQuestion = {
-      type: 'confirm'
-    } & TypedQuestionWithInitial<boolean>
+    export type ConfirmQuestion = { type: 'confirm' } &
+      internalTypes.CommonQuestion<boolean, boolean>
 
-    export type NumeralQuestion = {
-      type: 'numeral'
-    } & TypedQuestionWithInitial<number>
+    export type NumeralQuestion = { type: 'numeral' } &
+      internalTypes.CommonQuestion<number, number>
 
-    export type PasswordQuestion = {
-      type: 'password',
-    } & TypedQuestionWithInitial<string>
+    export type PasswordQuestion = { type: 'password', } &
+      internalTypes.CommonQuestion<string, string>
 
-    export type InvisibleQuestion = {
-      type: 'invisible',
-    } & TypedQuestionWithInitial<string>
+    export type InvisibleQuestion = { type: 'invisible', } &
+      internalTypes.CommonQuestion<string, string>
 
     export type ToggleQuestion = {
       type: 'toggle',
       enabled?: string,
       disabled?: string,
-    } & TypedQuestionWithInitial<boolean>
+    } & internalTypes.CommonQuestion<boolean, boolean>
+
 
     export type BasicAuthQuestion = {
       type: 'basicauth',
       username: string,
       password: string,
       showPassword?: boolean,
-    } & TypedQuestion<boolean>
+    } & internalTypes.QuestionBase &
+      internalTypes.Formatter<boolean, boolean> &
+      internalTypes.Validator<boolean, boolean> &
+      internalTypes.ResultTransformer<boolean, boolean>
 
-    export type TypedQuestionWithInitial<T extends Answer> = TypedQuestion<T> & {
-      initial?: T | (() => T | Promise<T>);
+
+    export type QuizQuestion = {
+      type: 'quiz',
+      choices: QuizChoice[],
+      correctChoice: number,
+      initial?: number | (() => number | Promise<number>);
+    } & internalTypes.QuestionBase &
+      internalTypes.Formatter<boolean, QuizAnswer> &
+      internalTypes.Initializer<number, QuizAnswer>
+
+    export type QuizChoice = string | Promise<string> | QuizChoiceOptions | (() => string | Promise<string>)
+    export type QuizChoiceOptions = {
+      // to be removed if other prompts use value consistently.
+      // name: string,
+      value: string,
+      message?: string,
+      hint?: string,
+      disabled?: boolean
     }
 
-    export type TypedQuestion<T extends Answer> = {
-      name: string | (() => string);
-      message: string | (() => string | Promise<string>);
+    export type QuizAnswer = { selectedAnswer: string, correctAnswer: string, correct: boolean }
 
-      skip?: boolean | (() => boolean | Promise<boolean>);
-      format?: (this: Prompt<T>, value: T) => string | Promise<string>;
-      result?: (this: Prompt<T>, value: T) => T | Promise<T>;
-      validate?: (this: Prompt<T>, value: T) => boolean | string | Promise<boolean | string>;
-      show?: boolean;
+    export namespace internalTypes {
+      export type Value = string | boolean | number
+
+      export type CommonQuestion<V extends Value, A extends Answer> =
+        QuestionBase &
+        Initializer<V, A> &
+        Formatter<V, A> &
+        Validator<V, A> &
+        ResultTransformer<V, A>
+
+      export type QuestionBase = {
+        name: string | (() => string);
+        message: string | (() => string | Promise<string>);
+
+        skip?: boolean | (() => boolean | Promise<boolean>);
+        show?: boolean;
+      }
+
+      export type Initializer<V extends Value, A extends Answer> = {
+        initial?: V | ((this: Prompt<A>) => V | Promise<V>);
+      }
+
+      export type Formatter<V extends Value, A extends Answer> = {
+        format?: (this: Prompt<A>, value: V) => string | Promise<string>;
+      }
+
+      export type Validator<V extends Value, A extends Answer> = {
+        validate?: (this: Prompt<A>, value: V) => boolean | string | Promise<boolean | string>;
+      }
+
+      export type ResultTransformer<V extends Value, A extends Answer> = {
+        result?: (this: Prompt<A>, value: V) => A | Promise<A>;
+      }
     }
   }
 
   export type Answers = Record<string, Answer>
-  export type Answer = string | boolean | number | string[]
+  export type Answer = string | boolean | number | string[] | prompt.QuizAnswer
 
   export type Key = {
     name?: string;
