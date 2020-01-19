@@ -72,7 +72,6 @@ describe('prompt-autocomplete', () => {
         message: 'Favorite flavor?',
         choices: fixtures.slice(),
         suggest(typed, choices = []) {
-          console.log('should reset to initial state', choices)
           return choices.filter(choice => choice.message.includes(typed));
         }
       });
