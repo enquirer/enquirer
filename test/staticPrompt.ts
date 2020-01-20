@@ -2127,244 +2127,15 @@ describe('basicauth prompt', () => {
 });
 
 describe('quiz prompt', () => {
-  it('prompt with mininum option', () => {
-    const { prompt } = Enquirer
-    testType(() => prompt({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', '185', '195', '205'],
-      correctChoice: 3,
-    }))
-  })
+  const minimumQuestion = {
+    type: 'quiz' as const,
+    name: 'countries',
+    message: 'How many countries are there in the world?',
+    choices: ['165', '175', '185', '195', '205'],
+    correctChoice: 3,
+  }
 
-  it.skip('skip will skip the prompt', async () => {
-    await testQuizPromptQuestionType({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', '185', '195', '205'],
-      correctChoice: 3,
-      initial: 1,
-      skip: true
-    })
-  })
-
-  it.skip('skip with function', async () => {
-    await testQuizPromptQuestionType({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', '185', '195', '205'],
-      correctChoice: 3,
-      skip: () => true
-    })
-  })
-
-  it.skip('skip with async function', async () => {
-    await testQuizPromptQuestionType({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', '185', '195', '205'],
-      correctChoice: 3,
-      skip: () => Promise.resolve(true)
-    })
-  })
-
-  it.skip('skip with delayed async function', async () => {
-    await testQuizPromptQuestionType({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', '185', '195', '205'],
-      correctChoice: 3,
-      skip: () => new Promise(a => setImmediate(() => a(true)))
-    })
-  })
-
-  it('specify initial value (cannot validate as initial only affects ui)', async () => {
-    await testQuizPromptQuestionType({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', '185', '195', '205'],
-      correctChoice: 3,
-      initial: 1,
-      show: false
-    })
-  })
-
-  it('initial with function (cannot validate as initial only affects ui)', async () => {
-    await testQuizPromptQuestionType({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', '185', '195', '205'],
-      correctChoice: 3,
-      show: false,
-      initial: () => 1
-    })
-  })
-
-  it('initial with async function (cannot validate as initial only affects ui)', async () => {
-    await testQuizPromptQuestionType({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', '185', '195', '205'],
-      correctChoice: 3,
-      show: false,
-      initial: () => Promise.resolve(1)
-    })
-  })
-
-  it.skip('initial with delay async function', async () => {
-    await testQuizPromptQuestionType({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', '185', '195', '205'],
-      correctChoice: 3,
-      show: false,
-      initial: () => new Promise(a => setImmediate(() => a(1)))
-    })
-  });
-
-  it('choice can be promise', async () => {
-    await testQuizPromptQuestionType({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', Promise.resolve('185'), '195', '205'],
-      correctChoice: 3,
-      initial: 1,
-      show: false,
-    })
-  });
-
-  it('choice can be () => string', async () => {
-    await testQuizPromptQuestionType({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', () => '185', '195', '205'],
-      correctChoice: 3,
-      initial: 1,
-      show: false,
-    })
-  });
-
-  it('choice can be () => Promise<string>', async () => {
-    await testQuizPromptQuestionType({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', () => Promise.resolve('185'), '195', '205'],
-      correctChoice: 3,
-      initial: 1,
-      show: false,
-    })
-  });
-
-  it('choice can be () => Promise<string>', async () => {
-    await testQuizPromptQuestionType({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', () => Promise.resolve('185'), '195', '205'],
-      correctChoice: 3,
-      initial: 1,
-      show: false,
-    })
-  });
-
-  // TODO: this test failes with `Cannot read property 'name' of undefined for some reason
-  it.skip('choice can be choice options', async () => {
-    const { prompt } = Enquirer
-    prompt.on('prompt', prompt => {
-      prompt.input = '165'
-      prompt.submit()
-    })
-    const answer = await prompt({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: [
-        { value: '165' },
-        { value: '175', message: 'abc 175' },
-        { value: '185', hint: 'choose this' },
-        { value: '195', disabled: false },
-        { value: '205', disabled: true },
-        { value: '1', message: 'a1', hint: 'not right' },
-        { value: '2', hint: 'not right', disabled: true },
-        { value: '3', message: 'a3', disabled: true },
-        { value: '4', message: 'a4', hint: 'not right', disabled: true },
-      ],
-      correctChoice: 3,
-      initial: 1,
-      show: false,
-    })
-
-    assert.deepEqual(answer, {
-      countries: {
-        correct: false,
-        correctAnswer: '195',
-        selectedAnswer: '165',
-      }
-    })
-  });
-
-  it('specify format function', async () => {
-    await testQuizPromptQuestionType({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', '185', '195', '205'],
-      correctChoice: 3,
-      show: false,
-      initial: 1,
-      format(value) {
-        assertType.isBoolean(value)
-        return `(${value})`
-      }
-    })
-  });
-
-  it('specify format async function', async () => {
-    await testQuizPromptQuestionType({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', '185', '195', '205'],
-      correctChoice: 3,
-      show: false,
-      initial: 1,
-      format(value) {
-        assertType.isBoolean(value)
-        return `(${value})`
-      }
-    })
-  });
-
-  it(`format function receives Prompt as 'this'`, async () => {
-    await testQuizPromptQuestionType({
-      type: 'quiz',
-      name: 'countries',
-      message: 'How many countries are there in the world?',
-      choices: ['165', '175', '185', '195', '205'],
-      correctChoice: 3,
-      show: false,
-      initial: 1,
-      format(value) {
-        assertType<Prompt<Enquirer.prompt.QuizQuestion.Answer>>(this)
-        assertType.isBoolean(value)
-        return `(${value})`
-      }
-    })
-  });
-
-  async function testQuizPromptQuestionType(question: Enquirer.prompt.QuizQuestion) {
+  async function testQuestionType(question: Enquirer.prompt.QuizQuestion) {
     const { prompt } = Enquirer
     prompt.on('prompt', prompt => {
       prompt.input = '165'
@@ -2380,6 +2151,163 @@ describe('quiz prompt', () => {
       }
     })
   }
+
+  it('prompt with mininum option', () => {
+    const { prompt } = Enquirer
+    testType(() => prompt(minimumQuestion))
+  })
+
+  it.skip('skip will skip the prompt', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: true
+    })
+  })
+
+  it.skip('skip with function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: () => true
+    })
+  })
+
+  it.skip('skip with async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: () => Promise.resolve(true)
+    })
+  })
+
+  it.skip('skip with delayed async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: () => new Promise(a => setImmediate(() => a(true)))
+    })
+  })
+
+  it('choice can be promise', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: ['165', '175', Promise.resolve('185'), '195', '205'],
+      show: false,
+    })
+  });
+
+  it('choice can be () => string', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: ['165', '175', () => '185', '195', '205'],
+      show: false,
+    })
+  });
+
+  it('choice can be () => Promise<string>', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: ['165', '175', () => Promise.resolve('185'), '195', '205'],
+      show: false,
+    })
+  });
+
+  it.skip('choice can be choice options', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [
+        { value: '165' },
+        { value: '175', message: 'abc 175' },
+        { value: '185', hint: 'choose this' },
+        { value: '195', disabled: false },
+        { value: '205', disabled: true },
+        { value: '1', message: 'a1', hint: 'not right' },
+        { value: '2', hint: 'not right', disabled: true },
+        { value: '3', message: 'a3', disabled: true },
+        { value: '4', message: 'a4', hint: 'not right', disabled: true },
+      ],
+      show: false,
+    })
+  });
+
+  it('choice can be () => ChoiceOption', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [() => ({ value: '165' }), '175', '185', '195', '205'],
+      show: false,
+    })
+  });
+
+  it('choice can be () => Promise<ChoiceOption>', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [async () => ({ value: '165' }), '175', '185', '195', '205'],
+      show: false,
+    })
+  });
+
+  it('specify initial value (cannot validate as initial only affects ui)', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: 1,
+      show: false,
+    })
+  })
+
+  it('initial with function (cannot validate as initial only affects ui)', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: () => 1,
+      show: false,
+    })
+  })
+
+  it('initial with async function (cannot validate as initial only affects ui)', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: () => Promise.resolve(1),
+      show: false,
+    })
+  })
+
+  it.skip('initial with delay async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: () => new Promise(a => setImmediate(() => a(1))),
+      show: false,
+    })
+  });
+
+  it('specify format function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      format(value) {
+        assertType.isBoolean(value)
+        return `(${value})`
+      },
+      show: false,
+    })
+  });
+
+  it('specify format async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      format(value) {
+        assertType.isBoolean(value)
+        return `(${value})`
+      },
+      show: false,
+    })
+  });
+
+  it(`format function receives Prompt as 'this'`, async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      format(value) {
+        assertType<Prompt<Enquirer.prompt.QuizQuestion.Answer>>(this)
+        assertType.isBoolean(value)
+        return `(${value})`
+      },
+      show: false,
+    })
+  });
 });
 
 describe('scale prompt', () => {
@@ -3117,6 +3045,8 @@ describe('list prompt', () => {
     })
   })
 
+  it('TODO separator')
+
   it('specify initial string value', async () => {
     await testQuestionType({
       ...minimumQuestion,
@@ -3288,10 +3218,199 @@ describe('list prompt', () => {
   })
 });
 
+describe('select prompt', () => {
+  const minimumQuestion = {
+    type: 'select' as const,
+    name: 'color',
+    message: 'Pick a flavor',
+    choices: ['apple', 'grape', 'watermelon', 'cherry', 'orange']
+  }
+
+  async function testQuestionType(
+    question: Enquirer.prompt.SelectQuestion,
+    expectedAnswer: string = 'apple'
+  ) {
+    const { prompt } = Enquirer
+    prompt.on('prompt', (prompt: any) => prompt.submit())
+
+    const answer = await prompt(question)
+
+    assert.deepEqual(answer, {
+      [question.name]: expectedAnswer
+    })
+  }
+
+  it('prompt with mininum option', () => {
+    const { prompt } = Enquirer
+    testType(() => prompt(minimumQuestion))
+  })
+
+  it.skip('skip will skip the prompt', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: true
+    })
+  })
+
+  it.skip('skip with function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: () => true
+    })
+  })
+
+  it.skip('skip with async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: () => Promise.resolve(true)
+    })
+  })
+
+  it.skip('skip with delayed async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: () => new Promise(a => setImmediate(() => a(true)))
+    })
+  })
+
+  it.skip('specify initial string value', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: 'cherry',
+      show: false
+    }, 'cherry')
+  })
+
+  it.skip('specify initial number (index) value', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: 3,
+      show: false
+    }, 'cherry')
+  })
+
+  it.skip('choice can be promise', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [Promise.resolve('apple'), 'grape', 'watermelon', 'cherry', 'orange'],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => string', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [() => 'apple', 'grape', 'watermelon', 'cherry', 'orange'],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => Promise<string>', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [async () => 'apple', 'grape', 'watermelon', 'cherry', 'orange'],
+      show: false
+    })
+  });
+
+  it.skip('choice can be choice options', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [
+        { value: 'apple' },
+        { value: 'apple2', message: 'APPLE' },
+        { value: 'watermelon', hint: 'choose this' },
+        { value: 'apple4', disabled: false },
+        { value: 'apple5', disabled: true },
+        { value: 'orange1', message: 'a1', hint: 'not ripe' },
+        { value: 'orange2', hint: 'not ripe', disabled: true },
+        { value: 'orange3', message: 'Orange3', disabled: true },
+        { value: 'orange4', message: 'Orange4', hint: 'not ripe', disabled: true },
+      ],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => ChoiceOption', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [() => ({ value: 'apple' }), 'grape', 'watermelon', 'cherry', 'orange'],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => Promise<ChoiceOption>', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [async () => ({ value: 'apple' }), 'grape', 'watermelon', 'cherry', 'orange'],
+      show: false
+    })
+  });
+
+  it.skip('initial with function () => string', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: () => 'cherry',
+      show: false
+    })
+  })
+
+  it.skip('initial with async function () => string', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: () => Promise.resolve('cherry'),
+      show: false
+    })
+  })
+
+  it.skip('initial with delayed async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: () => new Promise(a => setImmediate(() => a('cherry'))),
+      show: false
+    })
+  })
+
+  it.skip('specify format function', async () => {
+    let called = false
+    await testQuestionType({
+      ...minimumQuestion,
+      format(value) {
+        called = true
+        assertType.isString(value)
+        return value
+      },
+      show: false,
+    })
+    assert.ok(called)
+  })
+
+  it.skip('specify format async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      format(value) {
+        assertType.isString(value)
+        return Promise.resolve(value)
+      },
+      show: false,
+    })
+  })
+
+  it.skip(`format function receives Prompt as 'this'`, async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      format(value) {
+        assertType<Prompt<string>>(this)
+        return value
+      },
+      show: false,
+    })
+  })
+});
+
 // AutoComplete Prompt
 // Form Prompt
 // MultiSelect Prompt
-// Select Prompt
 
 function isPromise(c: any): c is Promise<any> {
   return typeof c.then === 'function'
