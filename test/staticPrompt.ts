@@ -2,13 +2,6 @@ import assert from 'assert'
 import { assertType } from 'type-plus'
 import Enquirer, { Prompt, ChoiceOptions } from '..'
 import { testType } from './support'
-// AutoComplete Prompt
-// Form Prompt
-// List Prompt
-// MultiSelect Prompt
-// Select Prompt
-// Sort Prompt
-// Snippet Prompt
 
 describe('input prompt', () => {
   it('prompt with mininum option', () => {
@@ -2831,6 +2824,255 @@ describe('sort prompt', () => {
   }
 });
 
+describe('snippet prompt', () => {
+  const defaultSnippetQuestion = {
+    type: 'snippet' as const,
+    name: 'username',
+    message: 'Fill out the fields in package.json',
+    template: `{
+    "name": "\${name}",
+    "description": "\${description}",
+    "version": "\${version}",
+    "homepage": "https://github.com/\${username}/\${name}",
+    "author": "\${author_name} (https://github.com/\${username})",
+    "repository": "\${username}/\${name}",
+    "license": "\${license:ISC}"
+  }
+  `,
+  }
+  it('prompt with mininum option', () => {
+    const { prompt } = Enquirer
+    testType(() => prompt(defaultSnippetQuestion))
+  })
+
+  it.skip('skip will skip the prompt', async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      skip: true
+    })
+  })
+
+  it.skip('skip with function', async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      skip: () => true
+    })
+  })
+
+  it.skip('skip with async function', async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      skip: () => Promise.resolve(true)
+    })
+  });
+
+  it.skip('skip with delayed async function', async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      skip: () => new Promise(a => setImmediate(() => a(true)))
+    })
+  });
+
+  it('specify values are required', () => {
+    const { prompt } = Enquirer
+    testType(() => prompt({
+      ...defaultSnippetQuestion,
+      required: true
+    }))
+  });
+
+  it('field with name only', async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      fields: [{
+        name: 'author_name'
+      }],
+      show: false
+    })
+  });
+
+  it('field with name and message', async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      fields: [{
+        name: 'author_name',
+        message: 'Author Name'
+      }],
+      show: false
+    })
+  });
+
+  it('field with initial', async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      fields: [{
+        name: 'author_name',
+        initial: 'User'
+      }],
+      show: false
+    }, { 'author_name': 'User' })
+  });
+
+  it('field with validate function', async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      fields: [{
+        name: 'author_name',
+        validate(value) {
+          assertType.isString(value)
+          return true
+        }
+      }],
+      show: false
+    })
+  });
+
+  it('field with validate async function', async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      fields: [{
+        name: 'author_name',
+        async validate(value) {
+          assertType.isString(value)
+          return true
+        }
+      }],
+      show: false
+    })
+  });
+
+  it('specify format function', async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      format(value) {
+        assertType<Enquirer.prompt.SnippetQuestion.Answer | undefined>(value)
+        return value ? Object.values(value).join(', ') : ''
+      },
+      show: false,
+    })
+  });
+
+  it('specify format async function', async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      async format(value) {
+        assertType<Enquirer.prompt.SnippetQuestion.Answer | undefined>(value)
+        return value ? Object.values(value).join(', ') : ''
+      },
+      show: false,
+    })
+  });
+
+  it(`format function receives Prompt as 'this'`, async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      async format(value) {
+        assertType<Prompt<Enquirer.prompt.SnippetQuestion.Answer>>(this)
+        return value ? Object.values(value).join(', ') : ''
+      },
+      show: false,
+    })
+  });
+
+  it.skip('specify validate function () => string', async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      validate(value) {
+        assertType<Enquirer.prompt.SnippetQuestion.Answer>(value)
+        return ''
+      },
+      show: false,
+    })
+  })
+
+  it.skip('specify validate function async () => string', async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      async validate(value) {
+        assertType<Enquirer.prompt.SnippetQuestion.Answer>(value)
+        return ''
+      },
+      show: false,
+    })
+  })
+
+  it('specify validate with boolean function', async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      validate(value) {
+        assertType<Enquirer.prompt.SnippetQuestion.Answer>(value)
+        return true
+      },
+      show: false,
+    })
+  })
+
+  it('specify validate async boolean function', async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      async validate(value) {
+        assertType<Enquirer.prompt.SnippetQuestion.Answer>(value)
+        return true
+      },
+      show: false,
+    })
+  })
+
+  it(`validate function receives Prompt as 'this'`, async () => {
+    await testSnippetPromptQuestionType({
+      ...defaultSnippetQuestion,
+      async validate(value) {
+        assertType<Prompt<Enquirer.prompt.SnippetQuestion.Answer>>(this)
+        assert(this instanceof Enquirer.Prompt)
+        return true
+      },
+      show: false,
+    })
+  })
+
+  async function testSnippetPromptQuestionType(question: Enquirer.prompt.SnippetQuestion, expectedAnswer: any = undefined) {
+    const { prompt } = Enquirer
+    prompt.on('prompt', (prompt: any) => prompt.submit())
+
+    const answer = await prompt(question)
+
+    const values = {
+      name: undefined,
+      description: undefined,
+      version: undefined,
+      username: undefined,
+      author_name: undefined,
+      license: 'ISC',
+      ...expectedAnswer
+    }
+
+    const result = `{
+    "name": "${values.name}",
+    "description": "${values.description}",
+    "version": "${values.version}",
+    "homepage": "https://github.com/${values.username}/${values.name}",
+    "author": "${values.author_name} (https://github.com/${values.username})",
+    "repository": "${values.username}/${values.name}",
+    "license": "${values.license}"
+  }
+  `
+
+    assert.deepEqual(answer, {
+      [question.name]: {
+        values,
+        result
+      }
+    })
+  }
+});
+
+
+// AutoComplete Prompt
+// Form Prompt
+// List Prompt
+// MultiSelect Prompt
+// Select Prompt
+// Snippet Prompt
 
 function isPromise(c: any): c is Promise<any> {
   return typeof c.then === 'function'
