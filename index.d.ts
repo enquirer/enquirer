@@ -158,7 +158,7 @@ declare namespace Enquirer {
     export type Question = InputQuestion | ConfirmQuestion | NumeralQuestion |
       PasswordQuestion | InvisibleQuestion | ListQuestion | ToggleQuestion | BasicAuthQuestion |
       QuizQuestion | ScaleQuestion | SortQuestion | SnippetQuestion |
-      SelectQuestion | MultiSelectQuestion
+      SelectQuestion | MultiSelectQuestion | FormQuestion
 
     export type InputQuestion = { type: 'input' } &
       internalTypes.CommonQuestion<string, string>
@@ -323,10 +323,29 @@ declare namespace Enquirer {
       internalTypes.Formatter<string[], string[]>
 
 
+    export type FormQuestion = {
+      type: 'form',
+      choices: FormQuestion.Choice[],
+    } & internalTypes.QuestionBase &
+      internalTypes.Validator<FormQuestion.Answer, FormQuestion.Answer> &
+      internalTypes.ResultTransformer<FormQuestion.Answer, FormQuestion.Answer>
+
+    export namespace FormQuestion {
+      export type Choice = ChoiceOptions | Promise<ChoiceOptions> | (() => ChoiceOptions | Promise<ChoiceOptions>)
+      export type ChoiceOptions = {
+        name: string,
+        value?: string,
+        message: string,
+        hint?: string,
+        initial?: string,
+        disabled?: boolean
+      }
+      export type Answer = Record<string, string>
+    }
 
     export namespace internalTypes {
       export type Value = string | boolean | number | string[] |
-        ScaleQuestion.Answer | SnippetQuestion.Answer
+        ScaleQuestion.Answer | SnippetQuestion.Answer | FormQuestion.Answer
 
       export type CommonQuestion<V extends Value, A extends Answer> =
         QuestionBase &
@@ -363,7 +382,8 @@ declare namespace Enquirer {
 
   export type Answers = Record<string, Answer>
   export type Answer = string | boolean | number | string[] |
-    prompt.QuizQuestion.Answer | prompt.ScaleQuestion.Answer | prompt.SnippetQuestion.Answer
+    prompt.QuizQuestion.Answer | prompt.ScaleQuestion.Answer | prompt.SnippetQuestion.Answer |
+    prompt.FormQuestion.Answer
 
   export type Key = {
     name?: string;

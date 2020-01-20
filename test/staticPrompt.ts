@@ -1077,61 +1077,6 @@ describe('password prompt', () => {
     assert.deepEqual(answer, { password: 'blue' })
   })
 
-  it('specify result function', async () => {
-    const { prompt } = Enquirer
-    prompt.on('prompt', prompt => prompt.submit())
-    const answer = await prompt({
-      type: 'password',
-      name: 'password',
-      message: 'What is your password?',
-      show: false,
-      initial: 'blue',
-      result(value) {
-        assertType.isString(value)
-        return value + 'r'
-      }
-    })
-
-    assert.deepEqual(answer, { password: 'bluer' })
-  })
-
-  it('specify result async function', async () => {
-    const { prompt } = Enquirer
-    prompt.on('prompt', prompt => prompt.submit())
-    const answer = await prompt({
-      type: 'password',
-      name: 'password',
-      message: 'What is your password?',
-      show: false,
-      initial: 'blue',
-      result(value) {
-        assertType.isString(value)
-        return Promise.resolve(value + 'r')
-      }
-    })
-
-    assert.deepEqual(answer, { password: 'bluer' })
-  })
-
-  it(`result function receives Prompt as 'this'`, async () => {
-    const { prompt } = Enquirer
-    prompt.on('prompt', prompt => prompt.submit())
-    const answer = await prompt({
-      type: 'password',
-      name: 'password',
-      message: 'What is your password?',
-      show: false,
-      initial: 'blue',
-      result(value) {
-        assertType<Prompt<string>>(this)
-        assert(this instanceof Enquirer.Prompt)
-        return value
-      }
-    })
-
-    assert.deepEqual(answer, { password: 'blue' })
-  })
-
   it.skip('specify validate function', async () => {
     const { prompt } = Enquirer
     prompt.on('prompt', prompt => prompt.submit())
@@ -1199,6 +1144,61 @@ describe('password prompt', () => {
         assertType<Prompt<string>>(this)
         assert(this instanceof Enquirer.Prompt)
         return true
+      }
+    })
+
+    assert.deepEqual(answer, { password: 'blue' })
+  })
+
+  it('specify result function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
+    const answer = await prompt({
+      type: 'password',
+      name: 'password',
+      message: 'What is your password?',
+      show: false,
+      initial: 'blue',
+      result(value) {
+        assertType.isString(value)
+        return value + 'r'
+      }
+    })
+
+    assert.deepEqual(answer, { password: 'bluer' })
+  })
+
+  it('specify result async function', async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
+    const answer = await prompt({
+      type: 'password',
+      name: 'password',
+      message: 'What is your password?',
+      show: false,
+      initial: 'blue',
+      result(value) {
+        assertType.isString(value)
+        return Promise.resolve(value + 'r')
+      }
+    })
+
+    assert.deepEqual(answer, { password: 'bluer' })
+  })
+
+  it(`result function receives Prompt as 'this'`, async () => {
+    const { prompt } = Enquirer
+    prompt.on('prompt', prompt => prompt.submit())
+    const answer = await prompt({
+      type: 'password',
+      name: 'password',
+      message: 'What is your password?',
+      show: false,
+      initial: 'blue',
+      result(value) {
+        assertType<Prompt<string>>(this)
+        assert(this instanceof Enquirer.Prompt)
+        return value
       }
     })
 
@@ -3652,9 +3652,196 @@ describe('multiselect prompt', () => {
   })
 });
 
+describe('form prompt', () => {
+  const minimumQuestion = {
+    type: 'form' as const,
+    name: 'user',
+    message: 'Please provide the following information:',
+    choices: [
+      { name: 'firstname', message: 'First Name' },
+      { name: 'lastname', message: 'Last Name' },
+      { name: 'username', message: 'GitHub username' }
+    ]
+  }
+
+  async function testQuestionType(
+    question: Enquirer.prompt.FormQuestion,
+    expectedAnswer: Enquirer.prompt.FormQuestion.Answer = {}
+  ) {
+    const { prompt } = Enquirer
+    prompt.on('prompt', (prompt: any) => prompt.submit())
+
+    const answer = await prompt(question)
+
+    assert.deepEqual(answer, {
+      [question.name]: expectedAnswer
+    })
+  }
+
+  it('prompt with mininum option', () => {
+    const { prompt } = Enquirer
+    testType(() => prompt(minimumQuestion))
+  })
+
+  it.skip('skip will skip the prompt', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: true
+    })
+  })
+
+  it.skip('skip with function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: () => true
+    })
+  })
+
+  it.skip('skip with async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: () => Promise.resolve(true)
+    })
+  })
+
+  it.skip('skip with delayed async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: () => new Promise(a => setImmediate(() => a(true)))
+    })
+  })
+
+  it.skip('choice option supports optional hint, initial, and disabled property', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [
+        { name: 'firstname', message: 'First Name', initial: 'Jon', hint: 'name' },
+        { name: 'lastname', message: 'Last Name', initial: 'Schlinkert', disabled: true },
+        { name: 'username', message: 'GitHub username', initial: 'jonschlinkert' }
+      ],
+      show: false
+    })
+  });
+
+  it.skip('choice can be promise', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [
+        Promise.resolve({ name: 'firstname', message: 'First Name', initial: 'Jon' }),
+        { name: 'lastname', message: 'Last Name', initial: 'Schlinkert' },
+        { name: 'username', message: 'GitHub username', initial: 'jonschlinkert' }
+      ],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => ChoiceOption', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [
+        () => ({ name: 'firstname', message: 'First Name', initial: 'Jon' }),
+        { name: 'lastname', message: 'Last Name', initial: 'Schlinkert' },
+        { name: 'username', message: 'GitHub username', initial: 'jonschlinkert' }
+      ],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => Promise<ChoiceOption>', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [
+        () => Promise.resolve({ name: 'firstname', message: 'First Name', initial: 'Jon' }),
+        { name: 'lastname', message: 'Last Name', initial: 'Schlinkert' },
+        { name: 'username', message: 'GitHub username', initial: 'jonschlinkert' }
+      ],
+      show: false
+    })
+  });
+
+  it.skip('specify validate function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      validate(value) {
+        assertType<Record<string, string>>(value)
+        return ''
+      },
+      show: false
+    })
+  })
+
+  it('specify validate with boolean function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      validate(value) {
+        assertType<Record<string, string>>(value)
+        return true
+      },
+      show: false
+    })
+  })
+
+  it('specify validate async boolean function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      async validate(value) {
+        assertType<Record<string, string>>(value)
+        return true
+      },
+      show: false
+    })
+  })
+
+  it(`validate function receives Prompt as 'this'`, async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      validate(value) {
+        assertType<Prompt<Record<string, string>>>(this)
+        assert(this instanceof Enquirer.Prompt)
+        return true
+      },
+      show: false
+    })
+  })
+
+  it('specify result function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      result(value) {
+        assertType<Enquirer.prompt.FormQuestion.Answer>(value)
+        return value
+      },
+      show: false
+    })
+  })
+
+  it('specify result async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      async result(value) {
+        assertType<Enquirer.prompt.FormQuestion.Answer>(value)
+        return value
+      },
+      show: false
+    })
+  })
+
+  it(`result function receives Prompt as 'this'`, async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      result(value) {
+        assertType<Enquirer.prompt.FormQuestion.Answer>(value)
+        assertType<Prompt<Enquirer.prompt.FormQuestion.Answer>>(this)
+        assert(this instanceof Enquirer.Prompt)
+        return value
+      },
+      show: false
+    })
+  })
+});
+
 // AutoComplete Prompt
 // Form Prompt
-// MultiSelect Prompt
 
 function isPromise(c: any): c is Promise<any> {
   return typeof c.then === 'function'
