@@ -98,11 +98,11 @@ declare namespace Enquirer {
       choices: QuizQuestion.Choice[],
       correctChoice: number,
     } & internalTypes.QuestionBase &
-      internalTypes.Formatter<boolean, QuizQuestion.Answer> &
-      internalTypes.Initializer<number, QuizQuestion.Answer>
+      internalTypes.Initializer<number, QuizQuestion.Answer> &
+      internalTypes.Formatter<boolean, QuizQuestion.Answer>
 
     export namespace QuizQuestion {
-      export type Choice = string | Promise<string> | ChoiceOptions | (() => string | Promise<string>)
+      export type Choice = string | Promise<string> | ChoiceOptions | (() => string | ChoiceOptions | Promise<string | ChoiceOptions>)
       export type ChoiceOptions = {
         // to be removed if other prompts use value consistently.
         // name: string,
@@ -196,10 +196,10 @@ declare namespace Enquirer {
       choices: SelectQuestion.Choice[],
     } & internalTypes.QuestionBase &
       internalTypes.Initializer<string | number, string> &
-      internalTypes.Formatter<boolean, string>
+      internalTypes.Formatter<string, string>
 
     export namespace SelectQuestion {
-      export type Choice = string | Promise<string> | ChoiceOptions | (() => string | Promise<string>)
+      export type Choice = string | Promise<string> | ChoiceOptions | (() => string | ChoiceOptions | Promise<string | ChoiceOptions>)
       export type ChoiceOptions = {
         // to be removed if other prompts use value consistently.
         // name: string,
