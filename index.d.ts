@@ -156,7 +156,7 @@ declare namespace Enquirer {
     export function on(type: PromptType, handler: (p: Prompt<any>) => void): void
 
     export type Question = InputQuestion | ConfirmQuestion | NumeralQuestion |
-      PasswordQuestion | InvisibleQuestion | ToggleQuestion | BasicAuthQuestion |
+      PasswordQuestion | InvisibleQuestion | ListQuestion | ToggleQuestion | BasicAuthQuestion |
       QuizQuestion | ScaleQuestion | SortQuestion | SnippetQuestion
 
     export type InputQuestion = { type: 'input' } &
@@ -173,6 +173,13 @@ declare namespace Enquirer {
 
     export type InvisibleQuestion = { type: 'invisible', } &
       internalTypes.CommonQuestion<string, string>
+
+    export type ListQuestion = { type: 'list' } &
+      internalTypes.QuestionBase &
+      internalTypes.Initializer<string | string[], string[]> &
+      internalTypes.Formatter<string, string[]> &
+      internalTypes.Validator<string[], string[]> &
+      internalTypes.ResultTransformer<string[], string[]>
 
     export type ToggleQuestion = {
       type: 'toggle',
