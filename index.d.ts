@@ -150,8 +150,8 @@ declare namespace Enquirer {
       margin?: number | [number, number, number, number],
       numbered?: boolean,
     } & internalTypes.QuestionBase &
-      internalTypes.Formatter<SortQuestion.Answer | undefined, SortQuestion.Answer> &
-      internalTypes.ResultTransformer<SortQuestion.Answer, SortQuestion.Answer>
+      internalTypes.Initializer<number, string[]> &
+      internalTypes.Formatter<string[] | undefined, string[]>
 
     export namespace SortQuestion {
       export type Choice = ChoiceOptions | Promise<ChoiceOptions> | (() => ChoiceOptions | Promise<ChoiceOptions>)
@@ -166,7 +166,7 @@ declare namespace Enquirer {
 
 
     export namespace internalTypes {
-      export type Value = string | boolean | number | ScaleQuestion.Answer
+      export type Value = string | boolean | number | string[] | ScaleQuestion.Answer
 
       export type CommonQuestion<V extends Value, A extends Answer> =
         QuestionBase &
@@ -176,7 +176,7 @@ declare namespace Enquirer {
         ResultTransformer<V, A>
 
       export type QuestionBase = {
-        name: string | (() => string);
+        name: string;
         message: string | (() => string | Promise<string>);
 
         skip?: boolean | (() => boolean | Promise<boolean>);
