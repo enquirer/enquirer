@@ -2388,7 +2388,7 @@ describe('quiz prompt', () => {
     })
   }
 });
-
+``
 describe('scale prompt', () => {
   const defaultScaleQuestion = {
     type: 'scale' as const,
@@ -2618,3 +2618,220 @@ describe('scale prompt', () => {
     })
   }
 });
+
+describe('sort prompt', () => {
+  const defaultSortQuestion = {
+    type: 'sort' as const,
+    name: 'colors',
+    message: 'Sort the colors in order of preference',
+    choices: [
+      {
+        name: 'red',
+        message: 'color red'
+      },
+      {
+        name: 'white',
+        message: 'color white'
+      },
+      {
+        name: 'green',
+        message: 'color green'
+      },
+      {
+        name: 'cyan',
+        message: 'color cyan'
+      },
+      {
+        name: 'yellow',
+        message: 'color yellow'
+      }
+    ] as Enquirer.prompt.SortQuestion.Choice[]
+  }
+  it('prompt with mininum option', () => {
+    const { prompt } = Enquirer
+
+    testType(() => prompt(defaultSortQuestion))
+  })
+
+  it('with margin as an number', async () => {
+    const { prompt } = Enquirer
+
+    testType(() => prompt({
+      ...defaultSortQuestion,
+      margin: 2
+    }))
+  });
+
+  it('with margin array', async () => {
+    const { prompt } = Enquirer
+
+    testType(() => prompt({
+      ...defaultSortQuestion,
+      margin: [1, 2, 3, 4]
+    }))
+  });
+
+  it('skip will skip the prompt', async () => {
+    await testSortPromptQuestionType({
+      ...defaultSortQuestion,
+      skip: true
+    })
+  })
+
+  it('skip with function', async () => {
+    await testSortPromptQuestionType({
+      ...defaultSortQuestion,
+      skip: () => true
+    })
+  })
+
+  it('skip with async function', async () => {
+    await testSortPromptQuestionType({
+      ...defaultSortQuestion,
+      skip: () => Promise.resolve(true)
+    })
+  })
+
+  it('skip with delayed async function', async () => {
+    await testSortPromptQuestionType({
+      ...defaultSortQuestion,
+      skip: () => new Promise(a => setImmediate(() => a(true)))
+    })
+  })
+
+  it.skip('choice can be promise', async () => {
+    await testSortPromptQuestionType({
+      ...defaultSortQuestion,
+      choices: [Promise.resolve({
+        name: 'interface',
+        message: 'The website has a friendly interface.'
+      }), ...defaultSortQuestion.choices.slice(1)],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => ChoiceOptions', async () => {
+    await testSortPromptQuestionType({
+      ...defaultSortQuestion,
+      choices: [() => ({
+        name: 'interface',
+        message: 'The website has a friendly interface.'
+      }), ...defaultSortQuestion.choices.slice(1)],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => Promise<ChoiceOptions>', async () => {
+    await testSortPromptQuestionType({
+      ...defaultSortQuestion,
+      choices: [() => Promise.resolve({
+        name: 'interface',
+        message: 'The website has a friendly interface.'
+      }), ...defaultSortQuestion.choices.slice(1)],
+      show: false
+    })
+  });
+
+  it('with numbered flag', async () => {
+    await testSortPromptQuestionType({
+      ...defaultSortQuestion,
+      numbered: true,
+      show: false
+    })
+  });
+
+  it('with hint', async () => {
+    await testSortPromptQuestionType({
+      ...defaultSortQuestion,
+      hint: 'order up and down',
+      show: false
+    })
+  });
+
+  it('specify initial value (cannot validate as initial only affects ui)', async () => {
+    await testSortPromptQuestionType({
+      ...defaultSortQuestion,
+      initial: 1,
+      show: false
+    })
+  })
+
+  it('initial with function (cannot validate as initial only affects ui)', async () => {
+    await testSortPromptQuestionType({
+      ...defaultSortQuestion,
+      initial: () => 1,
+      show: false,
+    })
+  })
+
+  it('initial with async function (cannot validate as initial only affects ui)', async () => {
+    await testSortPromptQuestionType({
+      ...defaultSortQuestion,
+      initial: () => Promise.resolve(1),
+      show: false,
+    })
+  })
+
+  it('specify format function', async () => {
+    await testSortPromptQuestionType({
+      ...defaultSortQuestion,
+      format(value) {
+        assertType<string[] | undefined>(value)
+        return value ? Object.values(value).join(', ') : ''
+      },
+      show: false,
+    })
+  });
+
+  it('specify format async function', async () => {
+    await testSortPromptQuestionType({
+      ...defaultSortQuestion,
+      async format(value) {
+        assertType<string[] | undefined>(value)
+        return value ? Object.values(value).join(', ') : ''
+      },
+      show: false,
+    })
+  });
+
+  it(`format function receives Prompt as 'this'`, async () => {
+    await testSortPromptQuestionType({
+      ...defaultSortQuestion,
+      async format(value) {
+        assertType<Prompt<string[]>>(this)
+        return value ? Object.values(value).join(', ') : ''
+      },
+      show: false,
+    })
+  });
+
+  async function testSortPromptQuestionType(question: Enquirer.prompt.SortQuestion) {
+    const { prompt } = Enquirer
+    prompt.on('prompt', (prompt: any) => prompt.submit())
+
+    const answer = await prompt(question)
+
+    const expectedAnswer = []
+    for (let i = 0; i < question.choices.length; i++) {
+      const c = question.choices[i]
+      if (typeof c === 'function') {
+        expectedAnswer.push((await c()).name)
+      }
+      else if (isPromise(c)) {
+        expectedAnswer.push((await c).name)
+      }
+      else {
+        expectedAnswer.push(c.name)
+      }
+    }
+
+    assert.deepEqual(answer, {
+      [question.name]: expectedAnswer
+    })
+  }
+});
+
+
+function isPromise(c: any): c is Promise<any> {
+  return typeof c.then === 'function'
+}
