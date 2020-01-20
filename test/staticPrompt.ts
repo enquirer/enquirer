@@ -2557,7 +2557,6 @@ describe('scale prompt', () => {
     })
   });
 
-
   it('specify result function', async () => {
     let called = false
     await testScalePromptQuestionType({
@@ -2571,7 +2570,7 @@ describe('scale prompt', () => {
     })
 
     assert.ok(called)
-  })
+  });
 
   it('specify result async function', async () => {
     let called = false
@@ -2586,7 +2585,7 @@ describe('scale prompt', () => {
     })
 
     assert.ok(called)
-  })
+  });
 
   it(`result function receives Prompt as 'this'`, async () => {
     let called = false
@@ -2601,7 +2600,7 @@ describe('scale prompt', () => {
     })
 
     assert.ok(called)
-  })
+  });
 
   async function testScalePromptQuestionType(question: Enquirer.prompt.ScaleQuestion) {
     const { prompt } = Enquirer
