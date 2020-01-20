@@ -53,7 +53,8 @@ declare namespace Enquirer {
 
     export type Question = InputQuestion | ConfirmQuestion | NumeralQuestion |
       PasswordQuestion | InvisibleQuestion | ListQuestion | ToggleQuestion | BasicAuthQuestion |
-      QuizQuestion | ScaleQuestion | SortQuestion | SnippetQuestion | SelectQuestion
+      QuizQuestion | ScaleQuestion | SortQuestion | SnippetQuestion |
+      SelectQuestion | MultiSelectQuestion
 
     export type InputQuestion = { type: 'input' } &
       internalTypes.CommonQuestion<string, string>
@@ -107,9 +108,8 @@ declare namespace Enquirer {
     export namespace QuizQuestion {
       export type Choice = string | Promise<string> | ChoiceOptions | (() => string | ChoiceOptions | Promise<string | ChoiceOptions>)
       export type ChoiceOptions = {
-        // to be removed if other prompts use value consistently.
-        // name: string,
-        value: string,
+        name: string,
+        value?: string,
         message?: string,
         hint?: string,
         disabled?: boolean
@@ -168,8 +168,6 @@ declare namespace Enquirer {
         name: string,
         message: string
       }
-
-      export type Answer = Record<string, number>
     }
 
     export type SnippetQuestion = {
@@ -204,15 +202,22 @@ declare namespace Enquirer {
     export namespace SelectQuestion {
       export type Choice = string | Promise<string> | ChoiceOptions | (() => string | ChoiceOptions | Promise<string | ChoiceOptions>)
       export type ChoiceOptions = {
-        // to be removed if other prompts use value consistently.
-        // name: string,
-        value: string,
+        name: string,
+        value?: string,
         message?: string,
         hint?: string,
         disabled?: boolean
       }
-      export type Answer = { selectedAnswer: string, correctAnswer: string, correct: boolean }
     }
+
+    export type MultiSelectQuestion = {
+      type: 'multiselect',
+      choices: SelectQuestion.Choice[],
+      limit?: number,
+    } & internalTypes.QuestionBase &
+      internalTypes.Initializer<string | string[], string[]> &
+      internalTypes.Formatter<string[], string[]>
+
 
 
     export namespace internalTypes {

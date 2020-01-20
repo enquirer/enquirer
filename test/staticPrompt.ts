@@ -2213,15 +2213,15 @@ describe('quiz prompt', () => {
     await testQuestionType({
       ...minimumQuestion,
       choices: [
-        { value: '165' },
-        { value: '175', message: 'abc 175' },
-        { value: '185', hint: 'choose this' },
-        { value: '195', disabled: false },
-        { value: '205', disabled: true },
-        { value: '1', message: 'a1', hint: 'not right' },
-        { value: '2', hint: 'not right', disabled: true },
-        { value: '3', message: 'a3', disabled: true },
-        { value: '4', message: 'a4', hint: 'not right', disabled: true },
+        { name: '165' },
+        { name: '175', message: 'abc 175' },
+        { name: '185', hint: 'choose this' },
+        { name: '195', disabled: false },
+        { name: '205', disabled: true },
+        { name: '1', message: 'a1', hint: 'not right' },
+        { name: '2', hint: 'not right', disabled: true },
+        { name: '3', message: 'a3', disabled: true },
+        { name: '4', message: 'a4', hint: 'not right', disabled: true },
       ],
       show: false,
     })
@@ -2230,7 +2230,7 @@ describe('quiz prompt', () => {
   it('choice can be () => ChoiceOption', async () => {
     await testQuestionType({
       ...minimumQuestion,
-      choices: [() => ({ value: '165' }), '175', '185', '195', '205'],
+      choices: [() => ({ name: '165' }), '175', '185', '195', '205'],
       show: false,
     })
   });
@@ -2238,7 +2238,7 @@ describe('quiz prompt', () => {
   it('choice can be () => Promise<ChoiceOption>', async () => {
     await testQuestionType({
       ...minimumQuestion,
-      choices: [async () => ({ value: '165' }), '175', '185', '195', '205'],
+      choices: [async () => ({ name: '165' }), '175', '185', '195', '205'],
       show: false,
     })
   });
@@ -3278,22 +3278,6 @@ describe('select prompt', () => {
     })
   })
 
-  it.skip('specify initial string value', async () => {
-    await testQuestionType({
-      ...minimumQuestion,
-      initial: 'cherry',
-      show: false
-    }, 'cherry')
-  })
-
-  it.skip('specify initial number (index) value', async () => {
-    await testQuestionType({
-      ...minimumQuestion,
-      initial: 3,
-      show: false
-    }, 'cherry')
-  })
-
   it.skip('choice can be promise', async () => {
     await testQuestionType({
       ...minimumQuestion,
@@ -3322,15 +3306,15 @@ describe('select prompt', () => {
     await testQuestionType({
       ...minimumQuestion,
       choices: [
-        { value: 'apple' },
-        { value: 'apple2', message: 'APPLE' },
-        { value: 'watermelon', hint: 'choose this' },
-        { value: 'apple4', disabled: false },
-        { value: 'apple5', disabled: true },
-        { value: 'orange1', message: 'a1', hint: 'not ripe' },
-        { value: 'orange2', hint: 'not ripe', disabled: true },
-        { value: 'orange3', message: 'Orange3', disabled: true },
-        { value: 'orange4', message: 'Orange4', hint: 'not ripe', disabled: true },
+        { name: 'apple' },
+        { name: 'apple2', message: 'APPLE' },
+        { name: 'watermelon', hint: 'choose this' },
+        { name: 'apple4', disabled: false },
+        { name: 'apple5', disabled: true },
+        { name: 'orange1', message: 'a1', hint: 'not ripe' },
+        { name: 'orange2', hint: 'not ripe', disabled: true },
+        { name: 'orange3', message: 'Orange3', disabled: true },
+        { name: 'orange4', message: 'Orange4', hint: 'not ripe', disabled: true },
       ],
       show: false
     })
@@ -3339,7 +3323,7 @@ describe('select prompt', () => {
   it.skip('choice can be () => ChoiceOption', async () => {
     await testQuestionType({
       ...minimumQuestion,
-      choices: [() => ({ value: 'apple' }), 'grape', 'watermelon', 'cherry', 'orange'],
+      choices: [() => ({ name: 'apple' }), 'grape', 'watermelon', 'cherry', 'orange'],
       show: false
     })
   });
@@ -3347,10 +3331,26 @@ describe('select prompt', () => {
   it.skip('choice can be () => Promise<ChoiceOption>', async () => {
     await testQuestionType({
       ...minimumQuestion,
-      choices: [async () => ({ value: 'apple' }), 'grape', 'watermelon', 'cherry', 'orange'],
+      choices: [async () => ({ name: 'apple' }), 'grape', 'watermelon', 'cherry', 'orange'],
       show: false
     })
   });
+
+  it.skip('specify initial string value', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: 'cherry',
+      show: false
+    }, 'cherry')
+  })
+
+  it.skip('specify initial number (index) value', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: 3,
+      show: false
+    }, 'cherry')
+  })
 
   it.skip('initial with function () => string', async () => {
     await testQuestionType({
@@ -3407,6 +3407,245 @@ describe('select prompt', () => {
       format(value) {
         assertType<Prompt<string>>(this)
         return value
+      },
+      show: false,
+    })
+  })
+});
+
+describe('multiselect prompt', () => {
+  const minimumQuestion = {
+    type: 'multiselect' as const,
+    name: 'value',
+    message: 'Pick your favorite colors',
+    choices: [
+      { name: 'aqua', value: '#00ffff' },
+      { name: 'black', value: '#000000' },
+      { name: 'blue', value: '#0000ff' },
+      { name: 'fuchsia', value: '#ff00ff' },
+      { name: 'gray', value: '#808080' },
+      { name: 'green', value: '#008000' },
+      { name: 'lime', value: '#00ff00' },
+      { name: 'maroon', value: '#800000' },
+      { name: 'navy', value: '#000080' },
+      { name: 'olive', value: '#808000' },
+      { name: 'purple', value: '#800080' },
+      { name: 'red', value: '#ff0000' },
+      { name: 'silver', value: '#c0c0c0' },
+      { name: 'teal', value: '#008080' },
+      { name: 'white', value: '#ffffff' },
+      { name: 'yellow', value: '#ffff00' }
+    ]
+  }
+
+  async function testQuestionType(
+    question: Enquirer.prompt.MultiSelectQuestion,
+    expectedAnswer: string[] = []
+  ) {
+    const { prompt } = Enquirer
+    prompt.on('prompt', (prompt: any) => prompt.submit())
+
+    const answer = await prompt(question)
+
+    assert.deepEqual(answer, {
+      [question.name]: expectedAnswer
+    })
+  }
+
+  it('prompt with mininum option', () => {
+    const { prompt } = Enquirer
+    testType(() => prompt(minimumQuestion))
+  })
+
+  it.skip('skip will skip the prompt', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: true
+    })
+  })
+
+  it.skip('skip with function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: () => true
+    })
+  })
+
+  it.skip('skip with async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: () => Promise.resolve(true)
+    })
+  })
+
+  it.skip('skip with delayed async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: () => new Promise(a => setImmediate(() => a(true)))
+    })
+  })
+
+  it.skip('choice can be promise', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [Promise.resolve('apple'), 'grape', 'watermelon', 'cherry', 'orange'],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => string', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [() => 'apple', 'grape', 'watermelon', 'cherry', 'orange'],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => Promise<string>', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [async () => 'apple', 'grape', 'watermelon', 'cherry', 'orange'],
+      show: false
+    })
+  });
+
+  it.skip('choice can be choice options', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [
+        { name: 'apple' },
+        { name: 'apple2', message: 'APPLE' },
+        { name: 'watermelon', hint: 'choose this' },
+        { name: 'apple4', disabled: false },
+        { name: 'apple5', disabled: true },
+        { name: 'orange1', message: 'a1', hint: 'not ripe' },
+        { name: 'orange2', hint: 'not ripe', disabled: true },
+        { name: 'orange3', message: 'Orange3', disabled: true },
+        { name: 'orange4', message: 'Orange4', hint: 'not ripe', disabled: true },
+      ],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => ChoiceOption', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [() => ({ name: 'apple' }), 'grape', 'watermelon', 'cherry', 'orange'],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => Promise<ChoiceOption>', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [async () => ({ name: 'apple' }), 'grape', 'watermelon', 'cherry', 'orange'],
+      show: false
+    })
+  });
+
+  it.skip('specify limit', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      limit: 3,
+      show: false
+    })
+  })
+
+  it.skip('specify initial string value', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: 'black',
+      show: false
+    }, ['black'])
+  })
+
+  it.skip('initial with function () => string', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: () => 'black',
+      show: false
+    }, ['black'])
+  })
+
+  it.skip('initial with async function () => Promise<string>', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: async () => 'black',
+      show: false
+    }, ['black'])
+  })
+
+  it.skip('initial with delayed async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: () => new Promise(a => setImmediate(() => a('black'))),
+      show: false
+    }, ['black'])
+  })
+
+  it.skip('specify initial string[] value', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: ['black', 'navy'],
+      show: false
+    }, ['black', 'navy'])
+  })
+
+  it.skip('initial with function () => string', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: () => ['black', 'navy'],
+      show: false
+    }, ['black', 'navy'])
+  })
+
+  it.skip('initial with async function () => Promise<string>', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: async () => ['black', 'navy'],
+      show: false
+    }, ['black', 'navy'])
+  })
+
+  it.skip('initial with delayed async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: () => new Promise(a => setImmediate(() => a(['black', 'navy']))),
+      show: false
+    }, ['black', 'navy'])
+  })
+
+  it.skip('specify format function', async () => {
+    let called = false
+    await testQuestionType({
+      ...minimumQuestion,
+      format(value) {
+        called = true
+        assertType<string[]>(value)
+        return 'string'
+      },
+      show: false,
+    })
+    assert.ok(called)
+  })
+
+  it.skip('specify format async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      format(value) {
+        assertType<string[]>(value)
+        return Promise.resolve('string')
+      },
+      show: false,
+    })
+  })
+
+  it.skip(`format function receives Prompt as 'this'`, async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      format(value) {
+        assertType<Prompt<string[]>>(this)
+        return 'string'
       },
       show: false,
     })
