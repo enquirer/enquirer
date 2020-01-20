@@ -53,7 +53,7 @@ declare namespace Enquirer {
 
     export type Question = InputQuestion | ConfirmQuestion | NumeralQuestion |
       PasswordQuestion | InvisibleQuestion | ToggleQuestion | BasicAuthQuestion |
-      QuizQuestion
+      QuizQuestion | ScaleQuestion
 
     export type InputQuestion = { type: 'input' } &
       internalTypes.CommonQuestion<string, string>
@@ -89,24 +89,26 @@ declare namespace Enquirer {
 
     export type QuizQuestion = {
       type: 'quiz',
-      choices: QuizChoice[],
+      choices: QuizQuestion.Choice[],
       correctChoice: number,
       initial?: number | (() => number | Promise<number>);
     } & internalTypes.QuestionBase &
-      internalTypes.Formatter<boolean, QuizAnswer> &
-      internalTypes.Initializer<number, QuizAnswer>
+      internalTypes.Formatter<boolean, QuizQuestion.Answer> &
+      internalTypes.Initializer<number, QuizQuestion.Answer>
 
-    export type QuizChoice = string | Promise<string> | QuizChoiceOptions | (() => string | Promise<string>)
-    export type QuizChoiceOptions = {
-      // to be removed if other prompts use value consistently.
-      // name: string,
-      value: string,
-      message?: string,
-      hint?: string,
-      disabled?: boolean
+    export namespace QuizQuestion {
+      export type Choice = string | Promise<string> | ChoiceOptions | (() => string | Promise<string>)
+      export type ChoiceOptions = {
+        // to be removed if other prompts use value consistently.
+        // name: string,
+        value: string,
+        message?: string,
+        hint?: string,
+        disabled?: boolean
+      }
+      export type Answer = { selectedAnswer: string, correctAnswer: string, correct: boolean }
     }
 
-    export type QuizAnswer = { selectedAnswer: string, correctAnswer: string, correct: boolean }
 
     // SurveyPrompt is too alpha to be typed
     // export type SurveyQuestion = {
@@ -119,10 +121,32 @@ declare namespace Enquirer {
     // // internalTypes.Formatter<boolean, QuizAnswer> &
     // // internalTypes.Initializer<number, QuizAnswer>
 
+    export type ScaleQuestion = {
+      type: 'scale',
+      scale: { name: string, message: string }[],
+      choices: ScaleQuestion.Choice[],
+      margin?: number | [number, number, number, number],
+      // initial?: number | (() => number | Promise<number>);
+    } & internalTypes.QuestionBase &
+      internalTypes.Formatter<ScaleQuestion.Answer | undefined, ScaleQuestion.Answer> &
+      internalTypes.ResultTransformer<ScaleQuestion.Answer, ScaleQuestion.Answer>
+
+    export namespace ScaleQuestion {
+      export type Choice = ChoiceOptions | Promise<ChoiceOptions> | (() => ChoiceOptions | Promise<ChoiceOptions>)
+
+      export type ChoiceOptions = {
+        name: string,
+        message: string,
+        disabled?: boolean,
+        initial?: number
+      }
+
+      export type Answer = Record<string, number>
+    }
 
 
     export namespace internalTypes {
-      export type Value = string | boolean | number
+      export type Value = string | boolean | number | ScaleQuestion.Answer
 
       export type CommonQuestion<V extends Value, A extends Answer> =
         QuestionBase &
@@ -143,7 +167,7 @@ declare namespace Enquirer {
         initial?: V | ((this: Prompt<A>) => V | Promise<V>);
       }
 
-      export type Formatter<V extends Value, A extends Answer> = {
+      export type Formatter<V extends Value | undefined, A extends Answer> = {
         format?: (this: Prompt<A>, value: V) => string | Promise<string>;
       }
 
@@ -158,7 +182,8 @@ declare namespace Enquirer {
   }
 
   export type Answers = Record<string, Answer>
-  export type Answer = string | boolean | number | string[] | prompt.QuizAnswer
+  export type Answer = string | boolean | number | string[] |
+    prompt.QuizQuestion.Answer | prompt.ScaleQuestion.Answer
 
   export type Key = {
     name?: string;

@@ -497,4 +497,3 @@ describe('array prompt', function () {
     });
   });
 });
-
