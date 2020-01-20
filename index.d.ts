@@ -53,7 +53,7 @@ declare namespace Enquirer {
 
     export type Question = InputQuestion | ConfirmQuestion | NumeralQuestion |
       PasswordQuestion | InvisibleQuestion | ListQuestion | ToggleQuestion | BasicAuthQuestion |
-      QuizQuestion | ScaleQuestion | SortQuestion | SnippetQuestion
+      QuizQuestion | ScaleQuestion | SortQuestion | SnippetQuestion | SelectQuestion
 
     export type InputQuestion = { type: 'input' } &
       internalTypes.CommonQuestion<string, string>
@@ -83,7 +83,6 @@ declare namespace Enquirer {
       disabled?: string,
     } & internalTypes.CommonQuestion<boolean, boolean>
 
-
     export type BasicAuthQuestion = {
       type: 'basicauth',
       username: string,
@@ -98,7 +97,6 @@ declare namespace Enquirer {
       type: 'quiz',
       choices: QuizQuestion.Choice[],
       correctChoice: number,
-      initial?: number | (() => number | Promise<number>);
     } & internalTypes.QuestionBase &
       internalTypes.Formatter<boolean, QuizQuestion.Answer> &
       internalTypes.Initializer<number, QuizQuestion.Answer>
@@ -191,6 +189,26 @@ declare namespace Enquirer {
         values: Record<string, string>,
         result: string
       }
+    }
+
+    export type SelectQuestion = {
+      type: 'select',
+      choices: SelectQuestion.Choice[],
+    } & internalTypes.QuestionBase &
+      internalTypes.Initializer<string | number, string> &
+      internalTypes.Formatter<boolean, string>
+
+    export namespace SelectQuestion {
+      export type Choice = string | Promise<string> | ChoiceOptions | (() => string | Promise<string>)
+      export type ChoiceOptions = {
+        // to be removed if other prompts use value consistently.
+        // name: string,
+        value: string,
+        message?: string,
+        hint?: string,
+        disabled?: boolean
+      }
+      export type Answer = { selectedAnswer: string, correctAnswer: string, correct: boolean }
     }
 
 
