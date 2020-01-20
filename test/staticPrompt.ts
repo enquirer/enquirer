@@ -3045,7 +3045,12 @@ describe('list prompt', () => {
     })
   })
 
-  it('TODO separator')
+  it.skip('specify separator (to be improved)', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      separator: ':',
+    })
+  })
 
   it('specify initial string value', async () => {
     await testQuestionType({

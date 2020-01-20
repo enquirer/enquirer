@@ -174,7 +174,10 @@ declare namespace Enquirer {
     export type InvisibleQuestion = { type: 'invisible', } &
       internalTypes.CommonQuestion<string, string>
 
-    export type ListQuestion = { type: 'list' } &
+    export type ListQuestion = {
+      type: 'list',
+      separator?: string
+    } &
       internalTypes.QuestionBase &
       internalTypes.Initializer<string | string[], string[]> &
       internalTypes.Formatter<string, string[]> &
