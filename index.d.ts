@@ -53,7 +53,7 @@ declare namespace Enquirer {
 
     export type Question = InputQuestion | ConfirmQuestion | NumeralQuestion |
       PasswordQuestion | InvisibleQuestion | ToggleQuestion | BasicAuthQuestion |
-      QuizQuestion | ScaleQuestion
+      QuizQuestion | ScaleQuestion | SortQuestion
 
     export type InputQuestion = { type: 'input' } &
       internalTypes.CommonQuestion<string, string>
@@ -126,7 +126,6 @@ declare namespace Enquirer {
       scale: { name: string, message: string }[],
       choices: ScaleQuestion.Choice[],
       margin?: number | [number, number, number, number],
-      // initial?: number | (() => number | Promise<number>);
     } & internalTypes.QuestionBase &
       internalTypes.Formatter<ScaleQuestion.Answer | undefined, ScaleQuestion.Answer> &
       internalTypes.ResultTransformer<ScaleQuestion.Answer, ScaleQuestion.Answer>
@@ -139,6 +138,27 @@ declare namespace Enquirer {
         message: string,
         disabled?: boolean,
         initial?: number
+      }
+
+      export type Answer = Record<string, number>
+    }
+
+    export type SortQuestion = {
+      type: 'sort',
+      choices: SortQuestion.Choice[],
+      hint?: string,
+      margin?: number | [number, number, number, number],
+      numbered?: boolean,
+    } & internalTypes.QuestionBase &
+      internalTypes.Formatter<SortQuestion.Answer | undefined, SortQuestion.Answer> &
+      internalTypes.ResultTransformer<SortQuestion.Answer, SortQuestion.Answer>
+
+    export namespace SortQuestion {
+      export type Choice = ChoiceOptions | Promise<ChoiceOptions> | (() => ChoiceOptions | Promise<ChoiceOptions>)
+
+      export type ChoiceOptions = {
+        name: string,
+        message: string
       }
 
       export type Answer = Record<string, number>
