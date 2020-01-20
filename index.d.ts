@@ -157,7 +157,7 @@ declare namespace Enquirer {
 
     export type Question = InputQuestion | ConfirmQuestion | NumeralQuestion |
       PasswordQuestion | InvisibleQuestion | ToggleQuestion | BasicAuthQuestion |
-      QuizQuestion | ScaleQuestion | SortQuestion
+      QuizQuestion | ScaleQuestion | SortQuestion | SnippetQuestion
 
     export type InputQuestion = { type: 'input' } &
       internalTypes.CommonQuestion<string, string>
@@ -268,9 +268,32 @@ declare namespace Enquirer {
       export type Answer = Record<string, number>
     }
 
+    export type SnippetQuestion = {
+      type: 'snippet',
+      required?: boolean,
+      fields?: SnippetQuestion.Field[],
+    } & internalTypes.QuestionBase &
+      internalTypes.Formatter<SnippetQuestion.Answer | undefined, SnippetQuestion.Answer> &
+      internalTypes.Validator<SnippetQuestion.Answer, SnippetQuestion.Answer>
+
+    export namespace SnippetQuestion {
+      export type Field = {
+        name: string,
+        message?: string,
+        initial?: string
+        validate?: (value: string) => boolean | Promise<boolean>
+      }
+
+      export type Answer = {
+        values: Record<string, string>,
+        result: string
+      }
+    }
+
 
     export namespace internalTypes {
-      export type Value = string | boolean | number | string[] | ScaleQuestion.Answer
+      export type Value = string | boolean | number | string[] |
+        ScaleQuestion.Answer | SnippetQuestion.Answer
 
       export type CommonQuestion<V extends Value, A extends Answer> =
         QuestionBase &
@@ -307,7 +330,7 @@ declare namespace Enquirer {
 
   export type Answers = Record<string, Answer>
   export type Answer = string | boolean | number | string[] |
-    prompt.QuizQuestion.Answer | prompt.ScaleQuestion.Answer
+    prompt.QuizQuestion.Answer | prompt.ScaleQuestion.Answer | prompt.SnippetQuestion.Answer
 
   export type Key = {
     name?: string;
