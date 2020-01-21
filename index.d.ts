@@ -9,7 +9,7 @@ interface BasePromptOptions {
   format?(value: string): string | Promise<string>
   result?(value: string): string | Promise<string>
   skip?: ((state: object) => boolean | Promise<boolean>) | boolean
-  validate?(value: string): boolean | Promise<boolean> | string | Promise<string>
+  validate?(value: string, ...extra: any[]): boolean | Promise<boolean> | string | Promise<string>
   onSubmit?(name: string, value: any, prompt: Enquirer.Prompt): boolean | Promise<boolean>
   onCancel?(name: string, value: any, prompt: Enquirer.Prompt): boolean | Promise<boolean>
   stdin?: NodeJS.ReadStream
@@ -73,6 +73,8 @@ interface NumberPromptOptions extends BasePromptOptions {
 interface SnippetPromptOptions extends BasePromptOptions {
   type: 'snippet'
   newline?: string
+  fields?: Partial<BasePromptOptions>[]
+  template: string
 }
 
 interface SortPromptOptions extends BasePromptOptions {
@@ -97,6 +99,8 @@ declare class BasePrompt extends EventEmitter {
     render(): void;
 
     run(): Promise<any>;
+
+    protected styles: Styles;
   }
 
 declare class Enquirer<T = object> extends EventEmitter {
@@ -136,6 +140,17 @@ declare class Enquirer<T = object> extends EventEmitter {
   use(plugin: (this: this, enquirer: this) => void): this;
 }
 
+interface Styles {
+  success(message:string): void;
+  danger(message:string): void;
+  strong(message:string): void;
+  warning(message:string): void;
+  muted(message:string): void;
+  disabled(message:string): void;
+  dark(message:string): void;
+  underline(message:string): void;
+}
+
 declare namespace Enquirer {
   function prompt<T = object>(
     questions:
@@ -145,6 +160,9 @@ declare namespace Enquirer {
   ): Promise<T>;
 
   class Prompt extends BasePrompt {}
+  class Snippet extends Prompt { 
+    constructor(options?: Partial<SnippetPromptOptions>);
+  }
 }
 
 export = Enquirer;
