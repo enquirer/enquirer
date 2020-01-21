@@ -3601,6 +3601,14 @@ describe('multiselect prompt', () => {
     })
   })
 
+  it.skip('specify maxSelected', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      maxSelected: Infinity,
+      show: false
+    })
+  })
+
   it.skip('specify initial string value', async () => {
     await testQuestionType({
       ...minimumQuestion,
