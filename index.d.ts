@@ -220,6 +220,7 @@ declare namespace Enquirer {
       type: 'multiselect',
       choices: SelectQuestion.Choice[],
       limit?: number,
+      maxSelected?: number,
     } & internalTypes.QuestionBase &
       internalTypes.Initializer<string | string[], string[]> &
       internalTypes.Formatter<string[], string[]>
