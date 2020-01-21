@@ -2397,32 +2397,6 @@ describe('scale prompt', () => {
     })
   })
 
-  it.skip('specify align left', async () => {
-    await testQuestionType({
-      ...minimumQuestion,
-      align: 'left'
-    })
-  })
-
-  it.skip('specify align right', async () => {
-    await testQuestionType({
-      ...minimumQuestion,
-      align: 'right'
-    })
-  })
-
-  it('specify initial value (cannot validate as initial only affects ui)', async () => {
-    await testQuestionType({
-      ...minimumQuestion,
-      choices: [{
-        name: 'interface',
-        message: 'The website has a friendly interface.',
-        initial: 1
-      }, ...minimumQuestion.choices.slice(1)],
-      show: false,
-    })
-  })
-
   it.skip('choice can be promise', async () => {
     await testQuestionType({
       ...minimumQuestion,
@@ -2458,6 +2432,67 @@ describe('scale prompt', () => {
       show: false
     })
   });
+
+  it.skip('specify align left', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      align: 'left'
+    })
+  })
+
+  it.skip('specify align right', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      align: 'right'
+    })
+  })
+
+  it.skip('specify linebreak', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      linebreak: false
+    })
+  })
+
+  it.skip('specify edgeLength', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      edgeLength: 3
+    })
+  })
+
+  it.skip('specify newline', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      newline: '\r\n'
+    })
+  })
+
+  it.skip('specify messageWidth', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      messageWidth: 50
+    })
+  })
+
+  it.skip('specify startNumber', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      startNumber: 1
+    })
+  })
+
+  it('specify initial value (cannot validate as initial only affects ui)', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [{
+        name: 'interface',
+        message: 'The website has a friendly interface.',
+        initial: 1
+      }, ...minimumQuestion.choices.slice(1)],
+      show: false,
+    })
+  })
 
   it('specify format function', async () => {
     await testQuestionType({

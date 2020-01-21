@@ -134,7 +134,12 @@ declare namespace Enquirer {
       scale: { name: string, message: string }[],
       choices: ScaleQuestion.Choice[],
       align?: 'left' | 'right',
+      edgeLength?: number,
+      linebreak?: boolean,
       margin?: number | [number, number, number, number],
+      messageWidth?: number,
+      newline?: string,
+      startNumber?: number,
     } & internalTypes.QuestionBase &
       internalTypes.Formatter<ScaleQuestion.Answer | undefined, ScaleQuestion.Answer> &
       internalTypes.ResultTransformer<ScaleQuestion.Answer, ScaleQuestion.Answer>
