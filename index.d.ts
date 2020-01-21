@@ -133,6 +133,7 @@ declare namespace Enquirer {
       type: 'scale',
       scale: { name: string, message: string }[],
       choices: ScaleQuestion.Choice[],
+      align?: 'left' | 'right',
       margin?: number | [number, number, number, number],
     } & internalTypes.QuestionBase &
       internalTypes.Formatter<ScaleQuestion.Answer | undefined, ScaleQuestion.Answer> &
@@ -222,6 +223,7 @@ declare namespace Enquirer {
     export type FormQuestion = {
       type: 'form',
       choices: FormQuestion.Choice[],
+      align?: 'left' | 'right',
     } & internalTypes.QuestionBase &
       internalTypes.Validator<FormQuestion.Answer, FormQuestion.Answer> &
       internalTypes.ResultTransformer<FormQuestion.Answer, FormQuestion.Answer>

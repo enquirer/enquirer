@@ -2311,7 +2311,7 @@ describe('quiz prompt', () => {
 });
 
 describe('scale prompt', () => {
-  const defaultScaleQuestion = {
+  const minimumQuestion = {
     type: 'scale' as const,
     name: 'experience',
     message: 'Please rate your experience',
@@ -2348,14 +2348,14 @@ describe('scale prompt', () => {
   it('prompt with mininum option', () => {
     const { prompt } = Enquirer
 
-    testType(() => prompt(defaultScaleQuestion))
+    testType(() => prompt(minimumQuestion))
   })
 
   it('with margin as an number', async () => {
     const { prompt } = Enquirer
 
     testType(() => prompt({
-      ...defaultScaleQuestion,
+      ...minimumQuestion,
       margin: 2
     }))
   });
@@ -2364,90 +2364,104 @@ describe('scale prompt', () => {
     const { prompt } = Enquirer
 
     testType(() => prompt({
-      ...defaultScaleQuestion,
+      ...minimumQuestion,
       margin: [1, 2, 3, 4]
     }))
   });
 
   it('skip will skip the prompt', async () => {
-    await testScalePromptQuestionType({
-      ...defaultScaleQuestion,
+    await testQuestionType({
+      ...minimumQuestion,
       skip: true
     })
   })
 
   it('skip with function', async () => {
-    await testScalePromptQuestionType({
-      ...defaultScaleQuestion,
+    await testQuestionType({
+      ...minimumQuestion,
       skip: () => true
     })
   })
 
   it('skip with async function', async () => {
-    await testScalePromptQuestionType({
-      ...defaultScaleQuestion,
+    await testQuestionType({
+      ...minimumQuestion,
       skip: () => Promise.resolve(true)
     })
   })
 
   it('skip with delayed async function', async () => {
-    await testScalePromptQuestionType({
-      ...defaultScaleQuestion,
+    await testQuestionType({
+      ...minimumQuestion,
       skip: () => new Promise(a => setImmediate(() => a(true)))
     })
   })
 
+  it.skip('specify align left', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      align: 'left'
+    })
+  })
+
+  it.skip('specify align right', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      align: 'right'
+    })
+  })
+
   it('specify initial value (cannot validate as initial only affects ui)', async () => {
-    await testScalePromptQuestionType({
-      ...defaultScaleQuestion,
+    await testQuestionType({
+      ...minimumQuestion,
       choices: [{
         name: 'interface',
         message: 'The website has a friendly interface.',
         initial: 1
-      }, ...defaultScaleQuestion.choices.slice(1)],
+      }, ...minimumQuestion.choices.slice(1)],
       show: false,
     })
   })
 
   it.skip('choice can be promise', async () => {
-    await testScalePromptQuestionType({
-      ...defaultScaleQuestion,
+    await testQuestionType({
+      ...minimumQuestion,
       choices: [Promise.resolve({
         name: 'interface',
         message: 'The website has a friendly interface.',
         initial: 1
-      }), ...defaultScaleQuestion.choices.slice(1)],
+      }), ...minimumQuestion.choices.slice(1)],
       show: false
     })
   });
 
   it.skip('choice can be () => ChoiceOptions', async () => {
-    await testScalePromptQuestionType({
-      ...defaultScaleQuestion,
+    await testQuestionType({
+      ...minimumQuestion,
       choices: [() => ({
         name: 'interface',
         message: 'The website has a friendly interface.',
         initial: 1
-      }), ...defaultScaleQuestion.choices.slice(1)],
+      }), ...minimumQuestion.choices.slice(1)],
       show: false
     })
   });
 
   it.skip('choice can be () => Promise<ChoiceOptions>', async () => {
-    await testScalePromptQuestionType({
-      ...defaultScaleQuestion,
+    await testQuestionType({
+      ...minimumQuestion,
       choices: [() => Promise.resolve({
         name: 'interface',
         message: 'The website has a friendly interface.',
         initial: 1
-      }), ...defaultScaleQuestion.choices.slice(1)],
+      }), ...minimumQuestion.choices.slice(1)],
       show: false
     })
   });
 
   it('specify format function', async () => {
-    await testScalePromptQuestionType({
-      ...defaultScaleQuestion,
+    await testQuestionType({
+      ...minimumQuestion,
       format(value) {
         assertType<Record<string, number> | undefined>(value)
         return value ? Object.values(value).join(', ') : ''
@@ -2457,8 +2471,8 @@ describe('scale prompt', () => {
   });
 
   it('specify format async function', async () => {
-    await testScalePromptQuestionType({
-      ...defaultScaleQuestion,
+    await testQuestionType({
+      ...minimumQuestion,
       async format(value) {
         assertType<Record<string, number> | undefined>(value)
         return value ? Object.values(value).join(', ') : ''
@@ -2468,8 +2482,8 @@ describe('scale prompt', () => {
   });
 
   it(`format function receives Prompt as 'this'`, async () => {
-    await testScalePromptQuestionType({
-      ...defaultScaleQuestion,
+    await testQuestionType({
+      ...minimumQuestion,
       async format(value) {
         assertType<Prompt<Enquirer.prompt.ScaleQuestion.Answer>>(this)
         return value ? Object.values(value).join(', ') : ''
@@ -2480,8 +2494,8 @@ describe('scale prompt', () => {
 
   it('specify result function', async () => {
     let called = false
-    await testScalePromptQuestionType({
-      ...defaultScaleQuestion,
+    await testQuestionType({
+      ...minimumQuestion,
       result(value) {
         called = true
         assertType<Record<string, number> | undefined>(value)
@@ -2495,8 +2509,8 @@ describe('scale prompt', () => {
 
   it('specify result async function', async () => {
     let called = false
-    await testScalePromptQuestionType({
-      ...defaultScaleQuestion,
+    await testQuestionType({
+      ...minimumQuestion,
       async result(value) {
         called = true
         assertType<Record<string, number> | undefined>(value)
@@ -2510,8 +2524,8 @@ describe('scale prompt', () => {
 
   it(`result function receives Prompt as 'this'`, async () => {
     let called = false
-    await testScalePromptQuestionType({
-      ...defaultScaleQuestion,
+    await testQuestionType({
+      ...minimumQuestion,
       result(value) {
         called = true
         assertType<Prompt<Enquirer.prompt.ScaleQuestion.Answer>>(this)
@@ -2523,7 +2537,7 @@ describe('scale prompt', () => {
     assert.ok(called)
   });
 
-  async function testScalePromptQuestionType(question: Enquirer.prompt.ScaleQuestion) {
+  async function testQuestionType(question: Enquirer.prompt.ScaleQuestion) {
     const { prompt } = Enquirer
     prompt.on('prompt', (prompt: any) => {
       prompt.choices.forEach((c: any) => c.scaleIndex = 2)
@@ -3075,6 +3089,7 @@ describe('list prompt', () => {
       show: false
     }, ['blue'])
   })
+
   it.skip('initial with function () => string[]', async () => {
     await testQuestionType({
       ...minimumQuestion,
@@ -3759,6 +3774,20 @@ describe('form prompt', () => {
     })
   });
 
+  it.skip('specify align left', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      align: 'left'
+    })
+  })
+
+  it.skip('specify align right', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      align: 'right'
+    })
+  })
+
   it.skip('specify validate function', async () => {
     await testQuestionType({
       ...minimumQuestion,
@@ -3841,7 +3870,7 @@ describe('form prompt', () => {
 });
 
 // AutoComplete Prompt
-// Form Prompt
+// Editable Prompt
 
 function isPromise(c: any): c is Promise<any> {
   return typeof c.then === 'function'
