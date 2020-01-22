@@ -14,6 +14,7 @@ interface BasePromptOptions {
   onCancel?(name: string, value: any, prompt: Enquirer.Prompt): boolean | Promise<boolean>
   stdin?: NodeJS.ReadStream
   stdout?: NodeJS.WriteStream
+  default?: string | string[]
 }
 
 interface Choice {
