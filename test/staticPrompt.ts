@@ -1,7 +1,38 @@
 import assert from 'assert'
 import { assertType } from 'type-plus'
-import Enquirer, { Prompt, ChoiceOptions } from '..'
+import Enquirer, { Prompt, prompt } from '..'
 import { testType } from './support'
+
+describe('alternative signature tests', () => {
+  test('call with function', () => {
+    const { prompt } = Enquirer
+    testType(() => prompt(() => ({
+      type: 'input',
+      name: 'color',
+      message: 'Favorite color?',
+    })))
+  })
+
+  test('call with array of questions', () => {
+    const { prompt } = Enquirer
+
+    testType(() => prompt([{
+      type: 'input',
+      name: 'color',
+      message: 'Favorite color?',
+    }] as prompt.Question[]))
+  })
+
+  test('call with array of function to questions', () => {
+    const { prompt } = Enquirer
+
+    testType(() => prompt([() => ({
+      type: 'input',
+        name: 'color',
+          message: 'Favorite color?',
+    })] as Array<(this: Enquirer) => prompt.Question>))
+  })
+})
 
 describe('input prompt', () => {
   it('prompt with mininum option', () => {
@@ -3953,7 +3984,7 @@ describe('autocomplete prompt', () => {
     question: Enquirer.prompt.AutoCompleteQuestion,
     expectedAnswer?: string | string[]
   ) {
-    expectedAnswer = expectedAnswer || question.multiple ? ['almond']: 'almond'
+    expectedAnswer = expectedAnswer || question.multiple ? ['almond'] : 'almond'
 
     const { prompt } = Enquirer
     prompt.on('prompt', (prompt: any) => prompt.submit())
@@ -4180,9 +4211,6 @@ describe('autocomplete prompt', () => {
     }, ['almond'])
   });
 });
-
-// AutoComplete Prompt
-// Editable Prompt
 
 function isPromise(c: any): c is Promise<any> {
   return typeof c.then === 'function'

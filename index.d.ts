@@ -26,11 +26,10 @@ declare class Enquirer extends EventEmitter {
    *
    * @param questions Options objects for one or more prompts to run.
    */
-  prompt(
-    questions: Enquirer.Prompt.Question
-      | ((this: Enquirer) => Enquirer.Prompt.Question)
-      | (Enquirer.Prompt.Question | ((this: Enquirer) => Enquirer.Prompt.Question))[]
-  ): Promise<Enquirer.Answers>;
+  prompt(questions: Enquirer.prompt.Question
+    | ((this: Enquirer) => Enquirer.prompt.Question)
+    | (Enquirer.prompt.Question | ((this: Enquirer) => Enquirer.prompt.Question))[]
+  ): Promise<Enquirer.Answers>
 
   /**
    * Use an enquirer plugin.
@@ -44,8 +43,8 @@ declare namespace Enquirer {
   export type Constructor<T extends Prompt> = new (...args: ConstructorParameters<new (...args: any) => T>) => T
 
   export function prompt(questions: prompt.Question
-    // | ((this: Enquirer) => Prompt.Question)
-    // | (Prompt.Question | ((this: Enquirer) => Prompt.Question))[]
+    | ((this: Enquirer) => prompt.Question)
+    | (prompt.Question | ((this: Enquirer) => prompt.Question))[]
   ): Promise<Answers>
 
   export namespace prompt {
