@@ -3912,6 +3912,275 @@ describe('form prompt', () => {
   })
 });
 
+describe('autocomplete prompt', () => {
+  const minimumQuestion = {
+    type: 'autocomplete' as const,
+    name: 'flavor',
+    message: 'Pick your favorite flavor',
+    choices: [
+      'Almond',
+      'Apple',
+      'Banana',
+      'Blackberry',
+      'Blueberry',
+      'Cherry',
+      'Chocolate',
+      'Cinnamon',
+      'Coconut',
+      'Cranberry',
+      'Grape',
+      'Nougat',
+      'Orange',
+      'Pear',
+      'Pineapple',
+      'Raspberry',
+      'Strawberry',
+      'Vanilla',
+      'Watermelon',
+      'Wintergreen'
+    ]
+  }
+
+  async function testQuestionType(
+    question: Enquirer.prompt.AutoCompleteQuestion.SingleAutoCompleteQuestion,
+    expectedAnswer?: string
+  ): Promise<void>
+  async function testQuestionType(
+    question: Enquirer.prompt.AutoCompleteQuestion.MultiAutoCompleteQuestion,
+    expectedAnswers?: string[]
+  ): Promise<void>
+  async function testQuestionType(
+    question: Enquirer.prompt.AutoCompleteQuestion,
+    expectedAnswer?: string | string[]
+  ) {
+    expectedAnswer = expectedAnswer || question.multiple ? ['almond']: 'almond'
+
+    const { prompt } = Enquirer
+    prompt.on('prompt', (prompt: any) => prompt.submit())
+
+    const answer = await prompt(question)
+
+    assert.deepEqual(answer, {
+      [question.name]: expectedAnswer
+    })
+  }
+
+  it('prompt with mininum option', () => {
+    const { prompt } = Enquirer
+    testType(() => prompt(minimumQuestion))
+  })
+
+  it.skip('skip will skip the prompt', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: true
+    })
+  })
+
+  it.skip('skip with function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: () => true
+    })
+  })
+
+  it.skip('skip with async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: () => Promise.resolve(true)
+    })
+  })
+
+  it.skip('skip with delayed async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      skip: () => new Promise(a => setImmediate(() => a(true)))
+    })
+  })
+
+  it.skip('choice can be promise', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [Promise.resolve('apple'), 'grape', 'watermelon', 'cherry', 'orange'],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => string', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [() => 'apple', 'grape', 'watermelon', 'cherry', 'orange'],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => Promise<string>', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [async () => 'apple', 'grape', 'watermelon', 'cherry', 'orange'],
+      show: false
+    })
+  });
+
+  it.skip('choice can be choice options', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [
+        { name: 'apple' },
+        { name: 'apple2', message: 'APPLE' },
+        { name: 'watermelon', hint: 'choose this' },
+        { name: 'apple4', disabled: false },
+        { name: 'apple5', disabled: true },
+        { name: 'orange1', message: 'a1', hint: 'not ripe' },
+        { name: 'orange2', hint: 'not ripe', disabled: true },
+        { name: 'orange3', message: 'Orange3', disabled: true },
+        { name: 'orange4', message: 'Orange4', hint: 'not ripe', disabled: true },
+      ],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => ChoiceOption', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [() => ({ name: 'apple' }), 'grape', 'watermelon', 'cherry', 'orange'],
+      show: false
+    })
+  });
+
+  it.skip('choice can be () => Promise<ChoiceOption>', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      choices: [async () => ({ name: 'apple' }), 'grape', 'watermelon', 'cherry', 'orange'],
+      show: false
+    })
+  });
+
+  it.skip('suggest can be (input, choices) => ChoiceOptions[]', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      suggest(input, choices) {
+        assertType.isString(input)
+        assertType<Enquirer.prompt.SelectQuestion.ChoiceOptions[]>(choices)
+        return choices
+      },
+      show: false
+    })
+  });
+
+  it.skip('suggest can be (input, choices) => Promise<ChoiceOptions[]>', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      async suggest(input, choices) {
+        assertType.isString(input)
+        assertType<Enquirer.prompt.SelectQuestion.ChoiceOptions[]>(choices)
+        return choices
+      },
+      show: false
+    })
+  });
+
+  it.skip('specify initial string value', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: 'cherry',
+      show: false
+    }, 'cherry')
+  })
+
+  it.skip('specify initial number (index) value', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: 3,
+      show: false
+    }, 'cherry')
+  })
+
+  it.skip('initial with function () => string', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: () => 'cherry',
+      show: false
+    })
+  })
+
+  it.skip('initial with async function () => string', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: () => Promise.resolve('cherry'),
+      show: false
+    })
+  })
+
+  it.skip('initial with delayed async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      initial: () => new Promise(a => setImmediate(() => a('cherry'))),
+      show: false
+    })
+  })
+
+  it.skip('specify format function', async () => {
+    let called = false
+    await testQuestionType({
+      ...minimumQuestion,
+      format(value) {
+        called = true
+        assertType.isString(value)
+        return value
+      },
+      show: false,
+    })
+    assert.ok(called)
+  })
+
+  it.skip('specify format async function', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      format(value) {
+        assertType.isString(value)
+        return Promise.resolve(value)
+      },
+      show: false,
+    })
+  })
+
+  it.skip(`format function receives Prompt as 'this'`, async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      format(value) {
+        assertType<Prompt<string>>(this)
+        return value
+      },
+      show: false,
+    })
+  })
+
+  it.skip('specify multiple to false is the a single auto complete prompt', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      multiple: false,
+      format() {
+        assertType<Enquirer.Prompt<string>>(this)
+        return ''
+      },
+      show: false
+    })
+  });
+
+  it.skip('specify multple to true then answer is string[]', async () => {
+    await testQuestionType({
+      ...minimumQuestion,
+      multiple: true,
+      format() {
+        assertType<Enquirer.Prompt<string[]>>(this)
+        return ''
+      },
+      show: false
+    }, ['almond'])
+  });
+});
+
 // AutoComplete Prompt
 // Editable Prompt
 
