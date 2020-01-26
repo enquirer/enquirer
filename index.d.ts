@@ -54,7 +54,7 @@ declare namespace Enquirer {
     export type Question = InputQuestion | ConfirmQuestion | NumeralQuestion |
       PasswordQuestion | InvisibleQuestion | ListQuestion | ToggleQuestion | BasicAuthQuestion |
       QuizQuestion | ScaleQuestion | SortQuestion | SnippetQuestion |
-      SelectQuestion | MultiSelectQuestion | FormQuestion
+      SelectQuestion | MultiSelectQuestion | FormQuestion | AutoCompleteQuestion
 
     export type InputQuestion = { type: 'input' } &
       internalTypes.CommonQuestion<string, string>
@@ -225,6 +225,28 @@ declare namespace Enquirer {
       internalTypes.Initializer<string | string[], string[]> &
       internalTypes.Formatter<string[], string[]>
 
+    export type AutoCompleteQuestion = AutoCompleteQuestion.SingleAutoCompleteQuestion |
+      AutoCompleteQuestion.MultiAutoCompleteQuestion
+
+    export namespace AutoCompleteQuestion {
+      export type SingleAutoCompleteQuestion = {
+        type: 'autocomplete',
+        multiple?: false,
+        choices: SelectQuestion.Choice[],
+        suggest?: (input: string, choices: SelectQuestion.ChoiceOptions[]) => SelectQuestion.ChoiceOptions[] | Promise<SelectQuestion.ChoiceOptions[]>
+      } & internalTypes.QuestionBase &
+        internalTypes.Initializer<string | number, string> &
+        internalTypes.Formatter<string, string>
+
+      export type MultiAutoCompleteQuestion = {
+        type: 'autocomplete',
+        multiple: true,
+        choices: SelectQuestion.Choice[],
+        suggest?: (input: string, choices: SelectQuestion.ChoiceOptions[]) => SelectQuestion.ChoiceOptions[] | Promise<SelectQuestion.ChoiceOptions[]>
+      } & internalTypes.QuestionBase &
+        internalTypes.Initializer<string | number, string[]> &
+        internalTypes.Formatter<string, string[]>
+    }
 
     export type FormQuestion = {
       type: 'form',
