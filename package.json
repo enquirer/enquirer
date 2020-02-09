@@ -33,6 +33,7 @@
     "ansi-colors": "^3.2.1"
   },
   "devDependencies": {
+    "@types/mocha": "^7.0.1",
     "@types/node": "^8",
     "gulp-format-md": "^2.0.0",
     "inquirer": "^6.2.0",
