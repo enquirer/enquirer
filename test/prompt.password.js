@@ -1,19 +1,19 @@
-import 'mocha'
-import assert from 'assert'
-import { Password as PasswordPrompt } from '../..'
-import support from '../support'
+'use strict';
 
+require('mocha');
+const assert = require('assert');
+const support = require('./support');
 const { nextTick } = support(assert);
-
-let prompt: Prompt;
+const PasswordPrompt = require('../lib/prompts/password');
+let prompt;
 
 class Prompt extends PasswordPrompt {
-  constructor(options: ConstructorParameters<typeof PasswordPrompt>[0]) {
+  constructor(options) {
     super({ ...options, show: false });
   }
 }
 
-describe('password', function () {
+describe('password', function() {
   describe('options.initial', () => {
     it('should not print password when answer is submitted', cb => {
       prompt = new Prompt({
@@ -51,7 +51,7 @@ describe('password', function () {
     it('should output the un-modified value', () => {
       prompt = new Prompt({ message: 'Enter your password', name: 'pw' });
 
-      prompt.once('run', async () => {
+      prompt.once('run', async() => {
         await nextTick(() => prompt.keypress('f'));
         await nextTick(() => prompt.keypress('o'));
         await nextTick(() => prompt.keypress('o'));

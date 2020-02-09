@@ -1,18 +1,19 @@
-import 'mocha'
-import assert from 'assert'
-import { Invisible } from '../..'
-import support from '../support'
+'use strict';
 
+require('mocha');
+const assert = require('assert');
+const support = require('./support');
 const { nextTick } = support(assert);
-let prompt: Prompt;
+const Invisible = require('../lib/prompts/invisible');
+let prompt;
 
 class Prompt extends Invisible {
-  constructor(options: ConstructorParameters<typeof Invisible>[0]) {
+  constructor(options) {
     super({ ...options, show: false });
   }
 }
 
-describe('invisible prompt', function () {
+describe('invisible prompt', function() {
   describe('options.initial', () => {
     it('should use options.initial without typing', () => {
       prompt = new Prompt({
@@ -23,7 +24,7 @@ describe('invisible prompt', function () {
       prompt.once('run', () => prompt.submit());
 
       return prompt.run()
-        .then(function (answer) {
+        .then(function(answer) {
           assert.equal(answer, 'woohooo!');
         });
     });
@@ -36,7 +37,7 @@ describe('invisible prompt', function () {
 
       let backspace = { name: 'backspace' };
 
-      prompt.on('run', async () => {
+      prompt.on('run', async() => {
         await prompt.keypress('f');
         await prompt.keypress('o');
         await prompt.keypress('o');
@@ -47,7 +48,7 @@ describe('invisible prompt', function () {
       });
 
       return prompt.run()
-        .then(function (answer) {
+        .then(function(answer) {
           assert.equal(answer, 'woohooo!');
         });
     });
@@ -57,11 +58,11 @@ describe('invisible prompt', function () {
     it('should output the un-modified value', () => {
       prompt = new Prompt({ message: 'Enter some invisible text' });
 
-      prompt.on('run', async () => {
-        await nextTick(async () => prompt.keypress('f'));
-        await nextTick(async () => prompt.keypress('o'));
-        await nextTick(async () => prompt.keypress('o'));
-        await nextTick(async () => prompt.submit());
+      prompt.on('run', async() => {
+        await nextTick(async() => prompt.keypress('f'));
+        await nextTick(async() => prompt.keypress('o'));
+        await nextTick(async() => prompt.keypress('o'));
+        await nextTick(async() => prompt.submit());
       });
 
       return prompt.run()

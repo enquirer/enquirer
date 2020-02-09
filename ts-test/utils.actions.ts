@@ -1,7 +1,7 @@
 import assert from 'assert';
 import 'mocha';
-import { types } from '../..';
-import keypress from '../../lib/keypress';
+import { types } from '..';
+import keypress from '../lib/keypress';
 
 const act = (key: types.Key) => keypress.action(null, key).action;
 

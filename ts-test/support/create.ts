@@ -1,4 +1,4 @@
-import { Key } from '../..';
+import { types } from '../..';
 
 let memo = new Map();
 let keys: any[] = [
@@ -1144,7 +1144,7 @@ for (let i = 0; i < keys.length; i++) {
 }
 
 const sorted = keys.sort((a, b) => a.press.localeCompare(b.press));
-const res: Record<string, Key> = {};
+const res: Record<string, types.Key> = {};
 
 for (const k of sorted) {
   if (memo.has(k.press)) continue;

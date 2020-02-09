@@ -1,39 +1,39 @@
-// 'use strict';
+'use strict';
 
-// const Events = require('events');
+const Events = require('events');
 
-// class InputStream extends Events {
-//   write(str) {
-//     this.emit('write', str);
-//   }
+class InputStream extends Events {
+  write(str) {
+    this.emit('write', str);
+  }
 
-//   close() {
-//   }
-// }
+  close() {
+  }
+}
 
-// class OutputStream extends Events {
-//   write(str) {
-//     this.emit('write', str);
-//   }
+class OutputStream extends Events {
+  write(str) {
+    this.emit('write', str);
+  }
 
-//   close() {
-//   }
-// }
+  close() {
+  }
+}
 
-// function listener(input, onKeypress) {
-//   input.on('keypress', onKeypress);
+function listener(input, onKeypress) {
+  input.on('keypress', onKeypress);
 
-//   const off = () => {
-//     input.off('keypress', onKeypress);
-//   };
+  const off = () => {
+    input.off('keypress', onKeypress);
+  };
 
-//   return off;
-// }
+  return off;
+}
 
-// let input = new InputStream();
+let input = new InputStream();
 
-// listener(input, function onKeypress(s, key) {
-//   console.log([s, key]);
-// });
+listener(input, function onKeypress(s, key) {
+  console.log([s, key]);
+});
 
-// module.exports = Emitter;
+module.exports = Emitter;
