@@ -132,12 +132,10 @@ declare class Enquirer<T = object> extends EventEmitter {
    */
   prompt(question: Enquirer.prompt.Question): Promise<Enquirer.Answers>
   prompt(questionFn: (this: Enquirer) => Enquirer.prompt.Question): Promise<Enquirer.Answers>
-  prompt(questions: Enquirer.prompt.Question[]): Promise<Enquirer.Answers>
-  prompt(questionFns: Array<(this: Enquirer) => Enquirer.prompt.Question>): Promise<Enquirer.Answers>
+  prompt(questions: Array<Enquirer.prompt.Question | ((this: Enquirer) => Enquirer.prompt.Question)>): Promise<Enquirer.Answers>
   prompt(question: Enquirer.prompt.CustomQuestion): Promise<Enquirer.Answers>
   prompt(questionFn: (this: Enquirer) => Enquirer.prompt.CustomQuestion): Promise<Enquirer.Answers>
-  prompt(questions: Enquirer.prompt.CustomQuestion[]): Promise<Enquirer.Answers>
-  prompt(questionFns: Array<(this: Enquirer) => Enquirer.prompt.CustomQuestion>): Promise<Enquirer.Answers>
+  prompt(questions: Array<Enquirer.prompt.CustomQuestion | ((this: Enquirer) => Enquirer.prompt.CustomQuestion)>): Promise<Enquirer.Answers>
 
   /**
    * Use an enquirer plugin.
@@ -152,17 +150,15 @@ declare namespace Enquirer {
 
   export function prompt(question: prompt.Question): Promise<Answers>
   export function prompt(questionFn: (this: Enquirer) => prompt.Question): Promise<Answers>
-  export function prompt(questions: prompt.Question[]): Promise<Answers>
-  export function prompt(questionFns: Array<(this: Enquirer) => prompt.Question>): Promise<Answers>
+  export function prompt(questions: Array<prompt.Question | ((this: Enquirer) => prompt.Question)>): Promise<Answers>
   export function prompt(question: prompt.CustomQuestion): Promise<Answers>
   export function prompt(questionFn: (this: Enquirer) => prompt.CustomQuestion): Promise<Answers>
-  export function prompt(questions: prompt.CustomQuestion[]): Promise<Answers>
-  export function prompt(questionFns: Array<(this: Enquirer) => prompt.CustomQuestion>): Promise<Answers>
+  export function prompt(questions: Array<prompt.CustomQuestion | ((this: Enquirer) => prompt.CustomQuestion)>): Promise<Answers>
 
   export namespace prompt {
     export function on(type: types.PromptType, handler: (p: Prompt<any>) => void): void
 
-    export type Question = InputQuestion | ConfirmQuestion | NumeralQuestion |
+    export type Question = InputQuestion | TextQuestion | ConfirmQuestion | NumeralQuestion |
       PasswordQuestion | InvisibleQuestion | ListQuestion | ToggleQuestion | BasicAuthQuestion |
       QuizQuestion | ScaleQuestion | SortQuestion | SnippetQuestion |
       SelectQuestion | MultiSelectQuestion | FormQuestion | AutoCompleteQuestion
@@ -172,6 +168,9 @@ declare namespace Enquirer {
     } & internalTypes.CommonQuestion<V, A>
 
     export type InputQuestion = { type: 'input' } &
+      internalTypes.CommonQuestion<string, string>
+
+    export type TextQuestion = { type: 'text' } &
       internalTypes.CommonQuestion<string, string>
 
     export type ConfirmQuestion = { type: 'confirm' } &
@@ -384,8 +383,10 @@ declare namespace Enquirer {
       name: string;
       message: string | (() => string | Promise<string>);
 
-      skip?: boolean | (() => boolean | Promise<boolean>);
+      skip?: boolean | ((state: any) => boolean | Promise<boolean>);
       show?: boolean;
+      onSubmit?: (name: string, value: string, prompt: Prompt) => boolean | Promise<boolean>;
+      onCancel?: (name: string, value: string, prompt: Prompt) => boolean | Promise<boolean>;
     }
 
     export type Initializer<V extends types.Value, A extends types.Answer> = {
