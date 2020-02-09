@@ -26,10 +26,14 @@ declare class Enquirer extends EventEmitter {
    *
    * @param questions Options objects for one or more prompts to run.
    */
-  prompt(questions: Enquirer.prompt.Question
-    | ((this: Enquirer) => Enquirer.prompt.Question)
-    | (Enquirer.prompt.Question | ((this: Enquirer) => Enquirer.prompt.Question))[]
-  ): Promise<Enquirer.Answers>
+  prompt(question: Enquirer.prompt.Question): Promise<Enquirer.Answers>
+  prompt(questionFn: (this: Enquirer) => Enquirer.prompt.Question): Promise<Enquirer.Answers>
+  prompt(questions: Enquirer.prompt.Question[]): Promise<Enquirer.Answers>
+  prompt(questionFns: Array<(this: Enquirer) => Enquirer.prompt.Question>): Promise<Enquirer.Answers>
+  prompt(question: Enquirer.prompt.CustomQuestion): Promise<Enquirer.Answers>
+  prompt(questionFn: (this: Enquirer) => Enquirer.prompt.CustomQuestion): Promise<Enquirer.Answers>
+  prompt(questions: Enquirer.prompt.CustomQuestion[]): Promise<Enquirer.Answers>
+  prompt(questionFns: Array<(this: Enquirer) => Enquirer.prompt.CustomQuestion>): Promise<Enquirer.Answers>
 
   /**
    * Use an enquirer plugin.
@@ -42,10 +46,14 @@ declare class Enquirer extends EventEmitter {
 declare namespace Enquirer {
   export type Constructor<T extends Prompt> = new (...args: ConstructorParameters<new (...args: any) => T>) => T
 
-  export function prompt(questions: prompt.Question
-    | ((this: Enquirer) => prompt.Question)
-    | (prompt.Question | ((this: Enquirer) => prompt.Question))[]
-  ): Promise<Answers>
+  export function prompt(question: prompt.Question): Promise<Answers>
+  export function prompt(questionFn: (this: Enquirer) => prompt.Question): Promise<Answers>
+  export function prompt(questions: prompt.Question[]): Promise<Answers>
+  export function prompt(questionFns: Array<(this: Enquirer) => prompt.Question>): Promise<Answers>
+  export function prompt(question: prompt.CustomQuestion): Promise<Answers>
+  export function prompt(questionFn: (this: Enquirer) => prompt.CustomQuestion): Promise<Answers>
+  export function prompt(questions: prompt.CustomQuestion[]): Promise<Answers>
+  export function prompt(questionFns: Array<(this: Enquirer) => prompt.CustomQuestion>): Promise<Answers>
 
   export namespace prompt {
     export function on(type: PromptType, handler: (p: Prompt<any>) => void): void
@@ -54,6 +62,10 @@ declare namespace Enquirer {
       PasswordQuestion | InvisibleQuestion | ListQuestion | ToggleQuestion | BasicAuthQuestion |
       QuizQuestion | ScaleQuestion | SortQuestion | SnippetQuestion |
       SelectQuestion | MultiSelectQuestion | FormQuestion | AutoCompleteQuestion
+
+    export type CustomQuestion<V extends types.Value = any, A extends types.Answer = any> = {
+      type: string
+    } & internalTypes.CommonQuestion<V, A>
 
     export type InputQuestion = { type: 'input' } &
       internalTypes.CommonQuestion<string, string>
@@ -140,7 +152,7 @@ declare namespace Enquirer {
       newline?: string,
       startNumber?: number,
     } & internalTypes.QuestionBase &
-      internalTypes.Formatter<ScaleQuestion.Answer | undefined, ScaleQuestion.Answer> &
+      internalTypes.Formatter<ScaleQuestion.Answer, ScaleQuestion.Answer> &
       internalTypes.ResultTransformer<ScaleQuestion.Answer, ScaleQuestion.Answer>
 
     export namespace ScaleQuestion {
@@ -164,7 +176,7 @@ declare namespace Enquirer {
       numbered?: boolean,
     } & internalTypes.QuestionBase &
       internalTypes.Initializer<number, string[]> &
-      internalTypes.Formatter<string[] | undefined, string[]>
+      internalTypes.Formatter<string[], string[]>
 
     export namespace SortQuestion {
       export type Choice = ChoiceOptions | Promise<ChoiceOptions> | (() => ChoiceOptions | Promise<ChoiceOptions>)
@@ -180,7 +192,7 @@ declare namespace Enquirer {
       required?: boolean,
       fields?: SnippetQuestion.Field[],
     } & internalTypes.QuestionBase &
-      internalTypes.Formatter<SnippetQuestion.Answer | undefined, SnippetQuestion.Answer> &
+      internalTypes.Formatter<SnippetQuestion.Answer, SnippetQuestion.Answer> &
       internalTypes.Validator<SnippetQuestion.Answer, SnippetQuestion.Answer>
 
     export namespace SnippetQuestion {
@@ -267,48 +279,51 @@ declare namespace Enquirer {
       }
       export type Answer = Record<string, string>
     }
+  }
+  export namespace types {
+    export type Value = string | boolean | number | string[] |
+      prompt.ScaleQuestion.Answer | prompt.SnippetQuestion.Answer | prompt.FormQuestion.Answer
 
-    export namespace internalTypes {
-      export type Value = string | boolean | number | string[] |
-        ScaleQuestion.Answer | SnippetQuestion.Answer | FormQuestion.Answer
+    export type Answer = string | boolean | number | string[] |
+      prompt.QuizQuestion.Answer | prompt.ScaleQuestion.Answer | prompt.SnippetQuestion.Answer |
+      prompt.FormQuestion.Answer
+  }
 
-      export type CommonQuestion<V extends Value, A extends Answer> =
-        QuestionBase &
-        Initializer<V, A> &
-        Formatter<V, A> &
-        Validator<V, A> &
-        ResultTransformer<V, A>
+  export namespace internalTypes {
 
-      export type QuestionBase = {
-        name: string;
-        message: string | (() => string | Promise<string>);
+    export type CommonQuestion<V extends types.Value, A extends types.Answer> =
+      QuestionBase &
+      Initializer<V, A> &
+      Formatter<V, A> &
+      Validator<V, A> &
+      ResultTransformer<V, A>
 
-        skip?: boolean | (() => boolean | Promise<boolean>);
-        show?: boolean;
-      }
+    export type QuestionBase = {
+      name: string;
+      message: string | (() => string | Promise<string>);
 
-      export type Initializer<V extends Value, A extends Answer> = {
-        initial?: V | ((this: Prompt<A>) => V | Promise<V>);
-      }
+      skip?: boolean | (() => boolean | Promise<boolean>);
+      show?: boolean;
+    }
 
-      export type Formatter<V extends Value | undefined, A extends Answer> = {
-        format?: (this: Prompt<A>, value: V) => string | Promise<string>;
-      }
+    export type Initializer<V extends types.Value, A extends types.Answer> = {
+      initial?: V | ((this: Prompt<A>) => V | Promise<V>);
+    }
 
-      export type Validator<V extends Value, A extends Answer> = {
-        validate?: (this: Prompt<A>, value: V) => boolean | string | Promise<boolean | string>;
-      }
+    export type Formatter<V extends types.Value, A extends types.Answer> = {
+      format?: (this: Prompt<A>, value: V | undefined) => string | Promise<string>;
+    }
 
-      export type ResultTransformer<V extends Value, A extends Answer> = {
-        result?: (this: Prompt<A>, value: V) => A | Promise<A>;
-      }
+    export type Validator<V extends types.Value, A extends types.Answer> = {
+      validate?: (this: Prompt<A>, value: V) => boolean | string | Promise<boolean | string>;
+    }
+
+    export type ResultTransformer<V extends types.Value, A extends types.Answer> = {
+      result?: (this: Prompt<A>, value: V) => A | Promise<A>;
     }
   }
 
-  export type Answers = Record<string, Answer>
-  export type Answer = string | boolean | number | string[] |
-    prompt.QuizQuestion.Answer | prompt.ScaleQuestion.Answer | prompt.SnippetQuestion.Answer |
-    prompt.FormQuestion.Answer
+  export type Answers = Record<string, types.Answer>
 
   export type Key = {
     name?: string;
@@ -326,7 +341,7 @@ declare namespace Enquirer {
     message?: string;
     hint?: string;
     disabled?: boolean;
-    value?: Answer;
+    value?: types.Answer;
   }
 
   export type Choice = {
@@ -334,7 +349,7 @@ declare namespace Enquirer {
     message: string;
     hint?: string;
     disabled?: boolean;
-    value?: Answer;
+    value?: types.Answer;
   }
 
   export type PromptType = string
@@ -381,7 +396,7 @@ declare namespace Enquirer {
 
   //#region Basic prompt types
 
-  export class Prompt<T extends Answer = string> extends EventEmitter {
+  export class Prompt<T extends types.Answer = string> extends EventEmitter {
     name: string | undefined
     type: string | undefined
     options: Prompt.Question<T>
@@ -468,9 +483,9 @@ declare namespace Enquirer {
   }
 
   export namespace Prompt {
-    export function prompt<T extends Answer = string>(): (options: Question<T>) => Promise<any>;
+    export function prompt<T extends types.Answer = string>(): (options: Question<T>) => Promise<any>;
 
-    export type Question<T extends Answer = string, P extends Prompt<T> = Prompt<T>> = Question.Base &
+    export type Question<T extends types.Answer = string, P extends Prompt<T> = Prompt<T>> = Question.Base &
     {
       initial?: T | (() => Promise<T> | T);
       default?: T;
@@ -566,7 +581,7 @@ declare namespace Enquirer {
 
   export class AuthPrompt extends Prompt<string> { }
 
-  export class ArrayPrompt<T extends Answer = string> extends Prompt {
+  export class ArrayPrompt<T extends types.Answer = string> extends Prompt {
     choices: Choice[]
     readonly enabled: Choice[]
     readonly focused: Choice | undefined
@@ -676,7 +691,7 @@ declare namespace Enquirer {
   }
 
   export namespace ArrayPrompt {
-    export type Question<T extends Answer, P extends ArrayPrompt<T> = ArrayPrompt<T>> = Prompt.Question.Base &
+    export type Question<T extends types.Answer, P extends ArrayPrompt<T> = ArrayPrompt<T>> = Prompt.Question.Base &
     {
       choices: (() => ChoiceInput[] | Promise<ChoiceInput[]>) | ChoiceInput[] | Promise<ChoiceInput[]>;
       initial?: string | number | Array<string | number> | Record<string, any>;
@@ -701,14 +716,14 @@ declare namespace Enquirer {
     export type AuthPrompt = Enquirer.AuthPrompt;
 
     export const ArrayPrompt: typeof Enquirer.ArrayPrompt;
-    export type ArrayPrompt<T extends Answer> = Enquirer.ArrayPrompt<T>;
+    export type ArrayPrompt<T extends types.Answer> = Enquirer.ArrayPrompt<T>;
   }
 
   //#endregion
 
   //#region Build-in prompts
 
-  export class AutoComplete<T extends Answer = string> extends Select {
+  export class AutoComplete<T extends types.Answer = string> extends Select {
     constructor(question: AutoComplete.Question<T>)
     complete(): Promise<void>;
     delete(): Promise<void>;
@@ -720,7 +735,7 @@ declare namespace Enquirer {
   }
   export namespace AutoComplete {
     export type Question<
-      T extends Answer,
+      T extends types.Answer,
       P extends AutoComplete = AutoComplete
       > = ArrayPrompt.Question<T, P> & {
         suggest?: (this: AutoComplete, input: string, choices: Choice[]) => Choice[] | Promise<Choice[]>;

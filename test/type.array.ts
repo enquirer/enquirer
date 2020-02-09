@@ -1,12 +1,12 @@
 import assert from 'assert'
-import { ArrayPrompt, Answer } from '..'
+import { ArrayPrompt, types } from '..'
 import support from './support'
 
 const { timeout } = support(assert);
 
 let prompt: ArrayPrompt;
 
-class TestPrompt<T extends Answer> extends ArrayPrompt<T> {
+class TestPrompt<T extends types.Answer> extends ArrayPrompt<T> {
   constructor(options: ArrayPrompt.Question<T>) {
     super({ ...options, show: false });
   }

@@ -1,7 +1,7 @@
 import assert from 'assert'
 import fs from 'fs'
 import 'mocha'
-import { AutoComplete, Choice, Answer } from '..'
+import { AutoComplete, Choice, types } from '..'
 import support from './support'
 
 const { timeout, keypresses } = support(assert);
@@ -9,7 +9,7 @@ let prompt: Prompt;
 
 const fixtures = ['almond', 'apple', 'banana', 'cherry', 'chocolate', 'cinnamon', 'coconut', 'cotton candy', 'grape', 'nougat', 'orange', 'pear', 'pineapple', 'strawberry', 'vanilla', 'watermelon', 'wintergreen'];
 
-class Prompt<T extends Answer = string> extends AutoComplete<T> {
+class Prompt<T extends types.Answer = string> extends AutoComplete<T> {
   constructor(options: AutoComplete.Question<T>) {
     super({ ...options, show: false });
   }

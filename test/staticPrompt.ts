@@ -4,7 +4,7 @@ import Enquirer, { Prompt, prompt } from '..'
 import { testType } from './support'
 
 describe('alternative signature tests', () => {
-  test('call with function', () => {
+  it('call with function', () => {
     const { prompt } = Enquirer
     testType(() => prompt(() => ({
       type: 'input',
@@ -13,7 +13,7 @@ describe('alternative signature tests', () => {
     })))
   })
 
-  test('call with array of questions', () => {
+  it('call with array of questions', () => {
     const { prompt } = Enquirer
 
     testType(() => prompt([{
@@ -23,13 +23,13 @@ describe('alternative signature tests', () => {
     }] as prompt.Question[]))
   })
 
-  test('call with array of function to questions', () => {
+  it('call with array of function to questions', () => {
     const { prompt } = Enquirer
 
     testType(() => prompt([() => ({
       type: 'input',
-        name: 'color',
-          message: 'Favorite color?',
+      name: 'color',
+      message: 'Favorite color?',
     })] as Array<(this: Enquirer) => prompt.Question>))
   })
 })
@@ -159,8 +159,8 @@ describe('input prompt', () => {
       initial: 'blue',
       format(value) {
         called = true
-        assertType.isString(value)
-        return value
+        assertType<string | undefined>(value)
+        return value || ''
       },
       show: false
     })
@@ -179,8 +179,8 @@ describe('input prompt', () => {
       show: false,
       initial: 'blue',
       format(value) {
-        assertType.isString(value)
-        return Promise.resolve(value)
+        assertType<string | undefined>(value)
+        return Promise.resolve(value || '')
       }
     })
 
@@ -198,7 +198,7 @@ describe('input prompt', () => {
       initial: 'blue',
       format(value) {
         assertType<Prompt<string>>(this)
-        return value
+        return value || ''
       }
     })
 
@@ -462,7 +462,7 @@ describe('confirm prompt', () => {
       show: false,
       initial: true,
       format(value) {
-        assertType.isBoolean(value)
+        assertType<boolean | undefined>(value)
         return `(${value})`
       }
     })
@@ -480,7 +480,7 @@ describe('confirm prompt', () => {
       show: false,
       initial: true,
       format(value) {
-        assertType.isBoolean(value)
+        assertType<boolean | undefined>(value)
         return Promise.resolve(`(${value})`)
       }
     })
@@ -763,7 +763,7 @@ describe('numeral prompt', () => {
       show: false,
       initial: 123,
       format(value) {
-        assertType.isNumber(value)
+        assertType<number | undefined>(value)
         return `(${value})`
       }
     })
@@ -781,7 +781,7 @@ describe('numeral prompt', () => {
       show: false,
       initial: 123,
       format(value) {
-        assertType.isNumber(value)
+        assertType<number | undefined>(value)
         return Promise.resolve(`(${value})`)
       }
     })
@@ -1064,8 +1064,8 @@ describe('password prompt', () => {
       show: false,
       initial: 'blue',
       format(value) {
-        assertType.isString(value)
-        return value
+        assertType<string | undefined>(value)
+        return value || ''
       }
     })
 
@@ -1082,8 +1082,8 @@ describe('password prompt', () => {
       show: false,
       initial: 'blue',
       format(value) {
-        assertType.isString(value)
-        return Promise.resolve(value)
+        assertType<string | undefined>(value)
+        return Promise.resolve(value || '')
       }
     })
 
@@ -1101,7 +1101,7 @@ describe('password prompt', () => {
       initial: 'blue',
       format(value) {
         assertType<Prompt<string>>(this)
-        return value
+        return value || ''
       }
     })
 
@@ -1365,8 +1365,8 @@ describe('invisible prompt', () => {
       show: false,
       initial: 'blue',
       format(value) {
-        assertType.isString(value)
-        return value
+        assertType<string | undefined>(value)
+        return value || ''
       }
     })
 
@@ -1383,8 +1383,8 @@ describe('invisible prompt', () => {
       show: false,
       initial: 'blue',
       format(value) {
-        assertType.isString(value)
-        return Promise.resolve(value)
+        assertType<string | undefined>(value)
+        return Promise.resolve(value || '')
       }
     })
 
@@ -1402,7 +1402,7 @@ describe('invisible prompt', () => {
       initial: 'blue',
       format(value) {
         assertType<Prompt<string>>(this)
-        return value
+        return value || ''
       }
     })
 
@@ -1668,7 +1668,7 @@ describe('toggle prompt', () => {
       enabled: 'Yep',
       disabled: 'Nope',
       show: false,
-      initial: () => new Promise(a => setImmediate(() => a(true)))
+      initial: () => new Promise<boolean>(a => setImmediate(() => a(true)))
     })
 
     assert.deepEqual(answer, { question: true })
@@ -1686,7 +1686,7 @@ describe('toggle prompt', () => {
       show: false,
       initial: true,
       format(value) {
-        assertType.isBoolean(value)
+        assertType<boolean | undefined>(value)
         return `(${value})`
       }
     })
@@ -1706,7 +1706,7 @@ describe('toggle prompt', () => {
       show: false,
       initial: true,
       format(value) {
-        assertType.isBoolean(value)
+        assertType<boolean | undefined>(value)
         return Promise.resolve(`(${value})`)
       }
     })
@@ -1966,7 +1966,7 @@ describe('basicauth prompt', () => {
       showPassword: false,
       show: false,
       format(value) {
-        assertType.isBoolean(value)
+        assertType<boolean | undefined>(value)
         return `(${value})`
       }
     })
@@ -1986,7 +1986,7 @@ describe('basicauth prompt', () => {
       showPassword: false,
       show: false,
       format(value) {
-        assertType.isBoolean(value)
+        assertType<boolean | undefined>(value)
         return Promise.resolve(`(${value})`)
       }
     })
@@ -2310,7 +2310,7 @@ describe('quiz prompt', () => {
     await testQuestionType({
       ...minimumQuestion,
       format(value) {
-        assertType.isBoolean(value)
+        assertType<boolean | undefined>(value)
         return `(${value})`
       },
       show: false,
@@ -2321,7 +2321,7 @@ describe('quiz prompt', () => {
     await testQuestionType({
       ...minimumQuestion,
       format(value) {
-        assertType.isBoolean(value)
+        assertType<boolean | undefined>(value)
         return `(${value})`
       },
       show: false,
@@ -2333,7 +2333,7 @@ describe('quiz prompt', () => {
       ...minimumQuestion,
       format(value) {
         assertType<Prompt<Enquirer.prompt.QuizQuestion.Answer>>(this)
-        assertType.isBoolean(value)
+        assertType<boolean | undefined>(value)
         return `(${value})`
       },
       show: false,
@@ -3194,8 +3194,8 @@ describe('list prompt', () => {
       ...minimumQuestion,
       format(value) {
         called = true
-        assertType.isString(value)
-        return value
+        assertType<string | undefined>(value)
+        return value || ''
       },
       show: false,
     })
@@ -3206,8 +3206,8 @@ describe('list prompt', () => {
     await testQuestionType({
       ...minimumQuestion,
       format(value) {
-        assertType.isString(value)
-        return Promise.resolve(value)
+        assertType<string | undefined>(value)
+        return Promise.resolve(value || '')
       },
       show: false,
     })
@@ -3218,7 +3218,7 @@ describe('list prompt', () => {
       ...minimumQuestion,
       format(value) {
         assertType<Prompt<string[]>>(this)
-        return value
+        return value || ''
       },
       show: false,
     })
@@ -3463,8 +3463,8 @@ describe('select prompt', () => {
       ...minimumQuestion,
       format(value) {
         called = true
-        assertType.isString(value)
-        return value
+        assertType<string | undefined>(value)
+        return value || ''
       },
       show: false,
     })
@@ -3475,8 +3475,8 @@ describe('select prompt', () => {
     await testQuestionType({
       ...minimumQuestion,
       format(value) {
-        assertType.isString(value)
-        return Promise.resolve(value)
+        assertType<string | undefined>(value)
+        return Promise.resolve(value || '')
       },
       show: false,
     })
@@ -3487,7 +3487,7 @@ describe('select prompt', () => {
       ...minimumQuestion,
       format(value) {
         assertType<Prompt<string>>(this)
-        return value
+        return value || ''
       },
       show: false,
     })
@@ -3710,7 +3710,7 @@ describe('multiselect prompt', () => {
       ...minimumQuestion,
       format(value) {
         called = true
-        assertType<string[]>(value)
+        assertType<string[] | undefined>(value)
         return 'string'
       },
       show: false,
@@ -3722,7 +3722,7 @@ describe('multiselect prompt', () => {
     await testQuestionType({
       ...minimumQuestion,
       format(value) {
-        assertType<string[]>(value)
+        assertType<string[] | undefined>(value)
         return Promise.resolve('string')
       },
       show: false,
@@ -4157,8 +4157,8 @@ describe('autocomplete prompt', () => {
       ...minimumQuestion,
       format(value) {
         called = true
-        assertType.isString(value)
-        return value
+        assertType<string | undefined>(value)
+        return value || ''
       },
       show: false,
     })
@@ -4166,11 +4166,12 @@ describe('autocomplete prompt', () => {
   })
 
   it.skip('specify format async function', async () => {
+
     await testQuestionType({
       ...minimumQuestion,
       format(value) {
-        assertType.isString(value)
-        return Promise.resolve(value)
+        assertType<string | undefined>(value)
+        return Promise.resolve(value || '')
       },
       show: false,
     })
@@ -4181,7 +4182,7 @@ describe('autocomplete prompt', () => {
       ...minimumQuestion,
       format(value) {
         assertType<Prompt<string>>(this)
-        return value
+        return value || '' || ''
       },
       show: false,
     })
@@ -4211,6 +4212,44 @@ describe('autocomplete prompt', () => {
     }, ['almond'])
   });
 });
+
+describe('custom prompt', () => {
+  it('prompt with custom type', () => {
+    const { prompt } = Enquirer
+    testType(() => prompt({
+      type: 'foo',
+      name: 'a',
+      message: 'asdf',
+      format(v) { return v }
+    }))
+  })
+
+  it('prompt with fuction returns custom type', () => {
+    const { prompt } = Enquirer
+    testType(() => prompt(() => ({
+      type: 'foo',
+      name: 'a',
+      message: 'asdf',
+      format(v) { return v }
+    })))
+  })
+
+  it('prompt with array of custom types', () => {
+    const { prompt } = Enquirer
+    testType(() => prompt([
+      { type: 'foo', name: 'a', message: 'asdf', initial: 1, format(v) { return v } },
+      { type: 'input', name: 'a', message: 'asdf', format(v) { return v || '' } },
+    ]))
+  })
+
+  it('prompt with array of function returning custom types', () => {
+    const { prompt } = Enquirer
+    testType(() => prompt([
+      function () { return { type: 'foo', name: 'a', message: 'a', initial: 1, format(v: number) { return `some ${v}` } } },
+      function () { return { type: 'input', name: 'b', message: 'b', format(v) { return v || '' } } }
+    ]))
+  })
+})
 
 function isPromise(c: any): c is Promise<any> {
   return typeof c.then === 'function'
