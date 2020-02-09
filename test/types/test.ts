@@ -1,7 +1,6 @@
 import Enquirer from '../..';
 
 new Enquirer();
-new Enquirer.Prompt();
 new Enquirer.Prompt({ name: 'test', type: 'text', message: '' });
 
 Enquirer
@@ -17,7 +16,7 @@ Enquirer
   ])
   .then(answer => answer);
 Enquirer
-  .prompt<{ question: string }>({ name: 'question', type: 'text', message: '' })
+  .prompt({ name: 'question', type: 'text', message: '' })
   .then(answer => answer.question);
 
 const instance = new Enquirer({}, { question1: '' })
@@ -49,21 +48,20 @@ instance
   });
 
 class CustomPrompt extends Enquirer.Prompt {
-  render() {}
+  render() { }
 }
-const customPrompt = new CustomPrompt();
+const customPrompt = new CustomPrompt({ message: 'custom' });
 customPrompt.run().then(answer => answer);
 
 // Prompt options
 Enquirer.prompt({
-  name: 'test',
   type: 'text',
+  name: 'test',
   message: '',
-  required: true
 });
 Enquirer.prompt({
-  name: 'test',
   type: 'text',
+  name: 'test',
   message: '',
   format() {
     return '';
@@ -82,7 +80,7 @@ Enquirer.prompt({
   type: 'text',
   message: '',
   format(value) {
-    return value;
+    return value || '';
   }
 });
 Enquirer.prompt({
