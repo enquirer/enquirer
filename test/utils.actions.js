@@ -1,9 +1,9 @@
-import assert from 'assert';
-import 'mocha';
-import { types } from '..';
-import keypress from '../lib/keypress';
+'use strict';
 
-const act = (key: types.Key) => keypress.action(null, key).action;
+require('mocha');
+const assert = require('assert');
+const keypress = require('../lib/keypress');
+const act = key => keypress.action(null, key).action;
 
 describe('utils.actions', function() {
   it('should decorate actions on keypress events', () => {

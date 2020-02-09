@@ -1,22 +1,24 @@
-import colors from 'ansi-colors'
-import assert from 'assert'
-import 'mocha'
-import { MultiSelect } from '../..'
-import support from '../support'
+'use strict';
 
-const { expect } = support(assert);
-let prompt: Prompt;
+require('mocha');
+const fs = require('fs');
+const assert = require('assert');
+const colors = require('ansi-colors');
+const support = require('./support');
+const { timeout, nextTick, expect } = support(assert);
+const MultiSelect = require('../lib/prompts/multiselect');
+let prompt;
 
 const up = { name: 'up' };
 const down = { name: 'down' };
 
 class Prompt extends MultiSelect {
-  constructor(options: ConstructorParameters<typeof MultiSelect>[0]) {
+  constructor(options) {
     super({ show: false, ...options });
   }
 }
 
-describe('multiselect', function () {
+describe('multiselect', function() {
   describe('options.choices', () => {
     it('should support choices as an array', cb => {
       prompt = new Prompt({
@@ -51,12 +53,12 @@ describe('multiselect', function () {
           { name: 'bar', value: false },
           { name: 'baz', value: 42 }
         ],
-        result(names: string[]) {
+        result(names) {
           return this.map(names);
         }
       });
 
-      prompt.once('run', async () => {
+      prompt.once('run', async() => {
         await prompt.keypress('a');
         await prompt.submit();
       });
@@ -105,7 +107,7 @@ describe('multiselect', function () {
         ]
       });
 
-      prompt.once('run', async () => {
+      prompt.once('run', async() => {
         let init = colors.unstyle([prompt.symbols.pointer, prompt.options.initial].join(' '));
         await prompt.render();
         try {
@@ -168,7 +170,7 @@ describe('multiselect', function () {
     it('should alert when attempting to enable more than the max allowed choices', () => {
       let down = { name: 'down' };
       let alerted = false;
-      let keys: string[] = [];
+      let keys = [];
 
       prompt = new Prompt({
         message: 'Pick lots of choices',
@@ -180,12 +182,12 @@ describe('multiselect', function () {
         keys.push(key.name);
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         alerted = true;
         await prompt.submit();
       });
 
-      prompt.once('run', async () => {
+      prompt.once('run', async() => {
         await prompt.keypress(null, down);
         await prompt.keypress(' ');
         await prompt.keypress(null, down);
@@ -214,7 +216,7 @@ describe('multiselect', function () {
         ]
       });
 
-      prompt.on('run', async () => {
+      prompt.on('run', async() => {
         assert(Array.isArray(prompt.choices));
         const key = colors.cyan.underline('foo');
         const pointer = colors.dim.gray(prompt.symbols.check);
@@ -241,7 +243,7 @@ describe('multiselect', function () {
         ]
       });
 
-      prompt.on('run', async () => {
+      prompt.on('run', async() => {
         assert(Array.isArray(prompt.choices));
         const key = colors.cyan.underline('foo');
         const pointer = colors.dim.gray(prompt.symbols.check);
@@ -270,7 +272,7 @@ describe('multiselect', function () {
         ]
       });
 
-      prompt.on('run', async () => {
+      prompt.on('run', async() => {
         await prompt.keypress(null, down);
         await prompt.keypress(' ');
         await prompt.keypress(null, down);
@@ -295,7 +297,7 @@ describe('multiselect', function () {
         ]
       });
 
-      prompt.on('run', async () => {
+      prompt.on('run', async() => {
         // unselect 'a' TODO: figure out if initial should be 0 by default or not
         await prompt.keypress(' ');
         // down to 'b'
@@ -326,7 +328,7 @@ describe('multiselect', function () {
         ]
       });
 
-      prompt.on('run', async () => {
+      prompt.on('run', async() => {
         await prompt.keypress(2);
         await prompt.keypress(3);
         await prompt.keypress(1);
@@ -351,7 +353,7 @@ describe('multiselect', function () {
         ]
       });
 
-      prompt.on('run', async () => {
+      prompt.on('run', async() => {
         await prompt.keypress('a');
         await prompt.submit();
       });
@@ -373,7 +375,7 @@ describe('multiselect', function () {
         ]
       });
 
-      prompt.on('run', async () => {
+      prompt.on('run', async() => {
         await prompt.keypress(0);
         await prompt.keypress(1);
         await prompt.keypress(3);

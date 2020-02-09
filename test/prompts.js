@@ -1,8 +1,11 @@
-import 'mocha'
-import assert from 'assert'
-import { prompts, types } from '../..'
+'use strict';
 
-describe('prompts', function () {
+require('mocha');
+const assert = require('assert');
+const prompts = require('../lib/prompts');
+const types = require('../lib/types');
+
+describe('prompts', function() {
   it('should export prompts', () => {
     assert.equal(typeof prompts.AutoComplete, 'function');
     assert.equal(typeof prompts.Confirm, 'function');

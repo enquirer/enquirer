@@ -3,7 +3,7 @@ import assert from 'assert';
 import 'mocha';
 import Enquirer from '..';
 
-const { Input, Prompt } = Enquirer;
+const { Input } = Enquirer;
 let enquirer: Enquirer;
 
 describe('Enquirer', function () {
