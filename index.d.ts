@@ -86,11 +86,11 @@ declare namespace Enquirer {
       type: 'list',
       separator?: string
     } &
-      internalTypes.QuestionBase &
-      internalTypes.Initializer<string | string[], string[]> &
-      internalTypes.Formatter<string, string[]> &
-      internalTypes.Validator<string[], string[]> &
-      internalTypes.ResultTransformer<string[], string[]>
+      types.QuestionBase &
+      types.Initializer<string | string[], string[]> &
+      types.Formatter<string, string[]> &
+      types.Validator<string[], string[]> &
+      types.ResultTransformer<string[], string[]>
 
     export type ToggleQuestion = {
       type: 'toggle',
@@ -103,18 +103,18 @@ declare namespace Enquirer {
       username: string,
       password: string,
       showPassword?: boolean,
-    } & internalTypes.QuestionBase &
-      internalTypes.Formatter<boolean, boolean> &
-      internalTypes.Validator<boolean, boolean> &
-      internalTypes.ResultTransformer<boolean, boolean>
+    } & types.QuestionBase &
+      types.Formatter<boolean, boolean> &
+      types.Validator<boolean, boolean> &
+      types.ResultTransformer<boolean, boolean>
 
     export type QuizQuestion = {
       type: 'quiz',
       choices: QuizQuestion.Choice[],
       correctChoice: number,
-    } & internalTypes.QuestionBase &
-      internalTypes.Initializer<number, QuizQuestion.Answer> &
-      internalTypes.Formatter<boolean, QuizQuestion.Answer>
+    } & types.QuestionBase &
+      types.Initializer<number, QuizQuestion.Answer> &
+      types.Formatter<boolean, QuizQuestion.Answer>
 
     export namespace QuizQuestion {
       export type Choice = string | Promise<string> | ChoiceOptions | (() => string | ChoiceOptions | Promise<string | ChoiceOptions>)
@@ -128,18 +128,6 @@ declare namespace Enquirer {
       export type Answer = { selectedAnswer: string, correctAnswer: string, correct: boolean }
     }
 
-
-    // SurveyPrompt is too alpha to be typed
-    // export type SurveyQuestion = {
-    //   type: 'survey',
-    //   scale: { value: number, message?: string }[],
-    //   margin: [number, number, number, number],
-    //   choices: QuizChoice[],
-    //   // initial?: number | (() => number | Promise<number>);
-    // } & internalTypes.QuestionBase
-    // // internalTypes.Formatter<boolean, QuizAnswer> &
-    // // internalTypes.Initializer<number, QuizAnswer>
-
     export type ScaleQuestion = {
       type: 'scale',
       scale: { name: string, message: string }[],
@@ -151,9 +139,9 @@ declare namespace Enquirer {
       messageWidth?: number,
       newline?: string,
       startNumber?: number,
-    } & internalTypes.QuestionBase &
-      internalTypes.Formatter<ScaleQuestion.Answer, ScaleQuestion.Answer> &
-      internalTypes.ResultTransformer<ScaleQuestion.Answer, ScaleQuestion.Answer>
+    } & types.QuestionBase &
+      types.Formatter<ScaleQuestion.Answer, ScaleQuestion.Answer> &
+      types.ResultTransformer<ScaleQuestion.Answer, ScaleQuestion.Answer>
 
     export namespace ScaleQuestion {
       export type Choice = ChoiceOptions | Promise<ChoiceOptions> | (() => ChoiceOptions | Promise<ChoiceOptions>)
@@ -174,9 +162,9 @@ declare namespace Enquirer {
       hint?: string,
       margin?: number | [number, number, number, number],
       numbered?: boolean,
-    } & internalTypes.QuestionBase &
-      internalTypes.Initializer<number, string[]> &
-      internalTypes.Formatter<string[], string[]>
+    } & types.QuestionBase &
+      types.Initializer<number, string[]> &
+      types.Formatter<string[], string[]>
 
     export namespace SortQuestion {
       export type Choice = ChoiceOptions | Promise<ChoiceOptions> | (() => ChoiceOptions | Promise<ChoiceOptions>)
@@ -191,9 +179,9 @@ declare namespace Enquirer {
       type: 'snippet',
       required?: boolean,
       fields?: SnippetQuestion.Field[],
-    } & internalTypes.QuestionBase &
-      internalTypes.Formatter<SnippetQuestion.Answer, SnippetQuestion.Answer> &
-      internalTypes.Validator<SnippetQuestion.Answer, SnippetQuestion.Answer>
+    } & types.QuestionBase &
+      types.Formatter<SnippetQuestion.Answer, SnippetQuestion.Answer> &
+      types.Validator<SnippetQuestion.Answer, SnippetQuestion.Answer>
 
     export namespace SnippetQuestion {
       export type Field = {
@@ -212,9 +200,9 @@ declare namespace Enquirer {
     export type SelectQuestion = {
       type: 'select',
       choices: SelectQuestion.Choice[],
-    } & internalTypes.QuestionBase &
-      internalTypes.Initializer<string | number, string> &
-      internalTypes.Formatter<string, string>
+    } & types.QuestionBase &
+      types.Initializer<string | number, string> &
+      types.Formatter<string, string>
 
     export namespace SelectQuestion {
       export type Choice = string | Promise<string> | ChoiceOptions | (() => string | ChoiceOptions | Promise<string | ChoiceOptions>)
@@ -232,9 +220,9 @@ declare namespace Enquirer {
       choices: SelectQuestion.Choice[],
       limit?: number,
       maxSelected?: number,
-    } & internalTypes.QuestionBase &
-      internalTypes.Initializer<string | string[], string[]> &
-      internalTypes.Formatter<string[], string[]>
+    } & types.QuestionBase &
+      types.Initializer<string | string[], string[]> &
+      types.Formatter<string[], string[]>
 
     export type AutoCompleteQuestion = AutoCompleteQuestion.SingleAutoCompleteQuestion |
       AutoCompleteQuestion.MultiAutoCompleteQuestion
@@ -245,27 +233,27 @@ declare namespace Enquirer {
         multiple?: false,
         choices: SelectQuestion.Choice[],
         suggest?: (input: string, choices: SelectQuestion.ChoiceOptions[]) => SelectQuestion.ChoiceOptions[] | Promise<SelectQuestion.ChoiceOptions[]>
-      } & internalTypes.QuestionBase &
-        internalTypes.Initializer<string | number, string> &
-        internalTypes.Formatter<string, string>
+      } & types.QuestionBase &
+        types.Initializer<string | number, string> &
+        types.Formatter<string, string>
 
       export type MultiAutoCompleteQuestion = {
         type: 'autocomplete',
         multiple: true,
         choices: SelectQuestion.Choice[],
         suggest?: (input: string, choices: SelectQuestion.ChoiceOptions[]) => SelectQuestion.ChoiceOptions[] | Promise<SelectQuestion.ChoiceOptions[]>
-      } & internalTypes.QuestionBase &
-        internalTypes.Initializer<string | number, string[]> &
-        internalTypes.Formatter<string, string[]>
+      } & types.QuestionBase &
+        types.Initializer<string | number, string[]> &
+        types.Formatter<string, string[]>
     }
 
     export type FormQuestion = {
       type: 'form',
       choices: FormQuestion.Choice[],
       align?: 'left' | 'right',
-    } & internalTypes.QuestionBase &
-      internalTypes.Validator<FormQuestion.Answer, FormQuestion.Answer> &
-      internalTypes.ResultTransformer<FormQuestion.Answer, FormQuestion.Answer>
+    } & types.QuestionBase &
+      types.Validator<FormQuestion.Answer, FormQuestion.Answer> &
+      types.ResultTransformer<FormQuestion.Answer, FormQuestion.Answer>
 
     export namespace FormQuestion {
       export type Choice = ChoiceOptions | Promise<ChoiceOptions> | (() => ChoiceOptions | Promise<ChoiceOptions>)
@@ -287,16 +275,6 @@ declare namespace Enquirer {
     export type Answer = string | boolean | number | string[] |
       prompt.QuizQuestion.Answer | prompt.ScaleQuestion.Answer | prompt.SnippetQuestion.Answer |
       prompt.FormQuestion.Answer
-  }
-
-  export namespace internalTypes {
-
-    export type CommonQuestion<V extends types.Value, A extends types.Answer> =
-      QuestionBase &
-      Initializer<V, A> &
-      Formatter<V, A> &
-      Validator<V, A> &
-      ResultTransformer<V, A>
 
     export type QuestionBase = {
       name: string;
@@ -321,6 +299,16 @@ declare namespace Enquirer {
     export type ResultTransformer<V extends types.Value, A extends types.Answer> = {
       result?: (this: Prompt<A>, value: V) => A | Promise<A>;
     }
+  }
+
+  export namespace internalTypes {
+
+    export type CommonQuestion<V extends types.Value, A extends types.Answer> =
+      types.QuestionBase &
+      types.Initializer<V, A> &
+      types.Formatter<V, A> &
+      types.Validator<V, A> &
+      types.ResultTransformer<V, A>
   }
 
   export type Answers = Record<string, types.Answer>
@@ -895,111 +883,6 @@ declare namespace Enquirer {
     export const Toggle: typeof Enquirer.Toggle
   }
   //#endregion
-
-
-  // export class PromptOld extends BasePrompt { }
-
-  // export interface BasePromptOptions {
-  //   name: string | (() => string)
-  //   type: string | (() => string)
-  //   message: string | (() => string) | (() => Promise<string>)
-  //   initial?: any
-  //   required?: boolean
-  //   format?(value: string): string | Promise<string>
-  //   result?(value: string): string | Promise<string>
-  //   skip?: ((state: object) => boolean | Promise<boolean>) | boolean
-  //   validate?(value: string): boolean | Promise<boolean> | string | Promise<string>
-  //   onSubmit?(name: string, value: any, prompt: Enquirer.PromptOld): boolean | Promise<boolean>
-  //   onCancel?(name: string, value: any, prompt: Enquirer.PromptOld): boolean | Promise<boolean>
-  //   stdin?: ReadStream
-  //   stdout?: WriteStream
-  // }
-
-  // export interface ChoiceOld {
-  //   name: string
-  //   message?: string
-  //   value?: string
-  //   hint?: string
-  //   disabled?: boolean | string
-  // }
-
-  // export interface ArrayPromptOptions extends BasePromptOptions {
-  //   type:
-  //   | 'autocomplete'
-  //   | 'editable'
-  //   | 'form'
-  //   | 'multiselect'
-  //   | 'select'
-  //   | 'survey'
-  //   | 'list'
-  //   | 'scale'
-  //   choices: string[] | ChoiceOld[]
-  //   maxChoices?: number
-  //   muliple?: boolean
-  //   initial?: number
-  //   delay?: number
-  //   separator?: boolean
-  //   sort?: boolean
-  //   linebreak?: boolean
-  //   edgeLength?: number
-  //   align?: 'left' | 'right'
-  //   scroll?: boolean
-  // }
-
-  // export interface BooleanPromptOptions extends BasePromptOptions {
-  //   type: 'confirm'
-  //   initial?: boolean
-  // }
-
-  // export interface StringPromptOptions extends BasePromptOptions {
-  //   type: 'input' | 'invisible' | 'list' | 'password' | 'text'
-  //   initial?: string
-  //   multiline?: boolean,
-  //   show?: boolean
-  // }
-
-  // export interface NumberPromptOptions extends BasePromptOptions {
-  //   type: 'numeral'
-  //   min?: number
-  //   max?: number
-  //   delay?: number
-  //   float?: boolean
-  //   round?: boolean
-  //   major?: number
-  //   minor?: number
-  //   initial?: number
-  // }
-
-  // export interface SnippetPromptOptions extends BasePromptOptions {
-  //   type: 'snippet'
-  //   newline?: string
-  // }
-
-  // export interface SortPromptOptions extends BasePromptOptions {
-  //   type: 'sort'
-  //   hint?: string
-  //   drag?: boolean
-  //   numbered?: boolean
-  // }
-
-  // export type PromptOptions =
-  //   | ArrayPromptOptions
-  //   | BooleanPromptOptions
-  //   | StringPromptOptions
-  //   | NumberPromptOptions
-  //   | SnippetPromptOptions
-  //   | SortPromptOptions
-  //   | BasePromptOptions
-
-  // export class BasePrompt extends EventEmitter {
-  //   constructor(options?: PromptOptions);
-
-  //   render(): void;
-
-  //   run(): Promise<any>;
-  // }
-  // export class Input extends BasePrompt { }
-
 }
 
 export = Enquirer
