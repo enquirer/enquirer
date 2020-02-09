@@ -1,9 +1,9 @@
 import colors from 'ansi-colors';
 import assert from 'assert';
 import 'mocha';
-import { Answer, Prompt } from '..';
+import { types, Prompt } from '..';
 
-class TestPrompt<T extends Answer = string> extends Prompt<T> {
+class TestPrompt<T extends types.Answer = string> extends Prompt<T> {
   constructor(options: Prompt.Question<T>) {
     super({ ...options, show: false });
   }
