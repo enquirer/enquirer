@@ -1,7 +1,7 @@
 import assert from 'assert'
 import fs from 'fs'
 import 'mocha'
-import { AutoComplete, Choice, types } from '..'
+import { AutoComplete, types } from '..'
 import support from './support'
 
 const { timeout, keypresses } = support(assert);
@@ -414,7 +414,7 @@ describe('prompt-autocomplete', () => {
           });
         },
         async suggest(input, choices = []) {
-          return new Promise<Choice[]>(async (resolve) => {
+          return new Promise<types.Choice[]>(async (resolve) => {
             if (!input) {
               resolve(choices);
               return;
