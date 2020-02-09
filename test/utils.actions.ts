@@ -1,10 +1,9 @@
-import colors from 'ansi-colors'
-import assert from 'assert'
-import 'mocha'
-import keypress from '../lib/keypress'
-import { Key } from '..';
+import assert from 'assert';
+import 'mocha';
+import { types } from '..';
+import keypress from '../lib/keypress';
 
-const act = (key: Key) => keypress.action(null, key).action;
+const act = (key: types.Key) => keypress.action(null, key).action;
 
 describe('utils.actions', function() {
   it('should decorate actions on keypress events', () => {

@@ -160,7 +160,7 @@ declare namespace Enquirer {
   export function prompt(questionFns: Array<(this: Enquirer) => prompt.CustomQuestion>): Promise<Answers>
 
   export namespace prompt {
-    export function on(type: PromptType, handler: (p: Prompt<any>) => void): void
+    export function on(type: types.PromptType, handler: (p: Prompt<any>) => void): void
 
     export type Question = InputQuestion | ConfirmQuestion | NumeralQuestion |
       PasswordQuestion | InvisibleQuestion | ListQuestion | ToggleQuestion | BasicAuthQuestion |
@@ -180,15 +180,15 @@ declare namespace Enquirer {
     export type NumeralQuestion = { type: 'numeral' } &
       internalTypes.CommonQuestion<number, number>
 
-    export type PasswordQuestion = { type: 'password', } &
+    export type PasswordQuestion = { type: 'password' } &
       internalTypes.CommonQuestion<string, string>
 
-    export type InvisibleQuestion = { type: 'invisible', } &
+    export type InvisibleQuestion = { type: 'invisible' } &
       internalTypes.CommonQuestion<string, string>
 
     export type ListQuestion = {
       type: 'list',
-      separator?: string
+      separator?: string,
     } &
       types.QuestionBase &
       types.Initializer<string | string[], string[]> &
@@ -403,10 +403,63 @@ declare namespace Enquirer {
     export type ResultTransformer<V extends types.Value, A extends types.Answer> = {
       result?: (this: Prompt<A>, value: V) => A | Promise<A>;
     }
+
+    export type Key = {
+      name?: string;
+      code?: string;
+      sequence?: string;
+      ctrl?: boolean;
+      shift?: boolean;
+      fn?: boolean;
+    }
+
+    export type ChoiceInput = string | Promise<string> | ChoiceOptions | (() => string | Promise<string>)
+
+    export type ChoiceOptions = {
+      name?: string;
+      message?: string;
+      hint?: string;
+      disabled?: boolean;
+      value?: types.Answer;
+    }
+
+    export type Choice = {
+      name: string;
+      message: string;
+      hint?: string;
+      disabled?: boolean;
+      value?: types.Answer;
+    }
+
+    export type PromptType = string
+
+
+    export type Symbols = {
+      indicator: string;
+      check: string;
+      prefix: string;
+      separator: string;
+      [k: string]: string;
+    } & SymbolsType;
+
+    export type Action = 'prev' | 'undo' | 'next' | 'redo' | 'save' | 'remove'
+    export const BooleanPrompt: typeof Enquirer.BooleanPrompt;
+    export type BooleanPrompt = Enquirer.BooleanPrompt;
+
+    export const NumberPrompt: typeof Enquirer.NumberPrompt;
+    export type NumberPrompt = Enquirer.NumberPrompt;
+
+    export const StringPrompt: typeof Enquirer.StringPrompt;
+    export type StringPrompt = Enquirer.StringPrompt;
+
+    export const AuthPrompt: typeof Enquirer.AuthPrompt;
+    export type AuthPrompt = Enquirer.AuthPrompt;
+
+    export const ArrayPrompt: typeof Enquirer.ArrayPrompt;
+    export type ArrayPrompt<T extends types.Answer> = Enquirer.ArrayPrompt<T>;
   }
 
   export namespace internalTypes {
-
     export type CommonQuestion<V extends types.Value, A extends types.Answer> =
       types.QuestionBase &
       types.Initializer<V, A> &
@@ -416,35 +469,6 @@ declare namespace Enquirer {
   }
 
   export type Answers = Record<string, types.Answer>
-
-  export type Key = {
-    name?: string;
-    code?: string;
-    sequence?: string;
-    ctrl?: boolean;
-    shift?: boolean;
-    fn?: boolean;
-  }
-
-  export type ChoiceInput = string | Promise<string> | ChoiceOptions | (() => string | Promise<string>)
-
-  export type ChoiceOptions = {
-    name?: string;
-    message?: string;
-    hint?: string;
-    disabled?: boolean;
-    value?: types.Answer;
-  }
-
-  export type Choice = {
-    name: string;
-    message: string;
-    hint?: string;
-    disabled?: boolean;
-    value?: types.Answer;
-  }
-
-  export type PromptType = string
 
   export class State {
     type: string
@@ -469,22 +493,12 @@ declare namespace Enquirer {
     submitted: boolean
     loading: boolean | 'choices'
     readonly status: 'pending' | 'cancelled' | 'submitted'
-    _choices: Choice[]
+    _choices: types.Choice[]
 
     clone(): Omit<State, 'clone' | 'buffer'> & { buffer: Buffer }
 
     color: Function | any
   }
-
-  export type Symbols = {
-    indicator: string;
-    check: string;
-    prefix: string;
-    separator: string;
-    [k: string]: string;
-  } & SymbolsType;
-
-  export type Action = 'prev' | 'undo' | 'next' | 'redo' | 'save' | 'remove'
 
   //#region Basic prompt types
 
@@ -492,7 +506,7 @@ declare namespace Enquirer {
     name: string | undefined
     type: string | undefined
     options: Prompt.Question<T>
-    symbols: Symbols
+    symbols: types.Symbols
     styles: any
     timers: any
     state: State
@@ -541,7 +555,7 @@ declare namespace Enquirer {
 
     isValue(value: any): boolean
 
-    keypress(input: string | number | null, modifiers?: Key): Promise<void>
+    keypress(input: string | number | null, modifiers?: types.Key): Promise<void>
 
     message(): Promise<string>;
 
@@ -599,7 +613,7 @@ declare namespace Enquirer {
         hint?: string;
         timers?: Record<string, number | { interval?: number, frames: any[] }>;
         show?: boolean;
-        symbols?: Partial<Symbols>;
+        symbols?: Partial<types.Symbols>;
       }
     }
   }
@@ -651,7 +665,7 @@ declare namespace Enquirer {
     cutLeft(): void;
     delete(): void;
     deleteForward(): void;
-    dispatch(ch?: string, key?: Key): void;
+    dispatch(ch?: string, key?: types.Key): void;
     first(): void;
     forward(): void;
     format(value?: string): string;
@@ -674,77 +688,77 @@ declare namespace Enquirer {
   export class AuthPrompt extends Prompt<string> { }
 
   export class ArrayPrompt<T extends types.Answer = string> extends Prompt {
-    choices: Choice[]
-    readonly enabled: Choice[]
-    readonly focused: Choice | undefined
+    choices: types.Choice[]
+    readonly enabled: types.Choice[]
+    readonly focused: types.Choice | undefined
     index: number
     limit: number
-    readonly selectable: Choice[]
-    readonly selected: Choice | Choice[]
-    visible: Choice
+    readonly selectable: types.Choice[]
+    readonly selected: types.Choice | types.Choice[]
+    visible: types.Choice
 
     constructor(question: ArrayPrompt.Question<T, ArrayPrompt>)
 
     a(): Promise<void>
 
     addChoice(element: string |
-      ((this: ArrayPrompt<T>, arg: ArrayPrompt<T>) => Promise<Choice>) |
-      Promise<Choice> |
-      Choice, i: number, parent: Choice): Promise<Choice>;
+      ((this: ArrayPrompt<T>, arg: ArrayPrompt<T>) => Promise<types.Choice>) |
+      Promise<types.Choice> |
+      types.Choice, i: number, parent: types.Choice): Promise<types.Choice>;
 
-    disable(choice: Choice): Choice;
+    disable(choice: types.Choice): types.Choice;
 
-    dispatch(ch?: string, key?: Key): void
+    dispatch(ch?: string, key?: types.Key): void
 
     down(): Promise<void>;
 
-    enable(choice: Choice): Choice | undefined;
+    enable(choice: types.Choice): types.Choice | undefined;
 
     end(): Promise<void>;
 
-    filter(value: string | number | ((choice: Choice) => boolean)): Choice;
-    filter<P extends keyof Choice>(value: string | number | ((choice: Choice) => boolean), prop: P): Choice[P];
+    filter(value: string | number | ((choice: types.Choice) => boolean)): types.Choice;
+    filter<P extends keyof types.Choice>(value: string | number | ((choice: types.Choice) => boolean), prop: P): types.Choice[P];
 
-    find(value: string | number | ((choice: Choice) => boolean)): Choice;
-    find<P extends keyof Choice>(value: string | number | ((choice: Choice) => boolean), prop: P): Choice[P];
+    find(value: string | number | ((choice: types.Choice) => boolean)): types.Choice;
+    find<P extends keyof types.Choice>(value: string | number | ((choice: types.Choice) => boolean), prop: P): types.Choice[P];
 
-    findIndex(value: string | number | ((choice: Choice) => boolean)): number;
+    findIndex(value: string | number | ((choice: types.Choice) => boolean)): number;
 
     first(): Promise<void>;
 
-    focus(choice: Choice, enabled?: boolean): Choice;
+    focus(choice: types.Choice, enabled?: boolean): types.Choice;
 
-    g(choice?: Choice): Promise<void>;
+    g(choice?: types.Choice): Promise<void>;
 
     home(): Promise<void>;
 
     i(): Promise<void>;
 
-    indent(choice: Choice): string;
+    indent(choice: types.Choice): string;
 
     initialize(): Promise<void>;
 
-    isChoice(choice: Choice, value: string | number): boolean;
+    isChoice(choice: types.Choice, value: string | number): boolean;
 
-    isDisabled(choice?: Choice): boolean;
+    isDisabled(choice?: types.Choice): boolean;
 
-    isEnabled(choice?: Choice): boolean;
+    isEnabled(choice?: types.Choice): boolean;
 
-    isSelected(choice: Choice): boolean;
+    isSelected(choice: types.Choice): boolean;
 
     last(): Promise<void>;
 
     left(): Promise<void>;
 
-    map<P extends keyof Choice = 'value'>(names?: string[], prop?: P): Record<string, Choice[P]>
+    map<P extends keyof types.Choice = 'value'>(names?: string[], prop?: P): Record<string, types.Choice[P]>
 
-    newItem(element: Partial<Choice>, i: number, parent: Choice): Promise<void>;
+    newItem(element: Partial<types.Choice>, i: number, parent: types.Choice): Promise<void>;
 
     next(): Promise<void>;
 
     number(n: string | number): Promise<number | undefined>;
 
-    onChoice(choice: Choice, i: number): Promise<void>;
+    onChoice(choice: types.Choice, i: number): Promise<void>;
 
     pageDown(): Promise<void>;
 
@@ -771,13 +785,13 @@ declare namespace Enquirer {
     swap(pos: number): void;
 
     toChoice(element: string |
-      ((this: ArrayPrompt, arg: ArrayPrompt) => Promise<Choice>) |
-      Promise<Choice> |
-      Choice, i: number, parent?: Choice): Promise<Choice>;
+      ((this: ArrayPrompt, arg: ArrayPrompt) => Promise<types.Choice>) |
+      Promise<types.Choice> |
+      types.Choice, i: number, parent?: types.Choice): Promise<types.Choice>;
 
-    toChoices(value: any, parent?: any): Promise<Choice[]>
+    toChoices(value: any, parent?: any): Promise<types.Choice[]>
 
-    toggle(choice: Choice, enabled: boolean): Choice | undefined;
+    toggle(choice: types.Choice, enabled: boolean): types.Choice | undefined;
 
     up(): Promise<void>;
   }
@@ -785,7 +799,7 @@ declare namespace Enquirer {
   export namespace ArrayPrompt {
     export type Question<T extends types.Answer, P extends ArrayPrompt<T> = ArrayPrompt<T>> = Prompt.Question.Base &
     {
-      choices: (() => ChoiceInput[] | Promise<ChoiceInput[]>) | ChoiceInput[] | Promise<ChoiceInput[]>;
+      choices: (() => types.ChoiceInput[] | Promise<types.ChoiceInput[]>) | types.ChoiceInput[] | Promise<types.ChoiceInput[]>;
       initial?: string | number | Array<string | number> | Record<string, any>;
       autofocus?: number | string;
       multiple?: boolean;
@@ -793,24 +807,6 @@ declare namespace Enquirer {
       result?: (this: P, value: T) => any,
     }
   }
-
-  export namespace types {
-    export const BooleanPrompt: typeof Enquirer.BooleanPrompt;
-    export type BooleanPrompt = Enquirer.BooleanPrompt;
-
-    export const NumberPrompt: typeof Enquirer.NumberPrompt;
-    export type NumberPrompt = Enquirer.NumberPrompt;
-
-    export const StringPrompt: typeof Enquirer.StringPrompt;
-    export type StringPrompt = Enquirer.StringPrompt;
-
-    export const AuthPrompt: typeof Enquirer.AuthPrompt;
-    export type AuthPrompt = Enquirer.AuthPrompt;
-
-    export const ArrayPrompt: typeof Enquirer.ArrayPrompt;
-    export type ArrayPrompt<T extends types.Answer> = Enquirer.ArrayPrompt<T>;
-  }
-
   //#endregion
 
   //#region Build-in prompts
@@ -823,14 +819,14 @@ declare namespace Enquirer {
     // TODO: fix this
     // pointer(): string;
     space(ch?: string | undefined): Promise<void>;
-    suggest(input?: string, choices?: Choice[]): Choice[];
+    suggest(input?: string, choices?: types.Choice[]): types.Choice[];
   }
   export namespace AutoComplete {
     export type Question<
       T extends types.Answer,
       P extends AutoComplete = AutoComplete
       > = ArrayPrompt.Question<T, P> & {
-        suggest?: (this: AutoComplete, input: string, choices: Choice[]) => Choice[] | Promise<Choice[]>;
+        suggest?: (this: AutoComplete, input: string, choices: types.Choice[]) => types.Choice[] | Promise<types.Choice[]>;
       }
   }
   export const autocomplete: AutoComplete
@@ -852,7 +848,7 @@ declare namespace Enquirer {
 
     altUp(): Promise<void>;
 
-    completion(action: Action): Promise<void>;
+    completion(action: types.Action): Promise<void>;
 
     prev(): void;
 
@@ -903,11 +899,11 @@ declare namespace Enquirer {
   export const scale: Scale
 
   export class Select extends ArrayPrompt {
-    dispatch(ch?: string, key?: Key): Promise<void>;
+    dispatch(ch?: string, key?: types.Key): Promise<void>;
 
-    choiceMessage(choice: Choice, i: number): string;
+    choiceMessage(choice: types.Choice, i: number): string;
     choiceSeparator(): string;
-    renderChoice(choice: Choice, i: number): Promise<string>;
+    renderChoice(choice: types.Choice, i: number): Promise<string>;
     renderChoices(): Promise<string>
   }
   export const select: Select
