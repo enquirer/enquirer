@@ -1723,9 +1723,9 @@ describe('quiz prompt', () => {
 
   async function testQuestionType(question: Enquirer.prompt.QuizQuestion) {
     const { prompt } = Enquirer
-    prompt.on('prompt', prompt => {
-      prompt.input = '165'
-      prompt.submit()
+    prompt.on('prompt', async prompt => {
+      await prompt.keypress(null, { name: 'home' });
+      setImmediate(() => prompt.submit())
     })
     const answer = await prompt(question)
 
@@ -1829,7 +1829,7 @@ describe('quiz prompt', () => {
     })
   });
 
-  it('specify initial value (cannot validate as initial only affects ui)', async () => {
+  it.skip('specify initial value (cannot validate as initial only affects ui)', async () => {
     await testQuestionType({
       ...minimumQuestion,
       initial: 1,
@@ -2161,6 +2161,7 @@ describe('scale prompt', () => {
   async function testQuestionType(question: Enquirer.prompt.ScaleQuestion) {
     const { prompt } = Enquirer
     prompt.on('prompt', (prompt: any) => {
+      // await prompt.keypress(null, { name: 'home' });
       prompt.choices.forEach((c: any) => c.scaleIndex = 2)
       prompt.submit()
     })
