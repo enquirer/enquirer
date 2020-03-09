@@ -73,6 +73,7 @@ interface NumberPromptOptions extends BasePromptOptions {
 interface SnippetPromptOptions extends BasePromptOptions {
   type: 'snippet'
   newline?: string
+  template?: string
 }
 
 interface SortPromptOptions extends BasePromptOptions {
@@ -83,13 +84,13 @@ interface SortPromptOptions extends BasePromptOptions {
 }
 
 type PromptOptions =
+  | BasePromptOptions
   | ArrayPromptOptions
   | BooleanPromptOptions
   | StringPromptOptions
   | NumberPromptOptions
   | SnippetPromptOptions
   | SortPromptOptions
-  | BasePromptOptions
 
 declare class BasePrompt extends EventEmitter {
     constructor(options?: PromptOptions);
