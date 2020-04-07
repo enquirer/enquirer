@@ -21,17 +21,17 @@ describe('prompt-autocomplete', () => {
       prompt = new Prompt({
         message: 'Favorite flavor?',
         choices: [
-          { message: 'a', value: 'A' },
-          { message: 'b', value: 'BB' },
-          { message: 'c', value: 'CCC' },
-          { message: 'd', value: 'DDDD' }
+          { message: '2a', value: 'A' },
+          { message: '321b', value: 'BB' },
+          { message: '123c', value: 'CCC' },
+          { message: '1d', value: 'DDDD' }
         ]
       });
 
       prompt.once('run', async() => {
         await prompt.keypress(1);
-        await prompt.keypress(3);
         await prompt.keypress(2);
+        await prompt.keypress(3);
         await prompt.submit();
       });
 
