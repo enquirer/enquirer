@@ -476,7 +476,7 @@ prompt.run()
 | `highlight` | `function` | `dim` version of primary style                                      | The color to use when "highlighting" characters in the list that match user input.                           |
 | `multiple`  | `boolean`  | `false`                                                             | Allow multiple choices to be selected.                                                                       |
 | `suggest`   | `function` | Greedy match, returns true if choice message contains input string. | Function that filters choices. Takes user input and a choices array, and returns a list of matching choices. |
-| `initial`   | `number` | 0 | Preselected item in the list of choices.
+| `initial`   | `number` | 0 | Preselected item in the list of choices. |
 | `footer`   | `function` | None | Function that displays [footer text](https://github.com/enquirer/enquirer/blob/6c2819518a1e2ed284242a99a685655fbaabfa28/examples/autocomplete/option-footer.js#L10) |
 
 **Related prompts**
@@ -1708,18 +1708,21 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 | **Commits** | **Contributor** |  
 | --- | --- |  
 | 283 | [jonschlinkert](https://github.com/jonschlinkert) |  
-| 72  | [doowb](https://github.com/doowb) |  
+| 82  | [doowb](https://github.com/doowb) |  
 | 32  | [rajat-sr](https://github.com/rajat-sr) |  
 | 20  | [318097](https://github.com/318097) |  
 | 15  | [g-plane](https://github.com/g-plane) |  
 | 12  | [pixelass](https://github.com/pixelass) |  
+| 5   | [adityavyas611](https://github.com/adityavyas611) |  
 | 5   | [satotake](https://github.com/satotake) |  
 | 3   | [tunnckoCore](https://github.com/tunnckoCore) |  
+| 3   | [Ovyerus](https://github.com/Ovyerus) |  
 | 3   | [sw-yx](https://github.com/sw-yx) |  
-| 2   | [adityavyas611](https://github.com/adityavyas611) |  
 | 2   | [DanielRuf](https://github.com/DanielRuf) |  
-| 2   | [gabel0287](https://github.com/gabel0287) |  
+| 2   | [GabeL7r](https://github.com/GabeL7r) |  
 | 1   | [AlCalzone](https://github.com/AlCalzone) |  
+| 1   | [hipstersmoothie](https://github.com/hipstersmoothie) |  
+| 1   | [danieldelcore](https://github.com/danieldelcore) |  
 | 1   | [ImgBotApp](https://github.com/ImgBotApp) |  
 | 1   | [jsonkao](https://github.com/jsonkao) |  
 | 1   | [knpwrs](https://github.com/knpwrs) |  
