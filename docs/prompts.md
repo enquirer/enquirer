@@ -109,6 +109,7 @@ const prompt = new AutoComplete({
   name: 'flavor',
   message: 'Pick your favorite flavor',
   limit: 10,
+  initial: 2,
   choices: [
     'Almond',
     'Apple',
@@ -145,6 +146,7 @@ prompt.run()
 | `highlight` | `function` | `dim` version of primary style                                      | The color to use when "highlighting" characters in the list that match user input.                           |
 | `multiple`  | `boolean`  | `false`                                                             | Allow multiple choices to be selected.                                                                       |
 | `suggest`   | `function` | Greedy match, returns true if choice message contains input string. | Function that filters choices. Takes user input and a choices array, and returns a list of matching choices. |
+| `initial`   | `number` | 0 | Preselected item in the list of choices. |
 | `footer`   | `function` | None | Function that displays [footer text](https://github.com/enquirer/enquirer/blob/6c2819518a1e2ed284242a99a685655fbaabfa28/examples/autocomplete/option-footer.js#L10) |
 
 **Related prompts**
