@@ -105,6 +105,7 @@ class Enquirer extends Events {
     assert(this.prompts[type], `Prompt "${type}" is not registered`);
 
     let prompt = new this.prompts[type](opts);
+    this._prompt = prompt;
     let value = get(this.answers, name);
 
     prompt.state.answers = this.answers;
