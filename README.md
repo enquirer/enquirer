@@ -339,7 +339,7 @@ This section is about Enquirer's prompts: what they look like, how they work, ho
   - [Prompt Options](#prompt-options)
 * [Built-in prompts](#built-in-prompts)
 * [Prompt Types](#prompt-types) - The base `Prompt` class used by other prompts
-* [Custom prompts](#%E2%9D%AF-custom-prompts) - Enquirer 2.0 introduced the concept of prompt "types", with the goal of making custom prompts easier than ever to create and use.
+* [Custom prompts](#-custom-prompts) - Enquirer 2.0 introduced the concept of prompt "types", with the goal of making custom prompts easier than ever to create and use.
 
 ### Prompt
 
@@ -1466,7 +1466,7 @@ Custom prompts are created by extending either:
 
 * Enquirer's `Prompt` class
 * one of the built-in [prompts](#-prompts), or
-* low-level [types](#-types).
+* low-level [types](#prompt-types).
 
 <!-- Example: HaiKarate Custom Prompt -->
 
