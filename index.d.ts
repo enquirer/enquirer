@@ -434,7 +434,6 @@ declare namespace Enquirer {
 
     export type PromptType = string
 
-
     export type Symbols = {
       indicator: string,
       check: string,
@@ -596,7 +595,7 @@ declare namespace Enquirer {
     {
       initial?: T | (() => Promise<T> | T),
       default?: T,
-      // TODO: test is the function style needed
+      // TODO: test if the function style is needed
       skip?: boolean | ((this: P, name: string | undefined, value: string | undefined) => boolean | Promise<boolean>),
       value?: T,
       format?: (this: P, value: T) => any,
