@@ -775,6 +775,7 @@ declare namespace Enquirer {
 
   export class MultiSelect extends Select {
     constructor(question: MultiSelect.Question)
+    readonly selected: types.Choice[]
   }
   export namespace MultiSelect {
     export type Question = ArrayPrompt.Question<any, MultiSelect> & { maxSelected?: number };
