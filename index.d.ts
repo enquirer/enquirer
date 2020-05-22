@@ -104,7 +104,7 @@ declare class BasePrompt extends EventEmitter {
       size: number;
       submitted: boolean;
     };
-    keypress: (char: string | null, evt: { name: string }) => void;
+    keypress: (char: string | null, evt?: { name: string }) => void;
     clear: (val: number) => void;
     write: (val: string) => void;
     restore: () => void;
