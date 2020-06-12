@@ -17,7 +17,7 @@ class Prompt extends Toggle {
   }
 }
 
-describe('toggle', function() {
+describe('toggle', function () {
   describe('options.initial', () => {
     it('should use options.initial when submitted', () => {
       prompt = new Prompt({
@@ -25,11 +25,23 @@ describe('toggle', function() {
         initial: true
       });
 
-      prompt.once('run', async() => await prompt.submit());
+      prompt.once('run', async () => await prompt.submit());
 
       return prompt.run()
         .then(answer => {
           assert.equal(answer, true);
+        });
+    });
+    it('toggle should call options.initial when a function', () => {
+      prompt = new Prompt({
+        message: 'prompt-toggle',
+        initial: () => false
+      });
+
+      prompt.once('run', () => prompt.submit());
+      return prompt.run()
+        .then(answer => {
+          assert.equal(answer, false);
         });
     });
   });
@@ -40,7 +52,7 @@ describe('toggle', function() {
         message: 'prompt-toggle'
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress(' ');
         await prompt.submit();
       });
@@ -54,7 +66,7 @@ describe('toggle', function() {
     it('should handle enabling and disabling with arrow keys', () => {
       prompt = new Prompt({ message: 'prompt-toggle' });
       return new Promise((resolve, reject) => {
-        prompt.once('run', async() => {
+        prompt.once('run', async () => {
           try {
             assert.equal(prompt.value, false);
 
@@ -86,10 +98,10 @@ describe('toggle', function() {
     });
 
     it('should handle toggling with special keys (0, 1, y, n)', () => {
-      prompt = new Prompt({message: 'prompt-toggle'});
+      prompt = new Prompt({ message: 'prompt-toggle' });
 
       return new Promise((resolve, reject) => {
-        prompt.once('run', async() => {
+        prompt.once('run', async () => {
           try {
             assert.equal(prompt.value, false);
 
