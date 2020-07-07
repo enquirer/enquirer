@@ -27,7 +27,7 @@ describe('utils.actions', function() {
     assert.equal(act({ name: 'd', ctrl: true }), 'deleteForward');
     assert.equal(act({ name: 'e', ctrl: true }), 'last');
     assert.equal(act({ name: 'g', ctrl: true }), 'reset');
-    assert.equal(act({ name: 'r', ctrl: true }), 'remove');
+    assert.equal(act({ name: 'r', ctrl: true }), 'deleteItem');
     assert.equal(act({ name: 's', ctrl: true }), 'save');
     assert.equal(act({ name: 'u', ctrl: true }), 'undo');
   });
