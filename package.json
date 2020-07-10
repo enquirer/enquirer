@@ -19,17 +19,21 @@
     "lib"
   ],
   "main": "index.js",
+  "typings": "index.d.ts",
   "engines": {
     "node": ">=8.6"
   },
   "scripts": {
-    "test": "mocha && tsc -p ./test/types",
-    "cover": "nyc --reporter=text --reporter=html mocha"
+    "test": "mocha && mocha -r ts-node/register ts-test/*.ts",
+    "test:ts": "mocha -r ts-node/register ts-test/*.ts",
+    "cover": "nyc --reporter=text --reporter=html mocha test/*.js",
+    "cover:ts": "nyc --reporter=text --reporter=html mocha -r ts-node/register ts-test/*.ts"
   },
   "dependencies": {
     "ansi-colors": "^4.1.1"
   },
   "devDependencies": {
+    "@types/mocha": "^7.0.1",
     "@types/node": "^8",
     "gulp-format-md": "^2.0.0",
     "inquirer": "^6.2.0",
@@ -37,6 +41,8 @@
     "nyc": "^13.1.0",
     "prompts": "^1.2.1",
     "time-require": "github:jonschlinkert/time-require",
+    "ts-node": "^8.6.1",
+    "type-plus": "^1.31.3",
     "typescript": "^3.1.6"
   },
   "keywords": [

@@ -1,16 +1,16 @@
-'use strict';
+import assert from 'assert'
+import fs from 'fs'
+import 'mocha'
+import { AutoComplete, types } from '..'
+import support from './support'
 
-require('mocha');
-const fs = require('fs');
-const assert = require('assert');
-const { timeout, keypresses } = require('./support')(assert);
-const AutoComplete = require('../lib/prompts/autocomplete');
-let prompt;
+const { timeout, keypresses } = support(assert);
+let prompt: Prompt;
 
 const fixtures = ['almond', 'apple', 'banana', 'cherry', 'chocolate', 'cinnamon', 'coconut', 'cotton candy', 'grape', 'nougat', 'orange', 'pear', 'pineapple', 'strawberry', 'vanilla', 'watermelon', 'wintergreen'];
 
-class Prompt extends AutoComplete {
-  constructor(options) {
+class Prompt<T extends types.Answer = string> extends AutoComplete<T> {
+  constructor(options: AutoComplete.Question<T>) {
     super({ ...options, show: false });
   }
 }
@@ -40,7 +40,7 @@ describe('prompt-autocomplete', () => {
       });
     });
 
-    it('should filter by keypress', function() {
+    it('should filter by keypress', function () {
       this.timeout(5000);
 
       prompt = new Prompt({
@@ -53,11 +53,11 @@ describe('prompt-autocomplete', () => {
         ]
       });
 
-      prompt.once('run', async() => {
-        await timeout(async() => prompt.keypress('a'));
-        await timeout(async() => prompt.keypress('b'), 2);
-        await timeout(async() => prompt.keypress('c'), 2);
-        await timeout(async() => prompt.submit(), 2);
+      prompt.once('run', async () => {
+        await timeout(async () => prompt.keypress('a'));
+        await timeout(async () => prompt.keypress('b'), 2);
+        await timeout(async () => prompt.keypress('c'), 2);
+        await timeout(async () => prompt.submit(), 2);
       });
 
       return prompt.run().then(answer => {
@@ -76,7 +76,7 @@ describe('prompt-autocomplete', () => {
         }
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('b');
         await prompt.keypress('e');
         await prompt.keypress('r');
@@ -133,7 +133,7 @@ describe('prompt-autocomplete', () => {
         }
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('c');
         await prompt.keypress('h');
         await prompt.keypress('o');
@@ -180,7 +180,7 @@ describe('prompt-autocomplete', () => {
         ]
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         assert.equal(prompt.initial, 2);
         assert.has(prompt.choices, [
           { name: 'a', message: 'A', enabled: false },
@@ -203,12 +203,12 @@ describe('prompt-autocomplete', () => {
       prompt = new Prompt({
         message: 'Favorite flavor?',
         choices: fixtures.slice(),
-        format(value = this.input) {
+        format(value) {
           return value.toUpperCase();
         }
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('b');
         await prompt.keypress('e');
         await prompt.keypress('r');
@@ -228,8 +228,8 @@ describe('prompt-autocomplete', () => {
 
   describe('options.result', () => {
     it('should support a custom result function', () => {
-      let values = [];
-      let results = [];
+      let values: string[] = [];
+      let results: string[] = [];
       prompt = new Prompt({
         message: 'Favorite flavor?',
         choices: fixtures.slice(),
@@ -243,7 +243,7 @@ describe('prompt-autocomplete', () => {
         }
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('b');
         await prompt.keypress('e');
         await prompt.keypress('r');
@@ -271,7 +271,7 @@ describe('prompt-autocomplete', () => {
         }
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('b');
         await prompt.keypress('e');
         await prompt.keypress('r');
@@ -295,7 +295,7 @@ describe('prompt-autocomplete', () => {
         }
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('b');
         await prompt.keypress('e');
         await prompt.keypress('r');
@@ -319,7 +319,7 @@ describe('prompt-autocomplete', () => {
         }
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('a');
         await prompt.keypress('p');
         await prompt.keypress('p');
@@ -353,7 +353,7 @@ describe('prompt-autocomplete', () => {
         },
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('a');
         await prompt.keypress('p');
         await prompt.keypress('p');
@@ -389,7 +389,7 @@ describe('prompt-autocomplete', () => {
         }
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('a');
         await prompt.keypress('p');
         await prompt.keypress('p');
@@ -402,19 +402,19 @@ describe('prompt-autocomplete', () => {
         });
     });
 
-    it('should dynamically add choices', function() {
+    it('should dynamically add choices', function () {
       this.timeout(5000);
       let pending = fixtures.slice();
 
       prompt = new Prompt({
         message: 'Favorite flavor?',
         choices() {
-          return new Promise(async(resolve) => {
+          return new Promise(async (resolve) => {
             setTimeout(() => resolve([]), 3);
           });
         },
         async suggest(input, choices = []) {
-          return new Promise(async(resolve) => {
+          return new Promise<types.Choice[]>(async (resolve) => {
             if (!input) {
               resolve(choices);
               return;
@@ -423,7 +423,7 @@ describe('prompt-autocomplete', () => {
             let list = pending.filter(str => str.startsWith(input));
             let items = await Promise.all(await this.toChoices(list));
             for (let item of items) {
-              if (!this.find(item.name)) {
+              if (!this.find(item.name!)) {
                 this.choices.push(item);
               }
             }
@@ -432,7 +432,7 @@ describe('prompt-autocomplete', () => {
         }
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await timeout(() => prompt.keypress('a'), 1);
         await timeout(() => prompt.delete(), 1);
         await timeout(() => prompt.keypress('b'), 1);
@@ -459,7 +459,7 @@ describe('prompt-autocomplete', () => {
         }
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await keypresses(prompt, prompt.choices[0].message);
         await prompt.submit();
       });
@@ -475,12 +475,12 @@ describe('prompt-autocomplete', () => {
         message: 'Favorite flavor?',
         choices: fixtures.slice(),
         suggest(typed, choices) {
-          const search = async() => choices.filter(choice => choice.message.includes(typed));
+          const search = async () => choices.filter(choice => choice.message.includes(typed));
           return timeout(search, 5);
         }
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('a');
         await prompt.keypress('p');
         await prompt.keypress('p');
@@ -504,7 +504,7 @@ describe('prompt-autocomplete', () => {
         }
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.dispatch('b');
         await prompt.dispatch('e');
         await prompt.dispatch('r');
@@ -528,7 +528,7 @@ describe('prompt-autocomplete', () => {
         }
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.dispatch('a');
         await prompt.dispatch('p');
         await prompt.dispatch('p');
@@ -566,7 +566,7 @@ describe('prompt-autocomplete', () => {
 
       prompt.on('alert', () => (called++));
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.delete();
         await prompt.dispatch('a');
         await prompt.delete();
@@ -583,7 +583,7 @@ describe('prompt-autocomplete', () => {
   });
 
   describe('choice.value', () => {
-    it('should return the choice.value', async() => {
+    it('should return the choice.value', async () => {
       prompt = new Prompt({
         message: 'Favorite flavor?',
         choices: [
@@ -596,7 +596,7 @@ describe('prompt-autocomplete', () => {
         ]
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await prompt.keypress('c');
         await prompt.keypress('h');
         await prompt.keypress('o');
