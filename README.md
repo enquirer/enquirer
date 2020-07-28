@@ -72,7 +72,7 @@ Get started with Enquirer, the most powerful and easy-to-use Node.js library for
 - [Usage](#-usage)
 - [Enquirer](#-enquirer)
 - [Prompts](#-prompts)
-  * [Built-in Prompts](#-prompts)
+  * [Built-in Prompts](#built-in-prompts)
   * [Custom Prompts](#-custom-prompts)
 - [Key Bindings](#-key-bindings)
 - [Options](#-options)
