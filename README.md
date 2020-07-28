@@ -1,59 +1,64 @@
 <h1 align="center">Enquirer</h1>
 
 <p align="center">
-<a href="https://npmjs.org/package/enquirer">
-<img src="https://img.shields.io/npm/v/enquirer.svg" alt="version">
-</a>
-<a href="https://travis-ci.org/enquirer/enquirer">
-<img src="https://img.shields.io/travis/enquirer/enquirer.svg" alt="travis">
-</a>
-<a href="https://npmjs.org/package/enquirer">
-<img src="https://img.shields.io/npm/dm/enquirer.svg" alt="downloads">
-</a>
+  <a href="https://npmjs.org/package/enquirer">
+    <img src="https://img.shields.io/npm/v/enquirer.svg" alt="version">
+  </a>
+  <a href="https://travis-ci.org/enquirer/enquirer">
+    <img src="https://img.shields.io/travis/enquirer/enquirer.svg" alt="travis">
+  </a>
+  <a href="https://npmjs.org/package/enquirer">
+    <img src="https://img.shields.io/npm/dm/enquirer.svg" alt="downloads">
+  </a>
 </p>
 
 <br>
 <br>
 
 <p align="center">
-<b>Stylish CLI prompts that are user-friendly, intuitive and easy to create.</b><br>
-<sub>>_ Prompts should be more like conversations than inquisitions▌</sub>
+  <b>Stylish CLI prompts that are user-friendly, intuitive and easy to create.</b><br>
+  <sub>>_ Prompts should be more like conversations than inquisitions▌</sub>
 </p>
 
 <br>
 
 <p align="center">
-<sub>(Example shows Enquirer's <a href="#survey-prompt">Survey Prompt</a>)</a></sub>
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/survey-prompt.gif" alt="Enquirer Survey Prompt" width="750"><br>
-<sub>The terminal in all examples is <a href="https://hyper.is/">Hyper</a>, theme is <a href="https://github.com/jonschlinkert/hyper-monokai-extended">hyper-monokai-extended</a>.</sub><br><br>
-<a href="#built-in-prompts"><strong>See more prompt examples</strong></a>
+  <sub>(Example shows Enquirer's <a href="#survey-prompt">Survey Prompt</a>)</a></sub>
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/survey-prompt.gif" alt="Enquirer Survey Prompt" width="750"><br>
+  <sub>The terminal in all examples is <a href="https://hyper.is/">Hyper</a>, theme is <a href="https://github.com/jonschlinkert/hyper-monokai-extended">hyper-monokai-extended</a>.</sub><br><br>
+  <a href="#built-in-prompts"><strong>See more prompt examples</strong></a>
 </p>
 
 <br>
 <br>
 
-Created by [jonschlinkert](https://github.com/jonschlinkert) and [doowb](https://github.com/doowb), Enquirer is fast, easy to use, and lightweight enough for small projects, while also being powerful and customizable enough for the most advanced use cases.
+Created by [jonschlinkert][jon] and [doowb][brian], Enquirer is fast, easy to use, and lightweight enough for small projects, while also being powerful and customizable enough for the most advanced use cases.
 
-* **Fast** - [Loads in ~4ms](#-performance) (that's about _3-4 times faster than a [single frame of a HD movie](http://www.endmemo.com/sconvert/framespersecondframespermillisecond.php) at 60fps_)
-* **Lightweight** - Only one dependency, the excellent [ansi-colors](https://github.com/doowb/ansi-colors) by [Brian Woodward](https://github.com/doowb).
-* **Easy to implement** - Uses promises and async/await and sensible defaults to make prompts easy to create and implement.
-* **Easy to use** - Thrill your users with a better experience! Navigating around input and choices is a breeze. You can even create [quizzes](examples/fun/countdown.js), or [record](examples/fun/record.js) and [playback](examples/fun/play.js) key bindings to aid with tutorials and videos.
-* **Intuitive** - Keypress combos are available to simplify usage.
-* **Flexible** - All prompts can be used standalone or chained together.
-* **Stylish** - Easily override semantic styles and symbols for any part of the prompt.
-* **Extensible** - Easily create and use custom prompts by extending Enquirer's built-in [prompts](#-prompts).
-* **Pluggable** - Add advanced features to Enquirer using plugins.
-* **Validation** - Optionally validate user input with any prompt.
-* **Well tested** - All prompts are well-tested, and tests are easy to create without having to use brittle, hacky solutions to spy on prompts or "inject" values.
-* **Examples** - There are numerous [examples](examples) available to help you get started.
+- **Fast** - [Loads in ~4ms](#-performance) (that's about _3-4 times faster than a [single frame of a HD movie](http://www.endmemo.com/sconvert/framespersecondframespermillisecond.php) at 60fps_)
+- **Lightweight** - Only one dependency, the excellent [ansi-colors](https://github.com/doowb/ansi-colors) by [Brian Woodward](https://github.com/doowb).
+- **Easy to implement** - Uses promises and async/await and sensible defaults to make prompts easy to create and implement.
+- **Easy to use** - Thrill your users with a better experience! Navigating around input and choices is a breeze. You can even create [quizzes](examples/fun/countdown.js), or [record](examples/fun/record.js) and [playback](examples/fun/play.js) key bindings to aid with tutorials and videos.
+- **Intuitive** - Keypress combos are available to simplify usage.
+- **Flexible** - All prompts can be used standalone or chained together.
+- **Stylish** - Easily override semantic styles and symbols for any part of the prompt.
+- **Extensible** - Easily create and use custom prompts by extending Enquirer's built-in [prompts](#-prompts).
+- **Pluggable** - Add advanced features to Enquirer using plugins.
+- **Validation** - Optionally validate user input with any prompt.
+- **Well tested** - All prompts are well-tested, and tests are easy to create without having to use brittle, hacky solutions to spy on prompts or "inject" values.
+- **Examples** - There are numerous [examples](examples) available to help you get started.
 
 If you like Enquirer, please consider starring or tweeting about this project to show your support. Thanks!
 
+[issue]: https://github.com/enquirer/enquirer/issues/new
+[pulls]: https://github.com/enquirer/enquirer/pulls
+[jon]: https://github.com/jonschlinkert
+[brian]: https://github.com/doowb
+
 <br>
 
 <p align="center">
-<b>>_ Ready to start making prompts your users will love? ▌</b><br>
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/heartbeat.gif" alt="Enquirer Select Prompt with heartbeat example" width="750">
+  <b>>_ Ready to start making prompts your users will love? ▌</b><br>
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/heartbeat.gif" alt="Enquirer Select Prompt with heartbeat example" width="750">
 </p>
 
 <br>
@@ -61,24 +66,23 @@ If you like Enquirer, please consider starring or tweeting about this project to
 
 ## ❯ Getting started
 
-Get started with Enquirer, the most powerful and easy-to-use Node.js library for creating interactive CLI prompts.
+Get started with Enquirer, the most powerful and easy-to-use Node.js library for creating interactive CLI prompts. 
 
-* [Install](#-install)
-* [Usage](#-usage)
-* [Enquirer](#-enquirer)
-* [Prompts](#-prompts)
-  - [Built-in Prompts](#-prompts)
-  - [Custom Prompts](#-custom-prompts)
-* [Key Bindings](#-key-bindings)
-* [Options](#-options)
-* [Release History](#-release-history)
-* [Performance](#-performance)
-* [About](#-about)
+- [Install](#-install)
+- [Usage](#-usage)
+- [Enquirer](#-enquirer)
+- [Prompts](#-prompts)
+  * [Built-in Prompts](#-prompts)
+  * [Custom Prompts](#-custom-prompts)
+- [Key Bindings](#-key-bindings)
+- [Options](#-options)
+- [Release History](#-release-history)
+- [Performance](#-performance)
+- [About](#-about)
 
 <br>
 
 ## ❯ Install
-
 Install with [npm](https://www.npmjs.com/):
 
 ```sh
@@ -91,7 +95,7 @@ $ yarn add enquirer
 ```
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/npm-install.gif" alt="Install Enquirer with NPM" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/npm-install.gif" alt="Install Enquirer with NPM" width="750">
 </p>
 
 _(Requires Node.js 8.6 or higher. Please let us know if you need support for an earlier version by creating an [issue](../../issues/new).)_
@@ -99,7 +103,6 @@ _(Requires Node.js 8.6 or higher. Please let us know if you need support for an 
 <br>
 
 ## ❯ Usage
-
 ### Single prompt
 
 The easiest way to get started with enquirer is to pass a [question object](#prompt-options) to the `prompt` method.
@@ -173,7 +176,6 @@ prompt({
 <br>
 
 ## ❯ Enquirer
-
 **Enquirer is a prompt runner**
 
 Add Enquirer to your JavaScript project with following line of code.
@@ -229,14 +231,15 @@ prompt.run()
   .catch(console.error);
 ```
 
-### [Enquirer](index.js#L20)
+### Enquirer API
 
+### [Enquirer](index.js#L20)
 Create an instance of `Enquirer`.
 
 **Params**
 
-* `options` **{Object}**: (optional) Options to use with all prompts.
-* `answers` **{Object}**: (optional) Answers object to initialize with.
+* `options` **{Object}**: (optional) Options to use with all prompts.    
+* `answers` **{Object}**: (optional) Answers object to initialize with.    
 
 **Example**
 
@@ -246,14 +249,13 @@ const enquirer = new Enquirer();
 ```
 
 ### [register()](index.js#L42)
-
 Register a custom prompt type.
 
 **Params**
 
-* `type` **{String}**
-* `fn` **{Function|Prompt}**: `Prompt` class, or a function that returns a `Prompt` class.
-* `returns` **{Object}**: Returns the Enquirer instance
+* `type` **{String}**    
+* `fn` **{Function|Prompt}**: `Prompt` class, or a function that returns a `Prompt` class.    
+* `returns` **{Object}**: Returns the Enquirer instance  
 
 **Example**
 
@@ -264,13 +266,12 @@ enquirer.register('customType', require('./custom-prompt'));
 ```
 
 ### [prompt()](index.js#L78)
-
 Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
 **Params**
 
-* `questions` **{Array|Object}**: Options objects for one or more prompts to run.
-* `returns` **{Promise}**: Promise that returns an "answers" object with the user's responses.
+* `questions` **{Array|Object}**: Options objects for one or more prompts to run.    
+* `returns` **{Promise}**: Promise that returns an "answers" object with the user's responses.  
 
 **Example**
 
@@ -287,13 +288,12 @@ console.log(response);
 ```
 
 ### [use()](index.js#L160)
-
 Use an enquirer plugin.
 
 **Params**
 
-* `plugin` **{Function}**: Plugin function that takes an instance of Enquirer.
-* `returns` **{Object}**: Returns the Enquirer instance.
+* `plugin` **{Function}**: Plugin function that takes an instance of Enquirer.    
+* `returns` **{Object}**: Returns the Enquirer instance.  
 
 **Example**
 
@@ -307,13 +307,12 @@ enquirer.use(plugin);
 ```
 
 ### [Enquirer#prompt](index.js#L210)
-
 Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
 **Params**
 
-* `questions` **{Array|Object}**: Options objects for one or more prompts to run.
-* `returns` **{Promise}**: Promise that returns an "answers" object with the user's responses.
+* `questions` **{Array|Object}**: Options objects for one or more prompts to run.    
+* `returns` **{Promise}**: Promise that returns an "answers" object with the user's responses.  
 
 **Example**
 
@@ -330,16 +329,15 @@ console.log(response);
 <br>
 
 ## ❯ Prompts
-
 This section is about Enquirer's prompts: what they look like, how they work, how to run them, available options, and how to customize the prompts or create your own prompt concept.
 
 **Getting started with Enquirer's prompts**
 
-* [Prompt](#prompt) - The base `Prompt` class used by other prompts
+- [Prompt](#prompt) - The base `Prompt` class used by other prompts
   - [Prompt Options](#prompt-options)
-* [Built-in prompts](#built-in-prompts)
-* [Prompt Types](#prompt-types) - The base `Prompt` class used by other prompts
-* [Custom prompts](#%E2%9D%AF-custom-prompts) - Enquirer 2.0 introduced the concept of prompt "types", with the goal of making custom prompts easier than ever to create and use.
+- [Built-in prompts](#built-in-prompts)
+- [Prompt Types](#prompt-types) - The base `Prompt` class used by other prompts 
+- [Custom prompts](#%E2%9D%AF-custom-prompts) - Enquirer 2.0 introduced the concept of prompt "types", with the goal of making custom prompts easier than ever to create and use.
 
 ### Prompt
 
@@ -404,30 +402,30 @@ prompt(question)
 
 ### Built-in prompts
 
-* [AutoComplete Prompt](#autocomplete-prompt)
-* [BasicAuth Prompt](#basicauth-prompt)
-* [Confirm Prompt](#confirm-prompt)
-* [Form Prompt](#form-prompt)
-* [Input Prompt](#input-prompt)
-* [Invisible Prompt](#invisible-prompt)
-* [List Prompt](#list-prompt)
-* [MultiSelect Prompt](#multiselect-prompt)
-* [Numeral Prompt](#numeral-prompt)
-* [Password Prompt](#password-prompt)
-* [Quiz Prompt](#quiz-prompt)
-* [Survey Prompt](#survey-prompt)
-* [Scale Prompt](#scale-prompt)
-* [Select Prompt](#select-prompt)
-* [Sort Prompt](#sort-prompt)
-* [Snippet Prompt](#snippet-prompt)
-* [Toggle Prompt](#toggle-prompt)
+- [AutoComplete Prompt](#autocomplete-prompt)
+- [BasicAuth Prompt](#basicauth-prompt)
+- [Confirm Prompt](#confirm-prompt)
+- [Form Prompt](#form-prompt)
+- [Input Prompt](#input-prompt)
+- [Invisible Prompt](#invisible-prompt)
+- [List Prompt](#list-prompt)
+- [MultiSelect Prompt](#multiselect-prompt)
+- [Numeral Prompt](#numeral-prompt)
+- [Password Prompt](#password-prompt)
+- [Quiz Prompt](#quiz-prompt)
+- [Survey Prompt](#survey-prompt)
+- [Scale Prompt](#scale-prompt)
+- [Select Prompt](#select-prompt)
+- [Sort Prompt](#sort-prompt)
+- [Snippet Prompt](#snippet-prompt)
+- [Toggle Prompt](#toggle-prompt)
 
 ### AutoComplete Prompt
 
 Prompt that auto-completes as the user types, and returns the selected value as a string.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/autocomplete-prompt.gif" alt="Enquirer AutoComplete Prompt" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/autocomplete-prompt.gif" alt="Enquirer AutoComplete Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -481,9 +479,9 @@ prompt.run()
 
 **Related prompts**
 
-* [Select](#select-prompt)
-* [MultiSelect](#multiselect-prompt)
-* [Survey](#survey-prompt)
+- [Select](#select-prompt)
+- [MultiSelect](#multiselect-prompt)
+- [Survey](#survey-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -494,7 +492,7 @@ prompt.run()
 Prompt that asks for username and password to authenticate the user. The default implementation of `authenticate` function in `BasicAuth` prompt is to compare the username and password with the values supplied while running the prompt. The implementer is expected to override the `authenticate` function with a custom logic such as making an API request to a server to authenticate the username and password entered and expect a token back.
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/13731210/61570485-7ffd9c00-aaaa-11e9-857a-d47dc7008284.gif" alt="Enquirer BasicAuth Prompt" width="750">
+  <img src="https://user-images.githubusercontent.com/13731210/61570485-7ffd9c00-aaaa-11e9-857a-d47dc7008284.gif" alt="Enquirer BasicAuth Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -525,7 +523,7 @@ const { BasicAuth } = require('enquirer');
 Prompt that returns `true` or `false`.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/confirm-prompt.gif" alt="Enquirer Confirm Prompt" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/confirm-prompt.gif" alt="Enquirer Confirm Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -545,9 +543,9 @@ prompt.run()
 
 **Related prompts**
 
-* [Input](#input-prompt)
-* [Numeral](#numeral-prompt)
-* [Password](#password-prompt)
+- [Input](#input-prompt)
+- [Numeral](#numeral-prompt)
+- [Password](#password-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -558,7 +556,7 @@ prompt.run()
 Prompt that allows the user to enter and submit multiple values on a single terminal screen.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/form-prompt.gif" alt="Enquirer Form Prompt" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/form-prompt.gif" alt="Enquirer Form Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -583,8 +581,8 @@ prompt.run()
 
 **Related prompts**
 
-* [Input](#input-prompt)
-* [Survey](#survey-prompt)
+- [Input](#input-prompt)
+- [Survey](#survey-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -595,7 +593,7 @@ prompt.run()
 Prompt that takes user input and returns a string.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/input-prompt.gif" alt="Enquirer Input Prompt" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/input-prompt.gif" alt="Enquirer Input Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -616,9 +614,9 @@ You can use [data-store](https://github.com/jonschlinkert/data-store) to store [
 
 **Related prompts**
 
-* [Confirm](#confirm-prompt)
-* [Numeral](#numeral-prompt)
-* [Password](#password-prompt)
+- [Confirm](#confirm-prompt)
+- [Numeral](#numeral-prompt)
+- [Password](#password-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -629,7 +627,7 @@ You can use [data-store](https://github.com/jonschlinkert/data-store) to store [
 Prompt that takes user input, hides it from the terminal, and returns a string.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/invisible-prompt.gif" alt="Enquirer Invisible Prompt" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/invisible-prompt.gif" alt="Enquirer Invisible Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -648,8 +646,8 @@ prompt.run()
 
 **Related prompts**
 
-* [Password](#password-prompt)
-* [Input](#input-prompt)
+- [Password](#password-prompt)
+- [Input](#input-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -660,7 +658,7 @@ prompt.run()
 Prompt that returns a list of values, created by splitting the user input. The default split character is `,` with optional trailing whitespace.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/list-prompt.gif" alt="Enquirer List Prompt" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/list-prompt.gif" alt="Enquirer List Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -679,8 +677,8 @@ prompt.run()
 
 **Related prompts**
 
-* [Sort](#sort-prompt)
-* [Select](#select-prompt)
+- [Sort](#sort-prompt)
+- [Select](#select-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -691,7 +689,7 @@ prompt.run()
 Prompt that allows the user to select multiple items from a list of options.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/multiselect-prompt.gif" alt="Enquirer MultiSelect Prompt" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/multiselect-prompt.gif" alt="Enquirer MultiSelect Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -773,9 +771,9 @@ prompt.run()
 
 **Related prompts**
 
-* [AutoComplete](#autocomplete-prompt)
-* [Select](#select-prompt)
-* [Survey](#survey-prompt)
+- [AutoComplete](#autocomplete-prompt)
+- [Select](#select-prompt)
+- [Survey](#survey-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -786,7 +784,7 @@ prompt.run()
 Prompt that takes a number as input.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/numeral-prompt.gif" alt="Enquirer Numeral Prompt" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/numeral-prompt.gif" alt="Enquirer Numeral Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -806,8 +804,8 @@ prompt.run()
 
 **Related prompts**
 
-* [Input](#input-prompt)
-* [Confirm](#confirm-prompt)
+- [Input](#input-prompt)
+- [Confirm](#confirm-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -818,7 +816,7 @@ prompt.run()
 Prompt that takes user input and masks it in the terminal. Also see the [invisible prompt](#invisible-prompt)
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/password-prompt.gif" alt="Enquirer Password Prompt" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/password-prompt.gif" alt="Enquirer Password Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -838,8 +836,8 @@ prompt.run()
 
 **Related prompts**
 
-* [Input](#input-prompt)
-* [Invisible](#invisible-prompt)
+- [Input](#input-prompt)
+- [Invisible](#invisible-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -850,7 +848,7 @@ prompt.run()
 Prompt that allows the user to play multiple-choice quiz questions.
 
 <p align="center">
-<img src="https://user-images.githubusercontent.com/13731210/61567561-891d4780-aa6f-11e9-9b09-3d504abd24ed.gif" alt="Enquirer Quiz Prompt" width="750">
+  <img src="https://user-images.githubusercontent.com/13731210/61567561-891d4780-aa6f-11e9-9b09-3d504abd24ed.gif" alt="Enquirer Quiz Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -893,7 +891,7 @@ const { Quiz } = require('enquirer');
 Prompt that allows the user to provide feedback for a list of questions.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/survey-prompt.gif" alt="Enquirer Survey Prompt" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/survey-prompt.gif" alt="Enquirer Survey Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -943,9 +941,9 @@ prompt.run()
 
 **Related prompts**
 
-* [Scale](#scale-prompt)
-* [Snippet](#snippet-prompt)
-* [Select](#select-prompt)
+- [Scale](#scale-prompt)
+- [Snippet](#snippet-prompt)
+- [Select](#select-prompt)
 
 ***
 
@@ -954,7 +952,7 @@ prompt.run()
 A more compact version of the [Survey prompt](#survey-prompt), the Scale prompt allows the user to quickly provide feedback using a [Likert Scale](https://en.wikipedia.org/wiki/Likert_scale).
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/scale-prompt.gif" alt="Enquirer Scale Prompt" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/scale-prompt.gif" alt="Enquirer Scale Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -1008,9 +1006,9 @@ prompt.run()
 
 **Related prompts**
 
-* [AutoComplete](#autocomplete-prompt)
-* [Select](#select-prompt)
-* [Survey](#survey-prompt)
+- [AutoComplete](#autocomplete-prompt)
+- [Select](#select-prompt)
+- [Survey](#survey-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -1021,7 +1019,7 @@ prompt.run()
 Prompt that allows the user to select from a list of options.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/select-prompt.gif" alt="Enquirer Select Prompt" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/select-prompt.gif" alt="Enquirer Select Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -1042,8 +1040,8 @@ prompt.run()
 
 **Related prompts**
 
-* [AutoComplete](#autocomplete-prompt)
-* [MultiSelect](#multiselect-prompt)
+- [AutoComplete](#autocomplete-prompt)
+- [MultiSelect](#multiselect-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -1058,7 +1056,7 @@ Prompt that allows the user to sort items in a list.
 In this [example](https://github.com/enquirer/enquirer/raw/master/examples/sort/prompt.js), custom styling is applied to the returned values to make it easier to see what's happening.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/sort-prompt.gif" alt="Enquirer Sort Prompt" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/sort-prompt.gif" alt="Enquirer Sort Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -1088,8 +1086,8 @@ prompt.run()
 
 **Related prompts**
 
-* [List](#list-prompt)
-* [Select](#select-prompt)
+- [List](#list-prompt)
+- [Select](#select-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -1100,7 +1098,7 @@ prompt.run()
 Prompt that allows the user to replace placeholders in a snippet of code or text.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/snippet-prompt.gif" alt="Prompts" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/snippet-prompt.gif" alt="Prompts" width="750">
 </p>
 
 **Example Usage**
@@ -1146,8 +1144,8 @@ prompt.run()
 
 **Related prompts**
 
-* [Survey](#survey-prompt)
-* [AutoComplete](#autocomplete-prompt)
+- [Survey](#survey-prompt)
+- [AutoComplete](#autocomplete-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -1158,7 +1156,7 @@ prompt.run()
 Prompt that allows the user to toggle between two values then returns `true` or `false`.
 
 <p align="center">
-<img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/toggle-prompt.gif" alt="Enquirer Toggle Prompt" width="750">
+  <img src="https://raw.githubusercontent.com/enquirer/enquirer/master/media/toggle-prompt.gif" alt="Enquirer Toggle Prompt" width="750">
 </p>
 
 **Example Usage**
@@ -1179,26 +1177,24 @@ prompt.run()
 
 **Related prompts**
 
-* [Confirm](#confirm-prompt)
-* [Input](#input-prompt)
-* [Sort](#sort-prompt)
+- [Confirm](#confirm-prompt)
+- [Input](#input-prompt)
+- [Sort](#sort-prompt)
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
 ***
 
 ### Prompt Types
-
 There are 5 (soon to be 6!) type classes:
-
 * [ArrayPrompt](#arrayprompt)
-  - [Options](#options)
-  - [Properties](#properties)
-  - [Methods](#methods)
-  - [Choices](#choices)
-  - [Defining choices](#defining-choices)
-  - [Choice properties](#choice-properties)
-  - [Related prompts](#related-prompts)
+    - [Options](#options)
+    - [Properties](#properties)
+    - [Methods](#methods)
+    - [Choices](#choices)
+    - [Defining choices](#defining-choices)
+    - [Choice properties](#choice-properties)
+    - [Related prompts](#related-prompts)
 * [AuthPrompt](#authprompt)
 * [BooleanPrompt](#booleanprompt)
 * DatePrompt (Coming Soon!)
@@ -1248,7 +1244,7 @@ Array prompts have the following instance properties and getters.
 
 #### Choices
 
-Array prompts support the `choices` option, which is the array of choices users will be able to select from when rendered in the terminal.
+Array prompts support the `choices` option, which is the array of choices users will be able to select from when rendered in the terminal. 
 
 **Type**: `string|object`
 
@@ -1329,11 +1325,11 @@ The following properties are supported on `choice` objects.
 
 #### Related prompts
 
-* [AutoComplete](#autocomplete-prompt)
-* [Form](#form-prompt)
-* [MultiSelect](#multiselect-prompt)
-* [Select](#select-prompt)
-* [Survey](#survey-prompt)
+- [AutoComplete](#autocomplete-prompt)
+- [Form](#form-prompt)
+- [MultiSelect](#multiselect-prompt)
+- [Select](#select-prompt)
+- [Survey](#survey-prompt)
 
 ***
 
@@ -1386,7 +1382,7 @@ prompt
 
 #### Related prompts
 
-* [BasicAuth Prompt](#basicauth-prompt)
+- [BasicAuth Prompt](#basicauth-prompt)
 
 ***
 
@@ -1410,7 +1406,7 @@ prompt.run()
 
 **Returns**: `boolean`
 
-***
+*** 
 
 ### NumberPrompt
 
@@ -1432,7 +1428,7 @@ prompt.run()
 
 **Returns**: `string|number` (number, or number formatted as a string)
 
-***
+*** 
 
 ### StringPrompt
 
@@ -1457,16 +1453,14 @@ prompt.run()
 <br>
 
 ## ❯ Custom prompts
-
 With Enquirer 2.0, custom prompts are easier than ever to create and use.
 
 **How do I create a custom prompt?**
 
 Custom prompts are created by extending either:
-
-* Enquirer's `Prompt` class
-* one of the built-in [prompts](#-prompts), or
-* low-level [types](#-types).
+- Enquirer's `Prompt` class
+- one of the built-in [prompts](#-prompts), or 
+- low-level [types](#-types).
 
 <!-- Example: HaiKarate Custom Prompt -->
 
@@ -1538,7 +1532,6 @@ let answers = await enquirer.prompt([
 <br>
 
 ## ❯ Key Bindings
-
 ### All prompts
 
 These key combinations may be used with all prompts.
@@ -1662,7 +1655,6 @@ Pull requests and stars are always welcome. For bugs and feature requests, [plea
 ### Todo
 
 We're currently working on documentation for the following items. Please star and watch the repository for updates!
-
 * [ ] Customizing symbols
 * [ ] Customizing styles (palette)
 * [ ] Customizing rendered input
@@ -1704,11 +1696,10 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 </details>
 
 #### Contributors
-
 | **Commits** | **Contributor** |  
 | --- | --- |  
-| 283 | [jonschlinkert](https://github.com/jonschlinkert) |  
-| 82  | [doowb](https://github.com/doowb) |  
+| 287 | [jonschlinkert](https://github.com/jonschlinkert) |  
+| 86  | [doowb](https://github.com/doowb) |  
 | 32  | [rajat-sr](https://github.com/rajat-sr) |  
 | 20  | [318097](https://github.com/318097) |  
 | 15  | [g-plane](https://github.com/g-plane) |  
@@ -1720,8 +1711,11 @@ $ npm install -g verbose/verb#dev verb-generate-readme && verb
 | 3   | [sw-yx](https://github.com/sw-yx) |  
 | 2   | [DanielRuf](https://github.com/DanielRuf) |  
 | 2   | [GabeL7r](https://github.com/GabeL7r) |  
+| 1   | [ahmadawais](https://github.com/ahmadawais) |  
 | 1   | [AlCalzone](https://github.com/AlCalzone) |  
 | 1   | [hipstersmoothie](https://github.com/hipstersmoothie) |  
+| 1   | [TrySound](https://github.com/TrySound) |  
+| 1   | [brentjanderson](https://github.com/brentjanderson) |  
 | 1   | [danieldelcore](https://github.com/danieldelcore) |  
 | 1   | [ImgBotApp](https://github.com/ImgBotApp) |  
 | 1   | [jsonkao](https://github.com/jsonkao) |  
@@ -1750,3 +1744,9 @@ Thanks to [derhuerst](https://github.com/derhuerst), creator of prompt libraries
 
 Copyright © 2018-present, [Jon Schlinkert](https://github.com/jonschlinkert).
 Released under the [MIT License](LICENSE).
+
+[issue]: https://github.com/enquirer/enquirer/issues/new
+[pulls]: https://github.com/enquirer/enquirer/pulls
+[jon]: https://github.com/jonschlinkert
+[brian]: https://github.com/doowb
+
