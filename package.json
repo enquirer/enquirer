@@ -24,16 +24,14 @@
     "node": ">=8.6"
   },
   "scripts": {
-    "test": "mocha && mocha -r ts-node/register ts-test/*.ts",
-    "test:ts": "mocha -r ts-node/register ts-test/*.ts",
-    "cover": "nyc --reporter=text --reporter=html mocha test/*.js",
-    "cover:ts": "nyc --reporter=text --reporter=html mocha -r ts-node/register ts-test/*.ts"
+    "test": "mocha && tsc",
+    "cover": "nyc --reporter=text --reporter=html mocha"
   },
   "dependencies": {
     "ansi-colors": "^4.1.1"
   },
   "devDependencies": {
-    "@types/mocha": "^7.0.1",
+    "@types/mocha": "^8.0.1",
     "@types/node": "^8",
     "gulp-format-md": "^2.0.0",
     "inquirer": "^6.2.0",

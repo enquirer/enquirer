@@ -1,10 +1,13 @@
 {
   "compilerOptions": {
     "allowJs": true,
+    "checkJs": true,
     "esModuleInterop": true,
     "target": "es2017",
     "module": "commonjs",
-    "noEmit": true,
-    "strict": true
-  }
+    "strict": false,
+    "noEmit": true
+  },
+  "include": ["guide", "examples", "lib", "recipes", "test"],
+  "exclude": ["node_modules"]
 }
