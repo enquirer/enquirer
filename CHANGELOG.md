@@ -32,6 +32,12 @@ Changelog entries are classified using the following labels _(from [keep-a-chang
 
 </details>
 
+## 2.3.6 - 2020-07-02
+
+### Changed
+
+- Upgraded [ansi-colors](https://github.com/doowb/ansi-colors) dependency to v4, thanks to [@trySound](https://github.com/TrySound), [#297](https://github.com/enquirer/enquirer/pull/297).
+
 ## 2.3.5 - 2020-04-07
 
 ### Fixed
