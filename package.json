@@ -39,9 +39,7 @@
     "nyc": "^13.1.0",
     "prompts": "^1.2.1",
     "time-require": "github:jonschlinkert/time-require",
-    "ts-node": "^8.6.1",
-    "type-plus": "^1.31.3",
-    "typescript": "^3.1.6"
+    "typescript": "^3.9.7"
   },
   "keywords": [
     "answer",
@@ -91,6 +89,9 @@
         ]
       }
     }
+  },
+  "prettier": {
+    "singleQuote": true
   },
   "verb": {
     "toc": false,
