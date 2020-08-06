@@ -1,9 +1,8 @@
 'use strict';
 
-const { prompt } = require('enquirer');
+const { Confirm } = require('enquirer');
 
-prompt({
-  type: 'confirm',
+const prompt = new Confirm({
   name: 'really',
   message: 'Wirklich?',
   initial: 'j',
@@ -13,5 +12,7 @@ prompt({
     this.isFalse = input => input === 'n';
   }
 })
+
+prompt.run()
   .then(console.log)
   .catch(console.log);

@@ -6,8 +6,24 @@
     "target": "es2017",
     "module": "commonjs",
     "strict": false,
-    "noEmit": true
+    "noEmit": true,
+    "baseUrl": "./",
+    "skipLibCheck": true,
+    "paths": {
+      "enquirer": ["index.d.ts"]
+    }
   },
-  "include": ["guide", "examples", "lib", "recipes", "test"],
-  "exclude": ["node_modules"]
+  "include": [
+    "examples/boolean",
+    "examples/confirm",
+    "examples/issue",
+    "examples/list",
+    "examples/string",
+    "examples/survey",
+    "examples/toggle",
+    "examples/everything.js",
+    "examples/log-keypress.js",
+    "examples/log-keypress-example.js"
+  ],
+  "exclude": ["node_modules", "lib"]
 }

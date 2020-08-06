@@ -1,8 +1,8 @@
 'use strict';
 
-const { prompt } = require('enquirer');
+const { Confirm } = require('enquirer');
 
-prompt({
+const prompt = new Confirm({
   type: 'confirm',
   name: 'really',
   message: 'Wirklich?',
@@ -15,5 +15,7 @@ prompt({
     return typeof input === 'boolean' ? !input : input.toLowerCase() === 'n';
   }
 })
+
+prompt.run()
   .then(console.log)
-  .catch(console.log);
+  .catch(console.error);

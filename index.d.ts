@@ -1,3 +1,9 @@
+/**
+ * To test these types, we run TypeScript in "noEmit" mode against the
+ * `examples` directory. Examples to include can be modified using the `include`
+ * property of `tsconfig.json`.
+ */
+
 import { SymbolsType } from 'ansi-colors';
 import { EventEmitter } from 'events';
 
@@ -29,8 +35,8 @@ declare class Enquirer extends EventEmitter {
   ): this;
 
   /**
-   * Prompt function that takes a "question" object or array of question objects,
-   * and returns an object with responses from the user.
+   * Prompt function that takes a "question" object or array of question
+   * objects, and returns an object with responses from the user.
    *
    * @param questions Options objects for one or more prompts to run.
    */
@@ -67,7 +73,6 @@ declare namespace Enquirer {
     ...args: ConstructorParameters<new (...args: any) => T>
   ) => T;
 
-  export function prompt(question: prompt.Question): Promise<Answers>;
   export function prompt(
     questionFn: (this: Enquirer) => prompt.Question
   ): Promise<Answers>;
@@ -83,6 +88,7 @@ declare namespace Enquirer {
       prompt.CustomQuestion | ((this: Enquirer) => prompt.CustomQuestion)
     >
   ): Promise<Answers>;
+  export function prompt(question: prompt.Question): Promise<Answers>;
 
   export namespace prompt {
     export function on(
@@ -127,7 +133,7 @@ declare namespace Enquirer {
 
     export type ConfirmQuestion = {
       type: 'confirm';
-    } & internalTypes.CommonQuestion<boolean, boolean>;
+    } & internalTypes.CommonQuestion<boolean | string, boolean>;
 
     export type NumeralQuestion = {
       type: 'numeral';
@@ -185,7 +191,9 @@ declare namespace Enquirer {
         value?: string;
         message?: string;
         hint?: string;
-        disabled?: boolean;
+        role?: string;
+        enabled?: boolean;
+        disabled?: boolean | string;
       };
       export type Answer = {
         selectedAnswer: string;
@@ -440,6 +448,8 @@ declare namespace Enquirer {
       name?: string;
       message?: string;
       hint?: string;
+      role?: string;
+      enabled?: boolean;
       disabled?: boolean;
       value?: types.Answer;
     };
@@ -455,12 +465,125 @@ declare namespace Enquirer {
     export type PromptType = string;
 
     export type Symbols = {
-      indicator: string;
-      check: string;
-      prefix: string;
-      separator: string;
-      [k: string]: string;
-    } & SymbolsType;
+      // inherited symbols
+      /**
+       * `undefined` on windows, `✘` on other platforms.
+       */
+      ballotCross?: SymbolsType['ballotCross'];
+      ballotDisabled: SymbolsType['ballotDisabled'];
+      ballotOff: SymbolsType['ballotOff'];
+      ballotOn: SymbolsType['ballotOn'];
+      bullet: SymbolsType['bullet'];
+      /**
+       * `√` on windows, `✔` on other platforms.
+       */
+      check: SymbolsType['check'];
+      /**
+       * `×` on windows, `✖` on other platforms.
+       */
+      cross: SymbolsType['cross'];
+      /**
+       * `...` on windows, `…` on other platforms.
+       */
+      ellipsis: SymbolsType['ellipsis'];
+      heart: SymbolsType['heart'];
+      info: SymbolsType['info'];
+      line: SymbolsType['line'];
+      middot: SymbolsType['middot'];
+      /**
+       * `>` on windows, `▸` on linux, and `❯` on other platforms.
+       */
+      pointer: SymbolsType['middot'];
+      /**
+       * `»` on windows, `‣` on linux, and `›` on other platforms.
+       */
+      pointerSmall: SymbolsType['pointerSmall'];
+      question: SymbolsType['question'];
+      /**
+       * `undefined` on windows, `？` on other platforms.
+       */
+      questionFull?: SymbolsType['questionFull'];
+      /**
+       * `?` on windows, `﹖` on other platforms.
+       */
+      questionSmall: SymbolsType['questionSmall'];
+      /**
+       * `( )` on windows, `◯` on other platforms.
+       */
+      radioOff: SymbolsType['radioOff'];
+      /**
+       * `(*)` on windows, `◉` on other platforms.
+       */
+      radioOn: SymbolsType['radioOn'];
+      starsOff: SymbolsType['starsOff'];
+      starsOn: SymbolsType['starsOn'];
+      /**
+       * `‼` on windows, `⚠` on other platforms.
+       */
+      warning: SymbolsType['warning'];
+
+      // symbols overridden by enquirer
+      upDownDoubleArrow: '⇕';
+      upDownDoubleArrow2: '⬍';
+      upDownArrow: '↕';
+      asterisk: '*';
+      asterism: '⁂';
+      bulletWhite: '◦';
+      electricArrow: '⌁';
+      ellipsisLarge: '⋯';
+      ellipsisSmall: '…';
+      fullBlock: '█';
+      identicalTo: '≡';
+      indicator: SymbolsType['check'];
+      leftAngle: '‹';
+      mark: '※';
+      minus: '−';
+      multiplication: '×';
+      obelus: '÷';
+      percent: '%';
+      pilcrow: '¶';
+      pilcrow2: '❡';
+      pencilUpRight: '✐';
+      pencilDownRight: '✎';
+      pencilRight: '✏';
+      plus: '+';
+      plusMinus: '±';
+      pointRight: '☞';
+      rightAngle: '›';
+      section: '§';
+      hexagon: { off: '⬡'; on: '⬢'; disabled: '⬢' };
+      ballot: { on: '☑'; off: '☐'; disabled: '☒' };
+      stars: { on: '★'; off: '☆'; disabled: '☆' };
+      folder: { on: '▼'; off: '▶'; disabled: '▶' };
+      prefix: {
+        pending: SymbolsType['question'];
+        submitted: SymbolsType['check'];
+        cancelled: SymbolsType['cross'];
+      };
+      separator: {
+        pending: SymbolsType['pointerSmall'];
+        submitted: SymbolsType['middot'];
+        cancelled: SymbolsType['middot'];
+      };
+      radio: {
+        /**
+         * `( )` on windows, `◯` on other platforms.
+         */
+        off: '( )' | '◯';
+        /**
+         * `(*)` on windows, `◉` on other platforms.
+         */
+        on: '(*)' | '◉';
+        /**
+         * `(|)` on windows, `Ⓘ` on other platforms.
+         */
+        disabled: '(|)' | 'Ⓘ';
+      };
+      /**
+       * Unicode circled numbers from `⓪` through `㊿`: `⓪`, `①`, `②`, `③`, etc.
+       */
+      numbers: string[];
+    };
 
     export type Action = 'prev' | 'undo' | 'next' | 'redo' | 'save' | 'remove';
     export const BooleanPrompt: typeof Enquirer.BooleanPrompt;
@@ -546,7 +669,7 @@ declare namespace Enquirer {
     alert(): void;
     body(): null | string;
     cancel(err: any): void;
-    clear(lines: number): void;
+    clear(lines?: number): void;
     close(): void;
     cursorHide(): void;
     cursorShow(): void;
@@ -568,7 +691,7 @@ declare namespace Enquirer {
       modifiers?: types.Key
     ): Promise<void>;
     message(): Promise<string>;
-    pointer(choice: string[] | undefined, i: number): Promise<string>;
+    pointer(choice: string[] | undefined, i: number): Promise<string> | string;
     prefix(): Promise<string>;
     render(): void;
     resolve(
@@ -621,9 +744,11 @@ declare namespace Enquirer {
       export type Base = {
         name?: string | (() => string);
         type?: string | (() => string);
-        header?: string;
+        header?: string | ((state: any) => string);
+        margin?: number | [number, number, number, number];
         message: string | (() => string | Promise<string>);
-        footer?: string;
+        onRun?: () => void;
+        footer?: string | ((state: any) => string);
         hint?: string;
         timers?: Record<string, number | { interval?: number; frames: any[] }>;
         show?: boolean;
