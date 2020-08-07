@@ -31,7 +31,6 @@
     "ansi-colors": "^4.1.1"
   },
   "devDependencies": {
-    "@types/mocha": "^8.0.1",
     "@types/node": "^8",
     "gulp-format-md": "^2.0.0",
     "inquirer": "^6.2.0",
@@ -89,9 +88,6 @@
         ]
       }
     }
-  },
-  "prettier": {
-    "singleQuote": true
   },
   "verb": {
     "toc": false,

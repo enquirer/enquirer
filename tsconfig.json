@@ -15,13 +15,11 @@
   },
   "include": [
     "examples/boolean",
-    "examples/confirm",
-    "examples/issue",
+    "examples/issues",
     "examples/list",
     "examples/string",
     "examples/survey",
     "examples/toggle",
-    "examples/everything.js",
     "examples/log-keypress.js",
     "examples/log-keypress-example.js"
   ],

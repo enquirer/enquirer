@@ -73,6 +73,7 @@ declare namespace Enquirer {
     ...args: ConstructorParameters<new (...args: any) => T>
   ) => T;
 
+  export function prompt(question: prompt.Question): Promise<Answers>;
   export function prompt(
     questionFn: (this: Enquirer) => prompt.Question
   ): Promise<Answers>;
@@ -88,7 +89,6 @@ declare namespace Enquirer {
       prompt.CustomQuestion | ((this: Enquirer) => prompt.CustomQuestion)
     >
   ): Promise<Answers>;
-  export function prompt(question: prompt.Question): Promise<Answers>;
 
   export namespace prompt {
     export function on(
@@ -97,23 +97,55 @@ declare namespace Enquirer {
     ): void;
 
     export type Question =
-      | InputQuestion
-      | TextQuestion
+      | AutoCompleteQuestion
+      | BasicAuthQuestion
       | ConfirmQuestion
-      | NumeralQuestion
-      | PasswordQuestion
+      | EditableQuestion
+      | FormQuestion
+      | InputQuestion
       | InvisibleQuestion
       | ListQuestion
-      | ToggleQuestion
-      | BasicAuthQuestion
+      | MultiSelectQuestion
+      | NumeralQuestion
+      | PasswordQuestion
       | QuizQuestion
       | ScaleQuestion
-      | SortQuestion
-      | SnippetQuestion
       | SelectQuestion
-      | MultiSelectQuestion
-      | FormQuestion
-      | AutoCompleteQuestion;
+      | SnippetQuestion
+      | SortQuestion
+      | SurveyQuestion
+      | TextQuestion
+      | ToggleQuestion;
+
+    export type AutoCompleteQuestion =
+      | AutoCompleteQuestion.Single
+      | AutoCompleteQuestion.Multiple;
+    export type BasicAuthQuestion = {
+      type: 'basicauth';
+    } & BasicAuthQuestionOptions;
+    export type ConfirmQuestion = { type: 'confirm' } & ConfirmQuestionOptions;
+    export type EditableQuestion = {
+      type: 'editable';
+    } & EditableQuestionOptions;
+    export type FormQuestion = { type: 'form' } & FormQuestionOptions;
+    export type InputQuestion = { type: 'input' } & InputQuestionOptions;
+    export type InvisibleQuestion = {
+      type: 'invisible';
+    } & InvisibleQuestionOptions;
+    export type ListQuestion = { type: 'list' } & ListQuestionOptions;
+    export type MultiSelectQuestionOptions = MultiSelectQuestion;
+    export type NumeralQuestion = { type: 'numeral' } & NumeralQuestionOptions;
+    export type PasswordQuestion = {
+      type: 'password';
+    } & PasswordQuestionOptions;
+    export type QuizQuestion = { type: 'quiz' } & QuizQuestionOptions;
+    export type ScaleQuestion = { type: 'scale' } & ScaleQuestionOptions;
+    export type SelectQuestion = { type: 'select' } & SelectQuestionOptions;
+    export type SnippetQuestion = { type: 'snippet' } & SnippetQuestionOptions;
+    export type SortQuestion = { type: 'sort' } & SortQuestionOptions;
+    export type SurveyQuestion = { type: 'survey' } & ScaleQuestionOptions;
+    export type TextQuestion = { type: 'text' } & TextQuestionOptions;
+    export type ToggleQuestion = { type: 'toggle' } & ToggleQuestionOptions;
 
     export type CustomQuestion<
       V extends types.Value = any,
@@ -122,48 +154,32 @@ declare namespace Enquirer {
       type: string;
     } & internalTypes.CommonQuestion<V, A>;
 
-    export type InputQuestion = {
-      type: 'input';
-    } & internalTypes.CommonQuestion<string, string>;
+    export namespace AutoCompleteQuestion {
+      export type Options = {
+        type?: 'autocomplete';
+        choices: SelectQuestion.Choice[];
+        suggest?: (
+          input: string,
+          choices: SelectQuestion.ChoiceOptions[]
+        ) =>
+          | SelectQuestion.ChoiceOptions[]
+          | Promise<SelectQuestion.ChoiceOptions[]>;
+      } & types.QuestionBase;
 
-    export type TextQuestion = { type: 'text' } & internalTypes.CommonQuestion<
-      string,
-      string
-    >;
+      export type SingleOptions = { multiple?: false } & Type &
+        Options &
+        types.Initializer<string | number, string> &
+        types.Formatter<string, string>;
+      export type MultipleOptions = { multiple: true } & Type &
+        Options &
+        types.Initializer<string | number, string[]> &
+        types.Formatter<string, string[]>;
+      export type Single = { type: 'autocomplete' } & SingleOptions;
+      export type Multiple = { type: 'autocomplete' } & MultipleOptions;
+    }
 
-    export type ConfirmQuestion = {
-      type: 'confirm';
-    } & internalTypes.CommonQuestion<boolean | string, boolean>;
-
-    export type NumeralQuestion = {
-      type: 'numeral';
-    } & internalTypes.CommonQuestion<number, number>;
-
-    export type PasswordQuestion = {
-      type: 'password';
-    } & internalTypes.CommonQuestion<string, string>;
-
-    export type InvisibleQuestion = {
-      type: 'invisible';
-    } & internalTypes.CommonQuestion<string, string>;
-
-    export type ListQuestion = {
-      type: 'list';
-      separator?: string;
-    } & types.QuestionBase &
-      types.Initializer<string | string[], string[]> &
-      types.Formatter<string, string[]> &
-      types.Validator<string[], string[]> &
-      types.ResultTransformer<string[], string[]>;
-
-    export type ToggleQuestion = {
-      type: 'toggle';
-      enabled?: string;
-      disabled?: string;
-    } & internalTypes.CommonQuestion<boolean, boolean>;
-
-    export type BasicAuthQuestion = {
-      type: 'basicauth';
+    export type BasicAuthQuestionOptions = {
+      type?: 'basicauth';
       username: string;
       password: string;
       showPassword?: boolean;
@@ -172,8 +188,75 @@ declare namespace Enquirer {
       types.Validator<boolean, boolean> &
       types.ResultTransformer<boolean, boolean>;
 
-    export type QuizQuestion = {
-      type: 'quiz';
+    export type ConfirmQuestionOptions = {
+      type?: 'confirm';
+    } & internalTypes.CommonQuestion<boolean | string, boolean>;
+
+    export type EditableQuestionOptions = {
+      type?: 'editable';
+    } & SelectQuestionOptionsBase;
+
+    export type FormQuestionOptions = {
+      type?: 'form';
+      choices: FormQuestion.Choice[];
+      align?: 'left' | 'right';
+    } & types.QuestionBase &
+      types.Validator<FormQuestion.Answer, FormQuestion.Answer> &
+      types.ResultTransformer<FormQuestion.Answer, FormQuestion.Answer>;
+
+    export namespace FormQuestion {
+      export type Choice =
+        | ChoiceOptions
+        | Promise<ChoiceOptions>
+        | (() => ChoiceOptions | Promise<ChoiceOptions>);
+      export type ChoiceOptions = {
+        name: string;
+        value?: string;
+        message: string;
+        hint?: string;
+        initial?: string;
+        disabled?: boolean;
+      };
+      export type Answer = Record<string, string>;
+    }
+
+    export type InputQuestionOptions = {
+      type?: 'input';
+    } & internalTypes.CommonQuestion<string, string>;
+
+    export type InvisibleQuestionOptions = {
+      type?: 'invisible';
+    } & internalTypes.CommonQuestion<string, string>;
+
+    export type ListQuestionOptions = {
+      type?: 'list';
+      separator?: string;
+    } & types.QuestionBase &
+      types.Initializer<string | string[], string[]> &
+      types.Formatter<string, string[]> &
+      types.Validator<string[], string[]> &
+      types.ResultTransformer<string[], string[]>;
+
+    export type MultiSelectQuestion = {
+      type?: 'multiselect';
+      hint?: string;
+      choices: SelectQuestion.Choice[];
+      limit?: number;
+      maxSelected?: number;
+    } & types.QuestionBase &
+      types.Initializer<string | string[], string[]> &
+      types.Formatter<string[], string[]>;
+
+    export type NumeralQuestionOptions = {
+      type?: 'numeral';
+    } & internalTypes.CommonQuestion<number, number>;
+
+    export type PasswordQuestionOptions = {
+      type?: 'password';
+    } & internalTypes.CommonQuestion<string, string>;
+
+    export type QuizQuestionOptions = {
+      type?: 'quiz';
       choices: QuizQuestion.Choice[];
       correctChoice: number;
     } & types.QuestionBase &
@@ -202,8 +285,10 @@ declare namespace Enquirer {
       };
     }
 
-    export type ScaleQuestion = {
-      type: 'scale';
+    export type ScaleQuestionOptions = {
+      type?: 'scale';
+    } & ScaleQuestionOptionsBase;
+    export type ScaleQuestionOptionsBase = {
       scale: { name: string; message: string }[];
       choices: ScaleQuestion.Choice[];
       align?: 'left' | 'right';
@@ -222,63 +307,19 @@ declare namespace Enquirer {
         | ChoiceOptions
         | Promise<ChoiceOptions>
         | (() => ChoiceOptions | Promise<ChoiceOptions>);
-
       export type ChoiceOptions = {
         name: string;
         message: string;
         disabled?: boolean;
         initial?: number;
       };
-
       export type Answer = Record<string, number>;
     }
 
-    export type SortQuestion = {
-      type: 'sort';
-      choices: SortQuestion.Choice[];
-      hint?: string;
-      margin?: number | [number, number, number, number];
-      numbered?: boolean;
-    } & types.QuestionBase &
-      types.Initializer<number, string[]> &
-      types.Formatter<string[], string[]>;
-
-    export namespace SortQuestion {
-      export type Choice =
-        | ChoiceOptions
-        | Promise<ChoiceOptions>
-        | (() => ChoiceOptions | Promise<ChoiceOptions>);
-
-      export type ChoiceOptions = {
-        name: string;
-        message: string;
-      };
-    }
-
-    export type SnippetQuestion = {
-      type: 'snippet';
-      required?: boolean;
-      fields?: SnippetQuestion.Field[];
-    } & types.QuestionBase &
-      types.Formatter<SnippetQuestion.Answer, SnippetQuestion.Answer> &
-      types.Validator<SnippetQuestion.Answer, SnippetQuestion.Answer>;
-
-    export namespace SnippetQuestion {
-      export type Field = {
-        name: string;
-        message?: string;
-        initial?: string;
-        validate?: (value: string) => boolean | Promise<boolean>;
-      };
-
-      export type Answer = {
-        values: Record<string, string>;
-        result: string;
-      };
-    }
-
-    export type SelectQuestion = {
-      type: 'select';
+    export type SelectQuestionOptions = {
+      type?: 'select';
+    } & SelectQuestionOptionsBase;
+    export type SelectQuestionOptionsBase = {
       choices: SelectQuestion.Choice[];
     } & types.QuestionBase &
       types.Initializer<string | number, string> &
@@ -299,73 +340,65 @@ declare namespace Enquirer {
       };
     }
 
-    export type MultiSelectQuestion = {
-      type: 'multiselect';
-      choices: SelectQuestion.Choice[];
-      limit?: number;
-      maxSelected?: number;
+    export type SnippetQuestionOptions = {
+      type?: 'snippet';
+      required?: boolean;
+      fields?: SnippetQuestion.Field[];
     } & types.QuestionBase &
-      types.Initializer<string | string[], string[]> &
-      types.Formatter<string[], string[]>;
+      types.Formatter<SnippetQuestion.Answer, SnippetQuestion.Answer> &
+      types.Validator<SnippetQuestion.Answer, SnippetQuestion.Answer>;
 
-    export type AutoCompleteQuestion =
-      | AutoCompleteQuestion.SingleAutoCompleteQuestion
-      | AutoCompleteQuestion.MultiAutoCompleteQuestion;
+    export namespace SnippetQuestion {
+      export type Field = {
+        name: string;
+        message?: string;
+        initial?: string;
+        validate?: (value: string) => boolean | Promise<boolean>;
+      };
 
-    export namespace AutoCompleteQuestion {
-      export type SingleAutoCompleteQuestion = {
-        type: 'autocomplete';
-        multiple?: false;
-        choices: SelectQuestion.Choice[];
-        suggest?: (
-          input: string,
-          choices: SelectQuestion.ChoiceOptions[]
-        ) =>
-          | SelectQuestion.ChoiceOptions[]
-          | Promise<SelectQuestion.ChoiceOptions[]>;
-      } & types.QuestionBase &
-        types.Initializer<string | number, string> &
-        types.Formatter<string, string>;
-
-      export type MultiAutoCompleteQuestion = {
-        type: 'autocomplete';
-        multiple: true;
-        choices: SelectQuestion.Choice[];
-        suggest?: (
-          input: string,
-          choices: SelectQuestion.ChoiceOptions[]
-        ) =>
-          | SelectQuestion.ChoiceOptions[]
-          | Promise<SelectQuestion.ChoiceOptions[]>;
-      } & types.QuestionBase &
-        types.Initializer<string | number, string[]> &
-        types.Formatter<string, string[]>;
+      export type Answer = {
+        values: Record<string, string>;
+        result: string;
+      };
     }
 
-    export type FormQuestion = {
-      type: 'form';
-      choices: FormQuestion.Choice[];
-      align?: 'left' | 'right';
+    export type SortQuestionOptions = {
+      type?: 'sort';
+      choices: SortQuestion.Choice[];
+      hint?: string;
+      margin?: number | [number, number, number, number];
+      numbered?: boolean;
     } & types.QuestionBase &
-      types.Validator<FormQuestion.Answer, FormQuestion.Answer> &
-      types.ResultTransformer<FormQuestion.Answer, FormQuestion.Answer>;
+      types.Initializer<number, string[]> &
+      types.Formatter<string[], string[]>;
 
-    export namespace FormQuestion {
+    export namespace SortQuestion {
       export type Choice =
         | ChoiceOptions
         | Promise<ChoiceOptions>
         | (() => ChoiceOptions | Promise<ChoiceOptions>);
+
       export type ChoiceOptions = {
         name: string;
-        value?: string;
         message: string;
-        hint?: string;
-        initial?: string;
-        disabled?: boolean;
       };
-      export type Answer = Record<string, string>;
     }
+
+    export type SurveyQuestionOptions = {
+      type?: 'survey';
+    } & ScaleQuestionOptionsBase;
+
+    export type TextQuestionOptions = {
+      type?: 'text';
+    } & internalTypes.CommonQuestion<string, string>;
+
+    export type ToggleQuestionOptions = {
+      type?: 'toggle';
+      enabled?: string;
+      disabled?: string;
+    } & internalTypes.CommonQuestion<boolean, boolean>;
   }
+
   export namespace types {
     export type Value =
       | string
@@ -387,9 +420,17 @@ declare namespace Enquirer {
       | prompt.FormQuestion.Answer;
 
     export type QuestionBase = {
-      name: string;
-      message: string | (() => string | Promise<string>);
-
+      /**
+       * Used as the key for the answer on the returned values (answers) object.
+       */
+      name?: string;
+      /**
+       * The message to display when the prompt is rendered in the terminal.
+       */
+      message?: string | (() => string | Promise<string>);
+      /**
+       * If `true` it will not ask that prompt.
+       */
       skip?: boolean | ((state: any) => boolean | Promise<boolean>);
       show?: boolean;
       onSubmit?: (
@@ -402,13 +443,19 @@ declare namespace Enquirer {
         value: string,
         prompt: Prompt
       ) => boolean | Promise<boolean>;
-    };
+    } & Enquirer.Prompt.Question;
 
     export type Initializer<V extends types.Value, A extends types.Answer> = {
+      /**
+       * The default value to return if the user does not supply a value.
+       */
       initial?: V | ((this: Prompt<A>) => V | Promise<V>);
     };
 
     export type Formatter<V extends types.Value, A extends types.Answer> = {
+      /**
+       * Function to format user input in the terminal.
+       */
       format?: (
         this: Prompt<A>,
         value: V | undefined
@@ -416,6 +463,9 @@ declare namespace Enquirer {
     };
 
     export type Validator<V extends types.Value, A extends types.Answer> = {
+      /**
+       * Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message.
+       */
       validate?: (
         this: Prompt<A>,
         value: V
@@ -426,6 +476,9 @@ declare namespace Enquirer {
       V extends types.Value,
       A extends types.Answer
     > = {
+      /**
+       * Function to format the final submitted value before it's returned.
+       */
       result?: (this: Prompt<A>, value: V) => A | Promise<A>;
     };
 
@@ -724,9 +777,19 @@ declare namespace Enquirer {
     export type Question<
       T extends types.Answer = string,
       P extends Prompt<T> = Prompt<T>
-    > = Question.Base & {
-      initial?: T | (() => Promise<T> | T);
+    > = {
       default?: T;
+      footer?: string | ((state: any) => string);
+      format?: (this: P, value: T) => any;
+      header?: string | ((state: any) => string);
+      hint?: string;
+      initial?: T | (() => Promise<T> | T);
+      margin?: number | [number, number, number, number];
+      message: string | (() => string | Promise<string>);
+      name?: string | (() => string);
+      onRun?: () => void;
+      pointer?: (state: State, choice: types.Choice, i: number) => string;
+      result?: (this: P, value: T) => any;
       skip?:
         | boolean
         | ((
@@ -734,103 +797,14 @@ declare namespace Enquirer {
             name: string | undefined,
             value: string | undefined
           ) => boolean | Promise<boolean>);
+      show?: boolean;
+      symbols?: Partial<types.Symbols>;
+      timers?: Record<string, number | { interval?: number; frames: any[] }>;
+      type?: string | (() => string);
       value?: T;
-      format?: (this: P, value: T) => any;
-      result?: (this: P, value: T) => any;
       validate?: (value: T) => boolean;
     };
-
-    export namespace Question {
-      export type Base = {
-        name?: string | (() => string);
-        type?: string | (() => string);
-        header?: string | ((state: any) => string);
-        margin?: number | [number, number, number, number];
-        message: string | (() => string | Promise<string>);
-        onRun?: () => void;
-        footer?: string | ((state: any) => string);
-        hint?: string;
-        timers?: Record<string, number | { interval?: number; frames: any[] }>;
-        show?: boolean;
-        symbols?: Partial<types.Symbols>;
-      };
-    }
   }
-
-  export class BooleanPrompt extends Prompt<boolean> {
-    default: string;
-    constructor(question: BooleanPrompt.Question);
-    isTrue(input: boolean | string): boolean;
-    isFalse(input: boolean | string): boolean;
-  }
-
-  export namespace BooleanPrompt {
-    export type Question = Omit<
-      Prompt.Question<boolean>,
-      'initial' | 'default'
-    > & {
-      initial?:
-        | string
-        | boolean
-        | (() => string | boolean | Promise<string | boolean>);
-      default?: string;
-      isTrue?: (input: boolean | string) => boolean;
-      isFalse?: (input: boolean | string) => boolean;
-    };
-  }
-
-  export class NumberPrompt extends Prompt<number> {
-    min: number;
-    max: number;
-    delay: number;
-    float: boolean;
-    round: boolean;
-    major: number;
-    minor: number;
-    constructor(question: NumberPrompt.Question);
-  }
-
-  export namespace NumberPrompt {
-    export type Question = Prompt.Question<number> & {
-      min?: number;
-      max?: number;
-      delay?: number;
-      float?: boolean;
-      round?: boolean;
-      major?: number;
-      minor?: number;
-    };
-  }
-
-  export class StringPrompt extends Prompt<string> {
-    constructor(question: StringPrompt.Question);
-    append(ch: string): void;
-    backward(): void;
-    cutForward(): void;
-    cutLeft(): void;
-    delete(): void;
-    deleteForward(): void;
-    dispatch(ch?: string, key?: types.Key): void;
-    first(): void;
-    forward(): void;
-    format(value?: string): string;
-    insert(str: string): void;
-    last(): void;
-    left(): void;
-    moveCursor(n: number): void;
-    next(): void;
-    paste(): void;
-    prev(): void;
-    reset(): Promise<any>;
-    right(): void;
-    toggleCursor(): void;
-  }
-
-  export namespace StringPrompt {
-    export type Question = Prompt.Question<string> & { multiline?: boolean };
-  }
-
-  export class AuthPrompt extends Prompt<string> {}
 
   export class ArrayPrompt<T extends types.Answer = string> extends Prompt {
     choices: types.Choice[];
@@ -931,7 +905,7 @@ declare namespace Enquirer {
     export type Question<
       T extends types.Answer,
       P extends ArrayPrompt<T> = ArrayPrompt<T>
-    > = Prompt.Question.Base & {
+    > = Prompt.Question<string, P> & {
       choices:
         | (() => types.ChoiceInput[] | Promise<types.ChoiceInput[]>)
         | types.ChoiceInput[]
@@ -939,9 +913,82 @@ declare namespace Enquirer {
       initial?: string | number | Array<string | number> | Record<string, any>;
       autofocus?: number | string;
       multiple?: boolean;
-      format?: (this: P, value: T) => any;
-      result?: (this: P, value: T) => any;
     };
+  }
+
+  export class AuthPrompt extends Prompt<string> {}
+
+  export class BooleanPrompt extends Prompt<boolean> {
+    default: string;
+    constructor(question: BooleanPrompt.Question);
+    isTrue(input: boolean | string): boolean;
+    isFalse(input: boolean | string): boolean;
+  }
+
+  export namespace BooleanPrompt {
+    export type Question = Omit<
+      Prompt.Question<boolean, BooleanPrompt>,
+      'initial' | 'default'
+    > & {
+      initial?:
+        | string
+        | boolean
+        | (() => string | boolean | Promise<string | boolean>);
+      default?: string;
+      isTrue?: (input: boolean | string) => boolean;
+      isFalse?: (input: boolean | string) => boolean;
+    };
+  }
+
+  export class NumberPrompt extends Prompt<number> {
+    min: number;
+    max: number;
+    delay: number;
+    float: boolean;
+    round: boolean;
+    major: number;
+    minor: number;
+    constructor(question: NumberPrompt.Question);
+  }
+
+  export namespace NumberPrompt {
+    export type Question = Prompt.Question<number> & {
+      min?: number;
+      max?: number;
+      delay?: number;
+      float?: boolean;
+      round?: boolean;
+      major?: number;
+      minor?: number;
+    };
+  }
+
+  export class StringPrompt extends Prompt<string> {
+    constructor(question: StringPrompt.Question);
+    append(ch: string): void;
+    backward(): void;
+    cutForward(): void;
+    cutLeft(): void;
+    delete(): void;
+    deleteForward(): void;
+    dispatch(ch?: string, key?: types.Key): void;
+    first(): void;
+    forward(): void;
+    format(value?: string): string;
+    insert(str: string): void;
+    last(): void;
+    left(): void;
+    moveCursor(n: number): void;
+    next(): void;
+    paste(): void;
+    prev(): void;
+    reset(): Promise<any>;
+    right(): void;
+    toggleCursor(): void;
+  }
+
+  export namespace StringPrompt {
+    export type Question = Prompt.Question<string> & { multiline?: boolean };
   }
 
   export class AutoComplete<T extends types.Answer = string> extends Select {
@@ -949,7 +996,6 @@ declare namespace Enquirer {
     complete(): Promise<void>;
     delete(): Promise<void>;
     deleteForward(): Promise<void>;
-    // pointer(): string
     space(ch?: string | undefined): Promise<void>;
     suggest(input?: string, choices?: types.Choice[]): types.Choice[];
   }
@@ -967,19 +1013,28 @@ declare namespace Enquirer {
   }
   export const autocomplete: AutoComplete;
 
-  export class BasicAuth extends AuthPrompt {}
+  export class BasicAuth extends AuthPrompt {
+    constructor(question: prompt.BasicAuthQuestionOptions);
+  }
   export const basicauth: BasicAuth;
 
-  export class Confirm extends BooleanPrompt {}
+  export class Confirm extends BooleanPrompt {
+    constructor(question: prompt.ConfirmQuestionOptions);
+  }
   export const confirm: Confirm;
 
-  export class Editable extends Select {}
+  export class Editable extends Select {
+    constructor(question: prompt.EditableQuestionOptions);
+  }
   export const editable: Editable;
 
-  export class Form extends Select {}
+  export class Form extends Select {
+    constructor(question: prompt.FormQuestionOptions);
+  }
   export const form: Form;
 
   export class Input extends StringPrompt {
+    constructor(question: prompt.InputQuestionOptions);
     altDown(): Promise<void>;
     altUp(): Promise<void>;
     completion(action: types.Action): Promise<void>;
@@ -990,49 +1045,45 @@ declare namespace Enquirer {
   export const input: Input;
 
   export class Invisible extends StringPrompt {
-    format(): string;
+    constructor(question: prompt.InvisibleQuestionOptions);
   }
   export const invisible: Invisible;
 
   export class List extends Prompt<string[]> {
-    constructor(question: List.Question);
-    format(): string;
+    constructor(question: prompt.ListQuestionOptions);
     split(input?: string): string[];
     submit(): Promise<void>;
-  }
-  export namespace List {
-    export type Question = Omit<Prompt.Question<string[]>, 'initial'> & {
-      initial?: string;
-      separator?: string | RegExp;
-    };
   }
   export const list: List;
 
   export class MultiSelect extends Select {
-    constructor(question: MultiSelect.Question);
+    constructor(question: prompt.MultiSelectQuestionOptions);
     readonly selected: types.Choice[];
-  }
-  export namespace MultiSelect {
-    export type Question = ArrayPrompt.Question<any, MultiSelect> & {
-      maxSelected?: number;
-    };
   }
   export const multiselect: MultiSelect;
 
-  export const Numeral: typeof types.NumberPrompt;
-  export type Numeral = types.NumberPrompt;
+  export class Numeral extends NumberPrompt {
+    constructor(question: prompt.NumeralQuestionOptions);
+  }
   export const numeral: Numeral;
 
-  export class Password extends StringPrompt {}
+  export class Password extends StringPrompt {
+    constructor(question: prompt.PasswordQuestionOptions);
+  }
   export const password: Password;
 
-  export class Quiz extends Select {}
+  export class Quiz extends Select {
+    constructor(question: prompt.QuizQuestionOptions);
+  }
   export const quiz: Quiz;
 
-  export class Scale extends ArrayPrompt {}
+  export class Scale extends ArrayPrompt {
+    constructor(question: prompt.ScaleQuestionOptions);
+  }
   export const scale: Scale;
 
   export class Select extends ArrayPrompt {
+    constructor(question: prompt.SelectQuestionOptions);
     dispatch(ch?: string, key?: types.Key): Promise<void>;
     choiceMessage(choice: types.Choice, i: number): string;
     choiceSeparator(): string;
@@ -1041,10 +1092,14 @@ declare namespace Enquirer {
   }
   export const select: Select;
 
-  export class Snippet extends Prompt {}
+  export class Snippet extends Prompt {
+    constructor(question: prompt.SnippetQuestionOptions);
+  }
   export const snippet: Snippet;
 
-  export class Sort extends Prompt {}
+  export class Sort extends Prompt {
+    constructor(question: prompt.SortQuestionOptions);
+  }
   export const sort: Sort;
 
   export class Survey extends ArrayPrompt {}
@@ -1054,7 +1109,9 @@ declare namespace Enquirer {
   export type Text = Input;
   export const text: Text;
 
-  export class Toggle extends BooleanPrompt {}
+  export class Toggle extends BooleanPrompt {
+    constructor(question: prompt.ToggleQuestionOptions);
+  }
   export const toggle: Toggle;
 
   export namespace prompts {
