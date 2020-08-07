@@ -332,11 +332,30 @@ declare namespace Enquirer {
         | ChoiceOptions
         | (() => string | ChoiceOptions | Promise<string | ChoiceOptions>);
       export type ChoiceOptions = {
-        name: string;
-        value?: string;
-        message?: string;
+        /**
+         * Disable a choice so that it cannot be selected. This value may either be `true`, `false`, or a message to display.
+         */
+        disabled?: boolean | string;
+        /**
+         * Help message to display next to a choice.
+         */
         hint?: string;
-        disabled?: boolean;
+        /**
+         * Value to associate with the choice. Useful for creating key-value pairs from user choices. `name` is used when this is undefined.
+         */
+        message?: string;
+        /**
+         * The unique key to identify a choice.
+         */
+        name?: string;
+        /**
+         * Determines how the choice will be displayed. Currently the only role supported is `separator`. Additional roles may be added in the future (like heading, etc).
+         */
+        role?: 'separator';
+        /**
+         * The message to display in the terminal. `name` is used when this is undefined.
+         */
+        value?: string;
       };
     }
 
