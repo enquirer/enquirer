@@ -129,6 +129,36 @@ describe('Enquirer', function() {
   });
 
   describe('options', () => {
+    it('should accept `stdin` and `stdout` replacements', cb => {
+      const stdin = process.stdin;
+      const stdout = process.stdout;
+      let count = 0;
+      let error;
+
+      enquirer = new Enquirer({ stdin, stdout });
+      enquirer.once('prompt', async prompt => {
+        try {
+          count++;
+          prompt.state.input = 'ok';
+          prompt.submit();
+          await prompt.render();
+        } catch (err) {
+          error = err;
+        }
+      });
+
+      enquirer.prompt({
+        type: 'input',
+        name: 'test',
+        message: 'Type something?'
+      })
+      .then(answers => {
+        assert.equal(count, 1);
+        assert.equal(answers.test, 'ok');
+        cb(error);
+      });
+    });
+
     it('should pass enquirer options to prompts', cb => {
       let count = 0;
       let error;
