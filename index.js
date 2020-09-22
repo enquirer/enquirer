@@ -1,8 +1,8 @@
 'use strict';
 
-const assert = require('assert');
 const Events = require('events');
 const utils = require('./lib/utils');
+const assert = require('./lib/assert');
 
 /**
  * Create an instance of `Enquirer`.
@@ -44,7 +44,7 @@ class Enquirer extends Events {
       for (let key of Object.keys(type)) this.register(key, type[key]);
       return this;
     }
-    assert.equal(typeof fn, 'function', 'expected a function');
+    assert.equals(typeof fn, 'function', 'expected a function');
     let name = type.toLowerCase();
     if (fn.prototype instanceof this.Prompt) {
       this.prompts[name] = fn;
@@ -102,7 +102,7 @@ class Enquirer extends Events {
 
     if (!type) return this.answers[name];
 
-    assert(this.prompts[type], `Prompt "${type}" is not registered`);
+    assert.isTruthy(this.prompts[type], `Prompt "${type}" is not registered`);
 
     let prompt = new this.prompts[type](opts);
     let value = get(this.answers, name);
