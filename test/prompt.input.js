@@ -1,10 +1,6 @@
-'use strict';
+import * as assert from 'assert';
+import Prompt from '../lib/prompts/input.js';
 
-require('mocha');
-const assert = require('assert');
-const colors = require('ansi-colors');
-const Prompt = require('../lib/prompts/input');
-const { kepresses } = require('./support')(assert);
 let prompt;
 
 describe('Input Prompt', function() {
@@ -54,14 +50,14 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('run', async () => {
+      prompt.once('run', async() => {
         buffer = prompt.state.buffer;
         await prompt.submit();
       });
 
       return prompt.run()
         .then(() => {
-          assert(/Start typing/.test(buffer));
+          assert.ok(/Start typing/.test(buffer));
         });
     });
   });
@@ -141,7 +137,7 @@ describe('Input Prompt', function() {
         await prompt.keypress('l');
         await prompt.keypress('u');
         await prompt.keypress('e');
-        await prompt.keypress(null, { name: `left` });
+        await prompt.keypress(null, { name: 'left' });
         await prompt.keypress(null, { name: 'left' });
         await prompt.keypress(null, { name: 'left' });
         await prompt.keypress(null, { name: 'left' });
@@ -268,13 +264,13 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
 
       prompt.once('run', async() => {
-        await prompt.keypress(null, { name: `left` });
+        await prompt.keypress(null, { name: 'left' });
       });
 
       prompt.run();
@@ -287,7 +283,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
@@ -349,7 +345,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
@@ -367,7 +363,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
@@ -385,7 +381,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
@@ -424,7 +420,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
@@ -468,7 +464,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
@@ -540,7 +536,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
@@ -558,7 +554,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });

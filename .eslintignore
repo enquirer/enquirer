@@ -1,2 +1,4 @@
 _draft
 node_modules
+dist
+.cache

@@ -1,9 +1,6 @@
-'use strict';
-
-require('mocha');
-const assert = require('assert');
-const prompts = require('../lib/prompts');
-const types = require('../lib/types');
+import * as assert from 'assert';
+import types from '../lib/types/index.js';
+import prompts from '../lib/prompts/index.js';
 
 describe('prompts', function() {
   it('should export prompts', () => {

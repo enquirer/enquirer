@@ -1,8 +1,6 @@
-'use strict';
+import * as assert from 'assert';
+import keypress from '../lib/keypress.js';
 
-require('mocha');
-const assert = require('assert');
-const keypress = require('../lib/keypress');
 const act = key => keypress.action(null, key).action;
 
 describe('utils.actions', function() {

@@ -35,7 +35,7 @@ function blocks(filepath) {
     }
 
     const wrap = str => {
-      return `(function (exports, console, require, module, __filename, __dirname) { ${str}\n});`
+      return `(function (exports, console, require, module, __filename, __dirname) { ${str}\n});`;
     };
     let fn = vm.runInNewContext(wrap(example.value));
     Promise.resolve(fn(exports, console, require, module, __filename, __dirname))
@@ -50,7 +50,7 @@ function toChoices(examples) {
   for (let i = 0; i < examples.length; i++) {
     let example = examples[i];
     let n = `${i + 1}. `;
-    example.value = example.value.replace(/require\('enquirer'\)/g, `require('..')`);
+    example.value = example.value.replace(/require\('enquirer'\)/g, 'require(\'..\')');
     let desc = example.description;
     if (desc) {
       choices.push({ name: String(i), message: n + stripMarkdown(desc) });

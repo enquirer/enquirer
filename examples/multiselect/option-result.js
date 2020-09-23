@@ -25,7 +25,7 @@ const prompt = new MultiSelect({
     { name: 'yellow', value: '#ffff00' }
   ],
   result(names) {
-   return this.map(names);
+    return this.map(names);
   }
 });
 

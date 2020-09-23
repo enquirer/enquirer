@@ -1,6 +1,4 @@
-'use strict';
-
-const Events = require('events');
+import Events from 'events';
 
 class InputStream extends Events {
   write(str) {
@@ -36,4 +34,4 @@ listener(input, function onKeypress(s, key) {
   console.log([s, key]);
 });
 
-module.exports = Emitter;
+export default Emitter;

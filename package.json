@@ -19,22 +19,28 @@
     "lib"
   ],
   "main": "index.js",
+  "type": "module",
   "engines": {
-    "node": ">=8.6"
+    "node": ">=12"
   },
   "scripts": {
     "test": "mocha && tsc -p ./test/types",
-    "cover": "nyc --reporter=text --reporter=html mocha"
+    "lint": "eslint .",
+    "cover": "nyc --reporter=text --reporter=html mocha",
+    "build": "parcel build index.js --target node",
+    "watch": "parcel watch index.js --target node"
   },
   "dependencies": {
     "ansi-colors": "^4.1.1"
   },
   "devDependencies": {
     "@types/node": "^8",
+    "eslint": "^7.9.0",
     "gulp-format-md": "^2.0.0",
     "inquirer": "^6.2.0",
-    "mocha": "^5.2.0",
+    "mocha": "^8.1.3",
     "nyc": "^13.1.0",
+    "parcel-bundler": "^1.12.4",
     "prompts": "^1.2.1",
     "time-require": "github:jonschlinkert/time-require",
     "typescript": "^3.1.6"

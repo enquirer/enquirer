@@ -1,8 +1,10 @@
-'use strict';
+import Events from 'events';
+import * as utils from './lib/utils.js';
+import { equals, isTruthy } from './lib/assert.js';
 
-const Events = require('events');
-const utils = require('./lib/utils');
-const assert = require('./lib/assert');
+import prompt from './lib/prompt.js';
+import enquirerTypes from './lib/types/index.js';
+import enquirerPrompts from './lib/prompts/index.js';
 
 /**
  * Create an instance of `Enquirer`.
@@ -44,7 +46,7 @@ class Enquirer extends Events {
       for (let key of Object.keys(type)) this.register(key, type[key]);
       return this;
     }
-    assert.equals(typeof fn, 'function', 'expected a function');
+    equals(typeof fn, 'function', 'expected a function');
     let name = type.toLowerCase();
     if (fn.prototype instanceof this.Prompt) {
       this.prompts[name] = fn;
@@ -102,7 +104,7 @@ class Enquirer extends Events {
 
     if (!type) return this.answers[name];
 
-    assert.isTruthy(this.prompts[type], `Prompt "${type}" is not registered`);
+    isTruthy(this.prompts[type], `Prompt "${type}" is not registered`);
 
     let prompt = new this.prompts[type](opts);
     let value = get(this.answers, name);
@@ -177,15 +179,15 @@ class Enquirer extends Events {
     this._Prompt = value;
   }
   static get Prompt() {
-    return this._Prompt || require('./lib/prompt');
+    return this._Prompt || prompt;
   }
 
   static get prompts() {
-    return require('./lib/prompts');
+    return enquirerPrompts;
   }
 
   static get types() {
-    return require('./lib/types');
+    return enquirerTypes;
   }
 
   /**
@@ -247,4 +249,4 @@ exp('BooleanPrompt');
 exp('NumberPrompt');
 exp('StringPrompt');
 
-module.exports = Enquirer;
+export default Enquirer;

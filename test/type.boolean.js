@@ -1,9 +1,7 @@
-'use strict';
+import colors from 'ansi-colors';
+import * as assert from 'assert';
+import BooleanPrompt from '../lib/types/boolean.js';
 
-require('mocha');
-const colors = require('ansi-colors');
-const assert = require('assert');
-const BooleanPrompt = require('../lib/types/boolean');
 let prompt;
 
 class Prompt extends BooleanPrompt {
@@ -76,8 +74,8 @@ describe('boolean prompt', function() {
 
       return prompt.run()
         .then(() => {
-          assert(/This is a hint/.test(buffer));
-        })
+          assert.ok(/This is a hint/.test(buffer));
+        });
     });
 
     it('should not duplicate hint', () => {
@@ -96,8 +94,8 @@ describe('boolean prompt', function() {
 
       return prompt.run()
         .then(() => {
-          assert(/This is a hint/.test(buffer));
-        })
+          assert.ok(/This is a hint/.test(buffer));
+        });
     });
 
     it('should not recolor hint', () => {
@@ -117,8 +115,8 @@ describe('boolean prompt', function() {
 
       return prompt.run()
         .then(() => {
-          assert(buffer.includes(hint));
-        })
+          assert.ok(buffer.includes(hint));
+        });
     });
   });
 

@@ -1,17 +1,18 @@
-'use strict';
+import * as assert from 'assert';
+import Prompt from '../lib/types/string.js';
 
-require('mocha');
-const assert = require('assert');
-const Prompt = require('../lib/types/string');
 let prompt;
 
 describe('string prompt', function() {
   describe('class', () => {
     it('should expose static method for getting Prompt class', () => {
       class Foo extends Prompt {}
+
       class Bar extends Foo {}
+
       class Baz extends Bar {}
-      assert(Baz.Prompt === Prompt.Prompt);
+
+      assert.ok(Baz.Prompt === Prompt.Prompt);
     });
   });
 
@@ -49,7 +50,7 @@ describe('string prompt', function() {
         .then(value => {
           assert.equal(value, '');
         });
-    })
+    });
   });
 
   describe('cursor position', () => {
@@ -103,7 +104,7 @@ describe('string prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });

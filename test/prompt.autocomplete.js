@@ -1,12 +1,11 @@
-'use strict';
+import fs from 'fs';
+import { dirname } from 'path';
+import * as assert from 'assert';
+import { fileURLToPath } from 'url';
+import AutoComplete from '../lib/prompts/autocomplete.js';
+import { timeout, keypresses, has } from './support/index.js';
 
-require('mocha');
-const fs = require('fs');
-const assert = require('assert');
-const { timeout, keypresses } = require('./support')(assert);
-const AutoComplete = require('../lib/prompts/autocomplete');
 let prompt;
-
 const fixtures = ['almond', 'apple', 'banana', 'cherry', 'chocolate', 'cinnamon', 'coconut', 'cotton candy', 'grape', 'nougat', 'orange', 'pear', 'pineapple', 'strawberry', 'vanilla', 'watermelon', 'wintergreen'];
 
 class Prompt extends AutoComplete {
@@ -93,7 +92,7 @@ describe('prompt-autocomplete', () => {
   });
 
   describe('options.choices', () => {
-    it('should add an array of choice objects', cb => {
+    it('should add an array of choice objects', () => {
       prompt = new Prompt({
         message: 'Favorite letters?',
         choices: [
@@ -105,17 +104,16 @@ describe('prompt-autocomplete', () => {
       });
 
       prompt.once('run', () => {
-        assert.has(prompt.choices, [
+        has(prompt.choices, [
           { value: 'a', message: 'A', enabled: false },
           { value: 'b', message: 'BB', enabled: false },
           { value: 'c', message: 'CCC', enabled: false },
           { value: 'd', message: 'DDDD', enabled: false }
         ]);
         assert.equal(prompt.initial, 0);
-        cb();
       });
 
-      prompt.run().catch(cb);
+      prompt.run();
     });
 
     it('should get choices by calling choices function', () => {
@@ -182,7 +180,7 @@ describe('prompt-autocomplete', () => {
 
       prompt.once('run', async() => {
         assert.equal(prompt.initial, 2);
-        assert.has(prompt.choices, [
+        has(prompt.choices, [
           { name: 'a', message: 'A', enabled: false },
           { name: 'b', message: 'BB', enabled: false },
           { name: 'c', message: 'CCC', enabled: true },
@@ -193,7 +191,7 @@ describe('prompt-autocomplete', () => {
       });
 
       return prompt.run()
-        .then(answer => assert.equal(answer, 'c'))
+        .then(answer => assert.equal(answer, 'c'));
     });
   });
 
@@ -220,7 +218,7 @@ describe('prompt-autocomplete', () => {
 
       return prompt.run()
         .then(answer => {
-          assert(/BERRY/.test(prompt.state.buffer));
+          assert.ok(/BERRY/.test(prompt.state.buffer));
           assert.equal(answer, 'strawberry');
         });
     });
@@ -350,7 +348,7 @@ describe('prompt-autocomplete', () => {
         choices: fixtures.slice(),
         suggest(typed, choices) {
           return choices.filter(choice => choice.message.includes(typed));
-        },
+        }
       });
 
       prompt.once('run', async() => {
@@ -455,7 +453,8 @@ describe('prompt-autocomplete', () => {
       prompt = new Prompt({
         message: 'Choose a file',
         choices() {
-          return fs.readdirSync(__dirname);
+          const fileName = fileURLToPath(import.meta.url);
+          return fs.readdirSync(dirname(fileName));
         }
       });
 

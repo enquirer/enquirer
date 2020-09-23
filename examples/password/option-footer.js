@@ -1,8 +1,8 @@
 const { Password } = require('enquirer');
 
-const delay = function (ms) {
+const delay = function(ms) {
   let timeout, prev;
-  return function (msg, prompt) {
+  return function(msg, prompt) {
     return new Promise((resolve, reject) => {
       clearTimeout(timeout);
       if (prev) {
@@ -17,8 +17,8 @@ const delay = function (ms) {
       }, ms);
       resolve('');
     });
-  }
-}
+  };
+};
 
 const delayMessage = delay(250);
 
@@ -36,7 +36,7 @@ const prompt = new Password({
     return min - this.input.length > 0
       ? delayMessage(this.styles.danger(`${pointerSmall} password must be ${min} characters or longer`), this)
       : delayMessage(this.styles.success(`${check} password length is okay`), this);
-  },
+  }
 });
 
 prompt.run()

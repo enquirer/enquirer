@@ -1,9 +1,7 @@
-'use strict';
+import * as assert from 'assert';
+import { immediate } from './support/index.js';
+import NumberPrompt from '../lib/types/number.js';
 
-require('mocha');
-const assert = require('assert');
-const NumberPrompt = require('../lib/types/number');
-const { immediate } = require('./support')(assert);
 const reset = { name: 'g', ctrl: true };
 const down = { name: 'down' };
 const up = { name: 'up' };

@@ -1,10 +1,7 @@
-'use strict';
+import colors from 'ansi-colors';
+import * as assert from 'assert';
+import PromptBase from '../lib/prompt.js';
 
-require('mocha');
-const colors = require('ansi-colors');
-const assert = require('assert');
-const PromptBase = require('../lib/prompt');
-const { timeout } = require('./support')(assert);
 let prompt;
 
 class Prompt extends PromptBase {
@@ -19,7 +16,7 @@ describe('Prompt', function() {
     it('should emit a keypress for each character', cb => {
       prompt = new Prompt({ message: 'Example prompt' });
       const keypresses = [];
-      prompt.keypress =  async(str, key) => {
+      prompt.keypress = async(str, key) => {
         if (str && str.length > 1) {
           return [...str].forEach(async ch => await prompt.keypress(ch, key));
         }
@@ -43,7 +40,7 @@ describe('Prompt', function() {
         await prompt.submit();
       });
 
-      prompt.run()
+      prompt.run();
     });
   });
 
@@ -70,7 +67,7 @@ describe('Prompt', function() {
 
       prompt.once('run', () => {
         prompt.submit(prompt.options.value);
-      })
+      });
 
       return prompt.run()
         .then(answer => {
