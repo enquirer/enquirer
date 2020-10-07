@@ -1,8 +1,11 @@
 import * as assert from 'assert';
 import { timeout, keypresses } from './support/index.js';
-import ListPrompt from '../lib/prompts/list.js';
+import nodeShims from '../lib/shims/node.js';
+import createListPrompt from '../lib/prompts/list.js';
 
 let prompt;
+
+const ListPrompt = createListPrompt(nodeShims);
 
 class Prompt extends ListPrompt {
   constructor(options) {

@@ -64,11 +64,11 @@ describe('Enquirer', function() {
         name: 'color',
         message: 'Favorite color?'
       },
-      {
-        type: 'input',
-        name: 'name',
-        message: 'What is your name?'
-      }])
+        {
+          type: 'input',
+          name: 'name',
+          message: 'What is your name?'
+        }])
         .then(answers => {
           assert.equal(answers.color, 'blue');
           assert.equal(answers.name, 'Brian');
@@ -109,12 +109,12 @@ describe('Enquirer', function() {
         message: 'Favorite color?',
         show: false
       },
-      {
-        type: 'input',
-        name: 'name',
-        message: 'What is your name?',
-        show: false
-      }])
+        {
+          type: 'input',
+          name: 'name',
+          message: 'What is your name?',
+          show: false
+        }])
         .then(answers => {
           assert.equal(answers.color, 'blue');
           assert.equal(answers.name, 'Brian');
@@ -288,13 +288,13 @@ describe('Enquirer', function() {
     it('should register a custom prompt type as a class', () => {
       class Foo extends Input {}
 
-      enquirer.register('foo', Foo);
       enquirer = new Enquirer({
         show: false,
         autofill: true
       }, {
         color: 'orange'
       });
+      enquirer.register('foo', Foo);
 
       return enquirer.prompt({
         type: 'foo',
@@ -309,13 +309,13 @@ describe('Enquirer', function() {
     it('should register a custom prompt type as a function', () => {
       class Foo extends Input {}
 
-      enquirer.register('foo', () => Foo);
       enquirer = new Enquirer({
         show: false,
         autofill: true
       }, {
         color: 'orange'
       });
+      enquirer.register('foo', () => Foo);
 
       return enquirer.prompt({
         type: 'foo',

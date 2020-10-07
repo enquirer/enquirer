@@ -1,14 +1,17 @@
 import * as assert from 'assert';
 import colors from 'ansi-colors';
 import { expect, immediate, has } from './support/index.js';
-import PromptSelect from '../lib/prompts/select.js';
+import nodeShims from '../lib/shims/node.js';
+import createPromptSelect from '../lib/prompts/select.js';
 
 let prompt;
 const { cyan, dim, gray } = colors;
 const up = { sequence: '\u001b[A', name: 'up', code: '[A' };
 const down = { sequence: '\u001b[B', name: 'down', code: '[B' };
 
-class Prompt extends PromptSelect {
+const SelectPrompt = createPromptSelect(nodeShims);
+
+class Prompt extends SelectPrompt {
   constructor(options) {
     super({ ...options, show: false });
   }

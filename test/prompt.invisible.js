@@ -1,10 +1,13 @@
 import * as assert from 'assert';
 import { nextTick } from './support/index.js';
-import Invisible from '../lib/prompts/invisible.js';
+import nodeShims from '../lib/shims/node.js';
+import createInvisible from '../lib/prompts/invisible.js';
 
 let prompt;
 
-class Prompt extends Invisible {
+const InvisiblePrompt = createInvisible(nodeShims);
+
+class Prompt extends InvisiblePrompt {
   constructor(options) {
     super({ ...options, show: false });
   }

@@ -1,24 +1,27 @@
 import * as assert from 'assert';
-import Prompt from '../lib/types/string.js';
+import nodeShims from '../lib/shims/node.js';
+import createStringPrompt from '../lib/types/string.js';
 
 let prompt;
+
+const StringPrompt = createStringPrompt(nodeShims);
 
 describe('string prompt', function() {
   describe('class', () => {
     it('should expose static method for getting Prompt class', () => {
-      class Foo extends Prompt {}
+      class Foo extends StringPrompt {}
 
       class Bar extends Foo {}
 
       class Baz extends Bar {}
 
-      assert.ok(Baz.Prompt === Prompt.Prompt);
+      assert.ok(Baz.Prompt === StringPrompt.Prompt);
     });
   });
 
   describe('options.initial', () => {
     it('should use options.initial when submitted without changes', () => {
-      prompt = new Prompt({ show: false, message: 'foo', initial: 'true' });
+      prompt = new StringPrompt({ show: false, message: 'foo', initial: 'true' });
       prompt.on('run', () => prompt.submit());
       return prompt.run()
         .then(value => {
@@ -27,7 +30,7 @@ describe('string prompt', function() {
     });
 
     it('should cast options.initial to a string', () => {
-      prompt = new Prompt({ show: false, message: 'foo', initial: false });
+      prompt = new StringPrompt({ show: false, message: 'foo', initial: false });
 
       prompt.on('run', () => {
         prompt.submit(String(prompt.options.initial));
@@ -40,7 +43,7 @@ describe('string prompt', function() {
     });
 
     it('should not convert empty string to `undefined`', () => {
-      prompt = new Prompt({ show: false, message: 'foo', initial: '' });
+      prompt = new StringPrompt({ show: false, message: 'foo', initial: '' });
 
       prompt.on('run', () => {
         prompt.submit(prompt.options.initial);
@@ -56,7 +59,7 @@ describe('string prompt', function() {
   describe('cursor position', () => {
     it('should update cursor position when the user types input', () => {
       let cursor = [];
-      prompt = new Prompt({
+      prompt = new StringPrompt({
         message: 'Favorite color?',
         initial: 'green',
         show: false
@@ -97,8 +100,7 @@ describe('string prompt', function() {
     });
 
     it('should alert when invalid key combos are given', cb => {
-      let cursor = [];
-      prompt = new Prompt({
+      prompt = new StringPrompt({
         message: 'Favorite color?',
         initial: 'green',
         show: false

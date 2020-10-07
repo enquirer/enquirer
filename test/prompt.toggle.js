@@ -1,5 +1,6 @@
 import * as assert from 'assert';
-import Toggle from '../lib/prompts/toggle.js';
+import nodeShims from '../lib/shims/node.js';
+import createToggle from '../lib/prompts/toggle.js';
 
 let prompt;
 
@@ -8,7 +9,9 @@ const down = { sequence: '\u001b[B', name: 'down', code: '[B' };
 const right = { sequence: '\u001b[C', name: 'right', code: '[C' };
 const left = { sequence: '\u001b[D', name: 'left', code: '[D' };
 
-class Prompt extends Toggle {
+const TogglePrompt = createToggle(nodeShims);
+
+class Prompt extends TogglePrompt {
   constructor(options) {
     super({ ...options, show: false });
   }

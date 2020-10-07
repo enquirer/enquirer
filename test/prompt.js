@@ -1,8 +1,11 @@
 import colors from 'ansi-colors';
 import * as assert from 'assert';
-import PromptBase from '../lib/prompt.js';
+import nodeShims from '../lib/shims/node.js';
+import createPromptBase from '../lib/prompt.js';
 
 let prompt;
+
+const PromptBase = createPromptBase(nodeShims);
 
 class Prompt extends PromptBase {
   constructor(options = {}) {
@@ -85,8 +88,6 @@ describe('Prompt', function() {
 
   describe('options.format', () => {
     it('should format the rendered value using a custom function', () => {
-      let count = 0;
-      let actual;
 
       prompt = new Prompt({
         message: 'prompt',
@@ -106,8 +107,6 @@ describe('Prompt', function() {
 
   describe('options.transform', () => {
     it('should transform the returned value using a custom function', () => {
-      let count = 0;
-
       prompt = new Prompt({
         message: 'prompt',
         value: 'foo',

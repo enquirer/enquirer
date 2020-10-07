@@ -2,11 +2,14 @@ import fs from 'fs';
 import { dirname } from 'path';
 import * as assert from 'assert';
 import { fileURLToPath } from 'url';
-import AutoComplete from '../lib/prompts/autocomplete.js';
 import { timeout, keypresses, has } from './support/index.js';
+import nodeShims from '../lib/shims/node.js';
+import createAutoComplete from '../lib/prompts/autocomplete.js';
 
 let prompt;
 const fixtures = ['almond', 'apple', 'banana', 'cherry', 'chocolate', 'cinnamon', 'coconut', 'cotton candy', 'grape', 'nougat', 'orange', 'pear', 'pineapple', 'strawberry', 'vanilla', 'watermelon', 'wintergreen'];
+
+const AutoComplete = createAutoComplete(nodeShims);
 
 class Prompt extends AutoComplete {
   constructor(options) {

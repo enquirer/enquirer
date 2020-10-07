@@ -1,10 +1,13 @@
 import assert from 'assert';
 import { timeout } from './support/index.js';
-import Confirm from '../lib/prompts/confirm.js';
+import nodeShims from '../lib/shims/node.js';
+import createConfirm from '../lib/prompts/confirm.js';
 
 let prompt;
 
-class Prompt extends Confirm {
+const ConfirmPrompt = createConfirm(nodeShims);
+
+class Prompt extends ConfirmPrompt {
   constructor(options) {
     super({ ...options, show: false });
   }

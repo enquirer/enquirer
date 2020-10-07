@@ -1,8 +1,11 @@
 import * as assert from 'assert';
 import { nextTick } from './support/index.js';
-import PasswordPrompt from '../lib/prompts/password.js';
+import nodeShims from '../lib/shims/node.js';
+import createPasswordPrompt from '../lib/prompts/password.js';
 
 let prompt;
+
+const PasswordPrompt = createPasswordPrompt(nodeShims);
 
 class Prompt extends PasswordPrompt {
   constructor(options) {

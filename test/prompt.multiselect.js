@@ -1,12 +1,15 @@
 import * as assert from 'assert';
 import colors from 'ansi-colors';
 import { expect, has } from './support/index.js';
-import MultiSelect from '../lib/prompts/multiselect.js';
+import nodeShims from '../lib/shims/node.js';
+import createMultiSelect from '../lib/prompts/multiselect.js';
 
 let prompt;
 
 const up = { name: 'up' };
 const down = { name: 'down' };
+
+const MultiSelect = createMultiSelect(nodeShims);
 
 class Prompt extends MultiSelect {
   constructor(options) {

@@ -1,8 +1,11 @@
 import colors from 'ansi-colors';
 import * as assert from 'assert';
-import BooleanPrompt from '../lib/types/boolean.js';
+import nodeShims from '../lib/shims/node.js';
+import createBooleanPrompt from '../lib/types/boolean.js';
 
 let prompt;
+
+const BooleanPrompt = createBooleanPrompt(nodeShims);
 
 class Prompt extends BooleanPrompt {
   constructor(options) {

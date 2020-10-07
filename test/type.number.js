@@ -1,11 +1,14 @@
 import * as assert from 'assert';
 import { immediate } from './support/index.js';
-import NumberPrompt from '../lib/types/number.js';
+import nodeShims from '../lib/shims/node.js';
+import createNumberPrompt from '../lib/types/number.js';
 
 const reset = { name: 'g', ctrl: true };
 const down = { name: 'down' };
 const up = { name: 'up' };
 let prompt;
+
+const NumberPrompt = createNumberPrompt(nodeShims);
 
 class Prompt extends NumberPrompt {
   constructor(options) {

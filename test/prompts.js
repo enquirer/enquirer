@@ -1,6 +1,10 @@
 import * as assert from 'assert';
-import types from '../lib/types/index.js';
-import prompts from '../lib/prompts/index.js';
+import nodeShims from '../lib/shims/node.js';
+import createTypes from '../lib/types/index.js';
+import createPrompts from '../lib/prompts/index.js';
+
+const types = createTypes(nodeShims);
+const prompts = createPrompts(nodeShims);
 
 describe('prompts', function() {
   it('should export prompts', () => {

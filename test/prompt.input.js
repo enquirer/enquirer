@@ -1,7 +1,10 @@
 import * as assert from 'assert';
-import Prompt from '../lib/prompts/input.js';
+import nodeShims from '../lib/shims/node.js';
+import createPrompt from '../lib/prompts/input.js';
 
 let prompt;
+
+const Prompt = createPrompt(nodeShims);
 
 describe('Input Prompt', function() {
   describe('options.initial', () => {
