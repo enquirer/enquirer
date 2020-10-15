@@ -1,5 +1,8 @@
 import * as assert from 'assert';
-import keypress from '../lib/keypress.js';
+import nodeShims from '../lib/shims/node.js';
+import createKeypress from '../lib/keypress.js';
+
+const keypress = createKeypress(nodeShims);
 
 const act = key => keypress.action(null, key).action;
 
