@@ -59,11 +59,12 @@ describe('Enquirer', function() {
         prompt.submit();
       });
 
-      enquirer.prompt([{
-        type: 'input',
-        name: 'color',
-        message: 'Favorite color?'
-      },
+      enquirer.prompt([
+        {
+          type: 'input',
+          name: 'color',
+          message: 'Favorite color?'
+        },
         {
           type: 'input',
           name: 'name',
@@ -103,12 +104,13 @@ describe('Enquirer', function() {
         prompt.submit();
       });
 
-      prompt([{
-        type: 'input',
-        name: 'color',
-        message: 'Favorite color?',
-        show: false
-      },
+      prompt([
+        {
+          type: 'input',
+          name: 'color',
+          message: 'Favorite color?',
+          show: false
+        },
         {
           type: 'input',
           name: 'name',
