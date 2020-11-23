@@ -146,6 +146,7 @@ declare namespace Enquirer {
   ): Promise<T>;
 
   class Prompt extends BasePrompt {}
+  type EnquirerOptions = PromptOptions
 }
 
 export = Enquirer;
