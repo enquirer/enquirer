@@ -6,6 +6,8 @@ interface BasePromptOptions {
   message: string | (() => string) | (() => Promise<string>)
   initial?: any
   required?: boolean
+  enabled?: boolean | string
+  disabled?: boolean | string
   format?(value: string): string | Promise<string>
   result?(value: string): string | Promise<string>
   skip?: ((state: object) => boolean | Promise<boolean>) | boolean
@@ -21,6 +23,8 @@ interface Choice {
   message?: string
   value?: string
   hint?: string
+  role?: string
+  enabled?: boolean
   disabled?: boolean | string
 }
 

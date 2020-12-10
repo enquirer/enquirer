@@ -19,6 +19,9 @@ Enquirer
 Enquirer
   .prompt<{ question: string }>({ name: 'question', type: 'text', message: '' })
   .then(answer => answer.question);
+Enquirer.prompt({ name: "test", type: "toggle", message: "", enabled: "yes", disabled: "no" }).then(
+  (answer) => answer
+);
 
 const instance = new Enquirer({}, { question1: '' })
 instance
