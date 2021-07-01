@@ -19,7 +19,7 @@ interface BasePromptOptions {
 interface Choice {
   name: string
   message?: string
-  value?: string
+  value?: unknown
   hint?: string
   disabled?: boolean | string
 }
