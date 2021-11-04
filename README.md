@@ -86,12 +86,12 @@ Get started with Enquirer, the most powerful and easy-to-use Node.js library for
 Install with [npm](https://www.npmjs.com/):
 
 ```sh
-$ npm install enquirer --save
+npm install enquirer --save
 ```
 Install with [yarn](https://yarnpkg.com/en/):
 
 ```sh
-$ yarn add enquirer
+yarn add enquirer
 ```
 
 <p align="center">
