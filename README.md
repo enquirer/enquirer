@@ -41,7 +41,7 @@ Created by [jonschlinkert][jon] and [doowb][brian], Enquirer is fast, easy to us
 - **Intuitive** - Keypress combos are available to simplify usage.
 - **Flexible** - All prompts can be used standalone or chained together.
 - **Stylish** - Easily override semantic styles and symbols for any part of the prompt.
-- **Extensible** - Easily create and use custom prompts by extending Enquirer's built-in [prompts](#-prompts).
+- **Extensible** - Easily create and use [custom prompts](#-custom-prompts) by extending Enquirer's built-in [prompts](#-prompts).
 - **Pluggable** - Add advanced features to Enquirer using plugins.
 - **Validation** - Optionally validate user input with any prompt.
 - **Well tested** - All prompts are well-tested, and tests are easy to create without having to use brittle, hacky solutions to spy on prompts or "inject" values.
@@ -72,7 +72,7 @@ Get started with Enquirer, the most powerful and easy-to-use Node.js library for
 - [Usage](#-usage)
 - [Enquirer](#-enquirer)
 - [Prompts](#-prompts)
-  * [Built-in Prompts](#built-in-prompts)
+  * [Built-in Prompts](#-built-in-prompts)
   * [Custom Prompts](#-custom-prompts)
 - [Key Bindings](#-key-bindings)
 - [Options](#-options)
@@ -335,9 +335,9 @@ This section is about Enquirer's prompts: what they look like, how they work, ho
 
 - [Prompt](#prompt) - The base `Prompt` class used by other prompts
   - [Prompt Options](#prompt-options)
-- [Built-in prompts](#built-in-prompts)
+- [Built-in prompts](#-built-in-prompts)
 - [Prompt Types](#prompt-types) - The base `Prompt` class used by other prompts 
-- [Custom prompts](#%E2%9D%AF-custom-prompts) - Enquirer 2.0 introduced the concept of prompt "types", with the goal of making custom prompts easier than ever to create and use.
+- [Custom Prompts](#-custom-prompts) - Enquirer 2.0 introduced the concept of prompt "types", with the goal of making custom prompts easier than ever to create and use.
 
 ### Prompt
 
@@ -400,7 +400,7 @@ prompt(question)
 
 <br>
 
-### Built-in prompts
+## ❯ Built-in prompts
 
 - [AutoComplete Prompt](#autocomplete-prompt)
 - [BasicAuth Prompt](#basicauth-prompt)
