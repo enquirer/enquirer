@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "esModuleInterop": true,
+    "target": "es2017",
+    "module": "commonjs",
+    "strict": false,
+    "noEmit": true,
+    "baseUrl": "./",
+    "skipLibCheck": true,
+    "paths": {
+      "enquirer": ["index.d.ts"]
+    }
+  },
+  "include": [
+    "examples/boolean",
+    "examples/issues",
+    "examples/list",
+    "examples/string",
+    "examples/survey",
+    "examples/toggle",
+    "examples/log-keypress.js",
+    "examples/log-keypress-example.js"
+  ],
+  "exclude": ["node_modules", "lib"]
+}
