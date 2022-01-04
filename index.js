@@ -105,6 +105,15 @@ class Enquirer extends Events {
     assert(this.prompts[type], `Prompt "${type}" is not registered`);
 
     let prompt = new this.prompts[type](opts);
+
+    if (await prompt.skip()) {
+      // Emit "skipped" and return nothing if the question should be skipped
+      if (name) {
+        this.emit('skipped', name, prompt);
+      }
+      return;
+    }
+
     let value = get(this.answers, name);
 
     prompt.state.answers = this.answers;

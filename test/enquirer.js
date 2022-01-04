@@ -51,13 +51,15 @@ describe('Enquirer', function() {
       });
     });
 
-    it('should run an array of questions', cb => {
+    it('should run an array of questions and skip one question', cb => {
       enquirer = new Enquirer({ show: false });
       enquirer.on('prompt', prompt => {
         if (prompt.name === 'color') {
           prompt.value = 'blue';
-        } else {
+        } else if (prompt.name === 'name') {
           prompt.value = 'Brian';
+        } else {
+          prompt.value = 1
         }
         prompt.submit();
       });
@@ -69,12 +71,19 @@ describe('Enquirer', function() {
       },
       {
         type: 'input',
+        name: 'age',
+        message: "What's your age?",
+        skip: true
+      },
+      {
+        type: 'input',
         name: 'name',
         message: 'What is your name?'
       }])
       .then(answers => {
         assert.equal(answers.color, 'blue');
         assert.equal(answers.name, 'Brian');
+        assert.equal(answers.age, undefined);
         cb();
       });
     });
@@ -104,7 +113,7 @@ describe('Enquirer', function() {
     it('should run an array of questions', cb => {
       const { prompt } = Enquirer;
       prompt.on('prompt', prompt => {
-        prompt.value = prompt.name === 'color' ? 'blue' : 'Brian';
+        prompt.value = prompt.name === 'color' ? 'blue' : prompt.name === 'name' ? 'Brian': 1;
         prompt.submit();
       });
 
@@ -116,6 +125,12 @@ describe('Enquirer', function() {
       },
       {
         type: 'input',
+        name: 'age',
+        message: "What's your age?",
+        skip: true
+      },
+      {
+        type: 'input',
         name: 'name',
         message: 'What is your name?',
         show: false
@@ -123,6 +138,7 @@ describe('Enquirer', function() {
       .then(answers => {
         assert.equal(answers.color, 'blue');
         assert.equal(answers.name, 'Brian');
+        assert.equal(answers.age, undefined);
         cb();
       });
     });
