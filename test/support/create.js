@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 let memo = new Map();
 let keys = [
   {
@@ -1126,8 +1128,6 @@ let keys = [
     code: '[C'
   }
 ];
-
-const fs = require('fs');
 
 keys.sort((a, b) => a.name.localeCompare(b.name));
 

@@ -1,9 +1,10 @@
-'use strict';
+import * as assert from 'assert';
+import nodeShims from '../lib/shims/node.js';
+import createTypes from '../lib/types/index.js';
+import createPrompts from '../lib/prompts/index.js';
 
-require('mocha');
-const assert = require('assert');
-const prompts = require('../lib/prompts');
-const types = require('../lib/types');
+const types = createTypes(nodeShims);
+const prompts = createPrompts(nodeShims);
 
 describe('prompts', function() {
   it('should export prompts', () => {

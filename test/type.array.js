@@ -1,10 +1,11 @@
-'use strict';
+import * as assert from 'assert';
+import { timeout, has } from './support/index.js';
+import nodeShims from '../lib/shims/node.js';
+import createArrayPrompt from '../lib/types/array.js';
 
-require('mocha');
-const assert = require('assert');
-const { expect, timeout } = require('./support')(assert);
-const ArrayPrompt = require('../lib/types/array');
 let prompt;
+
+const ArrayPrompt = createArrayPrompt(nodeShims);
 
 class Prompt extends ArrayPrompt {
   constructor(options = {}) {
@@ -29,7 +30,7 @@ describe('array prompt', function() {
       });
 
       prompt.once('run', () => {
-        assert.has(prompt.choices, [
+        has(prompt.choices, [
           { name: 'a', message: 'A', enabled: false },
           { name: 'b', message: 'BB', enabled: false },
           { name: 'c', message: 'CCC', enabled: false },
@@ -54,7 +55,7 @@ describe('array prompt', function() {
       });
 
       prompt.once('run', () => {
-        assert.has(prompt.choices, [
+        has(prompt.choices, [
           { name: 'a', message: 'a', enabled: false },
           { name: 'b', message: 'b', enabled: false },
           { name: 'c', message: 'c', enabled: false },
@@ -65,22 +66,23 @@ describe('array prompt', function() {
         cb();
       });
 
-      prompt.run().catch(cb);;
+      prompt.run().catch(cb);
+
     });
 
     it('should support choices as functions', cb => {
       prompt = new Prompt({
         message: 'prompt-array',
         choices: [
-          (() => 'a'),
-          (() => 'b'),
-          (() => 'c'),
-          (() => 'd')
+          () => 'a',
+          () => 'b',
+          () => 'c',
+          () => 'd'
         ]
       });
 
       prompt.once('run', () => {
-        assert.has(prompt.choices, [
+        has(prompt.choices, [
           { name: 'a', message: 'a', enabled: false },
           { name: 'b', message: 'b', enabled: false },
           { name: 'c', message: 'c', enabled: false },
@@ -91,7 +93,8 @@ describe('array prompt', function() {
         cb();
       });
 
-      prompt.run().catch(cb);;
+      prompt.run().catch(cb);
+
     });
 
     it('should support choices as _async_ functions', cb => {
@@ -106,7 +109,7 @@ describe('array prompt', function() {
       });
 
       prompt.once('run', () => {
-        assert.has(prompt.choices, [
+        has(prompt.choices, [
           { name: 'a', message: 'a', enabled: false },
           { name: 'b', message: 'b', enabled: false },
           { name: 'c', message: 'c', enabled: false },
@@ -117,7 +120,8 @@ describe('array prompt', function() {
         cb();
       });
 
-      prompt.run().catch(cb);;
+      prompt.run().catch(cb);
+
     });
   });
 
@@ -194,7 +198,7 @@ describe('array prompt', function() {
     it('should support options.initial as an object', () => {
       prompt = new Prompt({
         message: 'prompt-array',
-        initial: { a: {}, b: {}, c: {}},
+        initial: { a: {}, b: {}, c: {} },
         choices: [
           { name: 'a', value: 'A' },
           { name: 'b', value: 'BB' },
@@ -347,7 +351,7 @@ describe('array prompt', function() {
         ...options
       });
 
-      prompt.once('run', async () => {
+      prompt.once('run', async() => {
         onRun && await onRun(prompt);
         await prompt.submit();
       });
@@ -362,10 +366,10 @@ describe('array prompt', function() {
           prompt.on('alert', () => (called++));
           await prompt.dispatch();
         })
-        .then(answer => {
-          assert.deepStrictEqual(called, 1);
-          assert.deepStrictEqual(answer, 'd');
-        });
+          .then(answer => {
+            assert.deepStrictEqual(called, 1);
+            assert.deepStrictEqual(answer, 'd');
+          });
       });
     });
 
@@ -376,9 +380,9 @@ describe('array prompt', function() {
           await prompt.a();
           await prompt.number(3);
         })
-        .then(answer => {
-          assert.deepStrictEqual(answer, ['d']);
-        });
+          .then(answer => {
+            assert.deepStrictEqual(answer, ['d']);
+          });
       });
 
       it('should be a string when options.multiple is false', () => {
@@ -387,9 +391,9 @@ describe('array prompt', function() {
           await prompt.a();
           await prompt.number(3);
         })
-        .then(answer => {
-          assert.deepStrictEqual(answer, 'd');
-        });
+          .then(answer => {
+            assert.deepStrictEqual(answer, 'd');
+          });
       });
 
       it('should select the _last_ number pressed when options.multiple is false', () => {
@@ -399,9 +403,9 @@ describe('array prompt', function() {
           await prompt.number(3);
           await prompt.number(2);
         })
-        .then(answer => {
-          assert.deepStrictEqual(answer, 'c');
-        });
+          .then(answer => {
+            assert.deepStrictEqual(answer, 'c');
+          });
       });
 
       it('should select the _all_ numbers pressed when options.multiple is true', () => {
@@ -412,9 +416,9 @@ describe('array prompt', function() {
           await prompt.number(1);
           await prompt.number(2);
         })
-        .then(answer => {
-          assert.deepStrictEqual(answer, ['b', 'c', 'd']);
-        });
+          .then(answer => {
+            assert.deepStrictEqual(answer, ['b', 'c', 'd']);
+          });
       });
 
       it('should select numbers that are not visible', () => {
@@ -425,9 +429,9 @@ describe('array prompt', function() {
           await prompt.number(1);
           await prompt.number(2);
         })
-        .then(answer => {
-          assert.deepStrictEqual(answer, ['b', 'c', 'd']);
-        });
+          .then(answer => {
+            assert.deepStrictEqual(answer, ['b', 'c', 'd']);
+          });
       });
     });
 
@@ -438,10 +442,10 @@ describe('array prompt', function() {
           prompt.on('alert', () => (called++));
           prompt.space();
         })
-        .then(answer => {
-          assert.deepStrictEqual(called, 1);
-          assert.deepStrictEqual(answer, 'd');
-        });
+          .then(answer => {
+            assert.deepStrictEqual(called, 1);
+            assert.deepStrictEqual(answer, 'd');
+          });
       });
 
       it('should not emit "alert" when options.multiple is not true', () => {
@@ -450,12 +454,13 @@ describe('array prompt', function() {
           prompt.on('alert', () => (called++));
           prompt.space();
         })
-        .then(answer => {
-          assert.deepStrictEqual(called, 0);
-          assert.deepStrictEqual(answer, ['a', 'b', 'd']);
-        });
+          .then(answer => {
+            assert.deepStrictEqual(called, 0);
+            assert.deepStrictEqual(answer, ['a', 'b', 'd']);
+          });
       });
 
+      // TODO: skipped because it fails on OSX. Needs to be fixed before un-skipping
       it.skip('should select the choice at the current index', () => {
         return create({}, async prompt => {
           await prompt.number(0);
@@ -463,9 +468,9 @@ describe('array prompt', function() {
           prompt.index = 3;
           await prompt.space();
         })
-        .then(answer => {
-          assert.deepStrictEqual(answer, ['d']);
-        });
+          .then(answer => {
+            assert.deepStrictEqual(answer, ['d']);
+          });
       });
     });
   });

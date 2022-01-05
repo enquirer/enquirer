@@ -1,11 +1,11 @@
-'use strict';
+import * as assert from 'assert';
+import { nextTick } from './support/index.js';
+import nodeShims from '../lib/shims/node.js';
+import createPasswordPrompt from '../lib/prompts/password.js';
 
-require('mocha');
-const assert = require('assert');
-const support = require('./support');
-const { nextTick } = support(assert);
-const PasswordPrompt = require('../lib/prompts/password');
 let prompt;
+
+const PasswordPrompt = createPasswordPrompt(nodeShims);
 
 class Prompt extends PasswordPrompt {
   constructor(options) {
@@ -23,8 +23,8 @@ describe('password', function() {
 
       prompt.once('run', () => prompt.submit());
       prompt.once('submit', () => {
-        assert(!/foobar/.test(prompt.state.buffer));
-        assert(!/[*]{6}/.test(prompt.state.buffer));
+        assert.ok(!/foobar/.test(prompt.state.buffer));
+        assert.ok(!/[*]{6}/.test(prompt.state.buffer));
         assert.equal(prompt.value, 'foobar');
         cb();
       });

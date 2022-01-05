@@ -1,11 +1,15 @@
-const { prompt } = require('../..');
+import Enquirer from '../../index.js';
 
-prompt({
+const { prompt } = Enquirer;
+
+const question = {
   type: 'input',
   name: 'color',
   message: 'Favorite color?'
-})
-.then(answers => {
-  console.info(answers);
-  process.exit(0);
-});
+};
+
+prompt(question)
+  .then(answers => {
+    console.info(answers);
+    process.exit(0);
+  });

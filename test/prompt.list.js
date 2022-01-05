@@ -1,11 +1,11 @@
-'use strict';
+import * as assert from 'assert';
+import { timeout, keypresses } from './support/index.js';
+import nodeShims from '../lib/shims/node.js';
+import createListPrompt from '../lib/prompts/list.js';
 
-require('mocha');
-const assert = require('assert');
-const support = require('./support');
-const { timeout, keypresses } = support(assert);
-const ListPrompt = require('../lib/prompts/list');
 let prompt;
+
+const ListPrompt = createListPrompt(nodeShims);
 
 class Prompt extends ListPrompt {
   constructor(options) {
@@ -18,7 +18,7 @@ describe('list', function() {
     it('should return early when options.initial is defined', () => {
       prompt = new Prompt({
         message: 'Enter a list of words',
-        initial: 'a, b, c',
+        initial: 'a, b, c'
       });
 
       prompt.on('run', () => prompt.submit());

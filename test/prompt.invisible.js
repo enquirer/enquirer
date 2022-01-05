@@ -1,13 +1,13 @@
-'use strict';
+import * as assert from 'assert';
+import { nextTick } from './support/index.js';
+import nodeShims from '../lib/shims/node.js';
+import createInvisible from '../lib/prompts/invisible.js';
 
-require('mocha');
-const assert = require('assert');
-const support = require('./support');
-const { nextTick } = support(assert);
-const Invisible = require('../lib/prompts/invisible');
 let prompt;
 
-class Prompt extends Invisible {
+const InvisiblePrompt = createInvisible(nodeShims);
+
+class Prompt extends InvisiblePrompt {
   constructor(options) {
     super({ ...options, show: false });
   }

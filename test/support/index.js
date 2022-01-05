@@ -1,49 +1,45 @@
-'use strict';
+import * as assert from 'assert';
 
-module.exports = function(assert) {
-  const utils = {};
-  utils.expect = (expected, msg) => actual => assert.deepEqual(actual, expected, msg);
-  utils.nextTick = fn => {
-    return new Promise((resolve, reject) => {
-      process.nextTick(() => fn().then(resolve).catch(reject));
-    });
-  };
+export function has(a, b, msg) {
+  if (Array.isArray(a)) {
+    assert.ok(Array.isArray(b), 'expected an array');
+    for (let i = 0; i < b.length; i++) has(a[i], b[i], msg);
+    return;
+  }
 
-  utils.immediate = fn => {
-    return new Promise((resolve, reject) => {
-      setImmediate(() => fn().then(resolve).catch(reject));
-    });
-  };
+  if (typeof a === 'string') {
+    assert.equal(typeof b, 'string', 'expected a string');
+    assert.ok(a.includes(b), msg);
+    return;
+  }
 
-  utils.timeout = (fn, ms = 0) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => fn().then(resolve).catch(reject), ms);
-    });
-  };
+  for (const key of Object.keys(b)) {
+    assert.deepEqual(a[key], b[key], msg);
+  }
+}
 
-  utils.keypresses = async(prompt, chars) => {
-    for (const ch of chars) {
-      await utils.timeout(() => prompt.keypress(ch));
-    }
-  };
+export function timeout(fn, ms = 0) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => fn().then(resolve).catch(reject), ms);
+  });
+}
 
-  assert.has = function(a, b, msg) {
-    if (Array.isArray(a)) {
-      assert(Array.isArray(b), 'expected an array');
-      for (let i = 0; i < b.length; i++) assert.has(a[i], b[i], msg);
-      return;
-    }
+export const expect = (expected, msg) => actual => assert.deepEqual(actual, expected, msg);
 
-    if (typeof a === 'string') {
-      assert.equal(typeof b, 'string', 'expected a string');
-      assert(a.includes(b), msg);
-      return;
-    }
+export function nextTick(fn) {
+  return new Promise((resolve, reject) => {
+    process.nextTick(() => fn().then(resolve).catch(reject));
+  });
+}
 
-    for (const key of Object.keys(b)) {
-      assert.deepEqual(a[key], b[key], msg);
-    }
-  };
+export function immediate(fn) {
+  return new Promise((resolve, reject) => {
+    setImmediate(() => fn().then(resolve).catch(reject));
+  });
+}
 
-  return utils;
-};
+export async function keypresses(prompt, chars) {
+  for (const ch of chars) {
+    await timeout(() => prompt.keypress(ch));
+  }
+}

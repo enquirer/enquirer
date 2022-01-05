@@ -1,16 +1,15 @@
-'use strict';
+import * as assert from 'assert';
+import colors from 'ansi-colors';
+import { expect, has } from './support/index.js';
+import nodeShims from '../lib/shims/node.js';
+import createMultiSelect from '../lib/prompts/multiselect.js';
 
-require('mocha');
-const fs = require('fs');
-const assert = require('assert');
-const colors = require('ansi-colors');
-const support = require('./support');
-const { timeout, nextTick, expect } = support(assert);
-const MultiSelect = require('../lib/prompts/multiselect');
 let prompt;
 
 const up = { name: 'up' };
 const down = { name: 'down' };
+
+const MultiSelect = createMultiSelect(nodeShims);
 
 class Prompt extends MultiSelect {
   constructor(options) {
@@ -32,7 +31,7 @@ describe('multiselect', function() {
       });
 
       prompt.on('run', () => {
-        assert.has(prompt.choices, [
+        has(prompt.choices, [
           { name: 'a', message: 'A', enabled: false },
           { name: 'b', message: 'BB', enabled: false },
           { name: 'c', message: 'CCC', enabled: false },
@@ -112,7 +111,7 @@ describe('multiselect', function() {
         await prompt.render();
         try {
           let buf = colors.unstyle(prompt.state.buffer);
-          assert(!buf.includes(init));
+          assert.ok(!buf.includes(init));
           prompt.submit();
           cb();
         } catch (err) {
@@ -198,9 +197,9 @@ describe('multiselect', function() {
 
       return prompt.run()
         .then(() => {
-          assert(alerted);
+          assert.ok(alerted);
           assert.deepEqual(keys, ['down', 'space', 'down', 'space', 'down', 'space']);
-        })
+        });
     });
   });
 
@@ -217,7 +216,7 @@ describe('multiselect', function() {
       });
 
       prompt.on('run', async() => {
-        assert(Array.isArray(prompt.choices));
+        assert.ok(Array.isArray(prompt.choices));
         const key = colors.cyan.underline('foo');
         const pointer = colors.dim.gray(prompt.symbols.check);
         assert.equal(await prompt.renderChoice(prompt.choices[0], 0), `${pointer} ${key}`);
@@ -244,7 +243,7 @@ describe('multiselect', function() {
       });
 
       prompt.on('run', async() => {
-        assert(Array.isArray(prompt.choices));
+        assert.ok(Array.isArray(prompt.choices));
         const key = colors.cyan.underline('foo');
         const pointer = colors.dim.gray(prompt.symbols.check);
         assert.equal(await prompt.renderChoice(prompt.choices[0], 0), `${pointer} ${key}`);
@@ -256,7 +255,7 @@ describe('multiselect', function() {
       return prompt.run()
         .then(value => {
           assert.equal(called, 1);
-        })
+        });
     });
   });
 

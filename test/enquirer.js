@@ -1,17 +1,15 @@
-'use strict';
+import * as assert from 'assert';
+import colors from 'ansi-colors';
+import Enquirer from '../index.js';
 
-require('mocha');
-const assert = require('assert');
-const colors = require('ansi-colors');
-const support = require('./support');
-const Enquirer = require('..');
-const { Prompt, Input } = Enquirer;
+const { Input } = Enquirer;
 let enquirer;
 
 describe('Enquirer', function() {
   describe('inheritance', () => {
     it('should support inheritance', cb => {
       class Custom extends Enquirer {}
+
       const { prompt } = Custom;
 
       prompt.on('prompt', p => {
@@ -25,19 +23,19 @@ describe('Enquirer', function() {
         message: 'Favorite color?',
         show: false
       })
-      .then(answers => {
-        assert.equal(answers.color, 'orange');
-        cb();
-      });
+        .then(answers => {
+          assert.equal(answers.color, 'orange');
+          cb();
+        });
     });
   });
 
   describe('questions', () => {
-    it('should run a single question object', cb => {
+    it('should run a single question object', () => {
       enquirer = new Enquirer({ show: false });
       enquirer.on('prompt', prompt => {
         prompt.value = 'orange';
-        prompt.submit()
+        prompt.submit();
       });
 
       enquirer.prompt({
@@ -45,13 +43,12 @@ describe('Enquirer', function() {
         name: 'color',
         message: 'Favorite color?'
       })
-      .then(answers => {
-        assert.equal(answers.color, 'orange');
-        cb();
-      });
+        .then(answers => {
+          assert.equal(answers.color, 'orange');
+        });
     });
 
-    it('should run an array of questions', cb => {
+    it('should run an array of questions', () => {
       enquirer = new Enquirer({ show: false });
       enquirer.on('prompt', prompt => {
         if (prompt.name === 'color') {
@@ -62,26 +59,26 @@ describe('Enquirer', function() {
         prompt.submit();
       });
 
-      enquirer.prompt([{
-        type: 'input',
-        name: 'color',
-        message: 'Favorite color?'
-      },
-      {
-        type: 'input',
-        name: 'name',
-        message: 'What is your name?'
-      }])
-      .then(answers => {
-        assert.equal(answers.color, 'blue');
-        assert.equal(answers.name, 'Brian');
-        cb();
-      });
+      enquirer.prompt([
+        {
+          type: 'input',
+          name: 'color',
+          message: 'Favorite color?'
+        },
+        {
+          type: 'input',
+          name: 'name',
+          message: 'What is your name?'
+        }])
+        .then(answers => {
+          assert.equal(answers.color, 'blue');
+          assert.equal(answers.name, 'Brian');
+        });
     });
   });
 
   describe('static .prompt()', () => {
-    it('should run a single question object', cb => {
+    it('should run a single question object', () => {
       const { prompt } = Enquirer;
 
       prompt.on('prompt', prompt => {
@@ -95,41 +92,40 @@ describe('Enquirer', function() {
         message: 'Favorite color?',
         show: false
       })
-      .then(answers => {
-        assert.equal(answers.color, 'orange');
-        cb();
-      });
+        .then(answers => {
+          assert.equal(answers.color, 'orange');
+        });
     });
 
-    it('should run an array of questions', cb => {
+    it('should run an array of questions', () => {
       const { prompt } = Enquirer;
       prompt.on('prompt', prompt => {
         prompt.value = prompt.name === 'color' ? 'blue' : 'Brian';
         prompt.submit();
       });
 
-      prompt([{
-        type: 'input',
-        name: 'color',
-        message: 'Favorite color?',
-        show: false
-      },
-      {
-        type: 'input',
-        name: 'name',
-        message: 'What is your name?',
-        show: false
-      }])
-      .then(answers => {
-        assert.equal(answers.color, 'blue');
-        assert.equal(answers.name, 'Brian');
-        cb();
-      });
+      prompt([
+        {
+          type: 'input',
+          name: 'color',
+          message: 'Favorite color?',
+          show: false
+        },
+        {
+          type: 'input',
+          name: 'name',
+          message: 'What is your name?',
+          show: false
+        }])
+        .then(answers => {
+          assert.equal(answers.color, 'blue');
+          assert.equal(answers.name, 'Brian');
+        });
     });
   });
 
   describe('options', () => {
-    it('should accept `stdin` and `stdout` replacements', cb => {
+    it('should accept `stdin` and `stdout` replacements', () => {
       const stdin = process.stdin;
       const stdout = process.stdout;
       let count = 0;
@@ -152,14 +148,13 @@ describe('Enquirer', function() {
         name: 'test',
         message: 'Type something?'
       })
-      .then(answers => {
-        assert.equal(count, 1);
-        assert.equal(answers.test, 'ok');
-        cb(error);
-      });
+        .then(answers => {
+          assert.equal(count, 1);
+          assert.equal(answers.test, 'ok');
+        });
     });
 
-    it('should pass enquirer options to prompts', cb => {
+    it('should pass enquirer options to prompts', () => {
       let count = 0;
       let error;
 
@@ -188,16 +183,15 @@ describe('Enquirer', function() {
         name: 'color',
         message: 'Favorite color?'
       })
-      .then(answers => {
-        assert.equal(count, 1);
-        assert.equal(answers.color, 'orange');
-        cb(error);
-      });
+        .then(answers => {
+          assert.equal(count, 1);
+          assert.equal(answers.color, 'orange');
+        });
     });
   });
 
   describe('onSubmit', () => {
-    it('should call onSubmit when a prompt is submitted before without initializing', cb => {
+    it('should call onSubmit when a prompt is submitted before without initializing', () => {
       let called = 0;
       enquirer = new Enquirer({
         show: false,
@@ -216,14 +210,13 @@ describe('Enquirer', function() {
         name: 'color',
         message: 'Favorite color?'
       })
-      .then(answers => {
-        assert.equal(called, 1);
-        assert.equal(answers.color, 'orange');
-        cb();
-      })
+        .then(answers => {
+          assert.equal(called, 1);
+          assert.equal(answers.color, 'orange');
+        });
     });
 
-    it('should call onSubmit if prompt is initialized', cb => {
+    it('should call onSubmit if prompt is initialized', () => {
       let called = 0;
       enquirer = new Enquirer({
         show: false,
@@ -244,11 +237,10 @@ describe('Enquirer', function() {
         name: 'color',
         message: 'Favorite color?'
       })
-      .then(answers => {
-        assert.equal(called, 1);
-        assert.equal(answers.color, 'orange');
-        cb();
-      })
+        .then(answers => {
+          assert.equal(called, 1);
+          assert.equal(answers.color, 'orange');
+        });
     });
 
     it('should await onSubmit when a prompt submitted', () => {
@@ -284,9 +276,9 @@ describe('Enquirer', function() {
           message: 'Favorite color?'
         }
       ])
-      .then(() => {
-        assert.equal(called, 2);
-      });
+        .then(() => {
+          assert.equal(called, 2);
+        });
     });
   });
 
@@ -297,42 +289,44 @@ describe('Enquirer', function() {
 
     it('should register a custom prompt type as a class', () => {
       class Foo extends Input {}
-      enquirer.register('foo', Foo);
+
       enquirer = new Enquirer({
         show: false,
         autofill: true
       }, {
         color: 'orange'
-      })
+      });
+      enquirer.register('foo', Foo);
 
       return enquirer.prompt({
         type: 'foo',
         name: 'color',
         message: 'Favorite color?'
       })
-      .then(answers => {
-        assert.equal(answers.color, 'orange');
-      });
+        .then(answers => {
+          assert.equal(answers.color, 'orange');
+        });
     });
 
     it('should register a custom prompt type as a function', () => {
       class Foo extends Input {}
-      enquirer.register('foo', () => Foo);
+
       enquirer = new Enquirer({
         show: false,
         autofill: true
       }, {
         color: 'orange'
-      })
+      });
+      enquirer.register('foo', () => Foo);
 
       return enquirer.prompt({
         type: 'foo',
         name: 'color',
         message: 'Favorite color?'
       })
-      .then(answers => {
-        assert.equal(answers.color, 'orange');
-      });
+        .then(answers => {
+          assert.equal(answers.color, 'orange');
+        });
     });
   });
 
@@ -350,9 +344,9 @@ describe('Enquirer', function() {
         name: 'color',
         message: 'Favorite color?'
       })
-      .then(answers => {
-        assert.equal(answers.color, 'orange');
-      });
+        .then(answers => {
+          assert.equal(answers.color, 'orange');
+        });
     });
   });
 });

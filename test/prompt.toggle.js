@@ -1,9 +1,7 @@
-'use strict';
+import * as assert from 'assert';
+import nodeShims from '../lib/shims/node.js';
+import createToggle from '../lib/prompts/toggle.js';
 
-require('mocha');
-const assert = require('assert');
-const Toggle = require('../lib/prompts/toggle');
-const support = require('./support');
 let prompt;
 
 const up = { sequence: '\u001b[A', name: 'up', code: '[A' };
@@ -11,7 +9,9 @@ const down = { sequence: '\u001b[B', name: 'down', code: '[B' };
 const right = { sequence: '\u001b[C', name: 'right', code: '[C' };
 const left = { sequence: '\u001b[D', name: 'left', code: '[D' };
 
-class Prompt extends Toggle {
+const TogglePrompt = createToggle(nodeShims);
+
+class Prompt extends TogglePrompt {
   constructor(options) {
     super({ ...options, show: false });
   }
@@ -86,7 +86,7 @@ describe('toggle', function() {
     });
 
     it('should handle toggling with special keys (0, 1, y, n)', () => {
-      prompt = new Prompt({message: 'prompt-toggle'});
+      prompt = new Prompt({ message: 'prompt-toggle' });
 
       return new Promise((resolve, reject) => {
         prompt.once('run', async() => {

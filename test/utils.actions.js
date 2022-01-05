@@ -1,8 +1,9 @@
-'use strict';
+import * as assert from 'assert';
+import nodeShims from '../lib/shims/node.js';
+import createKeypress from '../lib/keypress.js';
 
-require('mocha');
-const assert = require('assert');
-const keypress = require('../lib/keypress');
+const keypress = createKeypress(nodeShims);
+
 const act = key => keypress.action(null, key).action;
 
 describe('utils.actions', function() {

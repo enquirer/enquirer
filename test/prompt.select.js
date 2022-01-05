@@ -1,17 +1,17 @@
-'use strict';
+import * as assert from 'assert';
+import colors from 'ansi-colors';
+import { expect, immediate, has } from './support/index.js';
+import nodeShims from '../lib/shims/node.js';
+import createPromptSelect from '../lib/prompts/select.js';
 
-require('mocha');
-const assert = require('assert');
-const { cyan, dim, gray } = require('ansi-colors');
-const support = require('./support');
-const { nextTick, expect, immediate } = support(assert);
-const PromptSelect = require('../lib/prompts/select');
 let prompt;
-
+const { cyan, dim, gray } = colors;
 const up = { sequence: '\u001b[A', name: 'up', code: '[A' };
 const down = { sequence: '\u001b[B', name: 'down', code: '[B' };
 
-class Prompt extends PromptSelect {
+const SelectPrompt = createPromptSelect(nodeShims);
+
+class Prompt extends SelectPrompt {
   constructor(options) {
     super({ ...options, show: false });
   }
@@ -31,7 +31,7 @@ describe('select', function() {
       });
 
       prompt.once('run', () => {
-        assert.has(prompt.choices, [
+        has(prompt.choices, [
           { name: 'a', message: 'A', enabled: false },
           { name: 'b', message: 'BB', enabled: false },
           { name: 'c', message: 'CCC', enabled: false },
@@ -137,7 +137,7 @@ describe('select', function() {
         });
     });
 
-    it.skip('should render a choice hint', cb => {
+    it('should render a choice hint', () => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -149,23 +149,19 @@ describe('select', function() {
       });
 
       prompt.once('run', async() => {
-        try {
-          let { state, symbols } = prompt;
-          let pointer = cyan(symbols.pointer);
-          let hint = dim('(this is a hint)');
-          let expected = `${pointer} ${cyan.underline('A')}\n  BB ${hint}\n  CCC\n  DDDD`;
-          let actual = await prompt.renderChoices();
-          assert.equal(actual, expected);
-          await prompt.submit();
-        } catch (err) {
-          cb(err);
-        }
+        let { symbols } = prompt;
+        let pointer = cyan(symbols.pointer);
+        let hint = dim('(this is a hint)');
+        let expected = `${pointer} ${cyan.underline('A')}\n  BB ${hint}\n  CCC\n  DDDD`;
+        let actual = await prompt.renderChoices();
+        assert.equal(actual, expected);
+        await prompt.submit();
       });
 
-      prompt.run().then(() => cb()).catch(cb);
+      prompt.run();
     });
 
-    it.skip('should render a list of choices with the correct styles', cb => {
+    it('should render a list of choices with the correct styles', () => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -177,24 +173,20 @@ describe('select', function() {
       });
 
       prompt.once('run', async() => {
-        try {
-          let { state, symbols } = prompt;
-          let pointer = cyan(symbols.pointer);
-          let expected = `${pointer} ${cyan.underline('A')}\n  BB\n  CCC\n  DDDD`;
-          let actual = await prompt.renderChoices();
-          assert.equal(actual, expected);
-          await prompt.submit();
-        } catch (err) {
-          cb(err);
-        }
+        let { symbols } = prompt;
+        let pointer = cyan(symbols.pointer);
+        let expected = `${pointer} ${cyan.underline('A')}\n  BB\n  CCC\n  DDDD`;
+        let actual = await prompt.renderChoices();
+        assert.equal(actual, expected);
+        await prompt.submit();
       });
 
-      prompt.run().then(() => cb()).catch(cb);
+      prompt.run();
     });
   });
 
   describe('choice.disabled', () => {
-    it.skip('should render disabled choices', cb => {
+    it('should render disabled choices', () => {
       prompt = new Prompt({
         message: 'prompt-select',
         choices: [
@@ -206,19 +198,15 @@ describe('select', function() {
       });
 
       prompt.once('run', async() => {
-        try {
-          let { state, symbols } = prompt;
-          let pointer = cyan(symbols.pointer);
-          let expected = `${pointer} ${cyan.underline('A')}\n  ${gray('BB')} ${dim('(disabled)')}\n  CCC\n  DDDD`;
-          let actual = await prompt.renderChoices();
-          assert.equal(actual, expected);
-          await prompt.submit();
-        } catch (err) {
-          cb(err);
-        }
+        let { symbols } = prompt;
+        let pointer = cyan(symbols.pointer);
+        let expected = `${pointer} ${cyan.underline('A')}\n  ${gray('BB')} ${dim('(disabled)')}\n  CCC\n  DDDD`;
+        let actual = await prompt.renderChoices();
+        assert.equal(actual, expected);
+        await prompt.submit();
       });
 
-      prompt.run().then(() => cb()).catch(cb);
+      prompt.run();
     });
 
     it('should not initialize on a disabled choice', () => {
@@ -234,7 +222,7 @@ describe('select', function() {
         ]
       });
 
-      prompt.once('run', async () => {
+      prompt.once('run', async() => {
         await prompt.render();
         await prompt.submit();
       });
@@ -255,7 +243,7 @@ describe('select', function() {
           { name: 'b', message: 'BB' },
           { name: 'c', message: 'CCC' },
           { name: 'd', message: 'DDDD' }
-        ],
+        ]
       });
 
       prompt.once('run', () => {

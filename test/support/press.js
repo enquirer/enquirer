@@ -1,5 +1,5 @@
-const keys = require('./keys');
+import keys from './keys.js';
 
-module.exports = function(sequence = '') {
+export default function(sequence = '') {
   return keys[sequence] || { name: sequence };
-};
+}

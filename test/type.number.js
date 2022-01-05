@@ -1,13 +1,14 @@
-'use strict';
+import * as assert from 'assert';
+import { immediate } from './support/index.js';
+import nodeShims from '../lib/shims/node.js';
+import createNumberPrompt from '../lib/types/number.js';
 
-require('mocha');
-const assert = require('assert');
-const NumberPrompt = require('../lib/types/number');
-const { immediate } = require('./support')(assert);
 const reset = { name: 'g', ctrl: true };
 const down = { name: 'down' };
 const up = { name: 'up' };
 let prompt;
+
+const NumberPrompt = createNumberPrompt(nodeShims);
 
 class Prompt extends NumberPrompt {
   constructor(options) {

@@ -6,6 +6,6 @@ os:
 language: node_js
 node_js:
   - 'node'
-  - '11'
-  - '10'
-  - '8'
+  - '14'
+  - '13'
+  - '12'

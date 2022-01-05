@@ -1,3 +1,7 @@
+# Parcel-specific configuration
+.cache/
+dist/
+
 # always ignore files
 *.DS_Store
 .idea
