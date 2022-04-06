@@ -36,7 +36,7 @@ interface ArrayPromptOptions extends BasePromptOptions {
     | 'scale'
   choices: string[] | Choice[]
   maxChoices?: number
-  muliple?: boolean
+  multiple?: boolean
   initial?: number
   delay?: number
   separator?: boolean

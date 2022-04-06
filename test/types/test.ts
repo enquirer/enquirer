@@ -207,3 +207,11 @@ Enquirer.prompt({
   message: '',
   stdout: process.stdout
 });
+
+Enquirer.prompt({
+  name: 'test',
+  type: 'autocomplete',
+  message: '',
+  multiple: true,
+  stdout: process.stdout
+});
