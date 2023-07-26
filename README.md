@@ -1520,7 +1520,7 @@ With Enquirer 2.0, custom prompts are easier than ever to create and use.
 Custom prompts are created by extending either:
 - Enquirer's `Prompt` class
 - one of the built-in [prompts](#-prompts), or 
-- low-level [types](#-types).
+- low-level [types](#prompt-types).
 
 <!-- Example: HaiKarate Custom Prompt -->
 
