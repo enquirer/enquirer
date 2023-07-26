@@ -384,5 +384,43 @@ describe('multiselect', function() {
 
       return prompt.run().then(expect(['c']));
     });
+
+    it(`should handle selecting groups with <g> (within group)`, () => {
+      prompt = new Prompt({
+        message: 'prompt-multiselect',
+        choices: [
+          { name: 'a', role:'heading', choices: ['a1','a2']},
+          { name: 'b', role:'heading', choices: ['b1','b2']}
+        ]
+      });
+
+      prompt.on('run', async() => {
+        await prompt.keypress(null, down);
+        await prompt.keypress('g');
+        await prompt.submit();
+      });
+
+      return prompt.run().then(expect(['a1','a2']));
+    });
+
+    it(`should handle selecting groups with <g> (on parent)`, () => {
+      prompt = new Prompt({
+        message: 'prompt-multiselect',
+        choices: [
+          { name: 'a', choices: ['a1','a2']},
+          { name: 'b', choices: ['b1','b2']}
+        ]
+      });
+
+      prompt.on('run', async() => {
+        await prompt.keypress(null, down);
+        await prompt.keypress(null, down);
+        await prompt.keypress(null, down);
+        await prompt.keypress('g');
+        await prompt.submit();
+      });
+
+      return prompt.run().then(expect(['b','b1','b2']));
+    });
   });
 });
