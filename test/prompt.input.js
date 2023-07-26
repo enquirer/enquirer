@@ -2,7 +2,6 @@
 
 require('mocha');
 const assert = require('assert');
-const colors = require('ansi-colors');
 const Prompt = require('../lib/prompts/input');
 const { kepresses } = require('./support')(assert);
 let prompt;

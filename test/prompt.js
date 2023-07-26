@@ -1,7 +1,7 @@
 'use strict';
 
 require('mocha');
-const colors = require('ansi-colors');
+const stripAnsi = require('strip-ansi');
 const assert = require('assert');
 const PromptBase = require('../lib/prompt');
 const { timeout } = require('./support')(assert);
@@ -159,9 +159,9 @@ describe('Prompt', function() {
         }
       });
 
-      assert.equal(colors.unstyle(prompt.symbols.separator), '|>');
-      assert.equal(colors.unstyle(prompt.symbols.indicator), 'X');
-      assert.equal(colors.unstyle(prompt.symbols.prefix), '?');
+      assert.equal(stripAnsi(prompt.symbols.separator), '|>');
+      assert.equal(stripAnsi(prompt.symbols.indicator), 'X');
+      assert.equal(stripAnsi(prompt.symbols.prefix), '?');
     });
   });
 });
