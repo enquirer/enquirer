@@ -32,6 +32,34 @@ describe('toggle', function() {
           assert.equal(answer, true);
         });
     });
+
+    it('toggle should call options.initial when a function is defined (false)', () => {
+      prompt = new Prompt({
+        message: 'prompt-toggle',
+        initial: () => false
+      });
+
+      prompt.once('run', () => prompt.submit());
+
+      return prompt.run()
+        .then(answer => {
+          assert.equal(answer, false);
+        });
+    });
+
+    it('toggle should call options.initial when a function is defined (true)', () => {
+      prompt = new Prompt({
+        message: 'prompt-toggle',
+        initial: () => true
+      });
+
+      prompt.once('run', () => prompt.submit());
+
+      return prompt.run()
+        .then(answer => {
+          assert.equal(answer, true);
+        });
+    });
   });
 
   describe('key handling', () => {
