@@ -193,18 +193,19 @@ describe('prompt-autocomplete', () => {
       });
 
       return prompt.run()
-        .then(answer => assert.equal(answer, 'c'))
+        .then(answer => assert.equal(answer, 'c'));
     });
   });
 
   describe('options.format', () => {
     it('should support a custom format function', () => {
       let buffer = [];
+
       prompt = new Prompt({
         message: 'Favorite flavor?',
         choices: fixtures.slice(),
         format(value = this.input) {
-          return value.toUpperCase();
+          return String(value).toUpperCase();
         }
       });
 
@@ -227,9 +228,10 @@ describe('prompt-autocomplete', () => {
   });
 
   describe('options.result', () => {
-    it('should support a custom result function', () => {
+    it('should support a custom "result" function', () => {
       let values = [];
       let results = [];
+
       prompt = new Prompt({
         message: 'Favorite flavor?',
         choices: fixtures.slice(),
@@ -350,7 +352,7 @@ describe('prompt-autocomplete', () => {
         choices: fixtures.slice(),
         suggest(typed, choices) {
           return choices.filter(choice => choice.message.includes(typed));
-        },
+        }
       });
 
       prompt.once('run', async() => {
