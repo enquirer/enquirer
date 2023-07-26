@@ -12,11 +12,9 @@ const { Form, Input } = require('enquirer');
  * since we know in advance that we only need to define a few options.
  */
 
-const input = (name, message, initial) => {
-  return prompt => {
-    let p = new Input({ name, message, initial });
-    return p.run().then(value => ({ name, message, initial: value, value }));
-  };
+const input = (name, message, initial) => prompt => {
+  const p = new Input({ name, message, initial });
+  return p.run().then(value => ({ name, message, initial: value, value }));
 };
 
 /**

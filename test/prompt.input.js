@@ -2,9 +2,7 @@
 
 require('mocha');
 const assert = require('assert');
-const colors = require('ansi-colors');
 const Prompt = require('../lib/prompts/input');
-const { kepresses } = require('./support')(assert);
 let prompt;
 
 describe('Input Prompt', function() {
@@ -54,7 +52,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('run', async () => {
+      prompt.once('run', async() => {
         buffer = prompt.state.buffer;
         await prompt.submit();
       });
@@ -141,7 +139,7 @@ describe('Input Prompt', function() {
         await prompt.keypress('l');
         await prompt.keypress('u');
         await prompt.keypress('e');
-        await prompt.keypress(null, { name: `left` });
+        await prompt.keypress(null, { name: 'left' });
         await prompt.keypress(null, { name: 'left' });
         await prompt.keypress(null, { name: 'left' });
         await prompt.keypress(null, { name: 'left' });
@@ -268,13 +266,13 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
 
       prompt.once('run', async() => {
-        await prompt.keypress(null, { name: `left` });
+        await prompt.keypress(null, { name: 'left' });
       });
 
       prompt.run();
@@ -287,7 +285,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
@@ -349,7 +347,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
@@ -367,7 +365,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
@@ -385,7 +383,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
@@ -424,7 +422,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
@@ -468,7 +466,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
@@ -540,7 +538,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
@@ -558,7 +556,7 @@ describe('Input Prompt', function() {
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });
@@ -673,8 +671,6 @@ describe('Input Prompt', function() {
     });
 
     it('should submit when return is pressed twice in a row', () => {
-      let buffer = [];
-
       prompt = new Prompt({ show: false, message: 'foo', multiline: true });
       prompt.once('run', async() => {
         await prompt.keypress('a');
