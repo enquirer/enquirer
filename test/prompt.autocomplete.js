@@ -64,6 +64,45 @@ describe('prompt-autocomplete', () => {
         assert.equal(answer, 'DDDD');
       });
     });
+
+    it('should not crash when pressing space when there are no suggestions and using multiple', function(done) {
+      this.timeout(5000);
+
+      prompt = new Prompt({
+        message: 'Which packages would you like to include?',
+        multiple: true,
+        choices: [
+          '@changesets/cli',
+          '@changesets/assemble-release-plan'
+        ]
+      });
+
+      prompt.once('run', async() => {
+        await prompt.keypress('z');
+
+        try {
+          await prompt.keypress(' ');
+        } catch (err) {
+          done(err)
+          return
+        }
+
+        await prompt.keypress(null, { name: 'backspace' });
+        await prompt.keypress(null, { name: 'backspace' });
+        await prompt.keypress('c');
+        await prompt.keypress('l');
+        await prompt.keypress('i');
+        await prompt.keypress(' ');
+        await prompt.submit();
+      });
+
+      prompt.run()
+        .then(answer => {
+          assert.equal(answer.length, 1);
+          assert.equal(answer[0], '@changesets/cli');
+          done();
+        });
+    });
   });
 
   describe('prompt.reset', () => {
