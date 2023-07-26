@@ -4,6 +4,7 @@ require('mocha');
 const fs = require('fs');
 const assert = require('assert');
 const colors = require('ansi-colors');
+const stripAnsi = require('strip-ansi');
 const support = require('./support');
 const { timeout, nextTick, expect } = support(assert);
 const MultiSelect = require('../lib/prompts/multiselect');
@@ -108,10 +109,10 @@ describe('multiselect', function() {
       });
 
       prompt.once('run', async() => {
-        let init = colors.unstyle([prompt.symbols.pointer, prompt.options.initial].join(' '));
+        let init = stripAnsi([prompt.symbols.pointer, prompt.options.initial].join(' '));
         await prompt.render();
         try {
-          let buf = colors.unstyle(prompt.state.buffer);
+          let buf = stripAnsi(prompt.state.buffer);
           assert(!buf.includes(init));
           prompt.submit();
           cb();
