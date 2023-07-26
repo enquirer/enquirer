@@ -1,10 +1,9 @@
 'use strict';
 
-require('mocha');
 const assert = require('assert');
 const { cyan, dim, gray } = require('ansi-colors');
 const support = require('./support');
-const { nextTick, expect, immediate } = support(assert);
+const { expect, immediate } = support(assert);
 const PromptSelect = require('../lib/prompts/select');
 let prompt;
 
@@ -150,7 +149,7 @@ describe('select', function() {
 
       prompt.once('run', async() => {
         try {
-          let { state, symbols } = prompt;
+          let { symbols } = prompt;
           let pointer = cyan(symbols.pointer);
           let hint = dim('(this is a hint)');
           let expected = `${pointer} ${cyan.underline('A')}\n  BB ${hint}\n  CCC\n  DDDD`;
@@ -178,7 +177,7 @@ describe('select', function() {
 
       prompt.once('run', async() => {
         try {
-          let { state, symbols } = prompt;
+          let { symbols } = prompt;
           let pointer = cyan(symbols.pointer);
           let expected = `${pointer} ${cyan.underline('A')}\n  BB\n  CCC\n  DDDD`;
           let actual = await prompt.renderChoices();
@@ -207,7 +206,7 @@ describe('select', function() {
 
       prompt.once('run', async() => {
         try {
-          let { state, symbols } = prompt;
+          let { symbols } = prompt;
           let pointer = cyan(symbols.pointer);
           let expected = `${pointer} ${cyan.underline('A')}\n  ${gray('BB')} ${dim('(disabled)')}\n  CCC\n  DDDD`;
           let actual = await prompt.renderChoices();
@@ -222,8 +221,6 @@ describe('select', function() {
     });
 
     it('should not initialize on a disabled choice', () => {
-      let buffer;
-
       prompt = new Prompt({
         message: 'prompt-array',
         choices: [
@@ -234,7 +231,7 @@ describe('select', function() {
         ]
       });
 
-      prompt.once('run', async () => {
+      prompt.once('run', async() => {
         await prompt.render();
         await prompt.submit();
       });
@@ -255,7 +252,7 @@ describe('select', function() {
           { name: 'b', message: 'BB' },
           { name: 'c', message: 'CCC' },
           { name: 'd', message: 'DDDD' }
-        ],
+        ]
       });
 
       prompt.once('run', () => {

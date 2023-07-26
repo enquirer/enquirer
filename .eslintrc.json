@@ -11,7 +11,7 @@
   },
 
   "parserOptions":{
-    "ecmaVersion": 9,
+    "ecmaVersion": "latest",
     "sourceType": "module",
     "ecmaFeatures": {
       "modules": true,
@@ -46,6 +46,7 @@
     "new-cap": [2, { "newIsCap": true, "capIsNew": false }],
     "new-parens": 2,
     "no-array-constructor": 2,
+    "no-async-promise-executor": 0,
     "no-caller": 2,
     "no-class-assign": 2,
     "no-cond-assign": 2,
@@ -107,7 +108,7 @@
     "no-unexpected-multiline": 2,
     "no-unneeded-ternary": [2, { "defaultAssignment": false }],
     "no-unreachable": 2,
-    "no-unused-vars": [2, { "vars": "all", "args": "none" }],
+    "no-unused-vars": [1, { "vars": "all", "args": "none" }],
     "no-useless-call": 0,
     "no-with": 2,
     "one-var": [0, { "initialized": "never" }],

@@ -1,9 +1,7 @@
 'use strict';
 
-require('mocha');
 const assert = require('assert');
 const Toggle = require('../lib/prompts/toggle');
-const support = require('./support');
 let prompt;
 
 const up = { sequence: '\u001b[A', name: 'up', code: '[A' };

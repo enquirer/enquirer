@@ -5,7 +5,7 @@ prompt({
   name: 'color',
   message: 'Favorite color?'
 })
-.then(answers => {
-  console.info(answers);
-  process.exit(0);
-});
+  .then(answers => {
+    console.info(answers);
+    process.exit(0);
+  });

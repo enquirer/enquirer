@@ -3,12 +3,12 @@
 Install with [npm](https://www.npmjs.com/):
 
 ```sh
-$ npm install enquirer --save
+npm install enquirer --save
 ```
 Install with [yarn](https://yarnpkg.com/en/):
 
 ```sh
-$ yarn add enquirer
+yarn add enquirer
 ```
 
 <p align="center">

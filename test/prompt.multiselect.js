@@ -1,12 +1,10 @@
 'use strict';
 
-require('mocha');
-const fs = require('fs');
 const assert = require('assert');
 const colors = require('ansi-colors');
 const stripAnsi = require('strip-ansi');
 const support = require('./support');
-const { timeout, nextTick, expect } = support(assert);
+const { expect } = support(assert);
 const MultiSelect = require('../lib/prompts/multiselect');
 let prompt;
 
@@ -201,7 +199,7 @@ describe('multiselect', function() {
         .then(() => {
           assert(alerted);
           assert.deepEqual(keys, ['down', 'space', 'down', 'space', 'down', 'space']);
-        })
+        });
     });
   });
 
@@ -257,7 +255,7 @@ describe('multiselect', function() {
       return prompt.run()
         .then(value => {
           assert.equal(called, 1);
-        })
+        });
     });
   });
 

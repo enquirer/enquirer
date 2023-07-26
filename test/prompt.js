@@ -1,10 +1,8 @@
 'use strict';
 
-require('mocha');
 const stripAnsi = require('strip-ansi');
 const assert = require('assert');
 const PromptBase = require('../lib/prompt');
-const { timeout } = require('./support')(assert);
 let prompt;
 
 class Prompt extends PromptBase {
@@ -19,7 +17,7 @@ describe('Prompt', function() {
     it('should emit a keypress for each character', cb => {
       prompt = new Prompt({ message: 'Example prompt' });
       const keypresses = [];
-      prompt.keypress =  async(str, key) => {
+      prompt.keypress = async(str, key) => {
         if (str && str.length > 1) {
           return [...str].forEach(async ch => await prompt.keypress(ch, key));
         }
@@ -43,7 +41,7 @@ describe('Prompt', function() {
         await prompt.submit();
       });
 
-      prompt.run()
+      prompt.run();
     });
   });
 
@@ -70,7 +68,7 @@ describe('Prompt', function() {
 
       prompt.once('run', () => {
         prompt.submit(prompt.options.value);
-      })
+      });
 
       return prompt.run()
         .then(answer => {
@@ -88,9 +86,6 @@ describe('Prompt', function() {
 
   describe('options.format', () => {
     it('should format the rendered value using a custom function', () => {
-      let count = 0;
-      let actual;
-
       prompt = new Prompt({
         message: 'prompt',
         value: 2,
@@ -109,8 +104,6 @@ describe('Prompt', function() {
 
   describe('options.transform', () => {
     it('should transform the returned value using a custom function', () => {
-      let count = 0;
-
       prompt = new Prompt({
         message: 'prompt',
         value: 'foo',

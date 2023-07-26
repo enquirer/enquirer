@@ -1,8 +1,8 @@
 'use strict';
 
-const { hMultiSelect } = require('enquirer');
+const HorizontalMultiSelect = require('../../HorizontalMultiSelect');
 
-const prompt = new hMultiSelect({
+const prompt = new HorizontalMultiSelect({
   message: 'Keywords:',
   choices: ['foo', 'bar', 'baz']
 });

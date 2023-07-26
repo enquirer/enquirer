@@ -1,6 +1,5 @@
 'use strict';
 
-require('mocha');
 const assert = require('assert');
 const NumberPrompt = require('../lib/types/number');
 const { immediate } = require('./support')(assert);

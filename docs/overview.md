@@ -12,7 +12,7 @@ The main export of this library is the `Enquirer` class, which has methods and f
 
 ```js
 const { prompt } = require('enquirer');
-const question = [
+const questions = [
   {
     type: 'input',
     name: 'username',
@@ -25,7 +25,7 @@ const question = [
   }
 ];
 
-let answers = await prompt(question);
+const answers = await prompt(questions);
 console.log(answers);
 ```
 

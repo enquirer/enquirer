@@ -1,6 +1,5 @@
 'use strict';
 
-require('mocha');
 const assert = require('assert');
 const Prompt = require('../lib/types/string');
 let prompt;
@@ -49,7 +48,7 @@ describe('string prompt', function() {
         .then(value => {
           assert.equal(value, '');
         });
-    })
+    });
   });
 
   describe('cursor position', () => {
@@ -96,14 +95,13 @@ describe('string prompt', function() {
     });
 
     it('should alert when invalid key combos are given', cb => {
-      let cursor = [];
       prompt = new Prompt({
         message: 'Favorite color?',
         initial: 'green',
         show: false
       });
 
-      prompt.once('alert', async () => {
+      prompt.once('alert', async() => {
         await prompt.submit();
         cb();
       });

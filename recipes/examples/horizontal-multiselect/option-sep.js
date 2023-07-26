@@ -1,9 +1,9 @@
 'use strict';
 
 const colors = require('ansi-colors');
-const { hMultiSelect } = require('enquirer');
+const HorizontalMultiSelect = require('../../HorizontalMultiSelect');
 
-const prompt = new hMultiSelect({
+const prompt = new HorizontalMultiSelect({
   message: 'Keywords:',
   sep: colors.red(' ~ '),
   choices: ['foo', 'bar', 'baz']

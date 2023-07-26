@@ -1,6 +1,5 @@
 'use strict';
 
-require('mocha');
 const assert = require('assert');
 const keypress = require('../lib/keypress');
 const act = key => keypress.action(null, key).action;

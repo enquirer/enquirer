@@ -2,11 +2,12 @@ const fs = require('fs');
 const vm = require('vm');
 const path = require('path');
 const tokenize = require('tokenize-comment');
-const filepath = name => path.join(__dirname, name);
+// const filepath = name => path.join(__dirname, name);
 const { prompt } = require('..');
 
 function blocks(filepath) {
   let str = fs.readFileSync(filepath);
+
   return new Promise(async(resolve, reject) => {
     let comment = tokenize(str.toString(), { stripStars: false });
     let choices = toChoices(comment.examples);
@@ -35,7 +36,7 @@ function blocks(filepath) {
     }
 
     const wrap = str => {
-      return `(function (exports, console, require, module, __filename, __dirname) { ${str}\n});`
+      return `(function (exports, console, require, module, __filename, __dirname) { ${str}\n});`;
     };
     let fn = vm.runInNewContext(wrap(example.value));
     Promise.resolve(fn(exports, console, require, module, __filename, __dirname))
@@ -50,7 +51,7 @@ function toChoices(examples) {
   for (let i = 0; i < examples.length; i++) {
     let example = examples[i];
     let n = `${i + 1}. `;
-    example.value = example.value.replace(/require\('enquirer'\)/g, `require('..')`);
+    example.value = example.value.replace(/require\('enquirer'\)/g, 'require(\'..\')');
     let desc = example.description;
     if (desc) {
       choices.push({ name: String(i), message: n + stripMarkdown(desc) });

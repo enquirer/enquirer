@@ -1,6 +1,5 @@
 'use strict';
 
-require('mocha');
 const assert = require('assert');
 const Prompt = require('../lib/prompts/input');
 let prompt;
@@ -652,8 +651,6 @@ describe('Input Prompt', function() {
 
   describe('options.multiline', () => {
     it('should allow return without submitting', () => {
-      let buffer = [];
-
       prompt = new Prompt({ show: false, message: 'foo', multiline: true });
       prompt.once('run', async() => {
         await prompt.keypress('a');
@@ -672,6 +669,7 @@ describe('Input Prompt', function() {
 
     it('should submit when return is pressed twice in a row', () => {
       prompt = new Prompt({ show: false, message: 'foo', multiline: true });
+
       prompt.once('run', async() => {
         await prompt.keypress('a');
         await prompt.keypress(null, { name: 'return' });

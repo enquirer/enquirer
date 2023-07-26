@@ -1,6 +1,5 @@
 'use strict';
 
-require('mocha');
 const colors = require('ansi-colors');
 const assert = require('assert');
 const BooleanPrompt = require('../lib/types/boolean');
@@ -77,7 +76,7 @@ describe('boolean prompt', function() {
       return prompt.run()
         .then(() => {
           assert(/This is a hint/.test(buffer));
-        })
+        });
     });
 
     it('should not duplicate hint', () => {
@@ -97,7 +96,7 @@ describe('boolean prompt', function() {
       return prompt.run()
         .then(() => {
           assert(/This is a hint/.test(buffer));
-        })
+        });
     });
 
     it('should not recolor hint', () => {
@@ -118,7 +117,7 @@ describe('boolean prompt', function() {
       return prompt.run()
         .then(() => {
           assert(buffer.includes(hint));
-        })
+        });
     });
   });
 

@@ -1,6 +1,5 @@
 'use strict';
 
-require('mocha');
 const assert = require('assert');
 const support = require('./support');
 const { timeout, keypresses } = support(assert);
@@ -18,7 +17,7 @@ describe('list', function() {
     it('should return early when options.initial is defined', () => {
       prompt = new Prompt({
         message: 'Enter a list of words',
-        initial: 'a, b, c',
+        initial: 'a, b, c'
       });
 
       prompt.on('run', () => prompt.submit());

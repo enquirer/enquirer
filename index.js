@@ -44,13 +44,16 @@ class Enquirer extends Events {
       for (let key of Object.keys(type)) this.register(key, type[key]);
       return this;
     }
+
     assert.equal(typeof fn, 'function', 'expected a function');
-    let name = type.toLowerCase();
+    const name = type.toLowerCase();
+
     if (fn.prototype instanceof this.Prompt) {
       this.prompts[name] = fn;
     } else {
       this.prompts[name] = fn(this.Prompt, this);
     }
+
     return this;
   }
 
@@ -101,6 +104,7 @@ class Enquirer extends Events {
     }
 
     if (!type) return this.answers[name];
+    if (type === 'number') type = 'numeral';
 
     assert(this.prompts[type], `Prompt "${type}" is not registered`);
 
@@ -237,14 +241,14 @@ for (let name of Object.keys(prompts)) {
   }
 }
 
-const exp = name => {
+const define = name => {
   utils.defineExport(Enquirer, name, () => Enquirer.types[name]);
 };
 
-exp('ArrayPrompt');
-exp('AuthPrompt');
-exp('BooleanPrompt');
-exp('NumberPrompt');
-exp('StringPrompt');
+define('ArrayPrompt');
+define('AuthPrompt');
+define('BooleanPrompt');
+define('NumberPrompt');
+define('StringPrompt');
 
 module.exports = Enquirer;

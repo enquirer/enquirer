@@ -1,6 +1,5 @@
 'use strict';
 
-require('mocha');
 const assert = require('assert');
 const support = require('./support');
 const { timeout } = support(assert);
@@ -17,7 +16,7 @@ describe('confirm', () => {
   describe('options.initial', () => {
     it('should use options.initial=true when submitted without changes', () => {
       prompt = new Prompt({ message: 'foo', initial: true });
-      prompt.once('run', async () => await prompt.submit());
+      prompt.once('run', async() => await prompt.submit());
       return prompt.run().then(answer => assert.equal(answer, true));
     });
 

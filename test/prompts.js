@@ -1,6 +1,5 @@
 'use strict';
 
-require('mocha');
 const assert = require('assert');
 const prompts = require('../lib/prompts');
 const types = require('../lib/types');

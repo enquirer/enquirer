@@ -61,8 +61,8 @@ enquirer.register('haikarate', HaiKarate);
 Now you can do the following when defining "questions".
 
 ```js
-let spritzer = require('cologne-drone');
-let answers = await enquirer.prompt([
+const spritzer = require('cologne-drone');
+const answers = await enquirer.prompt([
   {
     type: 'haikarate',
     name: 'cologne',

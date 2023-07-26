@@ -7,7 +7,7 @@ const { fork } = require('child_process');
 describe('child_process', function() {
   it('should works in child_process', cb => {
     let cmd = fork(path.resolve(__dirname, './support/child_process.js'), [], {
-      silent: true,
+      silent: true
     });
 
     let stdout = '';

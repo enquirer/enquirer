@@ -1,8 +1,8 @@
 'use strict';
 
-const Select = require('./select');
+const Select = require('../lib/prompts/select');
 
-class hSelect extends Select {
+class HorizontalSelect extends Select {
   right() {
     return this.down();
   }
@@ -24,4 +24,4 @@ class hSelect extends Select {
   }
 }
 
-module.exports = hSelect;
+module.exports = HorizontalSelect;

@@ -11,14 +11,14 @@ class InputStream extends Events {
   }
 }
 
-class OutputStream extends Events {
-  write(str) {
-    this.emit('write', str);
-  }
+// class OutputStream extends Events {
+//   write(str) {
+//     this.emit('write', str);
+//   }
 
-  close() {
-  }
-}
+//   close() {
+//   }
+// }
 
 function listener(input, onKeypress) {
   input.on('keypress', onKeypress);
@@ -36,4 +36,4 @@ listener(input, function onKeypress(s, key) {
   console.log([s, key]);
 });
 
-module.exports = Emitter;
+module.exports = input;

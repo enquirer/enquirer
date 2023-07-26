@@ -1,11 +1,9 @@
 'use strict';
 
-require('mocha');
 const assert = require('assert');
 const colors = require('ansi-colors');
-const support = require('./support');
 const Enquirer = require('..');
-const { Prompt, Input } = Enquirer;
+const { Input } = Enquirer;
 let enquirer;
 
 describe('Enquirer', function() {
@@ -25,10 +23,10 @@ describe('Enquirer', function() {
         message: 'Favorite color?',
         show: false
       })
-      .then(answers => {
-        assert.equal(answers.color, 'orange');
-        cb();
-      });
+        .then(answers => {
+          assert.equal(answers.color, 'orange');
+          cb();
+        });
     });
   });
 
@@ -37,7 +35,7 @@ describe('Enquirer', function() {
       enquirer = new Enquirer({ show: false });
       enquirer.on('prompt', prompt => {
         prompt.value = 'orange';
-        prompt.submit()
+        prompt.submit();
       });
 
       enquirer.prompt({
@@ -45,10 +43,10 @@ describe('Enquirer', function() {
         name: 'color',
         message: 'Favorite color?'
       })
-      .then(answers => {
-        assert.equal(answers.color, 'orange');
-        cb();
-      });
+        .then(answers => {
+          assert.equal(answers.color, 'orange');
+          cb();
+        });
     });
 
     it('should run an array of questions', cb => {
@@ -72,11 +70,11 @@ describe('Enquirer', function() {
         name: 'name',
         message: 'What is your name?'
       }])
-      .then(answers => {
-        assert.equal(answers.color, 'blue');
-        assert.equal(answers.name, 'Brian');
-        cb();
-      });
+        .then(answers => {
+          assert.equal(answers.color, 'blue');
+          assert.equal(answers.name, 'Brian');
+          cb();
+        });
     });
   });
 
@@ -95,10 +93,10 @@ describe('Enquirer', function() {
         message: 'Favorite color?',
         show: false
       })
-      .then(answers => {
-        assert.equal(answers.color, 'orange');
-        cb();
-      });
+        .then(answers => {
+          assert.equal(answers.color, 'orange');
+          cb();
+        });
     });
 
     it('should run an array of questions', cb => {
@@ -120,11 +118,11 @@ describe('Enquirer', function() {
         message: 'What is your name?',
         show: false
       }])
-      .then(answers => {
-        assert.equal(answers.color, 'blue');
-        assert.equal(answers.name, 'Brian');
-        cb();
-      });
+        .then(answers => {
+          assert.equal(answers.color, 'blue');
+          assert.equal(answers.name, 'Brian');
+          cb();
+        });
     });
   });
 
@@ -152,11 +150,11 @@ describe('Enquirer', function() {
         name: 'test',
         message: 'Type something?'
       })
-      .then(answers => {
-        assert.equal(count, 1);
-        assert.equal(answers.test, 'ok');
-        cb(error);
-      });
+        .then(answers => {
+          assert.equal(count, 1);
+          assert.equal(answers.test, 'ok');
+          cb(error);
+        });
     });
 
     it('should pass enquirer options to prompts', cb => {
@@ -188,11 +186,11 @@ describe('Enquirer', function() {
         name: 'color',
         message: 'Favorite color?'
       })
-      .then(answers => {
-        assert.equal(count, 1);
-        assert.equal(answers.color, 'orange');
-        cb(error);
-      });
+        .then(answers => {
+          assert.equal(count, 1);
+          assert.equal(answers.color, 'orange');
+          cb(error);
+        });
     });
   });
 
@@ -216,11 +214,11 @@ describe('Enquirer', function() {
         name: 'color',
         message: 'Favorite color?'
       })
-      .then(answers => {
-        assert.equal(called, 1);
-        assert.equal(answers.color, 'orange');
-        cb();
-      })
+        .then(answers => {
+          assert.equal(called, 1);
+          assert.equal(answers.color, 'orange');
+          cb();
+        });
     });
 
     it('should call onSubmit if prompt is initialized', cb => {
@@ -244,11 +242,11 @@ describe('Enquirer', function() {
         name: 'color',
         message: 'Favorite color?'
       })
-      .then(answers => {
-        assert.equal(called, 1);
-        assert.equal(answers.color, 'orange');
-        cb();
-      })
+        .then(answers => {
+          assert.equal(called, 1);
+          assert.equal(answers.color, 'orange');
+          cb();
+        });
     });
 
     it('should await onSubmit when a prompt submitted', () => {
@@ -284,9 +282,9 @@ describe('Enquirer', function() {
           message: 'Favorite color?'
         }
       ])
-      .then(() => {
-        assert.equal(called, 2);
-      });
+        .then(() => {
+          assert.equal(called, 2);
+        });
     });
   });
 
@@ -303,16 +301,16 @@ describe('Enquirer', function() {
         autofill: true
       }, {
         color: 'orange'
-      })
+      });
 
       return enquirer.prompt({
         type: 'foo',
         name: 'color',
         message: 'Favorite color?'
       })
-      .then(answers => {
-        assert.equal(answers.color, 'orange');
-      });
+        .then(answers => {
+          assert.equal(answers.color, 'orange');
+        });
     });
 
     it('should register a custom prompt type as a function', () => {
@@ -323,16 +321,16 @@ describe('Enquirer', function() {
         autofill: true
       }, {
         color: 'orange'
-      })
+      });
 
       return enquirer.prompt({
         type: 'foo',
         name: 'color',
         message: 'Favorite color?'
       })
-      .then(answers => {
-        assert.equal(answers.color, 'orange');
-      });
+        .then(answers => {
+          assert.equal(answers.color, 'orange');
+        });
     });
   });
 
@@ -350,9 +348,9 @@ describe('Enquirer', function() {
         name: 'color',
         message: 'Favorite color?'
       })
-      .then(answers => {
-        assert.equal(answers.color, 'orange');
-      });
+        .then(answers => {
+          assert.equal(answers.color, 'orange');
+        });
     });
   });
 });

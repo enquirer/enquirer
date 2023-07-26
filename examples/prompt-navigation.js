@@ -10,14 +10,14 @@ const enquirer = new Enquirer({
   }
 });
 
-const previousPrompt = async function () {
+const previousPrompt = async function() {
   await this.submit();
   this.emit('previousPrompt');
 };
 
 let currentPromptIndex = 0;
 
-const prompt = async (questions) => {
+const prompt = async(questions) => {
   let prompts = [];
 
   for (let question of [].concat(questions)) {
@@ -31,12 +31,12 @@ const prompt = async (questions) => {
     question,
     totalNoOfPrompts = prompts.length;
 
-  enquirer.on('submit', function (value) {
+  enquirer.on('submit', function(value) {
     promptHistory[currentPromptIndex] = { before: question, after: value };
     currentPromptIndex++;
   });
 
-  enquirer.on('previousPrompt', function () {
+  enquirer.on('previousPrompt', function() {
     if (currentPromptIndex > 1) currentPromptIndex -= 2;
   });
 
@@ -66,7 +66,7 @@ prompt([
     type: 'input',
     name: 'first',
     initial: '',
-    message: 'Please enter your first name',
+    message: 'Please enter your first name'
   },
   {
     type: 'input',
@@ -103,7 +103,7 @@ prompt([
     type: 'input',
     name: 'age',
     message() {
-      return `How old are you?`;
+      return 'How old are you?';
     }
   }
 ])
