@@ -4,9 +4,6 @@
   <a href="https://npmjs.org/package/enquirer">
     <img src="https://img.shields.io/npm/v/enquirer.svg" alt="version">
   </a>
-  <a href="https://travis-ci.org/enquirer/enquirer">
-    <img src="https://img.shields.io/travis/enquirer/enquirer.svg" alt="travis">
-  </a>
   <a href="https://npmjs.org/package/enquirer">
     <img src="https://img.shields.io/npm/dm/enquirer.svg" alt="downloads">
   </a>
@@ -66,7 +63,7 @@ If you like Enquirer, please consider starring or tweeting about this project to
 
 ## ❯ Getting started
 
-Get started with Enquirer, the most powerful and easy-to-use Node.js library for creating interactive CLI prompts. 
+Get started with Enquirer, the most powerful and easy-to-use Node.js library for creating interactive CLI prompts.
 
 - [Install](#-install)
 - [Usage](#-usage)
@@ -83,15 +80,16 @@ Get started with Enquirer, the most powerful and easy-to-use Node.js library for
 <br>
 
 ## ❯ Install
+
 Install with [npm](https://www.npmjs.com/):
 
 ```sh
-$ npm install enquirer --save
+npm install enquirer --save
 ```
 Install with [yarn](https://yarnpkg.com/en/):
 
 ```sh
-$ yarn add enquirer
+yarn add enquirer
 ```
 
 <p align="center">
@@ -103,6 +101,7 @@ _(Requires Node.js 8.6 or higher. Please let us know if you need support for an 
 <br>
 
 ## ❯ Usage
+
 ### Single prompt
 
 The easiest way to get started with enquirer is to pass a [question object](#prompt-options) to the `prompt` method.
@@ -171,11 +170,12 @@ prompt({
   .then(answer => console.log('Answer:', answer));
 ```
 
-**Jump to**: [Getting Started](#-getting-started) · [Prompts](#-prompts) · [Options](#-options) · [Key Bindings](#-key-bindings)
+**Jump to**: [Getting Started](#-getting-started) · [Prompts](#-prompts) · [Options](#prompt-options) · [Key Bindings](#-key-bindings)
 
 <br>
 
 ## ❯ Enquirer
+
 **Enquirer is a prompt runner**
 
 Add Enquirer to your JavaScript project with following line of code.
@@ -201,7 +201,7 @@ const questions = [
   }
 ];
 
-let answers = await prompt(questions);
+const answers = await prompt(questions);
 console.log(answers);
 ```
 
@@ -231,15 +231,14 @@ prompt.run()
   .catch(console.error);
 ```
 
-### Enquirer API
-
 ### [Enquirer](index.js#L20)
+
 Create an instance of `Enquirer`.
 
 **Params**
 
-* `options` **{Object}**: (optional) Options to use with all prompts.    
-* `answers` **{Object}**: (optional) Answers object to initialize with.    
+* `options` **{Object}**: (optional) Options to use with all prompts.
+* `answers` **{Object}**: (optional) Answers object to initialize with.
 
 **Example**
 
@@ -249,13 +248,14 @@ const enquirer = new Enquirer();
 ```
 
 ### [register()](index.js#L42)
+
 Register a custom prompt type.
 
 **Params**
 
-* `type` **{String}**    
-* `fn` **{Function|Prompt}**: `Prompt` class, or a function that returns a `Prompt` class.    
-* `returns` **{Object}**: Returns the Enquirer instance  
+* `type` **{String}**
+* `fn` **{Function|Prompt}**: `Prompt` class, or a function that returns a `Prompt` class.
+* `returns` **{Object}**: Returns the Enquirer instance
 
 **Example**
 
@@ -265,13 +265,14 @@ const enquirer = new Enquirer();
 enquirer.register('customType', require('./custom-prompt'));
 ```
 
-### [prompt()](index.js#L78)
+### [prompt()](index.js#L81)
+
 Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
 **Params**
 
-* `questions` **{Array|Object}**: Options objects for one or more prompts to run.    
-* `returns` **{Promise}**: Promise that returns an "answers" object with the user's responses.  
+* `questions` **{Array|Object}**: Options objects for one or more prompts to run.
+* `returns` **{Promise}**: Promise that returns an "answers" object with the user's responses.
 
 **Example**
 
@@ -287,13 +288,14 @@ const response = await enquirer.prompt({
 console.log(response);
 ```
 
-### [use()](index.js#L160)
+### [use()](index.js#L164)
+
 Use an enquirer plugin.
 
 **Params**
 
-* `plugin` **{Function}**: Plugin function that takes an instance of Enquirer.    
-* `returns` **{Object}**: Returns the Enquirer instance.  
+* `plugin` **{Function}**: Plugin function that takes an instance of Enquirer.
+* `returns` **{Object}**: Returns the Enquirer instance.
 
 **Example**
 
@@ -306,13 +308,14 @@ const plugin = enquirer => {
 enquirer.use(plugin);
 ```
 
-### [Enquirer#prompt](index.js#L210)
+### [Enquirer#prompt](index.js#L214)
+
 Prompt function that takes a "question" object or array of question objects, and returns an object with responses from the user.
 
 **Params**
 
-* `questions` **{Array|Object}**: Options objects for one or more prompts to run.    
-* `returns` **{Promise}**: Promise that returns an "answers" object with the user's responses.  
+* `questions` **{Array|Object}**: Options objects for one or more prompts to run.
+* `returns` **{Promise}**: Promise that returns an "answers" object with the user's responses.
 
 **Example**
 
@@ -329,15 +332,16 @@ console.log(response);
 <br>
 
 ## ❯ Prompts
+
 This section is about Enquirer's prompts: what they look like, how they work, how to run them, available options, and how to customize the prompts or create your own prompt concept.
 
 **Getting started with Enquirer's prompts**
 
 - [Prompt](#prompt) - The base `Prompt` class used by other prompts
   - [Prompt Options](#prompt-options)
-- [Built-in prompts](#-built-in-prompts)
-- [Prompt Types](#prompt-types) - The base `Prompt` class used by other prompts 
-- [Custom Prompts](#-custom-prompts) - Enquirer 2.0 introduced the concept of prompt "types", with the goal of making custom prompts easier than ever to create and use.
+- [Built-in prompts](#built-in-prompts)
+- [Prompt Types](#prompt-types) - The base `Prompt` class used by other prompts
+- [Custom prompts](#-custom-prompts) - Enquirer 2.0 introduced the concept of prompt "types", with the goal of making custom prompts easier than ever to create and use.
 
 ### Prompt
 
@@ -371,16 +375,16 @@ Each prompt takes an options object (aka "question" object), that implements the
 ```
 Each property of the options object is described below:
 
-| **Property** | **Required?** | **Type**           | **Description**                                                                                                                                                                         |
-| ------------ | ------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`       | yes           | `string\|function`  | Enquirer uses this value to determine the type of prompt to run, but it's optional when prompts are run directly.                                                                       |
-| `name`       | yes           | `string\|function`  | Used as the key for the answer on the returned values (answers) object.                                                                                                                 |
-| `message`    | yes           | `string\|function`  | The message to display when the prompt is rendered in the terminal.                                                                                                                     |
-| `skip`       | no            | `boolean\|function` | If `true` it will not ask that prompt.                                                                                                                                                  |
-| `initial`    | no            | `string\|function`  | The default value to return if the user does not supply a value.                                                                                                                        |
-| `format`     | no            | `function`         | Function to format user input in the terminal.                                                                                                                                          |
-| `result`     | no            | `function`         | Function to format the final submitted value before it's returned.                                                                                                                      |
-| `validate`   | no            | `function`         | Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message. |
+| **Property** | **Required?** | **Type** | **Description** |
+| --- | --- | --- | --- |
+| `type` | yes | `string\|function` | Enquirer uses this value to determine the type of prompt to run, but it's optional when prompts are run directly. |
+| `name` | yes | `string\|function` | Used as the key for the answer on the returned values (answers) object. |
+| `message` | yes | `string\|function` | The message to display when the prompt is rendered in the terminal. |
+| `skip` | no | `boolean\|function` | If `true` it will not ask that prompt. |
+| `initial` | no | `string\|function` | The default value to return if the user does not supply a value. |
+| `format` | no | `function` | Function to format user input in the terminal. |
+| `result` | no | `function` | Function to format the final submitted value before it's returned. |
+| `validate` | no | `function` | Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message. |
 
 **Example usage**
 
@@ -400,7 +404,7 @@ prompt(question)
 
 <br>
 
-## ❯ Built-in prompts
+### Built-in prompts
 
 - [AutoComplete Prompt](#autocomplete-prompt)
 - [BasicAuth Prompt](#basicauth-prompt)
@@ -469,13 +473,13 @@ prompt.run()
 
 **AutoComplete Options**
 
-| Option      | Type       | Default                                                             | Description                                                                                                  |
-| ----------- | ---------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `highlight` | `function` | `dim` version of primary style                                      | The color to use when "highlighting" characters in the list that match user input.                           |
-| `multiple`  | `boolean`  | `false`                                                             | Allow multiple choices to be selected.                                                                       |
-| `suggest`   | `function` | Greedy match, returns the choices whose message contains the input string. | Function that filters choices. Takes user input and a choices array, and returns a list of matching choices. |
-| `initial`   | `number` | 0 | Preselected item in the list of choices. |
-| `footer`   | `function` | None | Function that displays [footer text](https://github.com/enquirer/enquirer/blob/6c2819518a1e2ed284242a99a685655fbaabfa28/examples/autocomplete/option-footer.js#L10) |
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `highlight` | `function` | `dim` version of primary style | The color to use when "highlighting" characters in the list that match user input. |
+| `multiple` | `boolean` | `false` | Allow multiple choices to be selected. |
+| `suggest` | `function` | Greedy match, returns choices where `choice.message` contains the input string. | Function that filters choices. Takes user input and a choices array, and returns a list of matching choices. |
+| `initial` | `number` | 0 | Preselected item in the list of choices. |
+| `footer` | `function` | None | Function that displays [footer text](https://github.com/enquirer/enquirer/blob/6c2819518a1e2ed284242a99a685655fbaabfa28/examples/autocomplete/option-footer.js#L10) |
 
 **Related prompts**
 
@@ -897,10 +901,10 @@ const { Quiz } = require('enquirer');
 
 **Quiz Options**
 
-| Option         | Type        | Required    | Description                                                                                                  |
-| -----------    | ----------  | ----------  | ------------------------------------------------------------------------------------------------------------ |
-| `choices`      | `array`     | Yes         | The list of possible answers to the quiz question.                                                           |
-| `correctChoice`| `number`    | Yes         | Index of the correct choice from the `choices` array.                                                        |
+| Option | Type | Required | Description |
+| -------------- | ------------- | ------------- | --- |
+| `choices` | `array` | Yes | The list of possible answers to the quiz question. |
+| `correctChoice`| `number` | Yes | Index of the correct choice from the `choices` array. |
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -1246,15 +1250,17 @@ prompt.run()
 ***
 
 ### Prompt Types
+
 There are 5 (soon to be 6!) type classes:
+
 * [ArrayPrompt](#arrayprompt)
-    - [Options](#options)
-    - [Properties](#properties)
-    - [Methods](#methods)
-    - [Choices](#choices)
-    - [Defining choices](#defining-choices)
-    - [Choice properties](#choice-properties)
-    - [Related prompts](#related-prompts)
+  - [Options](#options)
+  - [Properties](#properties)
+  - [Methods](#methods)
+  - [Choices](#choices)
+  - [Defining choices](#defining-choices)
+  - [Choice properties](#choice-properties)
+  - [Related prompts](#related-prompts)
 * [AuthPrompt](#authprompt)
 * [BooleanPrompt](#booleanprompt)
 * DatePrompt (Coming Soon!)
@@ -1271,40 +1277,40 @@ The `ArrayPrompt` class is used for creating prompts that display a list of choi
 
 In addition to the [options](#options) available to all prompts, Array prompts also support the following options.
 
-| **Option**  | **Required?** | **Type**        | **Description**                                                                                                         |
-| ----------- | ------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `autofocus` | `no`          | `string\|number` | The index or name of the choice that should have focus when the prompt loads. Only one choice may have focus at a time. |  |
-| `stdin`     | `no`          | `stream`        | The input stream to use for emitting keypress events. Defaults to `process.stdin`.                                      |
-| `stdout`    | `no`          | `stream`        | The output stream to use for writing the prompt to the terminal. Defaults to `process.stdout`.                          |
-|             |
+| **Option** | **Required?** | **Type** | **Description** |
+| --- | --- | --- | --- |
+| `autofocus` | `no` | `string\|number` | The index or name of the choice that should have focus when the prompt loads. Only one choice may have focus at a time. | |
+| `stdin` | `no` | `stream` | The input stream to use for emitting keypress events. Defaults to `process.stdin`. |
+| `stdout` | `no` | `stream` | The output stream to use for writing the prompt to the terminal. Defaults to `process.stdout`. |
+| |
 
 #### Properties
 
 Array prompts have the following instance properties and getters.
 
-| **Property name** | **Type**                                                                          | **Description**                                                                                                                                                                                                                                                                                                                                    |
-| ----------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `choices`         | `array`                                                                           | Array of choices that have been normalized from choices passed on the prompt options.                                                                                                                                                                                                                                                              |
-| `cursor`          | `number`                                                                          | Position of the cursor relative to the _user input (string)_.                                                                                                                                                                                                                                                                                      |
-| `enabled`         | `array`                                                                           | Returns an array of enabled choices.                                                                                                                                                                                                                                                                                                               |
-| `focused`         | `array`                                                                           | Returns the currently selected choice in the visible list of choices. This is similar to the concept of focus in HTML and CSS. Focused choices are always visible (on-screen). When a list of choices is longer than the list of visible choices, and an off-screen choice is _focused_, the list will scroll to the focused choice and re-render. |
-| `focused`         | Gets the currently selected choice. Equivalent to `prompt.choices[prompt.index]`. |
-| `index`           | `number`                                                                          | Position of the pointer in the _visible list (array) of choices_.                                                                                                                                                                                                                                                                                  |
-| `limit`           | `number`                                                                          | The number of choices to display on-screen.                                                                                                                                                                                                                                                                                                        |
-| `selected`        | `array`                                                                           | Either a list of enabled choices (when `options.multiple` is true) or the currently focused choice.                                                                                                                                                                                                                                                |
-| `visible`         | `string`                                                                          |                                                                                                                                                                                                                                                                                                                                                    |
+| **Property name** | **Type** | **Description** |
+| --- | --- | --- |
+| `choices` | `array` | Array of choices that have been normalized from choices passed on the prompt options. |
+| `cursor` | `number` | Position of the cursor relative to the _user input (string)_. |
+| `enabled` | `array` | Returns an array of enabled choices. |
+| `focused` | `array` | Returns the currently selected choice in the visible list of choices. This is similar to the concept of focus in HTML and CSS. Focused choices are always visible (on-screen). When a list of choices is longer than the list of visible choices, and an off-screen choice is _focused_, the list will scroll to the focused choice and re-render. |
+| `focused` | Gets the currently selected choice. Equivalent to `prompt.choices[prompt.index]`. |
+| `index` | `number` | Position of the pointer in the _visible list (array) of choices_. |
+| `limit` | `number` | The number of choices to display on-screen. |
+| `selected` | `array` | Either a list of enabled choices (when `options.multiple` is true) or the currently focused choice. |
+| `visible` | `string` | |
 
 #### Methods
 
-| **Method**    | **Description**                                                                                                                                                                                |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pointer()`   | Returns the visual symbol to use to identify the choice that currently has focus. The `❯` symbol is often used for this. The pointer is not always visible, as with the `autocomplete` prompt. |
-| `indicator()` | Returns the visual symbol that indicates whether or not a choice is checked/enabled.                                                                                                           |
-| `focus()`     | Sets focus on a choice, if it can be focused.                                                                                                                                                  |
+| **Method** | **Description** |
+| --- | --- |
+| `pointer()` | Returns the visual symbol to use to identify the choice that currently has focus. The `❯` symbol is often used for this. The pointer is not always visible, as with the `autocomplete` prompt. |
+| `indicator()` | Returns the visual symbol that indicates whether or not a choice is checked/enabled. |
+| `focus()` | Sets focus on a choice, if it can be focused. |
 
 #### Choices
 
-Array prompts support the `choices` option, which is the array of choices users will be able to select from when rendered in the terminal. 
+Array prompts support the `choices` option, which is the array of choices users will be able to select from when rendered in the terminal.
 
 **Type**: `string|object`
 
@@ -1371,17 +1377,17 @@ const question = {
 
 The following properties are supported on `choice` objects.
 
-| **Option**  | **Type**          | **Description**                                                                                                                                                                                     |
-| ----------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`      | `string`          | The unique key to identify a choice                                                                                                                                                                 |
-| `message`   | `string`          | The message to display in the terminal. `name` is used when this is undefined.                                                                                                                      |
-| `value`     | `string`          | Value to associate with the choice. Useful for creating key-value pairs from user choices. `name` is used when this is undefined.                                                                   |
-| `choices`   | `array`           | Array of "child" choices.                                                                                                                                                                           |
-| `hint`      | `string`          | Help message to display next to a choice.                                                                                                                                                           |
-| `role`      | `string`          | Determines how the choice will be displayed. Currently the only role supported is `separator`. Additional roles may be added in the future (like `heading`, etc). Please create a [feature request] |
-| `enabled`   | `boolean`         | Enabled a choice by default. This is only supported when `options.multiple` is true or on prompts that support multiple choices, like [MultiSelect](#-multiselect).                                 |
-| `disabled`  | `boolean\|string`  | Disable a choice so that it cannot be selected. This value may either be `true`, `false`, or a message to display.                                                                                  |
-| `indicator` | `string\|function` | Custom indicator to render for a choice (like a check or radio button).                                                                                                                             |
+| **Option** | **Type** | **Description** |
+| --- | --- | --- |
+| `name` | `string` | The unique key to identify a choice |
+| `message` | `string` | The message to display in the terminal. `name` is used when this is undefined. |
+| `value` | `string` | Value to associate with the choice. Useful for creating key-value pairs from user choices. `name` is used when this is undefined. |
+| `choices` | `array` | Array of "child" choices. |
+| `hint` | `string` | Help message to display next to a choice. |
+| `role` | `string` | Determines how the choice will be displayed. Currently the only role supported is `separator`. Additional roles may be added in the future (like `heading`, etc). Please create a [feature request] |
+| `enabled` | `boolean` | Enabled a choice by default. This is only supported when `options.multiple` is true or on prompts that support multiple choices, like [MultiSelect](#-multiselect). |
+| `disabled` | `boolean\|string` | Disable a choice so that it cannot be selected. This value may either be `true`, `false`, or a message to display. |
+| `indicator` | `string\|function` | Custom indicator to render for a choice (like a check or radio button). |
 
 #### Related prompts
 
@@ -1401,9 +1407,9 @@ The `AuthPrompt` is used to create prompts to log in user using any authenticati
 
 #### Methods
 
-| **Method**         | **Description**                                                                                                                                                                                          |
-| -------------      | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `authenticate()`   | Contain all the authentication logic. This function should be overridden to implement custom authentication logic. The default `authenticate` function throws an error if no other function is provided. |
+| **Method** | **Description** |
+| ---------------- | --- |
+| `authenticate()` | Contain all the authentication logic. This function should be overridden to implement custom authentication logic. The default `authenticate` function throws an error if no other function is provided. |
 
 #### Choices
 
@@ -1466,7 +1472,7 @@ prompt.run()
 
 **Returns**: `boolean`
 
-*** 
+***
 
 ### NumberPrompt
 
@@ -1488,7 +1494,7 @@ prompt.run()
 
 **Returns**: `string|number` (number, or number formatted as a string)
 
-*** 
+***
 
 ### StringPrompt
 
@@ -1513,13 +1519,15 @@ prompt.run()
 <br>
 
 ## ❯ Custom prompts
+
 With Enquirer 2.0, custom prompts are easier than ever to create and use.
 
 **How do I create a custom prompt?**
 
 Custom prompts are created by extending either:
+
 - Enquirer's `Prompt` class
-- one of the built-in [prompts](#-prompts), or 
+- one of the built-in [prompts](#-prompts), or
 - low-level [types](#prompt-types).
 
 <!-- Example: HaiKarate Custom Prompt -->
@@ -1592,6 +1600,7 @@ let answers = await enquirer.prompt([
 <br>
 
 ## ❯ Key Bindings
+
 ### All prompts
 
 These key combinations may be used with all prompts.
@@ -1715,6 +1724,7 @@ Pull requests and stars are always welcome. For bugs and feature requests, [plea
 ### Todo
 
 We're currently working on documentation for the following items. Please star and watch the repository for updates!
+
 * [ ] Customizing symbols
 * [ ] Customizing styles (palette)
 * [ ] Customizing rendered input
@@ -1734,10 +1744,10 @@ We're currently working on documentation for the following items. Please star an
 Running and reviewing unit tests is a great way to get familiarized with a library and its API. You can install dependencies and run tests with the following command:
 
 ```sh
-$ npm install && npm test
+npm install && npm test
 ```
 ```sh
-$ yarn && yarn test
+yarn && yarn test
 ```
 
 </details>
@@ -1750,43 +1760,61 @@ _(This project's readme.md is generated by [verb](https://github.com/verbose/ver
 To generate the readme, run the following command:
 
 ```sh
-$ npm install -g verbose/verb#dev verb-generate-readme && verb
+npm install -g verbose/verb#dev verb-generate-readme && verb
 ```
 
 </details>
 
 #### Contributors
-| **Commits** | **Contributor** |  
-| --- | --- |  
-| 287 | [jonschlinkert](https://github.com/jonschlinkert) |  
-| 86  | [doowb](https://github.com/doowb) |  
-| 32  | [rajat-sr](https://github.com/rajat-sr) |  
-| 20  | [318097](https://github.com/318097) |  
-| 15  | [g-plane](https://github.com/g-plane) |  
-| 12  | [pixelass](https://github.com/pixelass) |  
-| 5   | [adityavyas611](https://github.com/adityavyas611) |  
-| 5   | [satotake](https://github.com/satotake) |  
-| 3   | [tunnckoCore](https://github.com/tunnckoCore) |  
-| 3   | [Ovyerus](https://github.com/Ovyerus) |  
-| 3   | [sw-yx](https://github.com/sw-yx) |  
-| 2   | [DanielRuf](https://github.com/DanielRuf) |  
-| 2   | [GabeL7r](https://github.com/GabeL7r) |  
-| 1   | [ahmadawais](https://github.com/ahmadawais) |  
-| 1   | [AlCalzone](https://github.com/AlCalzone) |  
-| 1   | [hipstersmoothie](https://github.com/hipstersmoothie) |  
-| 1   | [TrySound](https://github.com/TrySound) |  
-| 1   | [brentjanderson](https://github.com/brentjanderson) |  
-| 1   | [danieldelcore](https://github.com/danieldelcore) |  
-| 1   | [ImgBotApp](https://github.com/ImgBotApp) |  
-| 1   | [jsonkao](https://github.com/jsonkao) |  
-| 1   | [knpwrs](https://github.com/knpwrs) |  
-| 1   | [yeskunall](https://github.com/yeskunall) |  
-| 1   | [mischah](https://github.com/mischah) |  
-| 1   | [renarsvilnis](https://github.com/renarsvilnis) |  
-| 1   | [sbugert](https://github.com/sbugert) |  
-| 1   | [stephencweiss](https://github.com/stephencweiss) |  
-| 1   | [skellock](https://github.com/skellock) |  
-| 1   | [whxaxes](https://github.com/whxaxes) |  
+
+| **Commits** | **Contributor** |
+| --- | --- |
+| 312 | [jonschlinkert](https://github.com/jonschlinkert) |
+| 86  | [doowb](https://github.com/doowb) |
+| 32  | [rajat-sr](https://github.com/rajat-sr) |
+| 20  | [318097](https://github.com/318097) |
+| 15  | [g-plane](https://github.com/g-plane) |
+| 12  | [pixelass](https://github.com/pixelass) |
+| 5   | [adityavyas611](https://github.com/adityavyas611) |
+| 5   | [satotake](https://github.com/satotake) |
+| 3   | [hongaar](https://github.com/hongaar) |
+| 3   | [Ovyerus](https://github.com/Ovyerus) |
+| 3   | [swyxio](https://github.com/swyxio) |
+| 2   | [GabeL7r](https://github.com/GabeL7r) |
+| 2   | [Andarist](https://github.com/Andarist) |
+| 1   | [ahmadawais](https://github.com/ahmadawais) |
+| 1   | [AlCalzone](https://github.com/AlCalzone) |
+| 1   | [hipstersmoothie](https://github.com/hipstersmoothie) |
+| 1   | [TrySound](https://github.com/TrySound) |
+| 1   | [brentjanderson](https://github.com/brentjanderson) |
+| 1   | [camilaibs](https://github.com/camilaibs) |
+| 1   | [AgentEnder](https://github.com/AgentEnder) |
+| 1   | [danieldelcore](https://github.com/danieldelcore) |
+| 1   | [deve-sh](https://github.com/deve-sh) |
+| 1   | [shortercode](https://github.com/shortercode) |
+| 1   | [ImgBotApp](https://github.com/ImgBotApp) |
+| 1   | [shumkov](https://github.com/shumkov) |
+| 1   | [jsonkao](https://github.com/jsonkao) |
+| 1   | [JounQin](https://github.com/JounQin) |
+| 1   | [knpwrs](https://github.com/knpwrs) |
+| 1   | [yeskunall](https://github.com/yeskunall) |
+| 1   | [mischah](https://github.com/mischah) |
+| 1   | [starpit](https://github.com/starpit) |
+| 1   | [remcohaszing](https://github.com/remcohaszing) |
+| 1   | [renarsvilnis](https://github.com/renarsvilnis) |
+| 1   | [rstagi](https://github.com/rstagi) |
+| 1   | [sbugert](https://github.com/sbugert) |
+| 1   | [skellock](https://github.com/skellock) |
+| 1   | [tinesoft](https://github.com/tinesoft) |
+| 1   | [busticated](https://github.com/busticated) |
+| 1   | [cha147](https://github.com/cha147) |
+| 1   | [jmlee2k](https://github.com/jmlee2k) |
+| 1   | [lef237](https://github.com/lef237) |
+| 1   | [peterroe](https://github.com/peterroe) |
+| 1   | [spwoodall](https://github.com/spwoodall) |
+| 1   | [whxaxes](https://github.com/whxaxes) |
+| 1   | [holynewbie](https://github.com/holynewbie) |
+| 1   | [xulingling0](https://github.com/xulingling0) |
 
 #### Author
 
@@ -1809,4 +1837,3 @@ Released under the [MIT License](LICENSE).
 [pulls]: https://github.com/enquirer/enquirer/pulls
 [jon]: https://github.com/jonschlinkert
 [brian]: https://github.com/doowb
-
