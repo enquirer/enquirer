@@ -4,6 +4,7 @@ interface BasePromptOptions {
   name: string | (() => string)
   type: string | (() => string)
   message: string | (() => string) | (() => Promise<string>)
+  prefix?: string
   initial?: any
   required?: boolean
   enabled?: boolean | string
