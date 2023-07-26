@@ -769,6 +769,26 @@ prompt.run()
 // Answer: { aqua: '#00ffff', blue: '#0000ff', fuchsia: '#ff00ff' }
 ```
 
+**Example alternate labels**
+
+```js
+const { MultiSelect } = require('enquirer');
+
+const prompt = new MultiSelect({
+  name: 'color',
+  message: 'Pick a flavor',
+  choices: [
+    { message: 'Negative Red', name: 'cyan', value: '#00ffff' },
+    { message: 'Lights Out', name: 'black', value: '#000000' },
+    { message: 'The Ocean', name: 'blue', value: '#0000ff' },
+  ]
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
+```
+
 **Related prompts**
 
 - [AutoComplete](#autocomplete-prompt)
@@ -1031,6 +1051,46 @@ const prompt = new Select({
   name: 'color',
   message: 'Pick a flavor',
   choices: ['apple', 'grape', 'watermelon', 'cherry', 'orange']
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
+```
+
+**Example key-value pairs**
+
+```js
+const { Select } = require('enquirer');
+
+const prompt = new Select({
+  name: 'color',
+  message: 'Pick a color',
+  choices: [
+    { name: 'cyan', value: '#00ffff' },
+    { name: 'black', value: '#000000' },
+    { name: 'blue', value: '#0000ff' },
+  ]
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
+```
+
+**Example alternate labels**
+
+```js
+const { Select } = require('enquirer');
+
+const prompt = new Select({
+  name: 'color',
+  message: 'Pick a color',
+  choices: [
+    { message: 'Negative Red', name: 'cyan', value: '#00ffff' },
+    { message: 'Lights Out', name: 'black', value: '#000000' },
+    { message: 'The Ocean', name: 'blue', value: '#0000ff' },
+  ]
 });
 
 prompt.run()
