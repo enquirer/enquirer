@@ -7,7 +7,7 @@ This section is about Enquirer's prompts: what they look like, how they work, ho
 - [Prompt](#prompt) - The base `Prompt` class used by other prompts
   - [Prompt Options](#prompt-options)
 - [Built-in prompts](#built-in-prompts)
-- [Prompt Types](#prompt-types) - The base `Prompt` class used by other prompts 
+- [Prompt Types](#prompt-types) - The base `Prompt` class used by other prompts
 - [Custom prompts](#%E2%9D%AF-custom-prompts) - Enquirer 2.0 introduced the concept of prompt "types", with the goal of making custom prompts easier than ever to create and use.
 
 
@@ -43,16 +43,16 @@ Each prompt takes an options object (aka "question" object), that implements the
 ```
 Each property of the options object is described below:
 
-| **Property** | **Required?** | **Type**           | **Description**                                                                                                                                                                         |
-| ------------ | ------------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`       | yes           | `string|function`  | Enquirer uses this value to determine the type of prompt to run, but it's optional when prompts are run directly.                                                                       |
-| `name`       | yes           | `string|function`  | Used as the key for the answer on the returned values (answers) object.                                                                                                                 |
-| `message`    | yes           | `string|function`  | The message to display when the prompt is rendered in the terminal.                                                                                                                     |
-| `skip`       | no            | `boolean|function` | If `true` it will not ask that prompt.                                                                                                                                                  |
-| `initial`    | no            | `string|function`  | The default value to return if the user does not supply a value.                                                                                                                        |
-| `format`     | no            | `function`         | Function to format user input in the terminal.                                                                                                                                          |
-| `result`     | no            | `function`         | Function to format the final submitted value before it's returned.                                                                                                                      |
-| `validate`   | no            | `function`         | Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message. |
+| **Property** | **Required?** | **Type** | **Description** |
+| --- | --- | --- | --- |
+| `type` | yes | `string|function` | Enquirer uses this value to determine the type of prompt to run, but it's optional when prompts are run directly. |
+| `name` | yes | `string|function` | Used as the key for the answer on the returned values (answers) object. |
+| `message` | yes | `string|function` | The message to display when the prompt is rendered in the terminal. |
+| `skip` | no | `boolean|function` | If `true` it will not ask that prompt. |
+| `initial` | no | `string|function` | The default value to return if the user does not supply a value. |
+| `format` | no | `function` | Function to format user input in the terminal. |
+| `result` | no | `function` | Function to format the final submitted value before it's returned. |
+| `validate` | no | `function` | Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message. |
 
 **Example usage**
 
@@ -141,13 +141,13 @@ prompt.run()
 
 **AutoComplete Options**
 
-| Option      | Type       | Default                                                             | Description                                                                                                  |
-| ----------- | ---------- | ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| `highlight` | `function` | `dim` version of primary style                                      | The color to use when "highlighting" characters in the list that match user input.                           |
-| `multiple`  | `boolean`  | `false`                                                             | Allow multiple choices to be selected.                                                                       |
-| `suggest`   | `function` | Greedy match, returns true if choice message contains input string. | Function that filters choices. Takes user input and a choices array, and returns a list of matching choices. |
-| `initial`   | `number` | 0 | Preselected item in the list of choices. |
-| `footer`   | `function` | None | Function that displays [footer text](https://github.com/enquirer/enquirer/blob/6c2819518a1e2ed284242a99a685655fbaabfa28/examples/autocomplete/option-footer.js#L10) |
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `highlight` | `function` | `dim` version of primary style | The color to use when "highlighting" characters in the list that match user input. |
+| `multiple` | `boolean` | `false` | Allow multiple choices to be selected. |
+| `suggest` | `function` | Greedy match, returns true if choice message contains input string. | Function that filters choices. Takes user input and a choices array, and returns a list of matching choices. |
+| `initial` | `number` | 0 | Preselected item in the list of choices. |
+| `footer` | `function` | None | Function that displays [footer text](https://github.com/enquirer/enquirer/blob/6c2819518a1e2ed284242a99a685655fbaabfa28/examples/autocomplete/option-footer.js#L10) |
 
 **Related prompts**
 
@@ -441,6 +441,25 @@ prompt.run()
 // Answer: { aqua: '#00ffff', blue: '#0000ff', fuchsia: '#ff00ff' }
 ```
 
+**Example alternate labels**
+
+```js
+const { MultiSelect } = require('enquirer');
+
+const prompt = new MultiSelect({
+  name: 'color',
+  message: 'Pick a flavor',
+  choices: [
+    { message: 'Negative Red', name: 'cyan', value: '#00ffff' },
+    { message: 'Lights Out', name: 'black', value: '#000000' },
+    { message: 'The Ocean', name: 'blue', value: '#0000ff' },
+  ]
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
+```
 
 **Related prompts**
 
@@ -550,10 +569,10 @@ const { Quiz } = require('enquirer');
 
 **Quiz Options**
 
-| Option         | Type        | Required    | Description                                                                                                  |
-| -----------    | ----------  | ----------  | ------------------------------------------------------------------------------------------------------------ |
-| `choices`      | `array`     | Yes         | The list of possible answers to the quiz question.                                                           |
-| `correctChoice`| `number`    | Yes         | Index of the correct choice from the `choices` array.                                                        |
+| Option | Type | Required | Description |
+| -------------- | ------------- | ------------- | --- |
+| `choices` | `array` | Yes | The list of possible answers to the quiz question. |
+| `correctChoice`| `number` | Yes | Index of the correct choice from the `choices` array. |
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
@@ -704,6 +723,46 @@ const prompt = new Select({
   name: 'color',
   message: 'Pick a flavor',
   choices: ['apple', 'grape', 'watermelon', 'cherry', 'orange']
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
+```
+
+**Example key-value pairs**
+
+```js
+const { Select } = require('enquirer');
+
+const prompt = new Select({
+  name: 'color',
+  message: 'Pick a color',
+  choices: [
+    { name: 'cyan', value: '#00ffff' },
+    { name: 'black', value: '#000000' },
+    { name: 'blue', value: '#0000ff' },
+  ]
+});
+
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
+  .catch(console.error);
+```
+
+**Example alternate labels**
+
+```js
+const { Select } = require('enquirer');
+
+const prompt = new Select({
+  name: 'color',
+  message: 'Pick a color',
+  choices: [
+    { message: 'Negative Red', name: 'cyan', value: '#00ffff' },
+    { message: 'Lights Out', name: 'black', value: '#000000' },
+    { message: 'The Ocean', name: 'blue', value: '#0000ff' },
+  ]
 });
 
 prompt.run()
@@ -884,41 +943,41 @@ The `ArrayPrompt` class is used for creating prompts that display a list of choi
 
 In addition to the [options](#options) available to all prompts, Array prompts also support the following options.
 
-| **Option**  | **Required?** | **Type**        | **Description**                                                                                                         |
-| ----------- | ------------- | --------------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `autofocus` | `no`          | `string|number` | The index or name of the choice that should have focus when the prompt loads. Only one choice may have focus at a time. |  |
-| `stdin`     | `no`          | `stream`        | The input stream to use for emitting keypress events. Defaults to `process.stdin`.                                      |
-| `stdout`    | `no`          | `stream`        | The output stream to use for writing the prompt to the terminal. Defaults to `process.stdout`.                          |
-|             |
+| **Option** | **Required?** | **Type** | **Description** |
+| --- | --- | --- | --- |
+| `autofocus` | `no` | `string|number` | The index or name of the choice that should have focus when the prompt loads. Only one choice may have focus at a time. | |
+| `stdin` | `no` | `stream` | The input stream to use for emitting keypress events. Defaults to `process.stdin`. |
+| `stdout` | `no` | `stream` | The output stream to use for writing the prompt to the terminal. Defaults to `process.stdout`. |
+| |
 
 ### Properties
 
 Array prompts have the following instance properties and getters.
 
-| **Property name** | **Type**                                                                          | **Description**                                                                                                                                                                                                                                                                                                                                    |
-| ----------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `choices`         | `array`                                                                           | Array of choices that have been normalized from choices passed on the prompt options.                                                                                                                                                                                                                                                              |
-| `cursor`          | `number`                                                                          | Position of the cursor relative to the _user input (string)_.                                                                                                                                                                                                                                                                                      |
-| `enabled`         | `array`                                                                           | Returns an array of enabled choices.                                                                                                                                                                                                                                                                                                               |
-| `focused`         | `array`                                                                           | Returns the currently selected choice in the visible list of choices. This is similar to the concept of focus in HTML and CSS. Focused choices are always visible (on-screen). When a list of choices is longer than the list of visible choices, and an off-screen choice is _focused_, the list will scroll to the focused choice and re-render. |
-| `focused`         | Gets the currently selected choice. Equivalent to `prompt.choices[prompt.index]`. |
-| `index`           | `number`                                                                          | Position of the pointer in the _visible list (array) of choices_.                                                                                                                                                                                                                                                                                  |
-| `limit`           | `number`                                                                          | The number of choices to display on-screen.                                                                                                                                                                                                                                                                                                        |
-| `selected`        | `array`                                                                           | Either a list of enabled choices (when `options.multiple` is true) or the currently focused choice.                                                                                                                                                                                                                                                |
-| `visible`         | `string`                                                                          |                                                                                                                                                                                                                                                                                                                                                    |
+| **Property name** | **Type** | **Description** |
+| --- | --- | --- |
+| `choices` | `array` | Array of choices that have been normalized from choices passed on the prompt options. |
+| `cursor` | `number` | Position of the cursor relative to the _user input (string)_. |
+| `enabled` | `array` | Returns an array of enabled choices. |
+| `focused` | `array` | Returns the currently selected choice in the visible list of choices. This is similar to the concept of focus in HTML and CSS. Focused choices are always visible (on-screen). When a list of choices is longer than the list of visible choices, and an off-screen choice is _focused_, the list will scroll to the focused choice and re-render. |
+| `focused` | Gets the currently selected choice. Equivalent to `prompt.choices[prompt.index]`. |
+| `index` | `number` | Position of the pointer in the _visible list (array) of choices_. |
+| `limit` | `number` | The number of choices to display on-screen. |
+| `selected` | `array` | Either a list of enabled choices (when `options.multiple` is true) or the currently focused choice. |
+| `visible` | `string` | |
 
 ### Methods
 
-| **Method**    | **Description**                                                                                                                                                                                |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pointer()`   | Returns the visual symbol to use to identify the choice that currently has focus. The `❯` symbol is often used for this. The pointer is not always visible, as with the `autocomplete` prompt. |
-| `indicator()` | Returns the visual symbol that indicates whether or not a choice is checked/enabled.                                                                                                           |
-| `focus()`     | Sets focus on a choice, if it can be focused.                                                                                                                                                  |
+| **Method** | **Description** |
+| --- | --- |
+| `pointer()` | Returns the visual symbol to use to identify the choice that currently has focus. The `❯` symbol is often used for this. The pointer is not always visible, as with the `autocomplete` prompt. |
+| `indicator()` | Returns the visual symbol that indicates whether or not a choice is checked/enabled. |
+| `focus()` | Sets focus on a choice, if it can be focused. |
 
 
 ### Choices
 
-Array prompts support the `choices` option, which is the array of choices users will be able to select from when rendered in the terminal. 
+Array prompts support the `choices` option, which is the array of choices users will be able to select from when rendered in the terminal.
 
 **Type**: `string|object`
 
@@ -985,17 +1044,17 @@ const question = {
 
 The following properties are supported on `choice` objects.
 
-| **Option**  | **Type**          | **Description**                                                                                                                                                                                     |
-| ----------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`      | `string`          | The unique key to identify a choice                                                                                                                                                                 |
-| `message`   | `string`          | The message to display in the terminal. `name` is used when this is undefined.                                                                                                                      |
-| `value`     | `string`          | Value to associate with the choice. Useful for creating key-value pairs from user choices. `name` is used when this is undefined.                                                                   |
-| `choices`   | `array`           | Array of "child" choices.                                                                                                                                                                           |
-| `hint`      | `string`          | Help message to display next to a choice.                                                                                                                                                           |
-| `role`      | `string`          | Determines how the choice will be displayed. Currently the only role supported is `separator`. Additional roles may be added in the future (like `heading`, etc). Please create a [feature request] |
-| `enabled`   | `boolean`         | Enabled a choice by default. This is only supported when `options.multiple` is true or on prompts that support multiple choices, like [MultiSelect](#-multiselect).                                 |
-| `disabled`  | `boolean|string`  | Disable a choice so that it cannot be selected. This value may either be `true`, `false`, or a message to display.                                                                                  |
-| `indicator` | `string|function` | Custom indicator to render for a choice (like a check or radio button).                                                                                                                             |
+| **Option** | **Type** | **Description** |
+| --- | --- | --- |
+| `name` | `string` | The unique key to identify a choice |
+| `message` | `string` | The message to display in the terminal. `name` is used when this is undefined. |
+| `value` | `string` | Value to associate with the choice. Useful for creating key-value pairs from user choices. `name` is used when this is undefined. |
+| `choices` | `array` | Array of "child" choices. |
+| `hint` | `string` | Help message to display next to a choice. |
+| `role` | `string` | Determines how the choice will be displayed. Currently the only role supported is `separator`. Additional roles may be added in the future (like `heading`, etc). Please create a [feature request] |
+| `enabled` | `boolean` | Enabled a choice by default. This is only supported when `options.multiple` is true or on prompts that support multiple choices, like [MultiSelect](#-multiselect). |
+| `disabled` | `boolean|string` | Disable a choice so that it cannot be selected. This value may either be `true`, `false`, or a message to display. |
+| `indicator` | `string|function` | Custom indicator to render for a choice (like a check or radio button). |
 
 
 ### Related prompts
@@ -1016,9 +1075,9 @@ The `AuthPrompt` is used to create prompts to log in user using any authenticati
 
 ### Methods
 
-| **Method**         | **Description**                                                                                                                                                                                          |
-| -------------      | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `authenticate()`   | Contain all the authentication logic. This function should be overridden to implement custom authentication logic. The default `authenticate` function throws an error if no other function is provided. |
+| **Method** | **Description** |
+| ---------------- | --- |
+| `authenticate()` | Contain all the authentication logic. This function should be overridden to implement custom authentication logic. The default `authenticate` function throws an error if no other function is provided. |
 
 ### Choices
 
@@ -1081,7 +1140,7 @@ prompt.run()
 
 **Returns**: `boolean`
 
-*** 
+***
 
 ## NumberPrompt
 
@@ -1103,7 +1162,7 @@ prompt.run()
 
 **Returns**: `string|number` (number, or number formatted as a string)
 
-*** 
+***
 
 ## StringPrompt
 

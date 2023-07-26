@@ -69,4 +69,4 @@ prompt({
   .then(answer => console.log('Answer:', answer));
 ```
 
-**Jump to**: [Getting Started](#-getting-started) · [Prompts](#-prompts) · [Options](#-options) · [Key Bindings](#-key-bindings)
+**Jump to**: [Getting Started](#-getting-started) · [Prompts](#-prompts) · [Options](#prompt-options) · [Key Bindings](#-key-bindings)
