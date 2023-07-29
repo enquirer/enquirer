@@ -15,16 +15,28 @@
   "license": "MIT",
   "files": [
     "index.js",
+    "index.js.mjs",
     "index.d.ts",
     "lib"
   ],
-  "main": "index.js",
+  "main": "./index.js",
+  "module": "./index.js.mjs",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "default": "./index.js.mjs",
+      "require": "./index.js",
+      "import": "./index.js.mjs",
+      "types": "./index.d.ts"
+    }
+  },
   "engines": {
-    "node": ">=8.6"
+    "node": ">=16"
   },
   "scripts": {
     "test": "mocha && tsc -p ./test/types",
-    "cover": "nyc --reporter=text --reporter=html mocha"
+    "cover": "nyc --reporter=text --reporter=html mocha",
+    "build:esm": "unbuild"
   },
   "dependencies": {
     "ansi-colors": "^4.1.1",
@@ -38,7 +50,8 @@
     "nyc": "^13.1.0",
     "prompts": "^1.2.1",
     "time-require": "github:jonschlinkert/time-require",
-    "typescript": "^3.1.6"
+    "typescript": "^3.1.6",
+    "unbuild": "^1.2.1"
   },
   "keywords": [
     "answer",
