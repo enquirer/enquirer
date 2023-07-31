@@ -59,7 +59,6 @@ Whenever possible, we attempted to use familiar concepts and terminology from HT
 | **command** | **description** |
 | --- | --- |
 | <kbd>ctrl</kbd>+<kbd>a</kdb> | Move the cursor to the first character in user input. |
-
 | <kbd>ctrl</kbd>+<kbd>c</kbd> | Cancel the prompt. |
 | <kbd>ctrl</kbd>+<kbd>d</kbd> | Cancel the prompt. |
 | <kbd>ctrl</kbd>+<kbd>g</kdb> | Reset the prompt to its initial state. |
