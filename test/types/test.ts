@@ -4,6 +4,8 @@ new Enquirer();
 new Enquirer.Prompt();
 new Enquirer.Prompt({ name: 'test', type: 'text', message: '' });
 
+const choice: Enquirer.Choice = { name: 'hello world' };
+
 Enquirer
   .prompt({ name: 'test', type: 'text', message: '' })
   .then(answer => answer);
