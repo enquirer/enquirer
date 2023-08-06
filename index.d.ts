@@ -31,7 +31,6 @@ interface Choice {
 
 interface ArrayPromptOptions extends BasePromptOptions {
   type:
-    | 'autocomplete'
     | 'editable'
     | 'form'
     | 'multiselect'
@@ -50,6 +49,14 @@ interface ArrayPromptOptions extends BasePromptOptions {
   edgeLength?: number
   align?: 'left' | 'right'
   scroll?: boolean
+}
+
+interface AutoCompletePromptOptions extends Omit<ArrayPromptOptions, 'type'> {
+  type: 'autocomplete'
+  highlight?: Function
+  multiple?: boolean
+  suggest?: Function
+  footer?: Function
 }
 
 interface BooleanPromptOptions extends BasePromptOptions {
@@ -91,6 +98,7 @@ interface SortPromptOptions extends BasePromptOptions {
 type PromptOptions =
   | BasePromptOptions
   | ArrayPromptOptions
+  | AutoCompletePromptOptions
   | BooleanPromptOptions
   | StringPromptOptions
   | NumberPromptOptions
