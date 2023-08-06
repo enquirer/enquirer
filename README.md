@@ -1596,7 +1596,83 @@ let answers = await enquirer.prompt([
   }
 ]);
 ```
+## ❯ Google Form Prompt
 
+**How do I create a custom form prompt?**
+
+Custom prompts are created by extending either:
+
+* Enquirer's `Form` class
+* one of the built-in [prompts](#-prompts), 
+
+<!-- Example: Google Form Prompt -->
+
+```js
+const Enquirer = require('enquirer');
+const GoogleFormPrompt = require('prompt-google-form');
+
+const enquirer = new Enquirer();
+enquirer.register('google', GoogleFormPrompt);
+
+enquirer
+  .prompt([
+    {
+      type: 'select',
+      name: 'form',
+      message: 'Which Form Would you like to fill out?',
+      choices: [{
+        value: '1FAIpQLSdniaX5nAjywbvnT9tQp1OTryh7148Lkl5LnvJV1mBOy1QXdA',
+        message: 'Contact Form'
+      },{
+        value: '1FAIpQLSfb_pdS57UJTS1qKaKfSLoDs9pudHLbNbkpp74kdpUYoEKz9Q',
+        message: 'T-Shirt Form'
+      },{
+        value: '1FAIpQLSd5YEpcRFJAE47OuvHyI6equ66DEspA9S2AZHCafhokHUbjWg',
+        message: 'Event Form'
+      }]
+    },
+    {
+      name: 'Google Form',
+      message: 'Please provide the information:',
+      formId(state){
+        return state.answers.form;
+      },
+      type: 'google'
+    }
+  ])
+  .then(res => console.log(res))
+  .catch(err => console.log(err));
+```
+
+If you want to be able to specify your prompt by `type` so that it may be used alongside other prompts, you will need to first create an instance of `Enquirer`.
+
+```js
+const Enquirer = require('enquirer');
+const enquirer = new Enquirer();
+```
+
+Then use the `.register()` method to add your custom prompt.
+
+```js
+enquirer.register('google', GoogleFormPrompt);
+```
+
+Now you can do the following when defining '**formId**'.
+Here we are taking **formId** through Command Line Arguments
+
+```js
+const GoogleFormPrompt = require('./index.js');
+
+const prompt = new GoogleFormPrompt({
+    name: 'Google Form',
+    message: 'Please provide the information:',
+    formId: process.argv[2],
+});
+
+prompt.run()
+.then(res => console.log(res))
+.catch(err => console.log(err));
+```
 <br>
 
 ## ❯ Key Bindings
