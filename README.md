@@ -69,8 +69,8 @@ Get started with Enquirer, the most powerful and easy-to-use Node.js library for
 - [Usage](#-usage)
 - [Enquirer](#-enquirer)
 - [Prompts](#-prompts)
-  - [Built-in Prompts](#-built-in-prompts)
-  - [Custom Prompts](#-custom-prompts)
+  * [Built-in Prompts](#-built-in-prompts)
+  * [Custom Prompts](#-custom-prompts)
 - [Key Bindings](#-key-bindings)
 - [Options](#prompt-options)
 - [Release History](#-release-history)
@@ -86,7 +86,6 @@ Install with [npm](https://www.npmjs.com/):
 ```sh
 npm install enquirer --save
 ```
-
 Install with [yarn](https://yarnpkg.com/en/):
 
 ```sh
@@ -108,13 +107,13 @@ _(Requires Node.js 8.6 or higher. Please let us know if you need support for an 
 The easiest way to get started with enquirer is to pass a [question object](#prompt-options) to the `prompt` method.
 
 ```js
-const { prompt } = require("enquirer");
+const { prompt } = require('enquirer');
 
 (async () => {
   const response = await prompt({
-    type: "input",
-    name: "username",
-    message: "What is your username?",
+    type: 'input',
+    name: 'username',
+    message: 'What is your username?',
   });
 
   console.log(response);
@@ -126,19 +125,19 @@ const { prompt } = require("enquirer");
 Pass an array of ["question" objects](#prompt-options) to run a series of prompts.
 
 ```js
-const { prompt } = require("enquirer");
+const { prompt } = require('enquirer');
 
 (async () => {
   const response = await prompt([
     {
-      type: "input",
-      name: "name",
-      message: "What is your name?",
+      type: 'input',
+      name: 'name',
+      message: 'What is your name?',
     },
     {
-      type: "input",
-      name: "username",
-      message: "What is your username?",
+      type: 'input',
+      name: 'username',
+      message: 'What is your username?',
     },
   ]);
 
@@ -151,26 +150,28 @@ const { prompt } = require("enquirer");
 #### 1. By importing the specific `built-in prompt`
 
 ```js
-const { Confirm } = require("enquirer");
+const { Confirm } = require('enquirer');
 
 const prompt = new Confirm({
-  name: "question",
-  message: "Did you like enquirer?",
+  name: 'question',
+  message: 'Did you like enquirer?'
 });
 
-prompt.run().then((answer) => console.log("Answer:", answer));
+prompt.run()
+  .then(answer => console.log('Answer:', answer));
 ```
 
 #### 2. By passing the options to `prompt`
 
 ```js
-const { prompt } = require("enquirer");
+const { prompt } = require('enquirer');
 
 prompt({
-  type: "confirm",
-  name: "question",
-  message: "Did you like enquirer?",
-}).then((answer) => console.log("Answer:", answer));
+  type: 'confirm',
+  name: 'question',
+  message: 'Did you like enquirer?'
+})
+  .then(answer => console.log('Answer:', answer));
 ```
 
 **Jump to**: [Getting Started](#-getting-started) · [Prompts](#-prompts) · [Options](#prompt-options) · [Key Bindings](#-key-bindings)
@@ -184,24 +185,24 @@ prompt({
 Add Enquirer to your JavaScript project with following line of code.
 
 ```js
-const Enquirer = require("enquirer");
+const Enquirer = require('enquirer');
 ```
 
 The main export of this library is the `Enquirer` class, which has methods and features designed to simplify running prompts.
 
 ```js
-const { prompt } = require("enquirer");
+const { prompt } = require('enquirer');
 const questions = [
   {
-    type: "input",
-    name: "username",
-    message: "What is your username?",
+    type: 'input',
+    name: 'username',
+    message: 'What is your username?'
   },
   {
-    type: "password",
-    name: "password",
-    message: "What is your password?",
-  },
+    type: 'password',
+    name: 'password',
+    message: 'What is your password?'
+  }
 ];
 
 const answers = await prompt(questions);
@@ -223,15 +224,14 @@ Use this approach if you need to modify a prompt instance, or listen for events 
 **Example**
 
 ```js
-const { Input } = require("enquirer");
+const { Input } = require('enquirer');
 const prompt = new Input({
-  name: "username",
-  message: "What is your username?",
+  name: 'username',
+  message: 'What is your username?'
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Username:", answer))
+prompt.run()
+  .then(answer => console.log('Username:', answer))
   .catch(console.error);
 ```
 
@@ -241,13 +241,13 @@ Create an instance of `Enquirer`.
 
 **Params**
 
-- `options` **{Object}**: (optional) Options to use with all prompts.
-- `answers` **{Object}**: (optional) Answers object to initialize with.
+* `options` **{Object}**: (optional) Options to use with all prompts.
+* `answers` **{Object}**: (optional) Answers object to initialize with.
 
 **Example**
 
 ```js
-const Enquirer = require("enquirer");
+const Enquirer = require('enquirer');
 const enquirer = new Enquirer();
 ```
 
@@ -257,16 +257,16 @@ Register a custom prompt type.
 
 **Params**
 
-- `type` **{String}**
-- `fn` **{Function|Prompt}**: `Prompt` class, or a function that returns a `Prompt` class.
-- `returns` **{Object}**: Returns the Enquirer instance
+* `type` **{String}**
+* `fn` **{Function|Prompt}**: `Prompt` class, or a function that returns a `Prompt` class.
+* `returns` **{Object}**: Returns the Enquirer instance
 
 **Example**
 
 ```js
-const Enquirer = require("enquirer");
+const Enquirer = require('enquirer');
 const enquirer = new Enquirer();
-enquirer.register("customType", require("./custom-prompt"));
+enquirer.register('customType', require('./custom-prompt'));
 ```
 
 ### [prompt()](index.js#L81)
@@ -275,19 +275,19 @@ Prompt function that takes a "question" object or array of question objects, and
 
 **Params**
 
-- `questions` **{Array|Object}**: Options objects for one or more prompts to run.
-- `returns` **{Promise}**: Promise that returns an "answers" object with the user's responses.
+* `questions` **{Array|Object}**: Options objects for one or more prompts to run.
+* `returns` **{Promise}**: Promise that returns an "answers" object with the user's responses.
 
 **Example**
 
 ```js
-const Enquirer = require("enquirer");
+const Enquirer = require('enquirer');
 const enquirer = new Enquirer();
 
 const response = await enquirer.prompt({
-  type: "input",
-  name: "username",
-  message: "What is your username?",
+  type: 'input',
+  name: 'username',
+  message: 'What is your username?'
 });
 console.log(response);
 ```
@@ -298,15 +298,15 @@ Use an enquirer plugin.
 
 **Params**
 
-- `plugin` **{Function}**: Plugin function that takes an instance of Enquirer.
-- `returns` **{Object}**: Returns the Enquirer instance.
+* `plugin` **{Function}**: Plugin function that takes an instance of Enquirer.
+* `returns` **{Object}**: Returns the Enquirer instance.
 
 **Example**
 
 ```js
-const Enquirer = require("enquirer");
+const Enquirer = require('enquirer');
 const enquirer = new Enquirer();
-const plugin = (enquirer) => {
+const plugin = enquirer => {
   // do stuff to enquire instance
 };
 enquirer.use(plugin);
@@ -318,17 +318,17 @@ Prompt function that takes a "question" object or array of question objects, and
 
 **Params**
 
-- `questions` **{Array|Object}**: Options objects for one or more prompts to run.
-- `returns` **{Promise}**: Promise that returns an "answers" object with the user's responses.
+* `questions` **{Array|Object}**: Options objects for one or more prompts to run.
+* `returns` **{Promise}**: Promise that returns an "answers" object with the user's responses.
 
 **Example**
 
 ```js
-const { prompt } = require("enquirer");
+const { prompt } = require('enquirer');
 const response = await prompt({
-  type: "input",
-  name: "username",
-  message: "What is your username?",
+  type: 'input',
+  name: 'username',
+  message: 'What is your username?'
 });
 console.log(response);
 ```
@@ -352,7 +352,7 @@ This section is about Enquirer's prompts: what they look like, how they work, ho
 The base `Prompt` class is used to create all other prompts.
 
 ```js
-const { Prompt } = require("enquirer");
+const { Prompt } = require('enquirer');
 class MyCustomPrompt extends Prompt {}
 ```
 
@@ -377,33 +377,32 @@ Each prompt takes an options object (aka "question" object), that implements the
   validate: function | async function,
 }
 ```
-
 Each property of the options object is described below:
 
-| **Property** | **Required?** | **Type**            | **Description**                                                                                                                                                                         |
-| ------------ | ------------- | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `type`       | yes           | `string\|function`  | Enquirer uses this value to determine the type of prompt to run, but it's optional when prompts are run directly.                                                                       |
-| `name`       | yes           | `string\|function`  | Used as the key for the answer on the returned values (answers) object.                                                                                                                 |
-| `message`    | yes           | `string\|function`  | The message to display when the prompt is rendered in the terminal.                                                                                                                     |
-| `skip`       | no            | `boolean\|function` | If `true` it will not ask that prompt.                                                                                                                                                  |
-| `initial`    | no            | `string\|function`  | The default value to return if the user does not supply a value.                                                                                                                        |
-| `format`     | no            | `function`          | Function to format user input in the terminal.                                                                                                                                          |
-| `result`     | no            | `function`          | Function to format the final submitted value before it's returned.                                                                                                                      |
-| `validate`   | no            | `function`          | Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message. |
+| **Property** | **Required?** | **Type** | **Description** |
+| --- | --- | --- | --- |
+| `type` | yes | `string\|function` | Enquirer uses this value to determine the type of prompt to run, but it's optional when prompts are run directly. |
+| `name` | yes | `string\|function` | Used as the key for the answer on the returned values (answers) object. |
+| `message` | yes | `string\|function` | The message to display when the prompt is rendered in the terminal. |
+| `skip` | no | `boolean\|function` | If `true` it will not ask that prompt. |
+| `initial` | no | `string\|function` | The default value to return if the user does not supply a value. |
+| `format` | no | `function` | Function to format user input in the terminal. |
+| `result` | no | `function` | Function to format the final submitted value before it's returned. |
+| `validate` | no | `function` | Function to validate the submitted value before it's returned. This function may return a boolean or a string. If a string is returned it will be used as the validation error message. |
 
 **Example usage**
 
 ```js
-const { prompt } = require("enquirer");
+const { prompt } = require('enquirer');
 
 const question = {
-  type: "input",
-  name: "username",
-  message: "What is your username?",
+  type: 'input',
+  name: 'username',
+  message: 'What is your username?'
 };
 
 prompt(question)
-  .then((answer) => console.log("Answer:", answer))
+  .then(answer => console.log('Answer:', answer))
   .catch(console.error);
 ```
 
@@ -440,52 +439,51 @@ Prompt that auto-completes as the user types, and returns the selected value as 
 **Example Usage**
 
 ```js
-const { AutoComplete } = require("enquirer");
+const { AutoComplete } = require('enquirer');
 
 const prompt = new AutoComplete({
-  name: "flavor",
-  message: "Pick your favorite flavor",
+  name: 'flavor',
+  message: 'Pick your favorite flavor',
   limit: 10,
   initial: 2,
   choices: [
-    "Almond",
-    "Apple",
-    "Banana",
-    "Blackberry",
-    "Blueberry",
-    "Cherry",
-    "Chocolate",
-    "Cinnamon",
-    "Coconut",
-    "Cranberry",
-    "Grape",
-    "Nougat",
-    "Orange",
-    "Pear",
-    "Pineapple",
-    "Raspberry",
-    "Strawberry",
-    "Vanilla",
-    "Watermelon",
-    "Wintergreen",
-  ],
+    'Almond',
+    'Apple',
+    'Banana',
+    'Blackberry',
+    'Blueberry',
+    'Cherry',
+    'Chocolate',
+    'Cinnamon',
+    'Coconut',
+    'Cranberry',
+    'Grape',
+    'Nougat',
+    'Orange',
+    'Pear',
+    'Pineapple',
+    'Raspberry',
+    'Strawberry',
+    'Vanilla',
+    'Watermelon',
+    'Wintergreen'
+  ]
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Answer:", answer))
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
   .catch(console.error);
 ```
 
 **AutoComplete Options**
 
-| Option      | Type       | Default                                                                         | Description                                                                                                                                                         |
-| ----------- | ---------- | ------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `highlight` | `function` | `dim` version of primary style                                                  | The color to use when "highlighting" characters in the list that match user input.                                                                                  |
-| `multiple`  | `boolean`  | `false`                                                                         | Allow multiple choices to be selected.                                                                                                                              |
-| `suggest`   | `function` | Greedy match, returns choices where `choice.message` contains the input string. | Function that filters choices. Takes user input and a choices array, and returns a list of matching choices.                                                        |
-| `initial`   | `number`   | 0                                                                               | Preselected item in the list of choices.                                                                                                                            |
-| `footer`    | `function` | None                                                                            | Function that displays [footer text](https://github.com/enquirer/enquirer/blob/6c2819518a1e2ed284242a99a685655fbaabfa28/examples/autocomplete/option-footer.js#L10) |
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `highlight` | `function` | `dim` version of primary style | The color to use when "highlighting" characters in the list that match user input. |
+| `multiple` | `boolean` | `false` | Allow multiple choices to be selected. |
+| `suggest` | `function` | Greedy match, returns choices where `choice.message` contains the input string. | Function that filters choices. Takes user input and a choices array, and returns a list of matching choices. |
+| `initial` | `number` | 0 | Preselected item in the list of choices. |
+| `footer` | `function` | None | Function that displays [footer text](https://github.com/enquirer/enquirer/blob/6c2819518a1e2ed284242a99a685655fbaabfa28/examples/autocomplete/option-footer.js#L10) |
 
 **Related prompts**
 
@@ -495,7 +493,7 @@ prompt
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### BasicAuth Prompt
 
@@ -508,25 +506,25 @@ Prompt that asks for username and password to authenticate the user. The default
 **Example Usage**
 
 ```js
-const { BasicAuth } = require("enquirer");
+const { BasicAuth } = require('enquirer');
 
-const prompt = new BasicAuth({
-  name: "password",
-  message: "Please enter your password",
-  username: "rajat-sr",
-  password: "123",
-  showPassword: true,
+ const prompt = new BasicAuth({
+  name: 'password',
+  message: 'Please enter your password',
+  username: 'rajat-sr',
+  password: '123',
+  showPassword: true
 });
 
-prompt
+ prompt
   .run()
-  .then((answer) => console.log("Answer:", answer))
+  .then(answer => console.log('Answer:', answer))
   .catch(console.error);
 ```
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### Confirm Prompt
 
@@ -539,16 +537,15 @@ Prompt that returns `true` or `false`.
 **Example Usage**
 
 ```js
-const { Confirm } = require("enquirer");
+const { Confirm } = require('enquirer');
 
 const prompt = new Confirm({
-  name: "question",
-  message: "Want to answer?",
+  name: 'question',
+  message: 'Want to answer?'
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Answer:", answer))
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
   .catch(console.error);
 ```
 
@@ -560,7 +557,7 @@ prompt
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### Form Prompt
 
@@ -573,21 +570,20 @@ Prompt that allows the user to enter and submit multiple values on a single term
 **Example Usage**
 
 ```js
-const { Form } = require("enquirer");
+const { Form } = require('enquirer');
 
 const prompt = new Form({
-  name: "user",
-  message: "Please provide the following information:",
+  name: 'user',
+  message: 'Please provide the following information:',
   choices: [
-    { name: "firstname", message: "First Name", initial: "Jon" },
-    { name: "lastname", message: "Last Name", initial: "Schlinkert" },
-    { name: "username", message: "GitHub username", initial: "jonschlinkert" },
-  ],
+    { name: 'firstname', message: 'First Name', initial: 'Jon' },
+    { name: 'lastname', message: 'Last Name', initial: 'Schlinkert' },
+    { name: 'username', message: 'GitHub username', initial: 'jonschlinkert' }
+  ]
 });
 
-prompt
-  .run()
-  .then((value) => console.log("Answer:", value))
+prompt.run()
+  .then(value => console.log('Answer:', value))
   .catch(console.error);
 ```
 
@@ -598,7 +594,7 @@ prompt
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### Input Prompt
 
@@ -611,15 +607,14 @@ Prompt that takes user input and returns a string.
 **Example Usage**
 
 ```js
-const { Input } = require("enquirer");
+const { Input } = require('enquirer');
 const prompt = new Input({
-  message: "What is your username?",
-  initial: "jonschlinkert",
+  message: 'What is your username?',
+  initial: 'jonschlinkert'
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Answer:", answer))
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
   .catch(console.log);
 ```
 
@@ -633,7 +628,7 @@ You can use [data-store](https://github.com/jonschlinkert/data-store) to store [
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### Invisible Prompt
 
@@ -646,15 +641,14 @@ Prompt that takes user input, hides it from the terminal, and returns a string.
 **Example Usage**
 
 ```js
-const { Invisible } = require("enquirer");
+const { Invisible } = require('enquirer');
 const prompt = new Invisible({
-  name: "secret",
-  message: "What is your secret?",
+  name: 'secret',
+  message: 'What is your secret?'
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Answer:", { secret: answer }))
+prompt.run()
+  .then(answer => console.log('Answer:', { secret: answer }))
   .catch(console.error);
 ```
 
@@ -665,7 +659,7 @@ prompt
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### List Prompt
 
@@ -678,15 +672,14 @@ Prompt that returns a list of values, created by splitting the user input. The d
 **Example Usage**
 
 ```js
-const { List } = require("enquirer");
+const { List } = require('enquirer');
 const prompt = new List({
-  name: "keywords",
-  message: "Type comma-separated keywords",
+  name: 'keywords',
+  message: 'Type comma-separated keywords'
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Answer:", answer))
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
   .catch(console.error);
 ```
 
@@ -697,7 +690,7 @@ prompt
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### MultiSelect Prompt
 
@@ -710,35 +703,34 @@ Prompt that allows the user to select multiple items from a list of options.
 **Example Usage**
 
 ```js
-const { MultiSelect } = require("enquirer");
+const { MultiSelect } = require('enquirer');
 
 const prompt = new MultiSelect({
-  name: "value",
-  message: "Pick your favorite colors",
+  name: 'value',
+  message: 'Pick your favorite colors',
   limit: 7,
   choices: [
-    { name: "aqua", value: "#00ffff" },
-    { name: "black", value: "#000000" },
-    { name: "blue", value: "#0000ff" },
-    { name: "fuchsia", value: "#ff00ff" },
-    { name: "gray", value: "#808080" },
-    { name: "green", value: "#008000" },
-    { name: "lime", value: "#00ff00" },
-    { name: "maroon", value: "#800000" },
-    { name: "navy", value: "#000080" },
-    { name: "olive", value: "#808000" },
-    { name: "purple", value: "#800080" },
-    { name: "red", value: "#ff0000" },
-    { name: "silver", value: "#c0c0c0" },
-    { name: "teal", value: "#008080" },
-    { name: "white", value: "#ffffff" },
-    { name: "yellow", value: "#ffff00" },
-  ],
+    { name: 'aqua', value: '#00ffff' },
+    { name: 'black', value: '#000000' },
+    { name: 'blue', value: '#0000ff' },
+    { name: 'fuchsia', value: '#ff00ff' },
+    { name: 'gray', value: '#808080' },
+    { name: 'green', value: '#008000' },
+    { name: 'lime', value: '#00ff00' },
+    { name: 'maroon', value: '#800000' },
+    { name: 'navy', value: '#000080' },
+    { name: 'olive', value: '#808000' },
+    { name: 'purple', value: '#800080' },
+    { name: 'red', value: '#ff0000' },
+    { name: 'silver', value: '#c0c0c0' },
+    { name: 'teal', value: '#008080' },
+    { name: 'white', value: '#ffffff' },
+    { name: 'yellow', value: '#ffff00' }
+  ]
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Answer:", answer))
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
   .catch(console.error);
 
 // Answer: ['aqua', 'blue', 'fuchsia']
@@ -749,38 +741,37 @@ prompt
 Optionally, pass a `result` function and use the `.map` method to return an object of key-value pairs of the selected names and values: [example](./examples/multiselect/option-result.js)
 
 ```js
-const { MultiSelect } = require("enquirer");
+const { MultiSelect } = require('enquirer');
 
 const prompt = new MultiSelect({
-  name: "value",
-  message: "Pick your favorite colors",
+  name: 'value',
+  message: 'Pick your favorite colors',
   limit: 7,
   choices: [
-    { name: "aqua", value: "#00ffff" },
-    { name: "black", value: "#000000" },
-    { name: "blue", value: "#0000ff" },
-    { name: "fuchsia", value: "#ff00ff" },
-    { name: "gray", value: "#808080" },
-    { name: "green", value: "#008000" },
-    { name: "lime", value: "#00ff00" },
-    { name: "maroon", value: "#800000" },
-    { name: "navy", value: "#000080" },
-    { name: "olive", value: "#808000" },
-    { name: "purple", value: "#800080" },
-    { name: "red", value: "#ff0000" },
-    { name: "silver", value: "#c0c0c0" },
-    { name: "teal", value: "#008080" },
-    { name: "white", value: "#ffffff" },
-    { name: "yellow", value: "#ffff00" },
+    { name: 'aqua', value: '#00ffff' },
+    { name: 'black', value: '#000000' },
+    { name: 'blue', value: '#0000ff' },
+    { name: 'fuchsia', value: '#ff00ff' },
+    { name: 'gray', value: '#808080' },
+    { name: 'green', value: '#008000' },
+    { name: 'lime', value: '#00ff00' },
+    { name: 'maroon', value: '#800000' },
+    { name: 'navy', value: '#000080' },
+    { name: 'olive', value: '#808000' },
+    { name: 'purple', value: '#800080' },
+    { name: 'red', value: '#ff0000' },
+    { name: 'silver', value: '#c0c0c0' },
+    { name: 'teal', value: '#008080' },
+    { name: 'white', value: '#ffffff' },
+    { name: 'yellow', value: '#ffff00' }
   ],
   result(names) {
-    return this.map(names);
-  },
+   return this.map(names);
+  }
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Answer:", answer))
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
   .catch(console.error);
 
 // Answer: { aqua: '#00ffff', blue: '#0000ff', fuchsia: '#ff00ff' }
@@ -789,21 +780,20 @@ prompt
 **Example alternate labels**
 
 ```js
-const { MultiSelect } = require("enquirer");
+const { MultiSelect } = require('enquirer');
 
 const prompt = new MultiSelect({
-  name: "color",
-  message: "Pick a flavor",
+  name: 'color',
+  message: 'Pick a flavor',
   choices: [
-    { message: "Negative Red", name: "cyan", value: "#00ffff" },
-    { message: "Lights Out", name: "black", value: "#000000" },
-    { message: "The Ocean", name: "blue", value: "#0000ff" },
-  ],
+    { message: 'Negative Red', name: 'cyan', value: '#00ffff' },
+    { message: 'Lights Out', name: 'black', value: '#000000' },
+    { message: 'The Ocean', name: 'blue', value: '#0000ff' },
+  ]
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Answer:", answer))
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
   .catch(console.error);
 ```
 
@@ -815,7 +805,7 @@ prompt
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### Numeral Prompt
 
@@ -828,16 +818,15 @@ Prompt that takes a number as input.
 **Example Usage**
 
 ```js
-const { NumberPrompt } = require("enquirer");
+const { NumberPrompt } = require('enquirer');
 
 const prompt = new NumberPrompt({
-  name: "number",
-  message: "Please enter a number",
+  name: 'number',
+  message: 'Please enter a number'
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Answer:", answer))
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
   .catch(console.error);
 ```
 
@@ -848,7 +837,7 @@ prompt
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### Password Prompt
 
@@ -861,16 +850,15 @@ Prompt that takes user input and masks it in the terminal. Also see the [invisib
 **Example Usage**
 
 ```js
-const { Password } = require("enquirer");
+const { Password } = require('enquirer');
 
 const prompt = new Password({
-  name: "password",
-  message: "What is your password?",
+  name: 'password',
+  message: 'What is your password?'
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Answer:", answer))
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
   .catch(console.error);
 ```
 
@@ -881,7 +869,7 @@ prompt
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### Quiz Prompt
 
@@ -894,20 +882,20 @@ Prompt that allows the user to play multiple-choice quiz questions.
 **Example Usage**
 
 ```js
-const { Quiz } = require("enquirer");
+const { Quiz } = require('enquirer');
 
-const prompt = new Quiz({
-  name: "countries",
-  message: "How many countries are there in the world?",
-  choices: ["165", "175", "185", "195", "205"],
-  correctChoice: 3,
+ const prompt = new Quiz({
+  name: 'countries',
+  message: 'How many countries are there in the world?',
+  choices: ['165', '175', '185', '195', '205'],
+  correctChoice: 3
 });
 
-prompt
+ prompt
   .run()
-  .then((answer) => {
+  .then(answer => {
     if (answer.correct) {
-      console.log("Correct!");
+      console.log('Correct!');
     } else {
       console.log(`Wrong! Correct answer is ${answer.correctAnswer}`);
     }
@@ -917,14 +905,14 @@ prompt
 
 **Quiz Options**
 
-| Option          | Type     | Required | Description                                           |
-| --------------- | -------- | -------- | ----------------------------------------------------- |
-| `choices`       | `array`  | Yes      | The list of possible answers to the quiz question.    |
-| `correctChoice` | `number` | Yes      | Index of the correct choice from the `choices` array. |
+| Option | Type | Required | Description |
+| -------------- | ------------- | ------------- | --- |
+| `choices` | `array` | Yes | The list of possible answers to the quiz question. |
+| `correctChoice`| `number` | Yes | Index of the correct choice from the `choices` array. |
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### Survey Prompt
 
@@ -937,46 +925,45 @@ Prompt that allows the user to provide feedback for a list of questions.
 **Example Usage**
 
 ```js
-const { Survey } = require("enquirer");
+const { Survey } = require('enquirer');
 
 const prompt = new Survey({
-  name: "experience",
-  message: "Please rate your experience",
-  scale: [
-    { name: "1", message: "Strongly Disagree" },
-    { name: "2", message: "Disagree" },
-    { name: "3", message: "Neutral" },
-    { name: "4", message: "Agree" },
-    { name: "5", message: "Strongly Agree" },
+  name: 'experience',
+  message: 'Please rate your experience',
+   scale: [
+    { name: '1', message: 'Strongly Disagree' },
+    { name: '2', message: 'Disagree' },
+    { name: '3', message: 'Neutral' },
+    { name: '4', message: 'Agree' },
+    { name: '5', message: 'Strongly Agree' }
   ],
   margin: [0, 0, 2, 1],
   choices: [
     {
-      name: "interface",
-      message: "The website has a friendly interface.",
+      name: 'interface',
+      message: 'The website has a friendly interface.'
     },
     {
-      name: "navigation",
-      message: "The website is easy to navigate.",
+      name: 'navigation',
+      message: 'The website is easy to navigate.'
     },
     {
-      name: "images",
-      message: "The website usually has good images.",
+      name: 'images',
+      message: 'The website usually has good images.'
     },
     {
-      name: "upload",
-      message: "The website makes it easy to upload images.",
+      name: 'upload',
+      message: 'The website makes it easy to upload images.'
     },
     {
-      name: "colors",
-      message: "The website has a pleasing color palette.",
-    },
-  ],
+      name: 'colors',
+      message: 'The website has a pleasing color palette.'
+    }
+  ]
 });
 
-prompt
-  .run()
-  .then((value) => console.log("ANSWERS:", value))
+prompt.run()
+  .then(value => console.log('ANSWERS:', value))
   .catch(console.error);
 ```
 
@@ -986,7 +973,7 @@ prompt
 - [Snippet](#snippet-prompt)
 - [Select](#select-prompt)
 
----
+***
 
 ### Scale Prompt
 
@@ -999,50 +986,49 @@ A more compact version of the [Survey prompt](#survey-prompt), the Scale prompt 
 **Example Usage**
 
 ```js
-const { Scale } = require("enquirer");
+const { Scale } = require('enquirer');
 const prompt = new Scale({
-  name: "experience",
-  message: "Please rate your experience",
+  name: 'experience',
+  message: 'Please rate your experience',
   scale: [
-    { name: "1", message: "Strongly Disagree" },
-    { name: "2", message: "Disagree" },
-    { name: "3", message: "Neutral" },
-    { name: "4", message: "Agree" },
-    { name: "5", message: "Strongly Agree" },
+    { name: '1', message: 'Strongly Disagree' },
+    { name: '2', message: 'Disagree' },
+    { name: '3', message: 'Neutral' },
+    { name: '4', message: 'Agree' },
+    { name: '5', message: 'Strongly Agree' }
   ],
   margin: [0, 0, 2, 1],
   choices: [
     {
-      name: "interface",
-      message: "The website has a friendly interface.",
-      initial: 2,
+      name: 'interface',
+      message: 'The website has a friendly interface.',
+      initial: 2
     },
     {
-      name: "navigation",
-      message: "The website is easy to navigate.",
-      initial: 2,
+      name: 'navigation',
+      message: 'The website is easy to navigate.',
+      initial: 2
     },
     {
-      name: "images",
-      message: "The website usually has good images.",
-      initial: 2,
+      name: 'images',
+      message: 'The website usually has good images.',
+      initial: 2
     },
     {
-      name: "upload",
-      message: "The website makes it easy to upload images.",
-      initial: 2,
+      name: 'upload',
+      message: 'The website makes it easy to upload images.',
+      initial: 2
     },
     {
-      name: "colors",
-      message: "The website has a pleasing color palette.",
-      initial: 2,
-    },
-  ],
+      name: 'colors',
+      message: 'The website has a pleasing color palette.',
+      initial: 2
+    }
+  ]
 });
 
-prompt
-  .run()
-  .then((value) => console.log("ANSWERS:", value))
+prompt.run()
+  .then(value => console.log('ANSWERS:', value))
   .catch(console.error);
 ```
 
@@ -1054,7 +1040,7 @@ prompt
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### Select Prompt
 
@@ -1067,59 +1053,56 @@ Prompt that allows the user to select from a list of options.
 **Example Usage**
 
 ```js
-const { Select } = require("enquirer");
+const { Select } = require('enquirer');
 
 const prompt = new Select({
-  name: "color",
-  message: "Pick a flavor",
-  choices: ["apple", "grape", "watermelon", "cherry", "orange"],
+  name: 'color',
+  message: 'Pick a flavor',
+  choices: ['apple', 'grape', 'watermelon', 'cherry', 'orange']
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Answer:", answer))
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
   .catch(console.error);
 ```
 
 **Example key-value pairs**
 
 ```js
-const { Select } = require("enquirer");
+const { Select } = require('enquirer');
 
 const prompt = new Select({
-  name: "color",
-  message: "Pick a color",
+  name: 'color',
+  message: 'Pick a color',
   choices: [
-    { name: "cyan", value: "#00ffff" },
-    { name: "black", value: "#000000" },
-    { name: "blue", value: "#0000ff" },
-  ],
+    { name: 'cyan', value: '#00ffff' },
+    { name: 'black', value: '#000000' },
+    { name: 'blue', value: '#0000ff' },
+  ]
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Answer:", answer))
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
   .catch(console.error);
 ```
 
 **Example alternate labels**
 
 ```js
-const { Select } = require("enquirer");
+const { Select } = require('enquirer');
 
 const prompt = new Select({
-  name: "color",
-  message: "Pick a color",
+  name: 'color',
+  message: 'Pick a color',
   choices: [
-    { message: "Negative Red", name: "cyan", value: "#00ffff" },
-    { message: "Lights Out", name: "black", value: "#000000" },
-    { message: "The Ocean", name: "blue", value: "#0000ff" },
-  ],
+    { message: 'Negative Red', name: 'cyan', value: '#00ffff' },
+    { message: 'Lights Out', name: 'black', value: '#000000' },
+    { message: 'The Ocean', name: 'blue', value: '#0000ff' },
+  ]
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Answer:", answer))
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
   .catch(console.error);
 ```
 
@@ -1130,7 +1113,7 @@ prompt
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### Sort Prompt
 
@@ -1147,25 +1130,24 @@ In this [example](https://github.com/enquirer/enquirer/raw/master/examples/sort/
 **Example Usage**
 
 ```js
-const colors = require("ansi-colors");
-const { Sort } = require("enquirer");
+const colors = require('ansi-colors');
+const { Sort } = require('enquirer');
 const prompt = new Sort({
-  name: "colors",
-  message: "Sort the colors in order of preference",
-  hint: "Top is best, bottom is worst",
+  name: 'colors',
+  message: 'Sort the colors in order of preference',
+  hint: 'Top is best, bottom is worst',
   numbered: true,
-  choices: ["red", "white", "green", "cyan", "yellow"].map((n) => ({
+  choices: ['red', 'white', 'green', 'cyan', 'yellow'].map(n => ({
     name: n,
-    message: colors[n](n),
-  })),
+    message: colors[n](n)
+  }))
 });
 
-prompt
-  .run()
-  .then(function (answer = []) {
+prompt.run()
+  .then(function(answer = []) {
     console.log(answer);
-    console.log("Your preferred order of colors is:");
-    console.log(answer.map((key) => colors[key](key)).join("\n"));
+    console.log('Your preferred order of colors is:');
+    console.log(answer.map(key => colors[key](key)).join('\n'));
   })
   .catch(console.error);
 ```
@@ -1177,7 +1159,7 @@ prompt
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### Snippet Prompt
 
@@ -1190,26 +1172,26 @@ Prompt that allows the user to replace placeholders in a snippet of code or text
 **Example Usage**
 
 ```js
-const semver = require("semver");
-const { Snippet } = require("enquirer");
+const semver = require('semver');
+const { Snippet } = require('enquirer');
 const prompt = new Snippet({
-  name: "username",
-  message: "Fill out the fields in package.json",
+  name: 'username',
+  message: 'Fill out the fields in package.json',
   required: true,
   fields: [
     {
-      name: "author_name",
-      message: "Author Name",
+      name: 'author_name',
+      message: 'Author Name'
     },
     {
-      name: "version",
+      name: 'version',
       validate(value, state, item, index) {
-        if (item && item.name === "version" && !semver.valid(value)) {
-          return prompt.styles.danger("version should be a valid semver value");
+        if (item && item.name === 'version' && !semver.valid(value)) {
+          return prompt.styles.danger('version should be a valid semver value');
         }
         return true;
-      },
-    },
+      }
+    }
   ],
   template: `{
   "name": "\${name}",
@@ -1220,12 +1202,11 @@ const prompt = new Snippet({
   "repository": "\${username}/\${name}",
   "license": "\${license:ISC}"
 }
-`,
+`
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Answer:", answer.result))
+prompt.run()
+  .then(answer => console.log('Answer:', answer.result))
   .catch(console.error);
 ```
 
@@ -1236,7 +1217,7 @@ prompt
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### Toggle Prompt
 
@@ -1249,17 +1230,16 @@ Prompt that allows the user to toggle between two values then returns `true` or 
 **Example Usage**
 
 ```js
-const { Toggle } = require("enquirer");
+const { Toggle } = require('enquirer');
 
 const prompt = new Toggle({
-  message: "Want to answer?",
-  enabled: "Yep",
-  disabled: "Nope",
+  message: 'Want to answer?',
+  enabled: 'Yep',
+  disabled: 'Nope'
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Answer:", answer))
+prompt.run()
+  .then(answer => console.log('Answer:', answer))
   .catch(console.error);
 ```
 
@@ -1271,13 +1251,13 @@ prompt
 
 **↑ back to:** [Getting Started](#-getting-started) · [Prompts](#-prompts)
 
----
+***
 
 ### Prompt Types
 
 There are 5 (soon to be 6!) type classes:
 
-- [ArrayPrompt](#arrayprompt)
+* [ArrayPrompt](#arrayprompt)
   - [Options](#options)
   - [Properties](#properties)
   - [Methods](#methods)
@@ -1285,11 +1265,11 @@ There are 5 (soon to be 6!) type classes:
   - [Defining choices](#defining-choices)
   - [Choice properties](#choice-properties)
   - [Related prompts](#related-prompts)
-- [AuthPrompt](#authprompt)
-- [BooleanPrompt](#booleanprompt)
-- DatePrompt (Coming Soon!)
-- [NumberPrompt](#numberprompt)
-- [StringPrompt](#stringprompt)
+* [AuthPrompt](#authprompt)
+* [BooleanPrompt](#booleanprompt)
+* DatePrompt (Coming Soon!)
+* [NumberPrompt](#numberprompt)
+* [StringPrompt](#stringprompt)
 
 Each type is a low-level class that may be used as a starting point for creating higher level prompts. Continue reading to learn how.
 
@@ -1301,36 +1281,36 @@ The `ArrayPrompt` class is used for creating prompts that display a list of choi
 
 In addition to the [options](#options) available to all prompts, Array prompts also support the following options.
 
-| **Option**  | **Required?** | **Type**         | **Description**                                                                                                         |
-| ----------- | ------------- | ---------------- | ----------------------------------------------------------------------------------------------------------------------- | --- |
-| `autofocus` | `no`          | `string\|number` | The index or name of the choice that should have focus when the prompt loads. Only one choice may have focus at a time. |     |
-| `stdin`     | `no`          | `stream`         | The input stream to use for emitting keypress events. Defaults to `process.stdin`.                                      |
-| `stdout`    | `no`          | `stream`         | The output stream to use for writing the prompt to the terminal. Defaults to `process.stdout`.                          |
-|             |
+| **Option** | **Required?** | **Type** | **Description** |
+| --- | --- | --- | --- |
+| `autofocus` | `no` | `string\|number` | The index or name of the choice that should have focus when the prompt loads. Only one choice may have focus at a time. | |
+| `stdin` | `no` | `stream` | The input stream to use for emitting keypress events. Defaults to `process.stdin`. |
+| `stdout` | `no` | `stream` | The output stream to use for writing the prompt to the terminal. Defaults to `process.stdout`. |
+| |
 
 #### Properties
 
 Array prompts have the following instance properties and getters.
 
-| **Property name** | **Type**                                                                          | **Description**                                                                                                                                                                                                                                                                                                                                    |
-| ----------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `choices`         | `array`                                                                           | Array of choices that have been normalized from choices passed on the prompt options.                                                                                                                                                                                                                                                              |
-| `cursor`          | `number`                                                                          | Position of the cursor relative to the _user input (string)_.                                                                                                                                                                                                                                                                                      |
-| `enabled`         | `array`                                                                           | Returns an array of enabled choices.                                                                                                                                                                                                                                                                                                               |
-| `focused`         | `array`                                                                           | Returns the currently selected choice in the visible list of choices. This is similar to the concept of focus in HTML and CSS. Focused choices are always visible (on-screen). When a list of choices is longer than the list of visible choices, and an off-screen choice is _focused_, the list will scroll to the focused choice and re-render. |
-| `focused`         | Gets the currently selected choice. Equivalent to `prompt.choices[prompt.index]`. |
-| `index`           | `number`                                                                          | Position of the pointer in the _visible list (array) of choices_.                                                                                                                                                                                                                                                                                  |
-| `limit`           | `number`                                                                          | The number of choices to display on-screen.                                                                                                                                                                                                                                                                                                        |
-| `selected`        | `array`                                                                           | Either a list of enabled choices (when `options.multiple` is true) or the currently focused choice.                                                                                                                                                                                                                                                |
-| `visible`         | `string`                                                                          |                                                                                                                                                                                                                                                                                                                                                    |
+| **Property name** | **Type** | **Description** |
+| --- | --- | --- |
+| `choices` | `array` | Array of choices that have been normalized from choices passed on the prompt options. |
+| `cursor` | `number` | Position of the cursor relative to the _user input (string)_. |
+| `enabled` | `array` | Returns an array of enabled choices. |
+| `focused` | `array` | Returns the currently selected choice in the visible list of choices. This is similar to the concept of focus in HTML and CSS. Focused choices are always visible (on-screen). When a list of choices is longer than the list of visible choices, and an off-screen choice is _focused_, the list will scroll to the focused choice and re-render. |
+| `focused` | Gets the currently selected choice. Equivalent to `prompt.choices[prompt.index]`. |
+| `index` | `number` | Position of the pointer in the _visible list (array) of choices_. |
+| `limit` | `number` | The number of choices to display on-screen. |
+| `selected` | `array` | Either a list of enabled choices (when `options.multiple` is true) or the currently focused choice. |
+| `visible` | `string` | |
 
 #### Methods
 
-| **Method**    | **Description**                                                                                                                                                                                |
-| ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pointer()`   | Returns the visual symbol to use to identify the choice that currently has focus. The `❯` symbol is often used for this. The pointer is not always visible, as with the `autocomplete` prompt. |
-| `indicator()` | Returns the visual symbol that indicates whether or not a choice is checked/enabled.                                                                                                           |
-| `focus()`     | Sets focus on a choice, if it can be focused.                                                                                                                                                  |
+| **Method** | **Description** |
+| --- | --- |
+| `pointer()` | Returns the visual symbol to use to identify the choice that currently has focus. The `❯` symbol is often used for this. The pointer is not always visible, as with the `autocomplete` prompt. |
+| `indicator()` | Returns the visual symbol that indicates whether or not a choice is checked/enabled. |
+| `focus()` | Sets focus on a choice, if it can be focused. |
 
 #### Choices
 
@@ -1341,24 +1321,22 @@ Array prompts support the `choices` option, which is the array of choices users 
 **Example**
 
 ```js
-const { prompt } = require("enquirer");
+const { prompt } = require('enquirer');
 
-const questions = [
-  {
-    type: "select",
-    name: "color",
-    message: "Favorite color?",
-    initial: 1,
-    choices: [
-      { name: "red", message: "Red", value: "#ff0000" }, //<= choice object
-      { name: "green", message: "Green", value: "#00ff00" }, //<= choice object
-      { name: "blue", message: "Blue", value: "#0000ff" }, //<= choice object
-    ],
-  },
-];
+const questions = [{
+  type: 'select',
+  name: 'color',
+  message: 'Favorite color?',
+  initial: 1,
+  choices: [
+    { name: 'red',   message: 'Red',   value: '#ff0000' }, //<= choice object
+    { name: 'green', message: 'Green', value: '#00ff00' }, //<= choice object
+    { name: 'blue',  message: 'Blue',  value: '#0000ff' }  //<= choice object
+  ]
+}];
 
 let answers = await prompt(questions);
-console.log("Answer:", answers.color);
+console.log('Answer:', answers.color);
 ```
 
 #### Defining choices
@@ -1379,9 +1357,9 @@ Whether defined as a string or object, choices are normalized to the following i
 
 ```js
 const question = {
-  name: "fruit",
-  message: "Favorite fruit?",
-  choices: ["Apple", "Orange", "Raspberry"],
+  name: 'fruit',
+  message: 'Favorite fruit?',
+  choices: ['Apple', 'Orange', 'Raspberry']
 };
 ```
 
@@ -1389,13 +1367,13 @@ Normalizes to the following when the prompt is run:
 
 ```js
 const question = {
-  name: "fruit",
-  message: "Favorite fruit?",
+  name: 'fruit',
+  message: 'Favorite fruit?',
   choices: [
-    { name: "Apple", message: "Apple", value: "Apple" },
-    { name: "Orange", message: "Orange", value: "Orange" },
-    { name: "Raspberry", message: "Raspberry", value: "Raspberry" },
-  ],
+    { name: 'Apple', message: 'Apple', value: 'Apple' },
+    { name: 'Orange', message: 'Orange', value: 'Orange' },
+    { name: 'Raspberry', message: 'Raspberry', value: 'Raspberry' }
+  ]
 };
 ```
 
@@ -1403,17 +1381,17 @@ const question = {
 
 The following properties are supported on `choice` objects.
 
-| **Option**  | **Type**           | **Description**                                                                                                                                                                                     |
-| ----------- | ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `name`      | `string`           | The unique key to identify a choice                                                                                                                                                                 |
-| `message`   | `string`           | The message to display in the terminal. `name` is used when this is undefined.                                                                                                                      |
-| `value`     | `string`           | Value to associate with the choice. Useful for creating key-value pairs from user choices. `name` is used when this is undefined.                                                                   |
-| `choices`   | `array`            | Array of "child" choices.                                                                                                                                                                           |
-| `hint`      | `string`           | Help message to display next to a choice.                                                                                                                                                           |
-| `role`      | `string`           | Determines how the choice will be displayed. Currently the only role supported is `separator`. Additional roles may be added in the future (like `heading`, etc). Please create a [feature request] |
-| `enabled`   | `boolean`          | Enabled a choice by default. This is only supported when `options.multiple` is true or on prompts that support multiple choices, like [MultiSelect](#-multiselect).                                 |
-| `disabled`  | `boolean\|string`  | Disable a choice so that it cannot be selected. This value may either be `true`, `false`, or a message to display.                                                                                  |
-| `indicator` | `string\|function` | Custom indicator to render for a choice (like a check or radio button).                                                                                                                             |
+| **Option** | **Type** | **Description** |
+| --- | --- | --- |
+| `name` | `string` | The unique key to identify a choice |
+| `message` | `string` | The message to display in the terminal. `name` is used when this is undefined. |
+| `value` | `string` | Value to associate with the choice. Useful for creating key-value pairs from user choices. `name` is used when this is undefined. |
+| `choices` | `array` | Array of "child" choices. |
+| `hint` | `string` | Help message to display next to a choice. |
+| `role` | `string` | Determines how the choice will be displayed. Currently the only role supported is `separator`. Additional roles may be added in the future (like `heading`, etc). Please create a [feature request] |
+| `enabled` | `boolean` | Enabled a choice by default. This is only supported when `options.multiple` is true or on prompts that support multiple choices, like [MultiSelect](#-multiselect). |
+| `disabled` | `boolean\|string` | Disable a choice so that it cannot be selected. This value may either be `true`, `false`, or a message to display. |
+| `indicator` | `string\|function` | Custom indicator to render for a choice (like a check or radio button). |
 
 #### Related prompts
 
@@ -1423,7 +1401,7 @@ The following properties are supported on `choice` objects.
 - [Select](#select-prompt)
 - [Survey](#survey-prompt)
 
----
+***
 
 ### AuthPrompt
 
@@ -1433,8 +1411,8 @@ The `AuthPrompt` is used to create prompts to log in user using any authenticati
 
 #### Methods
 
-| **Method**       | **Description**                                                                                                                                                                                          |
-| ---------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Method** | **Description** |
+| ---------------- | --- |
 | `authenticate()` | Contain all the authentication logic. This function should be overridden to implement custom authentication logic. The default `authenticate` function throws an error if no other function is provided. |
 
 #### Choices
@@ -1444,13 +1422,10 @@ Auth prompt supports the `choices` option, which is the similar to the choices u
 **Example**
 
 ```js
-const { AuthPrompt } = require("enquirer");
+const { AuthPrompt } = require('enquirer');
 
 function authenticate(value, state) {
-  if (
-    value.username === this.options.username &&
-    value.password === this.options.password
-  ) {
+  if (value.username === this.options.username && value.password === this.options.password) {
     return true;
   }
   return false;
@@ -1459,19 +1434,19 @@ function authenticate(value, state) {
 const CustomAuthPrompt = AuthPrompt.create(authenticate);
 
 const prompt = new CustomAuthPrompt({
-  name: "password",
-  message: "Please enter your password",
-  username: "rajat-sr",
-  password: "1234567",
+  name: 'password',
+  message: 'Please enter your password',
+  username: 'rajat-sr',
+  password: '1234567',
   choices: [
-    { name: "username", message: "username" },
-    { name: "password", message: "password" },
-  ],
+    { name: 'username', message: 'username' },
+    { name: 'password', message: 'password' }
+  ]
 });
 
 prompt
   .run()
-  .then((answer) => console.log("Authenticated?", answer))
+  .then(answer => console.log('Authenticated?', answer))
   .catch(console.error);
 ```
 
@@ -1479,70 +1454,67 @@ prompt
 
 - [BasicAuth Prompt](#basicauth-prompt)
 
----
+***
 
 ### BooleanPrompt
 
 The `BooleanPrompt` class is used for creating prompts that display and return a boolean value.
 
 ```js
-const { BooleanPrompt } = require("enquirer");
+const { BooleanPrompt } = require('enquirer');
 
-const prompt = new BooleanPrompt({
-  header: "========================",
-  message: "Do you love enquirer?",
-  footer: "========================",
+const  prompt = new  BooleanPrompt({
+  header:  '========================',
+  message:  'Do you love enquirer?',
+  footer:  '========================',
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Selected:", answer))
+prompt.run()
+  .then(answer  =>  console.log('Selected:', answer))
   .catch(console.error);
 ```
 
 **Returns**: `boolean`
 
----
+***
 
 ### NumberPrompt
 
 The `NumberPrompt` class is used for creating prompts that display and return a numerical value.
 
 ```js
-const { NumberPrompt } = require("enquirer");
+const { NumberPrompt } = require('enquirer');
 
-const prompt = new NumberPrompt({
-  header: "************************",
-  message: "Input the Numbers:",
-  footer: "************************",
+const  prompt = new  NumberPrompt({
+  header:  '************************',
+  message:  'Input the Numbers:',
+  footer:  '************************',
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Numbers are:", answer))
+prompt.run()
+  .then(answer  =>  console.log('Numbers are:', answer))
   .catch(console.error);
 ```
 
 **Returns**: `string|number` (number, or number formatted as a string)
 
----
+***
 
 ### StringPrompt
 
 The `StringPrompt` class is used for creating prompts that display and return a string value.
 
 ```js
-const { StringPrompt } = require("enquirer");
+const { StringPrompt } = require('enquirer');
 
 const prompt = new StringPrompt({
-  header: "************************",
-  message: "Input the String:",
-  footer: "************************",
+  header: '************************',
+  message: 'Input the String:',
+  footer: '************************'
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("String is:", answer))
+prompt.run()
+  .then(answer => console.log('String is:', answer))
   .catch(console.error);
 ```
 
@@ -1565,7 +1537,7 @@ Custom prompts are created by extending either:
 <!-- Example: HaiKarate Custom Prompt -->
 
 ```js
-const { Prompt } = require("enquirer");
+const { Prompt } = require('enquirer');
 
 class HaiKarate extends Prompt {
   constructor(options = {}) {
@@ -1589,44 +1561,43 @@ class HaiKarate extends Prompt {
 
 // Use the prompt by creating an instance of your custom prompt class.
 const prompt = new HaiKarate({
-  message: "How many sprays do you want?",
-  initial: 10,
+  message: 'How many sprays do you want?',
+  initial: 10
 });
 
-prompt
-  .run()
-  .then((answer) => console.log("Sprays:", answer))
+prompt.run()
+  .then(answer => console.log('Sprays:', answer))
   .catch(console.error);
 ```
 
 If you want to be able to specify your prompt by `type` so that it may be used alongside other prompts, you will need to first create an instance of `Enquirer`.
 
 ```js
-const Enquirer = require("enquirer");
+const Enquirer = require('enquirer');
 const enquirer = new Enquirer();
 ```
 
 Then use the `.register()` method to add your custom prompt.
 
 ```js
-enquirer.register("haikarate", HaiKarate);
+enquirer.register('haikarate', HaiKarate);
 ```
 
 Now you can do the following when defining "questions".
 
 ```js
-let spritzer = require("cologne-drone");
+let spritzer = require('cologne-drone');
 let answers = await enquirer.prompt([
   {
-    type: "haikarate",
-    name: "cologne",
-    message: "How many sprays do you need?",
+    type: 'haikarate',
+    name: 'cologne',
+    message: 'How many sprays do you need?',
     initial: 10,
     async onSubmit(name, value) {
       await spritzer.activate(value); //<= activate drone
       return value;
-    },
-  },
+    }
+  }
 ]);
 ```
 
@@ -1638,10 +1609,10 @@ let answers = await enquirer.prompt([
 
 These key combinations may be used with all prompts.
 
-| **command**                    | **description**                        |
-| ------------------------------ | -------------------------------------- |
-| <kbd>ctrl</kbd> + <kbd>c</kbd> | Cancel the prompt.                     |
-| <kbd>ctrl</kbd> + <kbd>g</kbd> | Reset the prompt to its initial state. |
+| **command**                      | **description**                        |
+| -------------------------------- | -------------------------------------- |
+| <kbd>ctrl</kbd>  +  <kbd>c</kbd> | Cancel the prompt.                     |
+| <kbd>ctrl</kbd> + <kbd>g</kbd>   | Reset the prompt to its initial state. |
 
 <br>
 
@@ -1758,17 +1729,17 @@ Pull requests and stars are always welcome. For bugs and feature requests, [plea
 
 We're currently working on documentation for the following items. Please star and watch the repository for updates!
 
-- [ ] Customizing symbols
-- [ ] Customizing styles (palette)
-- [ ] Customizing rendered input
-- [ ] Customizing returned values
-- [ ] Customizing key bindings
-- [ ] Question validation
-- [ ] Choice validation
-- [ ] Skipping questions
-- [ ] Async choices
-- [ ] Async timers: loaders, spinners and other animations
-- [ ] Links to examples
+* [ ] Customizing symbols
+* [ ] Customizing styles (palette)
+* [ ] Customizing rendered input
+* [ ] Customizing returned values
+* [ ] Customizing key bindings
+* [ ] Question validation
+* [ ] Choice validation
+* [ ] Skipping questions
+* [ ] Async choices
+* [ ] Async timers: loaders, spinners and other animations
+* [ ] Links to examples
 </details>
 
 <details>
@@ -1779,7 +1750,6 @@ Running and reviewing unit tests is a great way to get familiarized with a libra
 ```sh
 npm install && npm test
 ```
-
 ```sh
 yarn && yarn test
 ```
@@ -1801,62 +1771,62 @@ npm install -g verbose/verb#dev verb-generate-readme && verb
 
 #### Contributors
 
-| **Commits** | **Contributor**                                       |
-| ----------- | ----------------------------------------------------- |
-| 312         | [jonschlinkert](https://github.com/jonschlinkert)     |
-| 86          | [doowb](https://github.com/doowb)                     |
-| 32          | [rajat-sr](https://github.com/rajat-sr)               |
-| 20          | [318097](https://github.com/318097)                   |
-| 15          | [g-plane](https://github.com/g-plane)                 |
-| 12          | [pixelass](https://github.com/pixelass)               |
-| 5           | [adityavyas611](https://github.com/adityavyas611)     |
-| 5           | [satotake](https://github.com/satotake)               |
-| 3           | [hongaar](https://github.com/hongaar)                 |
-| 3           | [Ovyerus](https://github.com/Ovyerus)                 |
-| 3           | [swyxio](https://github.com/swyxio)                   |
-| 2           | [GabeL7r](https://github.com/GabeL7r)                 |
-| 2           | [Andarist](https://github.com/Andarist)               |
-| 1           | [ahmadawais](https://github.com/ahmadawais)           |
-| 1           | [AlCalzone](https://github.com/AlCalzone)             |
-| 1           | [hipstersmoothie](https://github.com/hipstersmoothie) |
-| 1           | [TrySound](https://github.com/TrySound)               |
-| 1           | [brentjanderson](https://github.com/brentjanderson)   |
-| 1           | [camilaibs](https://github.com/camilaibs)             |
-| 1           | [AgentEnder](https://github.com/AgentEnder)           |
-| 1           | [danieldelcore](https://github.com/danieldelcore)     |
-| 1           | [deve-sh](https://github.com/deve-sh)                 |
-| 1           | [shortercode](https://github.com/shortercode)         |
-| 1           | [ImgBotApp](https://github.com/ImgBotApp)             |
-| 1           | [shumkov](https://github.com/shumkov)                 |
-| 1           | [jsonkao](https://github.com/jsonkao)                 |
-| 1           | [JounQin](https://github.com/JounQin)                 |
-| 1           | [knpwrs](https://github.com/knpwrs)                   |
-| 1           | [yeskunall](https://github.com/yeskunall)             |
-| 1           | [mischah](https://github.com/mischah)                 |
-| 1           | [starpit](https://github.com/starpit)                 |
-| 1           | [remcohaszing](https://github.com/remcohaszing)       |
-| 1           | [renarsvilnis](https://github.com/renarsvilnis)       |
-| 1           | [rstagi](https://github.com/rstagi)                   |
-| 1           | [sbugert](https://github.com/sbugert)                 |
-| 1           | [skellock](https://github.com/skellock)               |
-| 1           | [tinesoft](https://github.com/tinesoft)               |
-| 1           | [busticated](https://github.com/busticated)           |
-| 1           | [cha147](https://github.com/cha147)                   |
-| 1           | [jmlee2k](https://github.com/jmlee2k)                 |
-| 1           | [lef237](https://github.com/lef237)                   |
-| 1           | [peterroe](https://github.com/peterroe)               |
-| 1           | [spwoodall](https://github.com/spwoodall)             |
-| 1           | [whxaxes](https://github.com/whxaxes)                 |
-| 1           | [holynewbie](https://github.com/holynewbie)           |
-| 1           | [xulingling0](https://github.com/xulingling0)         |
+| **Commits** | **Contributor** |
+| --- | --- |
+| 312 | [jonschlinkert](https://github.com/jonschlinkert) |
+| 86  | [doowb](https://github.com/doowb) |
+| 32  | [rajat-sr](https://github.com/rajat-sr) |
+| 20  | [318097](https://github.com/318097) |
+| 15  | [g-plane](https://github.com/g-plane) |
+| 12  | [pixelass](https://github.com/pixelass) |
+| 5   | [adityavyas611](https://github.com/adityavyas611) |
+| 5   | [satotake](https://github.com/satotake) |
+| 3   | [hongaar](https://github.com/hongaar) |
+| 3   | [Ovyerus](https://github.com/Ovyerus) |
+| 3   | [swyxio](https://github.com/swyxio) |
+| 2   | [GabeL7r](https://github.com/GabeL7r) |
+| 2   | [Andarist](https://github.com/Andarist) |
+| 1   | [ahmadawais](https://github.com/ahmadawais) |
+| 1   | [AlCalzone](https://github.com/AlCalzone) |
+| 1   | [hipstersmoothie](https://github.com/hipstersmoothie) |
+| 1   | [TrySound](https://github.com/TrySound) |
+| 1   | [brentjanderson](https://github.com/brentjanderson) |
+| 1   | [camilaibs](https://github.com/camilaibs) |
+| 1   | [AgentEnder](https://github.com/AgentEnder) |
+| 1   | [danieldelcore](https://github.com/danieldelcore) |
+| 1   | [deve-sh](https://github.com/deve-sh) |
+| 1   | [shortercode](https://github.com/shortercode) |
+| 1   | [ImgBotApp](https://github.com/ImgBotApp) |
+| 1   | [shumkov](https://github.com/shumkov) |
+| 1   | [jsonkao](https://github.com/jsonkao) |
+| 1   | [JounQin](https://github.com/JounQin) |
+| 1   | [knpwrs](https://github.com/knpwrs) |
+| 1   | [yeskunall](https://github.com/yeskunall) |
+| 1   | [mischah](https://github.com/mischah) |
+| 1   | [starpit](https://github.com/starpit) |
+| 1   | [remcohaszing](https://github.com/remcohaszing) |
+| 1   | [renarsvilnis](https://github.com/renarsvilnis) |
+| 1   | [rstagi](https://github.com/rstagi) |
+| 1   | [sbugert](https://github.com/sbugert) |
+| 1   | [skellock](https://github.com/skellock) |
+| 1   | [tinesoft](https://github.com/tinesoft) |
+| 1   | [busticated](https://github.com/busticated) |
+| 1   | [cha147](https://github.com/cha147) |
+| 1   | [jmlee2k](https://github.com/jmlee2k) |
+| 1   | [lef237](https://github.com/lef237) |
+| 1   | [peterroe](https://github.com/peterroe) |
+| 1   | [spwoodall](https://github.com/spwoodall) |
+| 1   | [whxaxes](https://github.com/whxaxes) |
+| 1   | [holynewbie](https://github.com/holynewbie) |
+| 1   | [xulingling0](https://github.com/xulingling0) |
 
 #### Author
 
 **Jon Schlinkert**
 
-- [GitHub Profile](https://github.com/jonschlinkert)
-- [Twitter Profile](https://twitter.com/jonschlinkert)
-- [LinkedIn Profile](https://linkedin.com/in/jonschlinkert)
+* [GitHub Profile](https://github.com/jonschlinkert)
+* [Twitter Profile](https://twitter.com/jonschlinkert)
+* [LinkedIn Profile](https://linkedin.com/in/jonschlinkert)
 
 #### Credit
 
