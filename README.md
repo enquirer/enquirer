@@ -109,36 +109,40 @@ The easiest way to get started with enquirer is to pass a [question object](#pro
 ```js
 const { prompt } = require('enquirer');
 
-const response = await prompt({
-  type: 'input',
-  name: 'username',
-  message: 'What is your username?'
-});
+(async () => {
+  const response = await prompt({
+    type: 'input',
+    name: 'username',
+    message: 'What is your username?',
+  });
 
-console.log(response); // { username: 'jonschlinkert' }
+  console.log(response);
+})(); // { username: 'jonschlinkert' }
 ```
-
-_(Examples with `await` need to be run inside an `async` function)_
 
 ### Multiple prompts
 
 Pass an array of ["question" objects](#prompt-options) to run a series of prompts.
 
 ```js
-const response = await prompt([
-  {
-    type: 'input',
-    name: 'name',
-    message: 'What is your name?'
-  },
-  {
-    type: 'input',
-    name: 'username',
-    message: 'What is your username?'
-  }
-]);
+const { prompt } = require('enquirer');
 
-console.log(response); // { name: 'Edward Chan', username: 'edwardmchan' }
+(async () => {
+  const response = await prompt([
+    {
+      type: 'input',
+      name: 'name',
+      message: 'What is your name?',
+    },
+    {
+      type: 'input',
+      name: 'username',
+      message: 'What is your username?',
+    },
+  ]);
+
+  console.log(response);
+})(); // { name: 'Edward Chan', username: 'edwardmchan' }
 ```
 
 ### Different ways to run enquirer
