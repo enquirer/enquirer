@@ -1,0 +1,27 @@
+version: "3"
+services:
+  vscode:
+    build:
+      context: ..
+      dockerfile: ./.devcontainer/Dockerfile
+    command: /bin/sh -c "while sleep 1000; do :; done"
+    environment:
+      TASK_TEMP_DIR: '~/.task'
+    volumes:
+      - ..:/workspace:cached
+      - source: ~/.ssh
+        target: /root/.ssh
+        type: bind
+      - source: ~/.kube
+        target: /root/.kube
+        type: bind
+      - source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        type: bind
+
+volumes:
+  node-modules:
+
+networks:
+  default:
+    name: enquirer

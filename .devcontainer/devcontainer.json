@@ -1,0 +1,53 @@
+	// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.166.1/containers/typescript-node
+{
+	"name": "Enquirer",
+	"dockerComposeFile": [
+		"docker-compose.yml"
+		// "../application/frontend/docker-compose.yml"
+	],
+
+	"service": "vscode",
+	"runServices": ["vscode"],
+
+	"remoteEnv": {
+		"LOCAL_WORKSPACE_FOLDER": "${localWorkspaceFolder}",
+		"COMPOSE_PROJECT_NAME": "enquirer",
+		"EDITOR": "code -w"
+	},
+
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "zsh"
+			},
+			"extensions": [
+				"ms-azuretools.vscode-docker",
+				"arcanis.vscode-zipfs",
+				"wmaurer.change-case",
+				"styled-components.vscode-styled-components",
+				"mitchdenny.ecdc",
+				"olback.es6-css-minify",
+				"karyfoundation.nearley",
+				"42Crunch.vscode-openapi",
+				"ms-kubernetes-tools.vscode-kubernetes-tools",
+				"EditorConfig.EditorConfig",
+				"eamodio.gitlens"
+			]
+		}
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [],
+
+	// Use 'postCreateCommand' to run commands after the container is created.
+	// "postCreateCommand": "yarn install",
+
+	// Comment out connect as root instead. More info: https://aka.ms/vscode-remote/containers/non-root.
+	// "remoteUser": "node",
+
+	"workspaceFolder": "/workspace"
+}
