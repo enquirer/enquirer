@@ -50,6 +50,7 @@ interface ArrayPromptOptions extends BasePromptOptions {
   edgeLength?: number
   align?: 'left' | 'right'
   scroll?: boolean
+  choiceValueSelector?: keyof Choice | ((choice: Choice) => unknown)
 }
 
 interface BooleanPromptOptions extends BasePromptOptions {

@@ -70,6 +70,88 @@ describe('select', function() {
           assert.equal(answer, 'chocolate');
         });
     });
+
+    it('should support choices as a promise', () => {
+      prompt = new Prompt({
+        message: 'Favorite flavor?',
+        choices: Promise.resolve([
+          { name: 'apple', value: 'APPLE' },
+          { name: 'banana', value: 'BANANA' },
+          { name: 'cherry', value: 'CHERRY' },
+          { name: 'chocolate', value: 'CHOCOLATE' },
+          { name: 'cinnamon', value: 'CINNAMON' },
+          { name: 'coconut', value: 'COCONUT' }
+        ])
+      });
+
+      prompt.once('run', async() => {
+        await prompt.keypress(null, { name: 'down' });
+        await prompt.keypress(null, { name: 'down' });
+        await prompt.keypress(null, { name: 'down' });
+        await prompt.submit();
+      });
+
+      return prompt.run()
+        .then(answer => {
+          assert.equal(answer, 'chocolate');
+        });
+    });
+  });
+
+  describe('options.choiceValueSelector', () => {
+    it('should return value if given field name as choiceValueSelector', () => {
+      prompt = new Prompt({
+        message: 'Favorite flavor?',
+        choiceValueSelector: 'value',
+        choices: Promise.resolve([
+          { name: 'apple', value: 'APPLE' },
+          { name: 'banana', value: 'BANANA' },
+          { name: 'cherry', value: 'CHERRY' },
+          { name: 'chocolate', value: 'CHOCOLATE' },
+          { name: 'cinnamon', value: 'CINNAMON' },
+          { name: 'coconut', value: 'COCONUT' }
+        ])
+      });
+
+      prompt.once('run', async() => {
+        await prompt.keypress(null, { name: 'down' });
+        await prompt.keypress(null, { name: 'down' });
+        await prompt.keypress(null, { name: 'down' });
+        await prompt.submit();
+      });
+
+      return prompt.run()
+        .then(answer => {
+          assert.equal(answer, 'CHOCOLATE');
+        });
+    });
+
+    it('should return value if given a function as choiceValueSelector', () => {
+      prompt = new Prompt({
+        message: 'Favorite flavor?',
+        choiceValueSelector: ({ value }) => value,
+        choices: Promise.resolve([
+          { name: 'apple', value: 'APPLE' },
+          { name: 'banana', value: 'BANANA' },
+          { name: 'cherry', value: 'CHERRY' },
+          { name: 'chocolate', value: 'CHOCOLATE' },
+          { name: 'cinnamon', value: 'CINNAMON' },
+          { name: 'coconut', value: 'COCONUT' }
+        ])
+      });
+
+      prompt.once('run', async() => {
+        await prompt.keypress(null, { name: 'down' });
+        await prompt.keypress(null, { name: 'down' });
+        await prompt.keypress(null, { name: 'down' });
+        await prompt.submit();
+      });
+
+      return prompt.run()
+        .then(answer => {
+          assert.equal(answer, 'CHOCOLATE');
+        });
+    });
   });
 
   describe('options.initial', () => {
