@@ -40,9 +40,14 @@ interface ArrayPromptOptions extends BasePromptOptions {
     | 'list'
     | 'scale'
   choices: (string | Choice)[]
-  maxChoices?: number
+  limit?: number
   multiple?: boolean
+  maxSelected?: number
   initial?: number
+  suggest?: (
+    input: string,
+    choices: (string | Choice)[],
+  ) => (string | Choice)[];
   delay?: number
   separator?: boolean
   sort?: boolean
