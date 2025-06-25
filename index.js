@@ -18,9 +18,9 @@ import types from './lib/types/index.js';
  */
 
 class Enquirer extends Events {
-  constructor(options,answers) {
+  constructor(options, answers) {
     super();
-    this.options = utils.merge({},options);
+    this.options = utils.merge({}, options);
     this.answers = { ...answers };
   }
 
@@ -39,19 +39,19 @@ class Enquirer extends Events {
    * @api public
    */
 
-  register(type,fn) {
+  register(type, fn) {
     if (utils.isObject(type)) {
       for (let key of Object.keys(type)) this.register(key,type[key]);
       return this;
     }
 
-    assert.equal(typeof fn,'function','expected a function');
+    assert.equal(typeof fn, 'function', 'expected a function');
     const name = type.toLowerCase();
 
     if (fn.prototype instanceof this.Prompt) {
       this.prompts[name] = fn;
     } else {
-      this.prompts[name] = fn(this.Prompt,this);
+      this.prompts[name] = fn(this.Prompt, this);
     }
 
     return this;
@@ -82,7 +82,7 @@ class Enquirer extends Events {
     for (let question of [].concat(questions)) {
       try {
         if (typeof question === 'function') question = await question.call(this);
-        await this.ask(utils.merge({},this.options,question));
+        await this.ask(utils.merge({}, this.options, question));
       } catch (err) {
         return Promise.reject(err);
       }
@@ -95,40 +95,40 @@ class Enquirer extends Events {
       question = await question.call(this);
     }
 
-    let opts = utils.merge({},this.options,question);
-    let { type,name } = question;
-    let { set,get } = utils;
+    let opts = utils.merge({}, this.options, question);
+    let { type, name } = question;
+    let { set, get } = utils;
 
     if (typeof type === 'function') {
-      type = await type.call(this,question,this.answers);
+      type = await type.call(this, question, this.answers);
     }
 
     if (!type) return this.answers[name];
     if (type === 'number') type = 'numeral';
 
-    assert(this.prompts[type],`Prompt "${type}" is not registered`);
+    assert(this.prompts[type], `Prompt "${type}" is not registered`);
 
     let prompt = new this.prompts[type](opts);
-    let value = get(this.answers,name);
+    let value = get(this.answers, name);
 
     prompt.state.answers = this.answers;
     prompt.enquirer = this;
 
     if (name) {
       prompt.on('submit',value => {
-        this.emit('answer',name,value,prompt);
-        set(this.answers,name,value);
+        this.emit('answer', name, value, prompt);
+        set(this.answers, name, value);
       });
     }
 
     // bubble events
     let emit = prompt.emit.bind(prompt);
     prompt.emit = (...args) => {
-      this.emit.call(this,...args);
+      this.emit.call(this, ...args);
       return emit(...args);
     };
 
-    this.emit('prompt',prompt,this);
+    this.emit('prompt', prompt, this);
 
     if (opts.autofill && value != null) {
       prompt.value = prompt.input = value;
@@ -162,7 +162,7 @@ class Enquirer extends Events {
    */
 
   use(plugin) {
-    plugin.call(this,this);
+    plugin.call(this, this);
     return this;
   }
 
@@ -212,7 +212,7 @@ class Enquirer extends Events {
    */
 
   static get prompt() {
-    const fn = (questions,...rest) => {
+    const fn = (questions, ...rest) => {
       let enquirer = new this(...rest);
       let emit = enquirer.emit.bind(enquirer);
       enquirer.emit = (...args) => {
@@ -221,12 +221,12 @@ class Enquirer extends Events {
       };
       return enquirer.prompt(questions);
     };
-    utils.mixinEmitter(fn,new Events());
+    utils.mixinEmitter(fn, new Events());
     return fn;
   }
 }
 
-utils.mixinEmitter(Enquirer,new Events());
+utils.mixinEmitter(Enquirer, new Events());
 const prompts = Enquirer.prompts;
 
 for (let name of Object.keys(prompts)) {
@@ -237,12 +237,12 @@ for (let name of Object.keys(prompts)) {
   Enquirer[key] = run;
 
   if (!Enquirer[name]) {
-    Reflect.defineProperty(Enquirer,name,{ get: () => prompts[name] });
+    Reflect.defineProperty(Enquirer, name, { get: () => prompts[name] });
   }
 }
 
 const define = name => {
-  utils.defineExport(Enquirer,name,() => Enquirer.types[name]);
+  utils.defineExport(Enquirer, name, () => Enquirer.types[name]);
 };
 
 define('ArrayPrompt');
