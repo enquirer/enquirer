@@ -1,11 +1,9 @@
-'use strict';
-
-const assert = require('assert');
-const colors = require('ansi-colors');
-const stripAnsi = require('strip-ansi');
-const support = require('./support');
+import assert from 'assert';
+import colors from '../lib/vendor/ansi-colors/index.js';
+import stripAnsi from 'strip-ansi';
+import support from './support/index.js';
 const { expect } = support(assert);
-const MultiSelect = require('../lib/prompts/multiselect');
+import MultiSelect from '../lib/prompts/multiselect.js';
 let prompt;
 
 const up = { name: 'up' };

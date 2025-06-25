@@ -1,8 +1,7 @@
-'use strict';
-
-const assert = require('assert');
-const NumberPrompt = require('../lib/types/number');
-const { immediate } = require('./support')(assert);
+import assert from 'assert';
+import NumberPrompt from '../lib/types/number.js';
+import support from './support/index.js'
+const { immediate } = support(assert);
 const reset = { name: 'g', ctrl: true };
 const down = { name: 'down' };
 const up = { name: 'up' };

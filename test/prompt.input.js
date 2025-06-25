@@ -1,7 +1,5 @@
-'use strict';
-
-const assert = require('assert');
-const Prompt = require('../lib/prompts/input');
+import assert from 'assert';
+import Prompt from '../lib/prompts/input.js';
 let prompt;
 
 describe('Input Prompt', function() {

@@ -1,4 +1,4 @@
-const { prompt } = require('../..');
+import { prompt } from '../../index.js';
 
 prompt({
   type: 'input',

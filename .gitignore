@@ -31,3 +31,4 @@ TODO.md
 package-lock.json
 
 !docs/todo.md
+!lib/vendor

@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "target": "es2017",
-    "module": "commonjs",
+    "module": "NodeNext",
+    "moduleResolution": "nodenext",
     "noEmit": true,
     "strict": true
   }

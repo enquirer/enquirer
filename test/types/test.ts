@@ -1,4 +1,4 @@
-import * as Enquirer from '../..';
+import * as Enquirer from '../../index.js';
 
 new Enquirer();
 new Enquirer.Prompt();

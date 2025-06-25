@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = function(assert) {
+export default function(assert) {
   const utils = {};
   utils.expect = (expected, msg) => actual => assert.deepEqual(actual, expected, msg);
   utils.nextTick = fn => {

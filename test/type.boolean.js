@@ -1,8 +1,6 @@
-'use strict';
-
-const colors = require('ansi-colors');
-const assert = require('assert');
-const BooleanPrompt = require('../lib/types/boolean');
+import colors from '../lib/vendor/ansi-colors/index.js';
+import assert from 'assert';
+import BooleanPrompt from '../lib/types/boolean.js';
 let prompt;
 
 class Prompt extends BooleanPrompt {

@@ -1,7 +1,5 @@
-'use strict';
-
-const assert = require('assert');
-const keypress = require('../lib/keypress');
+import assert from 'assert';
+import keypress from '../lib/keypress.js';
 const act = key => keypress.action(null, key).action;
 
 describe('utils.actions', function() {

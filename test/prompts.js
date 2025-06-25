@@ -1,8 +1,6 @@
-'use strict';
-
-const assert = require('assert');
-const prompts = require('../lib/prompts');
-const types = require('../lib/types');
+import assert from 'assert';
+import prompts from '../lib/prompts/index.js';
+import types from '../lib/types/index.js';
 
 describe('prompts', function() {
   it('should export prompts', () => {

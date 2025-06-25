@@ -1,8 +1,6 @@
-'use strict';
-
-const stripAnsi = require('strip-ansi');
-const assert = require('assert');
-const PromptBase = require('../lib/prompt');
+import stripAnsi from 'strip-ansi';
+import assert from 'assert';
+import PromptBase from '../lib/prompt.js';
 let prompt;
 
 class Prompt extends PromptBase {

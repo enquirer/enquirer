@@ -1,7 +1,5 @@
-'use strict';
-
-const assert = require('assert');
-const Prompt = require('../lib/types/string');
+import  assert from 'assert';
+import Prompt from '../lib/types/string.js';
 let prompt;
 
 describe('string prompt', function() {

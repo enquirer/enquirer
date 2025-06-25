@@ -1127,7 +1127,7 @@ let keys = [
   }
 ];
 
-const fs = require('fs');
+import fs from 'fs';
 
 keys.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -1151,4 +1151,4 @@ for (const k of sorted) {
 }
 
 // run prettier on result after writing it to keys.js
-fs.writeFileSync('keys.js', 'module.exports = ' + JSON.stringify(res, null, 2));
+fs.writeFileSync('keys.js', 'export default ' + JSON.stringify(res, null, 2));
