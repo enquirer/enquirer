@@ -253,7 +253,7 @@ define('StringPrompt');
 
 // Default Export
 export default Enquirer;
-// Named Export
+// Named Export (Destructuring default)
 export const {
   prompt,
   AutoComplete,
