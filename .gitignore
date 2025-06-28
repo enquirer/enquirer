@@ -24,11 +24,9 @@ _gh_pages
 _draft
 _drafts
 bower_components
-vendor
 temp
 tmp
 TODO.md
 package-lock.json
 
 !docs/todo.md
-!lib/vendor

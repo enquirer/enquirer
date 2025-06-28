@@ -1,5 +1,5 @@
 import assert from 'node:assert';
-import colors from '../lib/vendor/ansi-colors/index.js';
+import colors from '../vendor/ansi-colors/index.js';
 import Enquirer, { Input } from '../index.js';
 let enquirer;
 

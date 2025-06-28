@@ -1,5 +1,5 @@
 import assert from 'assert';
-import colors from '../lib/vendor/ansi-colors/index.js';
+import colors from '../vendor/ansi-colors/index.js';
 import support from './support/index.js';
 const { expect, immediate } = support(assert);
 const { cyan, dim, gray } = colors;

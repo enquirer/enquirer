@@ -1,4 +1,4 @@
-import colors from '../lib/vendor/ansi-colors/index.js';
+import colors from '../vendor/ansi-colors/index.js';
 import assert from 'assert';
 import BooleanPrompt from '../lib/types/boolean.js';
 let prompt;
