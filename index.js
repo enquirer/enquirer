@@ -1,14 +1,14 @@
-'use strict';
-
-const assert = require('assert');
-const Events = require('events');
-const utils = require('./lib/utils');
+import assert from 'node:assert';
+import Events from 'node:events';
+import utils from './lib/utils.js';
+import Prompt from './lib/prompts/index.js';
+import types from './lib/types/index.js';
 
 /**
  * Create an instance of `Enquirer`.
  *
  * ```js
- * const Enquirer = require('enquirer');
+ * import Enquirer from 'enquirer';
  * const enquirer = new Enquirer();
  * ```
  * @name Enquirer
@@ -28,20 +28,20 @@ class Enquirer extends Events {
    * Register a custom prompt type.
    *
    * ```js
-   * const Enquirer = require('enquirer');
+   * import Enquirer from 'enquirer';
    * const enquirer = new Enquirer();
-   * enquirer.register('customType', require('./custom-prompt'));
+   * enquirer.register('customType',require('./custom-prompt'));
    * ```
    * @name register()
    * @param {String} `type`
-   * @param {Function|Prompt} `fn` `Prompt` class, or a function that returns a `Prompt` class.
+   * @param {Function|Prompt} `fn` `Prompt` class,or a function that returns a `Prompt` class.
    * @return {Object} Returns the Enquirer instance
    * @api public
    */
 
   register(type, fn) {
     if (utils.isObject(type)) {
-      for (let key of Object.keys(type)) this.register(key, type[key]);
+      for (let key of Object.keys(type)) this.register(key,type[key]);
       return this;
     }
 
@@ -62,7 +62,7 @@ class Enquirer extends Events {
    * and returns an object with responses from the user.
    *
    * ```js
-   * const Enquirer = require('enquirer');
+   * import Enquirer from 'enquirer';
    * const enquirer = new Enquirer();
    *
    * const response = await enquirer.prompt({
@@ -115,7 +115,7 @@ class Enquirer extends Events {
     prompt.enquirer = this;
 
     if (name) {
-      prompt.on('submit', value => {
+      prompt.on('submit',value => {
         this.emit('answer', name, value, prompt);
         set(this.answers, name, value);
       });
@@ -133,7 +133,7 @@ class Enquirer extends Events {
     if (opts.autofill && value != null) {
       prompt.value = prompt.input = value;
 
-      // if "autofill=show" render the prompt, otherwise stay "silent"
+      // if "autofill=show" render the prompt,otherwise stay "silent"
       if (opts.autofill === 'show') {
         await prompt.submit();
       }
@@ -148,7 +148,7 @@ class Enquirer extends Events {
    * Use an enquirer plugin.
    *
    * ```js
-   * const Enquirer = require('enquirer');
+   * import Enquirer from 'enquirer';
    * const enquirer = new Enquirer();
    * const plugin = enquirer => {
    *   // do stuff to enquire instance
@@ -181,15 +181,15 @@ class Enquirer extends Events {
     this._Prompt = value;
   }
   static get Prompt() {
-    return this._Prompt || require('./lib/prompt');
+    return this._Prompt || Prompt;
   }
 
   static get prompts() {
-    return require('./lib/prompts');
+    return Prompt;
   }
 
   static get types() {
-    return require('./lib/types');
+    return types;
   }
 
   /**
@@ -197,7 +197,7 @@ class Enquirer extends Events {
    * and returns an object with responses from the user.
    *
    * ```js
-   * const { prompt } = require('enquirer');
+   * import { prompt } from 'enquirer';
    * const response = await prompt({
    *   type: 'input',
    *   name: 'username',
@@ -251,4 +251,33 @@ define('BooleanPrompt');
 define('NumberPrompt');
 define('StringPrompt');
 
-module.exports = Enquirer;
+// Default Export
+export default Enquirer;
+// Named Export (Destructuring default)
+export const {
+  prompt,
+  AutoComplete,
+  BasicAuth,
+  Confirm,
+  Editable,
+  Form,
+  Input,
+  Invisible,
+  List,
+  MultiSelect,
+  Numeral,
+  Password,
+  Scale,
+  Select,
+  Snippet,
+  Sort,
+  Survey,
+  Text,
+  Toggle,
+  Quiz,
+  ArrayPrompt,
+  AuthPrompt,
+  BooleanPrompt,
+  NumberPrompt,
+  StringPrompt
+} = Enquirer;

@@ -13,32 +13,37 @@
     "url": "https://github.com/enquirer/enquirer/issues"
   },
   "license": "MIT",
+  "type": "module",
   "files": [
     "index.js",
+    "index.cjs",
     "index.d.ts",
+    "index.d.cts",
     "lib"
   ],
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "require": "./index.cjs",
+      "import": "./index.js"
+    }
+  },
   "main": "index.js",
   "engines": {
-    "node": ">=8.6"
+    "node": ">=14"
   },
   "scripts": {
     "test": "mocha && tsc -p ./test/types",
     "cover": "nyc --reporter=text --reporter=html mocha"
   },
   "dependencies": {
-    "ansi-colors": "^4.1.1",
-    "strip-ansi": "^6.0.1"
+    "strip-ansi": "^7.1.0"
   },
   "devDependencies": {
-    "@types/node": "^8",
-    "gulp-format-md": "^2.0.0",
-    "inquirer": "^6.2.0",
-    "mocha": "^5.2.0",
-    "nyc": "^13.1.0",
-    "prompts": "^1.2.1",
-    "time-require": "github:jonschlinkert/time-require",
-    "typescript": "^3.1.6"
+    "@types/node": "^24.0.4",
+    "mocha": "^11.7.1",
+    "nyc": "^17.1.0",
+    "typescript": "^5.8.3"
   },
   "keywords": [
     "answer",

@@ -1,9 +1,7 @@
-'use strict';
-
-const assert = require('assert');
-const support = require('./support');
+import assert from 'assert';
+import support from './support/index.js';
 const { nextTick } = support(assert);
-const PasswordPrompt = require('../lib/prompts/password');
+import PasswordPrompt from '../lib/prompts/password.js';
 let prompt;
 
 class Prompt extends PasswordPrompt {

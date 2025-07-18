@@ -1,9 +1,7 @@
-'use strict';
-
-const assert = require('assert');
-const support = require('./support');
+import assert from 'assert';
+import support from './support/index.js';
+import Invisible from '../lib/prompts/invisible.js';
 const { nextTick } = support(assert);
-const Invisible = require('../lib/prompts/invisible');
 let prompt;
 
 class Prompt extends Invisible {

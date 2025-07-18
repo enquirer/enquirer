@@ -1,9 +1,6 @@
-'use strict';
-
-const assert = require('assert');
-const colors = require('ansi-colors');
-const Enquirer = require('..');
-const { Input } = Enquirer;
+import assert from 'node:assert';
+import colors from '../vendor/ansi-colors/index.js';
+import Enquirer, { Input } from '../index.js';
 let enquirer;
 
 describe('Enquirer', function() {

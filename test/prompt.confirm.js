@@ -1,9 +1,7 @@
-'use strict';
-
-const assert = require('assert');
-const support = require('./support');
-const { timeout } = support(assert);
-const Confirm = require('../lib/prompts/confirm');
+import assert from 'assert';
+import support from './support/index.js';
+import Confirm from '../lib/prompts/confirm.js';
+const { timeout } = support(assert)
 let prompt;
 
 class Prompt extends Confirm {

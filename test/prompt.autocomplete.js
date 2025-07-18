@@ -1,9 +1,8 @@
-'use strict';
-
-const fs = require('fs');
-const assert = require('assert');
-const { timeout, keypresses } = require('./support')(assert);
-const AutoComplete = require('../lib/prompts/autocomplete');
+import fs from 'fs';
+import assert from 'assert';
+import support from './support/index.js';
+import AutoComplete from '../lib/prompts/autocomplete.js';
+const { timeout, keypresses } = support(assert);
 let prompt;
 
 const fixtures = ['almond', 'apple', 'banana', 'cherry', 'chocolate', 'cinnamon', 'coconut', 'cotton candy', 'grape', 'nougat', 'orange', 'pear', 'pineapple', 'strawberry', 'vanilla', 'watermelon', 'wintergreen'];
@@ -491,15 +490,15 @@ describe('prompt-autocomplete', () => {
         });
     });
 
-    it('should support default suggest function with choices as a function', () => {
+    it('should support default suggest function with choices as a function', (done) => {
       prompt = new Prompt({
         message: 'Choose a file',
         choices() {
-          return fs.readdirSync(__dirname);
+          return fs.readdirSync(import.meta.dirname);
         }
       });
 
-      prompt.once('run', async() => {
+      prompt.once('run', async () => {
         await keypresses(prompt, prompt.choices[0].message);
         await prompt.submit();
       });

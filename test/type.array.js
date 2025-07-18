@@ -1,8 +1,7 @@
-'use strict';
-
-const assert = require('assert');
-const { timeout } = require('./support')(assert);
-const ArrayPrompt = require('../lib/types/array');
+import assert from 'assert';
+import support from './support/index.js'
+const { timeout } = support(assert);
+import ArrayPrompt from '../lib/types/array.js';
 let prompt;
 
 class Prompt extends ArrayPrompt {

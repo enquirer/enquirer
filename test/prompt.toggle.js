@@ -1,7 +1,5 @@
-'use strict';
-
-const assert = require('assert');
-const Toggle = require('../lib/prompts/toggle');
+import assert from 'assert';
+import Toggle from '../lib/prompts/toggle.js';
 let prompt;
 
 const up = { sequence: '\u001b[A', name: 'up', code: '[A' };

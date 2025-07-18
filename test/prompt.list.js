@@ -1,9 +1,7 @@
-'use strict';
-
-const assert = require('assert');
-const support = require('./support');
+import assert from 'assert';
+import support from './support/index.js';
+import ListPrompt from '../lib/prompts/list.js';
 const { timeout, keypresses } = support(assert);
-const ListPrompt = require('../lib/prompts/list');
 let prompt;
 
 class Prompt extends ListPrompt {

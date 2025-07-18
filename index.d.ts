@@ -153,4 +153,12 @@ declare namespace Enquirer {
   class Prompt extends BasePrompt {}
 }
 
-export = Enquirer;
+declare function prompt<T = object>(
+  questions:
+    | PromptOptions
+    | ((this: Enquirer) => PromptOptions)
+    | (PromptOptions | ((this: Enquirer) => PromptOptions))[]
+): Promise<T>;
+
+export default Enquirer;
+export { prompt }
