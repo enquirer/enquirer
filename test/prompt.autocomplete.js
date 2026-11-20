@@ -535,6 +535,40 @@ describe('prompt-autocomplete', () => {
   });
 
   describe('dispatch', () => {
+    const unsupportedKeys = [
+      { name: 'Ctrl+Left without a character', input: undefined, key: { name: 'left', ctrl: true, sequence: '\u001b[1;5D' } },
+      { name: 'Ctrl+Left escape sequence', input: '\u001b[1;5D' },
+      { name: 'F1 escape sequence', input: '\u001bOP' },
+      { name: 'unmapped Ctrl+Q', input: '\u0011' }
+    ];
+
+    for (const { name, input, key } of unsupportedKeys) {
+      it(`should preserve input and suggestions after ${name}`, async() => {
+        prompt = new Prompt({
+          message: 'Favorite flavor?',
+          choices: fixtures.slice()
+        });
+
+        try {
+          await prompt.initialize();
+          await prompt.keypress('a');
+          const choices = prompt.choices.map(choice => choice.name);
+
+          await prompt.keypress(input, key);
+
+          assert.strictEqual(prompt.input, 'a');
+          assert.strictEqual(prompt.cursor, 1);
+          assert.deepEqual(prompt.choices.map(choice => choice.name), choices);
+
+          await prompt.keypress('p');
+          await prompt.submit();
+          assert.strictEqual(prompt.value, 'apple');
+        } finally {
+          if (!prompt.state.closed) await prompt.close();
+        }
+      });
+    }
+
     it('should dispatch alpha-numeric chars', () => {
       prompt = new Prompt({
         message: 'Favorite flavor?',
